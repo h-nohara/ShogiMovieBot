@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+    <!-- グローバルナビゲーション -->
+    <nav class="navbar navbar-default">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#任意のID">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <!-- 左側 -->
+        <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+            <p class="nav navbar-text">シナリオ</p>
+        </div>
+
+        <!-- 右側 -->
+        <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav">
+                <li><a href="">盤面を編集</a></li>
+                <li><a href="">配信設定</a></li>
+                <li><a href="">動画を結合</a></li>
+                <li id="login">
+                    <a href="#loginModal" data-toggle="modal" data-target="#myModal">シナリオ追加</a>
+                </li>
+            </ul>
+        </div>
+
+        <style>
+            #nav_items_right {
+                margin-right: 7vw;
+            }
+            #nav_items_right.navbar-nav li{
+                width: 5vw;
+                text-align: center;
+            }
+            #nav_items_right li:hover {
+                background-color: #ffc9d7;
+            }
+        </style>
+
+        <!-- <script>
+            $("#new_project").click(function(){
+                $("#myMoal").modal("show");
+            })
+        </script> -->
+    </nav>
+
+</header>
+
+<body>
+            <!-- CSSを記述 -->
+    <style>
+        #main_area {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #sortable {
+            text-align: center;
+            display: grid;
+            width: 80vw;
+            grid-template-rows: repeat(5, 15vw);
+            grid-template-columns: 40vw 40vw;
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .sort-elements {
+            /* height: 20vw;
+            width : 20vw; */
+            /* border:solid 2px; */
+            margin:0px;
+            background-color:#999999;
+            padding: 0;
+            display: block;
+        }
+        .images {
+            margin : 0 10%;
+            padding: 2% 0;
+            height: 90%;
+            background-color: #ffc9d7;
+        }
+        .images img {
+            max-height: 100%;
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .thumb{
+            background-color: aqua;
+        }
+        .memo_container {
+            height: 10%;
+            text-align: center;
+        }
+        .memo {
+            display: inline;
+            vertical-align: middle;
+        }
+        .memo_button {
+            vertical-align: middle;
+            height: 90%;
+        }
+    </style>
+
+    <!-- ここにHTML要素 -->
+    <div id="main_area">
+        <div id='sortable'>
+
+            <div class='sort-elements'>
+
+                <div class="row images">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5 thumb">
+                        <img src="http://www5b.biglobe.ne.jp/~goban/s1go6f/shogijuku1/1.jpg">
+                    </div>
+                    <div class="col-md-5 thumb">
+                        <img src="http://www5b.biglobe.ne.jp/~goban/s1go6f/shogijuku1/1.jpg">
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+
+                <div class="memo_container">
+                    <button class="memo_button">メモを編集</button>
+                    <p class="memo">ここにメモが入る</p>
+                </div>
+
+            </div>
+            <div class='sort-elements'>
+                <p>1</p>
+                <div class="row images">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">
+                        <img src="http://www5b.biglobe.ne.jp/~goban/s1go6f/shogijuku1/1.jpg">
+                    </div>
+                    <div class="col-md-5">
+                        <img src="http://www5b.biglobe.ne.jp/~goban/s1go6f/shogijuku1/1.jpg">
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+            <div class='sort-elements'>
+                <p>1</p>
+                <div class="row images">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">
+                        <img src="http://www5b.biglobe.ne.jp/~goban/s1go6f/shogijuku1/1.jpg">
+                    </div>
+                    <div class="col-md-5">
+                        <img src="http://www5b.biglobe.ne.jp/~goban/s1go6f/shogijuku1/1.jpg">
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Script読み込み -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <!-- jQueryでイベント記述 -->
+        <script>
+            jQuery( function() {
+                /**
+                * sortable
+                */
+                jQuery( '#sortable' ).sortable({
+                    cursor: 'move',                     //移動中のカーソル
+                    opacity: 0.7,                       //移動中の項目の透明度
+                    placeholder: "ui-state-highlight",  //ドロップ先の色指定(Styleで指定可能)
+                    forcePlaceholderSize: true          //trueでドラッグした要素のサイズを自動取得できる
+                });
+                $( '#sortable' ).disableSelection();
+                /*** 動作*/
+                jQuery(document).on('sortstop','#sortable',function(){
+                        console.log('並び替え時の動作');             //sortstopイベントで並び替え後処理を実行
+                });
+            } );
+
+            $(".sort-elements").on("click", function(){
+                window.alert("hoge");
+            })
+            </script>
+    </div>
+
+
+
+
+    <!-- モーダル -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title" id="myModalLabel">新規作成</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>プロジェクト名</p>
+                <div class="form-group">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">決定</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-dialog{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100%;
+            margin: auto;
+            pointer-events: none;
+        }
+        .modal-header {background-color: antiquewhite;}
+        .modal-content {pointer-events: all;}
+        .modal-footer button {background-color: cadetblue;}
+    </style>
+</body>
+
+</html>

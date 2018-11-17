@@ -1,0 +1,13 @@
+[
+    {
+        "model": "accounts.AppUser",
+        "pk": 1,
+        "fields": {
+            "username": "nohara",
+            "email": "sample@gmail.com",
+            "password": "pbkdf2_sha256$36000$fLF5R3oG4eMW$5l1HJjkCqw1RHN9RebGvJ9j1LWhqy7DKpV6GGtfHTnc=",
+            "is_superuser": true,
+            "is_active": true
+        }
+    }
+]
