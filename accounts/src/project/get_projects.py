@@ -19,6 +19,7 @@ def get_projects(record_User):
 
         id_ = record_Project.id
         title = record_Project.title
+        pickle_basename = record_Project.pickle_basename
         pickle_path = record_Project.pickle_path
         concat_movie_path = record_Project.concat_movie_path
 
@@ -26,6 +27,7 @@ def get_projects(record_User):
             "id" : id_,
             "title" : title,
             "pickle_path" : pickle_path,
+            "pickle_basename" : pickle_basename,
             "concat_movie_path" : concat_movie_path
         }
 

@@ -269,7 +269,7 @@
 
         <div id="save_make">
             <div><button id="save">保存</button></div>
-            <div><button id="finish">動画生成</button></div>
+            <div><button id="generate">動画生成</button></div>
         </div>
 
 
@@ -277,10 +277,11 @@
 
 
         <style>
-        #finish {width: 50%; height: 5vh;}
+        #generate {width: 50%; height: 5vh;}
         #save {width: 50%; height: 5vh;}
         </style>
 
+        <!-- pickleを保存 -->
         <script>
             function save_pickle(){
                 project_id = get_project_id();
@@ -292,7 +293,7 @@
                 // コピーした時にオリジナルhistoryのparentが削除されてしまったので、再設定
                 set_parent(History.history);
 
-                    $.ajax({
+                $.ajax({
                     type : "POST",
                     url : "/board/save_pickle",
                     data : JSON.stringify({"project_id" : project_id, "history" : history_copy})
@@ -313,6 +314,35 @@
 
             $(document).on("click", "#save", function(){
                 save_pickle();
+            })
+        </script>
+
+        <!-- 動画を生成 -->
+        <script>
+            function generate(){
+                project_id = get_project_id();
+
+                $.ajax({
+                    type : "POST",
+                    url : "/board/movie/generate",
+                    data : JSON.stringify({"project_id" : project_id})
+                })
+                .done(function(result){
+                    if (result["code"] == 400){
+                        window.alert("動画の生成に失敗しました");
+                    }
+                    else{
+                        window.alert("動画を生成しました");
+                    };
+
+                })
+                .fail(function(jqXHR, textStatus, errorThrown){
+                    window.alert("送信エラー");
+                });
+            }
+
+            $(document).on("click", "#generate", function(){
+                generate();
             })
         </script>
 
@@ -487,7 +517,7 @@
             width: 100%;
         }
 
-        #finish{
+        #generate{
             margin: 0;
             padding: 0;
             background-color: red;

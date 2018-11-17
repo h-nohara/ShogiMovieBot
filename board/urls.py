@@ -7,6 +7,7 @@ from . import views
 # api
 from board.src.load_save.load_pickle import load_pickle
 from board.src.load_save.save_pickle import save_pickle
+from board.src.movie import get_movies_request, generate_movies
 
 
 urlpatterns = [
@@ -15,10 +16,11 @@ urlpatterns = [
     url(r"^$", views.board_page, name="board"),
     url(r"^[0-9]+$", views.board_page, name="board"),
 
-    # 盤面保存
+    # 盤面読み込み・保存
     url(r"^load_pickle$", load_pickle, name="load_pickle"),
     url(r"^save_pickle$", save_pickle, name="save_pickle"),
 
-    # 動画生成
-    # url(r"^movie/save$", views.board_page, name="board"),
+    # 動画
+    url(r"^movie/get$", get_movies_request, name="get_movies"),
+    url(r"^movie/generate$", generate_movies, name="generate_movies"),
 ]

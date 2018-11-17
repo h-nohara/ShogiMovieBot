@@ -7,10 +7,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 from ShogiMovieBot.settings import BASE_DIR  # プロジェクトディレクトリ
 
+# pickleファイルの保存場所
 PICKLE_DIR = os.path.abspath(os.path.join(BASE_DIR, "board", "static", "pickle"))
 PICKLE_USER_DIR = os.path.abspath(os.path.join(PICKLE_DIR, "user"))
 PICKLE_DEFAULT_DIR = os.path.abspath(os.path.join(PICKLE_DIR, "default"))
 INITIAL_PICKLE = os.path.abspath(os.path.join(PICKLE_DEFAULT_DIR, "initial.pickle"))
+
+# 動画の保存場所
+MOVIE_DIR = os.path.abspath(os.path.join(BASE_DIR, "board", "static", "movie"))
+MOVIE_USER_DIR = os.path.abspath(os.path.join(MOVIE_DIR, "user"))
 
 # db
 
@@ -40,6 +45,13 @@ def generate_basename(key, ext):
     return fname
 
 
+# pickle
+
+def pickle_path_local(basename):
+    
+    return os.path.abspath(os.path.join(PICKLE_USER_DIR, basename))
+
+
 def generate_pickle_path_local(key, get_basename=False):
 
     ext = "pickle"
@@ -52,9 +64,11 @@ def generate_pickle_path_local(key, get_basename=False):
     return pickle_path
 
 
-def pickle_path_local(basename):
+# 動画
 
-    return os.path.abspath(os.path.join(PICKLE_USER_DIR, basename))
+def movie_path_local(basename):
+
+    return os.path.abspath(os.path.join(MOVIE_USER_DIR, basename))
 
 
 # def generate_fname_replicate(fname):
