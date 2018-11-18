@@ -1,3 +1,4 @@
 board/static/movie/user
 board/static/pickle/user
 */migrations/
+*.pyc
