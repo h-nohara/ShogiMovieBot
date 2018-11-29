@@ -23,6 +23,8 @@ def get_movies(record_Project):
 @csrf_exempt
 def get_movies_request(request):
 
+    print("[start get movies")
+
     data = json.loads(request.body.decode("utf-8"))
     project_id = data["project_id"]
     project_id = int(project_id)
@@ -37,6 +39,9 @@ def get_movies_request(request):
             "paths" : paths
         }
     }
+
+    print(json_response)
+    print("success : get movies]")
 
     return JsonResponse(json_response)
 

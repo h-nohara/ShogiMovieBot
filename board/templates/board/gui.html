@@ -303,8 +303,10 @@
                         let str_innnerHTML = "<p>ああララ</p>";
                         console.log(result);
                         let paths = result["result"]["paths"];
+                        console.log("paths :");
+                        console.log(paths);
                         for (path of paths){
-                            str_innnerHTML += "<a href='" + path + "'></a>";
+                            str_innnerHTML = str_innnerHTML + "<a href='" + path + "'></a>";
                         }
                         $("#movie_urls").html(str_innnerHTML);
                         modal.modal("show");
