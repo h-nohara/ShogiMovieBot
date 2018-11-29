@@ -4,6 +4,8 @@
 import os, sys, subprocess
 from PIL import Image
 
+from .call_shell import call_check_shell
+
 
 def make_WordImage(word, fontsize, fontfile, num_color, colors, stroke_ws, result_image, W=None, H=None):
     
@@ -32,10 +34,8 @@ def make_WordImage(word, fontsize, fontfile, num_color, colors, stroke_ws, resul
         cmd = inst.all_cmd_3colors()
     elif num_color == 2:
         cmd = inst.all_cmd_2colors()
-    print(cmd)
-
-    ret = subprocess.call(cmd, shell=True)
-    assert ret == 0
+    
+    call_check_shell(cmd)
 
 
 
