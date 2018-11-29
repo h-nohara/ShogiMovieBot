@@ -285,7 +285,7 @@
         <div id="show_movies">
             <div><button id="show_movies_button">動画一覧</button></div>
             <script>
-            // プロジェクトをクリック
+            // 作成済みの動画一覧
             $(document).on("click", "#show_movies_button", function(event){
                 
                 $.ajax({
@@ -305,7 +305,7 @@
                         let paths = result["result"]["paths"];
                         console.log("paths :");
                         console.log(paths);
-                        for (var i=1; i<paths.length; i++){
+                        for (var i=0; i<paths.length; i++){
                             str_innnerHTML = str_innnerHTML + "<a href=" + "'" + paths[i] + "'" + ">動画" + String(i+1) + "</a>";
                         }
                         window.alert(str_innnerHTML);
