@@ -4,7 +4,7 @@
 import os, sys, subprocess
 from PIL import Image
 
-from .call_shell import call_check_shell
+from board.src.generate_movie.make_movie.image_handlers.call_shell import call_check_shell
 
 
 def make_WordImage(word, fontsize, fontfile, num_color, colors, stroke_ws, result_image, W=None, H=None):
