@@ -305,9 +305,8 @@
                         let paths = result["result"]["paths"];
                         console.log("paths :");
                         console.log(paths);
-                        for (path of paths){
-                            window.alert(path);
-                            str_innnerHTML = str_innnerHTML + "<a href='" + path + "'></a>";
+                        for (var i=1; i<paths.length; i++){
+                            str_innnerHTML = str_innnerHTML + "<a href=" + "'" + paths[i] + "'" + ">動画" + String(i+1) + "</a>";
                         }
                         window.alert(str_innnerHTML);
                         $("#movie_urls").html(str_innnerHTML);
