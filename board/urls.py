@@ -12,6 +12,8 @@ from board.src.movie import get_movies_request, generate_movies
 
 urlpatterns = [
 
+    # /board/
+
     # 盤面の編集画面
     url(r"^$", views.board_page, name="board"),
     url(r"^[0-9]+$", views.board_page, name="board"),

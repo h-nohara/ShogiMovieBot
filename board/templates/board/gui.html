@@ -3,9 +3,19 @@
 
 <head>
     {% load static %}
+
+    <!-- jquery -->
     <script type="text/javascript" src="{% static 'jquery-3.3.1.min.js' %}"></script>
+
+    <!-- d3.js -->
     <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
     <script src="{% static 'd3.min.js' %}" charset="utf-8"></script>
+
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- board -->
     <script type="text/javascript" src="{% static 'util.js' %}"></script>
     <script type="text/javascript" src="{% static 'piece.js' %}"></script>
     <script type="text/javascript" src="{% static 'move.js' %}"></script>
@@ -272,6 +282,75 @@
             <div><button id="generate">動画生成</button></div>
         </div>
 
+        <div id="show_movies">
+            <div><button id="show_movies_button">動画一覧</button></div>
+            <script>
+            // プロジェクトをクリック
+            $(document).on("click", "#show_movies_button", function(event){
+                
+                $.ajax({
+                    type : "POST",
+                    url : "/board/movie/get",
+                    data : JSON.stringify({"project_id" : project_id})
+                })
+                .done(function(result){
+                    if (result["code"] == 400){
+                        window.alert("動画読み込み：失敗しました");
+                    }
+                    // ajax成功した時
+                    else{
+                        let modal = $("#ShowMoviesModal");
+                        let str_innnerHTML = "<p>ああララ</p>";
+                        console.log(result);
+                        let paths = result["result"]["paths"];
+                        for (path of paths){
+                            str_innnerHTML += "<a href='" + path + "'></a>";
+                        }
+                        $("#movie_urls").html(str_innnerHTML);
+                        modal.modal("show");
+                    };
+
+                })
+                .fail(function(jqXHR, textStatus, errorThrown){
+                    window.alert("動画取得：失敗");
+                });
+
+            })
+            </script>
+        </div>
+
+        <!-- モーダル　作成済み動画一覧 -->
+        <div class="modal fade" id="ShowMoviesModal" tabindex="-1" role="dialog" aria-labelledby="ShowMoviesModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 class="modal-title">動画一覧</h4>
+                    </div>
+
+                    <div class="modal-body" id="movie_urls">
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .modal-dialog{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    min-height: 100%;
+                    margin: auto;
+                    pointer-events: none;
+                }
+                .modal-header {background-color: antiquewhite;}
+                .modal-content {pointer-events: all;}
+                .modal-footer button {background-color: cadetblue;}
+            </style>
+        </div>
+
 
         <div id="sample_sub_scenarios"></div>
 
@@ -387,7 +466,7 @@
 
             display: grid;
             grid-gap: 0;
-            grid-template-rows: repeat(5, 15vh);
+            grid-template-rows: repeat(6, 15vh);
             /* grid-template-rows: 15vh, 15vh, 15vh, 15vh, 5vh, 3vh; */
         }
     </style>

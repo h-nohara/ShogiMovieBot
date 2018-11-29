@@ -20,7 +20,7 @@ def get_movies(record_Project):
     return paths
 
 
-
+@csrf_exempt
 def get_movies_request(request):
 
     data = json.loads(request.body.decode("utf-8"))
