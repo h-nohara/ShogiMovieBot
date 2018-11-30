@@ -66,6 +66,9 @@ def draw_text(message, base_image_path, word_image_path):
 
     font_size = 50
 
+    print()
+    print("[ start : make wordimage")
+
     make_WordImage(
         word = message["text"], 
         fontsize = font_size, 
@@ -77,6 +80,10 @@ def draw_text(message, base_image_path, word_image_path):
         W = font_size * (1 + len(message["text"])),
         H = font_size * 1.3
     )
+
+    print("result_image : {}".format(word_image_path))
+    flag = os.path.exists(word_image_path)
+    print("exist : {}".format(str(flag)))
 
     # 盤面画像に貼り付ける
     overlaid_handler(base_image_path, [word_image_path], base_image_path)
