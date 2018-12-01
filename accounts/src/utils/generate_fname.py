@@ -8,13 +8,13 @@ from django.views.decorators.csrf import csrf_exempt
 from ShogiMovieBot.settings import BASE_DIR  # プロジェクトディレクトリ
 
 # pickleファイルの保存場所
-PICKLE_DIR = os.path.abspath(os.path.join(BASE_DIR, "board", "static", "pickle"))
+PICKLE_DIR = os.path.abspath(os.path.join(BASE_DIR, "board", "static", "generated_data", "pickle"))
 PICKLE_USER_DIR = os.path.abspath(os.path.join(PICKLE_DIR, "user"))
 PICKLE_DEFAULT_DIR = os.path.abspath(os.path.join(PICKLE_DIR, "default"))
 INITIAL_PICKLE = os.path.abspath(os.path.join(PICKLE_DEFAULT_DIR, "initial.pickle"))
 
 # 動画の保存場所
-MOVIE_DIR = os.path.abspath(os.path.join(BASE_DIR, "board", "static", "movie"))
+MOVIE_DIR = os.path.abspath(os.path.join(BASE_DIR, "board", "static", "generated_data", "movie"))
 MOVIE_USER_DIR = os.path.abspath(os.path.join(MOVIE_DIR, "user"))
 
 # db

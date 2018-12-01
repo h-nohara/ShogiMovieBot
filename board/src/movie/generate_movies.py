@@ -12,9 +12,8 @@ from board.models.movie import Movie
 
 # api
 from board.src.load_save.modify import modify
-from board.src.generate_movie.make_movie.history_to_movie import history_to_movies
+from board.src.movie.generate_movie.ShogiMovieGenerator.history_to_movie import history_to_movies
 from accounts.src.utils import generate_basename, movie_path_local, pickle_path_local
-# from board.src.google_drive.test import upload_movie
 from accounts.src.utils import bucket, fname_cloud, upload_file
 
 
