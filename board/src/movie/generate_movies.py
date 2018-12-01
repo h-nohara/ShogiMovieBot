@@ -75,6 +75,7 @@ def generate_movies(request):
     movie_concated_basename = generate_basename(key+"concat", ext)
     record_Project.concat_movie_path = fname_cloud(movie_concated_basename)  # プロジェクトレコードに保存
     upload_file(bucket, movie_concated, movie_concated_basename)  # 動画をアップロード
+    record_Project.save()
 
     # 動画をアップロード＋レコードに保存
     for i in range(len(movies)):
