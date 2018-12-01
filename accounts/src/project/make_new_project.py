@@ -12,6 +12,7 @@ from accounts.models.project import Project
 # api
 from accounts.src.utils import generate_pickle_path_local
 from accounts.src.utils.generate_fname import INITIAL_PICKLE
+from accounts.src.project.get_projects import get_projects
 
 
 def copy_initial_pickle_local(path_local):
@@ -22,7 +23,9 @@ def copy_initial_pickle_local(path_local):
 def make_new_project(record_User, title):
 
     username = record_User.username
-    pickle_path_local, pickle_basename = generate_pickle_path_local(username, get_basename=True)
+    n_project = len(get_projects(record_User))
+    the_key = username + title + n_project
+    pickle_path_local, pickle_basename = generate_pickle_path_local(key=the_key, get_basename=True)
 
     # pickleをコピー
     copy_initial_pickle_local(pickle_path_local)
