@@ -71,7 +71,7 @@ def draw_text(message, base_image_path, word_image_path):
         fontsize = font_size, 
         fontfile = font_dict["hiragino_KakuGoW6"], 
         num_color = 2, 
-        colors = ["red", "white"],
+        colors = ["white", "'#6699ff'"],
         stroke_ws = [5],
         result_image = word_image_path,
         W = font_size * (1 + len(message["text"])),
