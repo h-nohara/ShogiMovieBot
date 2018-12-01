@@ -12,10 +12,13 @@ from board.models.movie import Movie
 
 def get_movies(record_Project):
 
+    concat_movie_path = record_Project.concat_movie_path
+
     record_list_Movie = Movie.objects.filter(project=record_Project)
 
     basenames = [record_Movie.basename for record_Movie in record_list_Movie]
     paths = [record_Movie.path for record_Movie in record_list_Movie]
+    paths.append(concat_movie_path)
 
     return paths
 

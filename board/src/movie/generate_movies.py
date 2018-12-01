@@ -13,6 +13,7 @@ from board.models.movie import Movie
 # api
 from board.src.load_save.modify import modify
 from board.src.movie.generate_movie.ShogiMovieGenerator.history_to_movie import history_to_movies
+from board.src.movie.generate_movie.ShogiMovieGenerator.movie_editor.split_concat_movie import concat_movie
 from accounts.src.utils import generate_basename, movie_path_local, pickle_path_local
 from accounts.src.utils import bucket, fname_cloud, upload_file
 
@@ -66,6 +67,16 @@ def generate_movies(request):
     # 動画のpathを決め、Movieレコードとして保存
     ext = "mp4"
     movies = glob2.glob(os.path.abspath(os.path.join(temporal_movie_dir, "movie_*.mp4")))
+
+    # 動画を結合＋プロジェクトレコードに登録
+    movie_concated = os.path.abspath(os.path.join(temporal_movie_dir, "concat_movie.mp4"))
+    concat_movie(movies, movie_concated, textfile=None)  # 結合
+
+    movie_concated_basename = generate_basename(key+"concat", ext)
+    record_Project.concat_movie_path = fname_cloud(movie_concated_basename)  # プロジェクトレコードに保存
+    upload_file(bucket, movie_concated, movie_concated_basename)  # 動画をアップロード
+
+    # 動画をアップロード＋レコードに保存
     for i in range(len(movies)):
         movie_basename = generate_basename(key+str(i), ext)
         # 動画をアップロード
