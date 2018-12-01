@@ -2,3 +2,5 @@ board/static/movie/user
 board/static/pickle/user
 */migrations/
 *.pyc
+*.mp4
+*.pickle
