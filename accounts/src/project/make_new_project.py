@@ -24,7 +24,7 @@ def make_new_project(record_User, title):
 
     username = record_User.username
     n_project = len(get_projects(record_User))
-    the_key = username + title + n_project
+    the_key = username + str(title) + str(n_project)
     pickle_path_local, pickle_basename = generate_pickle_path_local(key=the_key, get_basename=True)
 
     # pickleをコピー
