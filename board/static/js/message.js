@@ -27,6 +27,34 @@ $(document).on("click", "#AddAction", function(){
 })
 
 
+// 手前に追加
+$(document).on("click", "#AddActionBefore", function(){
+
+    SBoard.init_state_now();
+
+    let text = $("#TextAction_text_box").val();
+    let LightUp_pos_str = $("#" + "LightUpAction_buttons p").text();
+    let Mark_pos_str = $("#" + "MarkAction_buttons p").text();
+
+    let action = {"message" : {}, "board_state" : deepcopy_Board(SBoard.Board)};
+
+    if ((text != null) && (text != "")){
+        action["message"]["text"] = text;
+    }
+    if ((LightUp_pos_str != null) && (LightUp_pos_str != "")){
+        action["message"]["light_up"] = LightUp_pos_str.split(",");
+    }
+    if ((Mark_pos_str != null) && (Mark_pos_str != "")){
+        action["message"]["mark"] = Mark_pos_str.split(",");
+    }
+
+
+    History.add_action_before(action);
+    show_message_contents(action);
+
+})
+
+
 // メッセージアクションの内容を更新
 
 $(document).on("click", "#UpdateAction", function(){
