@@ -127,8 +127,19 @@ def action_to_image(action, save_name):
 
 def history_to_images(history, recorder):
 
+    '''
+    save_dir（ImageNameRecorderが管理）の中に、順番に画像を保存していく
+
+    recoder(ImageNameRecorder)
+    '''
+
+    print("")
+    print(history)
+    print()
+
     for action in history:
 
+        # シナリオアクション以外だったら、画像を生成
         if "scenarios" not in action.keys():
             save_name = recorder.next()
 
@@ -145,8 +156,8 @@ def history_to_images(history, recorder):
 
             board_before_branch = action["board_state"]
 
+            # サブシナリオを順番にみていく
             for mini_sc in action["scenarios"]:
-
                 save_name = recorder.next(True)
                 draw_boad(board_before_branch, save_name)  # 分岐の直前の状態を毎回画像に
                 history_to_images(mini_sc, recorder)  # 分岐後を順番に画像に
@@ -154,23 +165,21 @@ def history_to_images(history, recorder):
 
 def history_to_movies(history, save_dir_img, save_dir_movie):
 
+    '''
+    画像の一覧から複数の動画に生成する。
+    各動画を生成する際に、一時的なフォルダを作成し、その中に動画用の画像をコピーして、動画を生成する。
+    '''
+
     recorder = ImageNameRecorder(save_dir_img)
     history_to_images(history, recorder)
 
-    print("\n"*20)
-
-    # [0, 12, 20, 最後]　のような形式
+    # [0, 12, 20, 最後]　のような形式で、画像の区切りをリストに
     cut_head_numbers = [0]
     for fname in recorder.cut_heads:
         number = int(os.path.basename(fname).split(".")[0].split("_")[-1])
         cut_head_numbers.append(number)
     cut_head_numbers.append(recorder.counter)
 
-
-    print("="*20)
-
-    # print(cut_head_numbers)
-    # sys.exit()
 
     chunk_imges_dir = os.path.join(save_dir_img, "temporary_chunks")
     if os.path.exists(chunk_imges_dir):
@@ -188,6 +197,7 @@ def history_to_movies(history, save_dir_img, save_dir_movie):
             img_to_copy = os.path.join(save_dir_img, recorder.base_temp_name.format(num))
             shutil.copy(img_to_copy, os.path.join(chunk_imges_dir, "img_{0:03d}.png".format(j)))
 
+        # 動画を生成
         img_path_temp = os.path.join(chunk_imges_dir, "img_%03d.png")
         result_name = os.path.join(save_dir_movie, "movie_{0:03d}.mp4".format(i))
         images_to_movie(load_dir=chunk_imges_dir, img_path_temp=img_path_temp, result_name=result_name)
