@@ -196,7 +196,7 @@ class ShogiBoard {
             // 事前に駒がクリックされていた時
             if (this.now_is_touched){
 
-                console.log("year, was touched");
+                console.log("piece was clicked before this click");
                 let legal_moves = this.Board.legal_moves;
 
                 let this_move = this.now_touched_loc + Loc;
@@ -206,6 +206,8 @@ class ShogiBoard {
                 if ((legal_moves.indexOf(this_move) >= 0) || (legal_moves.indexOf(this_move + "+") >= 0)){
 
                     console.log("I can move there!");
+                    console.log("this move is ");
+                    console.log(this_move);
 
                     // 成るか成らないか選べる時は選択ウィンドウを出し、その後の処理はウィンドウウィジェット側で行う
                     if ((legal_moves.indexOf(this_move) >= 0) && (legal_moves.indexOf(this_move+"+") >= 0)){
@@ -222,6 +224,11 @@ class ShogiBoard {
                         if ((legal_moves.indexOf(this_move) == -1) && (legal_moves.indexOf(this_move+"+") >= 0)){
                             Loc = Loc + "+";
                         }
+
+                        console.log("now touched loc : ");
+                        console.log(this.now_touched_loc);
+                        console.log("the dest is ");
+                        console.log(Loc);
 
                         this.push_and_reflect_and_init_user_state(this.now_touched_loc, Loc);
                     }
