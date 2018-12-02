@@ -156,11 +156,6 @@ def history_to_images(history, recorder):
 
             # サブシナリオを順番にみていく
             for mini_sc in action["scenarios"]:
-
-                print()
-                print(mini_sc[0]["move_str"])
-                print()
-
                 save_name = recorder.next(True)
                 draw_boad(board_before_branch, save_name)  # 分岐の直前の状態を毎回画像に
                 history_to_images(mini_sc, recorder)  # 分岐後を順番に画像に
@@ -183,12 +178,6 @@ def history_to_movies(history, save_dir_img, save_dir_movie):
         cut_head_numbers.append(number)
     cut_head_numbers.append(recorder.counter)
 
-    print()
-    print("cut heads")
-    print(cut_head_numbers)
-    print()
-
-
     chunk_imges_dir = os.path.join(save_dir_img, "temporary_chunks")
     if os.path.exists(chunk_imges_dir):
         shutil.rmtree(chunk_imges_dir)
@@ -210,8 +199,6 @@ def history_to_movies(history, save_dir_img, save_dir_movie):
         img_path_temp = os.path.join(chunk_imges_dir, "img_%03d.png")
         result_name = os.path.join(save_dir_movie, "movie_{0:03d}.mp4".format(i))
         images_to_movie(load_dir=chunk_imges_dir, img_path_temp=img_path_temp, result_name=result_name)
-
-        print(result_name)
 
         shutil.rmtree(chunk_imges_dir)
 

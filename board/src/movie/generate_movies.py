@@ -68,10 +68,6 @@ def generate_movies(request):
     ext = "mp4"
     movies = glob2.glob(os.path.abspath(os.path.join(temporal_movie_dir, "movie_*.mp4")))
     movies.sort()
-    print()
-    print("="*20)
-    print(movies)
-    print()
 
     # 動画を結合＋プロジェクトレコードに登録
     movie_concated = os.path.abspath(os.path.join(temporal_movie_dir, "concat_movie.mp4"))
