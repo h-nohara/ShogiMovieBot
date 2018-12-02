@@ -470,9 +470,13 @@ function get_natural_moves_move(Piece, Board){
                     continue;
                 }
                 else{
-                    potential_dests.push(String(col_num + i) + String(row_num + j));
+                    let c = col_num + i;
+                    let r = row_num + j;
+                    if ((c>0 && c<10) && ((r>0) && (r<10))){
+                        potential_dests.push(String(c) + String(r));
 
-                    console.log(String(col_num + i) + String(row_num + j));
+                        console.log(String(c) + String(r));
+                    }
                 }
             }
         }
@@ -648,7 +652,7 @@ function get_natural_moves_move(Piece, Board){
                 String(col_num+1) + String(row_num-1),  // 左上
                 String(col_num-1) + String(row_num+1),  // 右下
                 String(col_num-1) + String(row_num-1),  // 右上
-                ]);
+            ]);
         }
     }
 
