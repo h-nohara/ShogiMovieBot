@@ -62,6 +62,10 @@
 
             // 関数定義
             function draw_projects(projects_info){
+
+                // リフレッシュ
+                d3.select("#items").selectAll(".item").remove();
+
                 // 描画
                 var one_content = d3
                 .select("#items").selectAll(".item")
