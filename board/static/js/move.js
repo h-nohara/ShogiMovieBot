@@ -298,7 +298,7 @@ function can_move_to(Board, dest, is_sente){
 
 
     if ((dest.length != 2) && (dest.length != 3)){
-        window.alert("kora");
+        window.alert("dest の長さがおかしい");
         console.log("error raised : dest is ");
         console.log(dest);
         exit;
@@ -459,7 +459,10 @@ function get_natural_moves_move(Piece, Board){
         }
     }
 
+
     else if (Piece.name == "OU"){
+
+        console.log("potential dest of OU");
         
         for (let i=-1; i<2; i++){
             for (let j=-1; j<2; j++){
@@ -468,9 +471,13 @@ function get_natural_moves_move(Piece, Board){
                 }
                 else{
                     potential_dests.push(String(col_num + i) + String(row_num + j));
+
+                    console.log(String(col_num + i) + String(row_num + j));
                 }
             }
         }
+
+        console.log(potential_dests);
     }
 
     
