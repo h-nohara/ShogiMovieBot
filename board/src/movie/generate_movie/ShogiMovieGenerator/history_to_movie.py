@@ -63,7 +63,6 @@ def draw_text(message, base_image_path, word_image_path):
 
     font_size = 50
 
-    print()
     print("[ start : make wordimage")
 
     make_WordImage(
@@ -79,8 +78,11 @@ def draw_text(message, base_image_path, word_image_path):
         H = font_size * 1.3
     )
 
+    print("[ finish : make wordimage")
+
     # 盤面画像に貼り付ける
     overlaid_handler(base_image_path, [word_image_path], base_image_path)
+    print("[ finish : overlaid wordimage")
 
 
 
@@ -133,10 +135,6 @@ def history_to_images(history, recorder):
     recoder(ImageNameRecorder)
     '''
 
-    print("")
-    print(history)
-    print()
-
     for action in history:
 
         # シナリオアクション以外だったら、画像を生成
@@ -158,6 +156,11 @@ def history_to_images(history, recorder):
 
             # サブシナリオを順番にみていく
             for mini_sc in action["scenarios"]:
+
+                print()
+                print(mini_sc[0]["move_str"])
+                print()
+
                 save_name = recorder.next(True)
                 draw_boad(board_before_branch, save_name)  # 分岐の直前の状態を毎回画像に
                 history_to_images(mini_sc, recorder)  # 分岐後を順番に画像に
@@ -185,6 +188,7 @@ def history_to_movies(history, save_dir_img, save_dir_movie):
     if os.path.exists(chunk_imges_dir):
         shutil.rmtree(chunk_imges_dir)
 
+    # 各動画を生成する
     for i in range(len(cut_head_numbers) - 1):
 
         head = cut_head_numbers[i]
