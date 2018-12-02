@@ -299,6 +299,8 @@ function can_move_to(Board, dest, is_sente){
 
     if ((dest.length != 2) && (dest.length != 3)){
         window.alert("kora");
+        console.log("error raised : dest is ");
+        console.log(dest);
         exit;
     }
 
