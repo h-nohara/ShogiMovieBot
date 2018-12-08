@@ -1,112 +1,5 @@
 
 
-// potential_moves { 駒が本来動ける方向
-// natural_moves { 王手されていることを考えない、可能な指し手
-// legal_moves { 可能な指し手
-
-
-// function get_legal_move_chunk_inner(moves, Board, loc_of_OU){
-    
-//     let legal_moves = [];
-    
-//     for (move of moves){
-    
-//         if ((move.length != 4) && (move.length != 5)){
-//             exit;
-//         }
-
-//         let ||iginal_piece = Board.all_pieces["main"][move.slice(0, 2)];
-
-//         if (||iginal_piece == null){
-//             exit;
-//         }
-        
-
-//         // 駒を移動
-//         let board_copy = copy.deepcopy(Board);
-//         board_copy.all_pieces["main"][move.slice(0, 2)] = null;
-//         new_piece = new Piece(||iginal_piece.name, ||iginal_piece.is_sente);
-//         new_piece.loc = move.slice(2, 4);
-//         board_copy.all_pieces["main"][move.slice(2, 4)] = new_piece;
-
-//         if (new_piece.name == "OU"){
-//             var loc_of_OU_now = new_piece.loc;
-//         }
-//         else{
-//             var loc_of_OU_now = loc_of_OU;
-//         }
-
-//         // 手番を交代
-//         board_copy.is_sente = !board_copy.is_sente;
-
-//         let natural_moves_enemy = get_all_natural_moves(board_copy);
-//         let natural_moves_dest_enemy = [];
-//         for (move of natural_moves_enemy){
-//             natural_moves_dest_enemy.push(move.slice(2, 4));
-//         }
-
-//         if (natural_moves_dest_enemy.indexOf(loc_of_OU_now) < 0){
-//             legal_moves.push(move);
-//         }
-
-//     return legal_moves
-// }
-
-
-// function get_legal_move_chunk(args){
-//     return get_legal_move_chunk_inner(*args)
-// }
-
-
-
-
-// function _get_legal_moves(Board, loc=null){
-    
-//     s = time.time()
-    
-//     // natural_movesを取得
-    
-//     natural_moves = get_all_natural_moves(Board)
-
-//     e = time.time()
-
-    
-//     // もしそれぞれのlegal_moveを行った場合、玉が相手の駒にattackされている状態になっていないかチェックする
-
-//     for piece in Board.all_pieces["main"]loc_piece_dict{
-//         if piece is not null{
-//             if (piece.name == "OU") && (piece.is_sente == Board.is_sente){
-//                 loc_of_OU = piece.loc
-
-//     legal_moves = []
-
-//     prNumber(natural_moves)
-
-//     prNumber("="*20)
-//     prNumber(Board.all_pieces["main"]["99"].loc)
-
-//     ss = time.time()
-
-//     length = len(natural_moves)
-//     one = Number(length/3)
-//     move_chunks = [(natural_moves[{one], Board, loc_of_OU), (natural_moves[one{one*2] ,Board, loc_of_OU), (natural_moves[one*2{],Board, loc_of_OU)]
-
-//     p = Pool(4)
-//     legal_moves = p.map(get_legal_move_chunk, move_chunks)
-//     legal_moves = list(chain.from_iterable(legal_moves))
-
-
-//     ee = time.time()
-
-//     prNumber(e -s)
-//     prNumber(ee-ss)
-
-//     return legal_moves
-
-
-
-
-
 function get_legal_moves(Board, loc=null){
     
     // s = time.time();
@@ -185,6 +78,7 @@ function get_legal_moves(Board, loc=null){
         }
         // 打ち手だったら
         else{
+            var loc_of_OU_now = loc_of_OU;
             let the_piece_name = move.slice(0, 2);
             if (pieces_in_hand[the_piece_name] <= 0){
                 window.alert("tarinai");
