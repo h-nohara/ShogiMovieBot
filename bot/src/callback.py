@@ -53,6 +53,8 @@ def callback(request):
 
     push_text_message(text)
 
+    return "ok"
+
 
 def push_template_message(template):
     
