@@ -40,6 +40,7 @@ line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
 
 
+@csrf_exempt
 def callback(request):
     
     data = json.loads(request.body.decode("utf-8"))
