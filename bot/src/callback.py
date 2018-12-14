@@ -47,7 +47,7 @@ def callback(request):
     print(data)
     data = data["data"]
     text = data["text"]
-    
+
     # token = data["token"]
     # line_bot_api.reply_message(token, TextSendMessage(text=text))
 
@@ -64,7 +64,7 @@ def push_template_message(template):
     line_bot_api.push_message(nohara_first_id, message)
 
 def push_text_message(text):
-    message = TextSendMessage(text="おっす")
+    message = TextSendMessage(text=text)
     line_bot_api.push_message(nohara_first_id, message)
 
 
