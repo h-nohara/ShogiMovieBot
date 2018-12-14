@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, json
 
 # api
 from django.shortcuts import render, redirect
@@ -41,7 +41,14 @@ handler = WebhookHandler(CHANNEL_SECRET)
 
 
 def callback(request):
-    pass
+    
+    data = json.loads(request.body.decode("utf-8"))
+    print(data)
+    data = data["data"]
+    text = data["text"]
+    token = data["token"]
+
+    line_bot_api.reply_message(token, TextSendMessage(text=text))
 
 
 # @csrf_exempt
