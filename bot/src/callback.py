@@ -42,37 +42,37 @@ handler = WebhookHandler(CHANNEL_SECRET)
 
 
 
-@csrf_exempt
-def callback(request):
+# @csrf_exempt
+# def callback(request):
 
-    print("receive callback")
+#     print("receive callback")
 
-    # get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
+#     # get X-Line-Signature header value
+#     signature = request.headers['X-Line-Signature']
 
-    # get request body as text
-    body = request.get_data(as_text=True)
+#     # get request body as text
+#     body = request.get_data(as_text=True)
 
-    # handle webhook body
-    try:
-        print("ok")
-        handler.handle(body, signature)
+#     # handle webhook body
+#     try:
+#         print("ok")
+#         handler.handle(body, signature)
 
-    except InvalidSignatureError:
-        print("oh no")
-        abort(400)
+#     except InvalidSignatureError:
+#         print("oh no")
+#         abort(400)
 
 
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+# @handler.add(MessageEvent, message=TextMessage)
+# def handle_message(event):
 
-    print("receive message event")
+#     print("receive message event")
     
-    text_receive = event.message.text
+#     text_receive = event.message.text
 
-    # おうむ返し
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=text_receive)
-    )
+#     # おうむ返し
+#     line_bot_api.reply_message(
+#         event.reply_token,
+#         TextSendMessage(text=text_receive)
+#     )
