@@ -129,6 +129,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+SECURE_SSL_REDIRECT = True  # https
+
 
 AUTH_USER_MODEL = 'accounts.User'
 
