@@ -361,7 +361,10 @@ def get_natural_moves_move(Piece, Board):
                 if (i == 0) and (j == 0):
                     continue
                 else:
-                    potential_dests.append(str(col_num + i) + str(row_num + j))
+                    c = col_num + i
+                    r = row_num + j
+                    if ((c > 0) and (c < 10) and (r > 0) and (r<10)):
+                        potential_dests.append(str(c) + str(r))
 
     
     elif (Piece.name == "KA") or (Piece.name == "UM"):

@@ -78,11 +78,11 @@ def draw_text(message, base_image_path, word_image_path):
         H = font_size * 1.3
     )
 
-    print("[ finish : make wordimage")
+    print("finish : make wordimage ]")
 
     # 盤面画像に貼り付ける
     overlaid_handler(base_image_path, [word_image_path], base_image_path)
-    print("[ finish : overlaid wordimage")
+    print("finish : overlaid wordimage ]")
 
 
 
