@@ -47,9 +47,35 @@ def callback(request):
     print(data)
     data = data["data"]
     text = data["text"]
-    token = data["token"]
+    
+    # token = data["token"]
+    # line_bot_api.reply_message(token, TextSendMessage(text=text))
 
-    line_bot_api.reply_message(token, TextSendMessage(text=text))
+    push_text_message(text)
+
+
+def push_template_message(template):
+    
+    message = TemplateSendMessage(
+        alt_text='Buttons alt text',
+        template=template
+    )
+
+    line_bot_api.push_message(nohara_first_id, message)
+
+def push_text_message(text):
+    message = TextSendMessage(text="おっす")
+    line_bot_api.push_message(nohara_first_id, message)
+
+
+def template_to_message(template):
+
+    message = TemplateSendMessage(
+        alt_text = "Buttons alt text",
+        template=template
+    )
+    return message
+
 
 
 # @csrf_exempt
