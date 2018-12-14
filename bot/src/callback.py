@@ -40,6 +40,8 @@ line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
 
 
+def callback(request):
+    pass
 
 
 # @csrf_exempt
