@@ -51,7 +51,10 @@ def callback(request):
     # token = data["token"]
     # line_bot_api.reply_message(token, TextSendMessage(text=text))
 
-    push_text_message(text)
+    push_text_message("おうむ返し:" + text)
+
+    if text == "棋譜":
+        pass
 
     return "ok"
 
