@@ -14,6 +14,7 @@ from bot.models.message import Message
 from accounts.src.utils.generate_fname import generate_basename
 
 
+@csrf_exempt
 def make_new_scenario_request(request):
 
     print(request.POST)
