@@ -25,7 +25,9 @@ def ScenarioEditor_to_ProjectScenarios_page(request):
     project_id = record_Project.id
     project_id = str(project_id)
 
-    return redirect("/bot/scenarios/{}".format(project_id))
+    the_url = "/bot/scenarios/{}".format(project_id)
+
+    return JsonResponse({"code" : 200, "data" : {"url" : the_url}})
 
 
 @csrf_exempt
@@ -42,7 +44,9 @@ def ScenarioEditor_to_Projects_page(request):
     user_id = record_User.id
     user_id = str(user_id)
 
-    return redirect("/account/home/{}".format(user_id))
+    the_url = "/account/home/{}".format(user_id)
+
+    return JsonResponse({"code" : 200, "data" : {"url" : the_url}})
 
 
 # シナリオ一覧ページからの移動
@@ -61,6 +65,5 @@ def Scenarios_to_Projects_page(request):
     user_id = str(user_id)
 
     the_url = "/account/home/{}".format(user_id)
+    
     return JsonResponse({"code" : 200, "data" : {"url" : the_url}})
-
-    # return redirect("/account/home/{}".format(user_id))

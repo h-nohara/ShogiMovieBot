@@ -558,6 +558,16 @@
             url : "/bot/transit/ScenarioEditor_to_ProjectScenarios",
             data : JSON.stringify({"scenario_id" : SCENARIO_ID})
         })
+        .done(function(response){
+            if (response["code"] == 200){
+                let data = response["data"];
+                let url = data["url"];
+                window.location.href = url;
+            }
+            else {
+                window.alert("failed");
+            };
+        })
     })
 
     $(document).on("click", "#ToProjects_page", function(){
@@ -565,6 +575,16 @@
             type : "POST",
             url : "/bot/transit/ScenarioEditor_to_Projects",
             data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                let data = response["data"];
+                let url = data["url"];
+                window.location.href = url;
+            }
+            else {
+                window.alert("failed");
+            };
         })
     })
 
