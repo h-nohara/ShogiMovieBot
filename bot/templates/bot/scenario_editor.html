@@ -355,6 +355,7 @@
     // シナリオ情報を取得
     function get_draw_scenario_info(){
         $.ajax({
+            async : false,
             type : "POST",
             url : "/bot/scenario/get_info",
             data : JSON.stringify({"scenario_id" : SCENARIO_ID})
@@ -411,6 +412,7 @@
     // シナリオidから、このプロジェクトの動画一覧を取得する
     function get_movies(){
         $.ajax({
+            async : false,
             type : "POST",
             url : "/bot/scenario/movies",
             data : JSON.stringify({"scenario_id" : SCENARIO_ID})
