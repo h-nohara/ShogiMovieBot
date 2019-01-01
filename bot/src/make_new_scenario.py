@@ -31,3 +31,5 @@ def make_new_scenario_request(request):
     )
 
     record_Scenario.save()
+
+    return JsonResponse({"code" : 200})
