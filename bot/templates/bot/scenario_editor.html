@@ -585,6 +585,7 @@
         .done(function(response){
             if (response["code"] == 200){
                 window.alert("配信しました");
+                $("#SettingsModal").modal("hide");
             }
             else {
                 window.alert("failed");
