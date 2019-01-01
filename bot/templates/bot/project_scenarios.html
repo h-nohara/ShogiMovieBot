@@ -317,6 +317,17 @@
                 url : "/bot/transit/Scenarios_to_Projects",
                 data : JSON.stringify({"project_id" : PROJECT_ID})
             })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let data = response["data"];
+                    let url = data["url"];
+                    window.alert(url);
+                    window.location.href = url;
+                }
+                else {
+                    window.alert("failed");
+                };
+            })
         })
         
     </script>

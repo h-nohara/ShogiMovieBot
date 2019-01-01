@@ -60,4 +60,7 @@ def Scenarios_to_Projects_page(request):
     user_id = record_User.id
     user_id = str(user_id)
 
-    return redirect("/account/home/{}".format(user_id))
+    the_url = "/account/home/{}".format(user_id)
+    return JsonResponse({"code" : 200, "data" : {"url" : the_url}})
+
+    # return redirect("/account/home/{}".format(user_id))
