@@ -24,7 +24,7 @@ def get_projects(record_User):
         concat_movie_path = record_Project.concat_movie_path
 
         info = {
-            "id" : project_id,
+            "project_id" : project_id,
             "title" : title,
             "pickle_path" : pickle_path,
             "pickle_basename" : pickle_basename,

@@ -233,7 +233,7 @@
                 var compiled = _.template($("#project_template").html());
                 $("#projects").append(
                     compiled({
-                        "project_id" : project_id,
+                        "project_id" : String(project_id),
                         "title" : title
                     })
                 );
