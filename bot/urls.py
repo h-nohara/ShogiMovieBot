@@ -12,6 +12,7 @@ from bot.src.get_scenario_info import get_scenario_info_request
 from bot.src.make_new_scenario import make_new_scenario_request
 from bot.src.get_movies_from_ScenarioId import get_movies_from_ScenarioId_request
 from bot.src.update_messages import update_messages_request
+from bot.src.transit import ScenarioEditor_to_ProjectScenarios_page, ScenarioEditor_to_Projects_page, Scenarios_to_Projects_page
 
 
 urlpatterns = [
@@ -29,6 +30,12 @@ urlpatterns = [
     url(r"^scenarios/[-a-z0-9_]+$", project_scenarios_page, name="project_scenarios_page"),
     # シナリオ編集ページ
     url(r"^scenario_editor/[-a-z0-9_]+$", scenario_editor_page, name="scenario_editor_page"),
+
+    # ページを戻る
+    url(r"^transit/ScenarioEditor_to_ProjectScenarios$", ScenarioEditor_to_ProjectScenarios_page, name="ScenarioEditor_to_ProjectScenarios"),
+    url(r"^transit/ScenarioEditor_to_Projects$", ScenarioEditor_to_Projects_page, name="ScenarioEditor_to_Projects"),
+    url(r"^transit/Scenarios_to_Projects$", Scenarios_to_Projects_page, name="Scenarios_to_Projects"),
+
 
     # シナリオ
     url(r"^scenario/get$", get_scenarios_request, name="get_scenarios"),  # シナリオ一覧

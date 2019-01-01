@@ -20,17 +20,12 @@
     <!-- グローバルナビゲーション -->
 
     <nav class="navbar navbar-default">
-        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#任意のID">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button> -->
 
         <!-- 左側 -->
         <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
             <ul class="nav navbar-nav">
-                <li><a href="" class="glyphicon glyphicon-home">プロジェクト一覧</a></li>
-                <li><a href="" class="glyphicon glyphicon-arrow-left">シナリオ一覧</a></li>
+                <li><a href="javascript:void(0)" class="glyphicon glyphicon-home" id="ToProjects_page">プロジェクト一覧</a></li>
+                <li><a href="javascript:void(0)" class="glyphicon glyphicon-arrow-left" id="ToProjectScenarios_page">シナリオ一覧</a></li>
             </ul>
             <p class="nav navbar-text">ここにシナリオ名が入る　＜シナリオを編集する＞</p>
         </div>
@@ -550,6 +545,26 @@
                 window.alert("failed save_messages");
                 // window.alert(response["error_message"]);
             };
+        })
+    })
+
+
+    // ページ遷移
+
+    $(document).on("click", "#ToProjectScenarios_page", function(){
+
+        $.ajax({
+            type : "POST",
+            url : "/bot/transit/ScenarioEditor_to_ProjectScenarios",
+            data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+        })
+    })
+
+    $(document).on("click", "#ToProjects_page", function(){
+        $.ajax({
+            type : "POST",
+            url : "/bot/transit/ScenarioEditor_to_Projects",
+            data : JSON.stringify({"scenario_id" : SCENARIO_ID})
         })
     })
 

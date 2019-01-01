@@ -28,7 +28,7 @@
         <!-- 左側 -->
         <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
             <ul class="nav navbar-nav">
-                <li><a href="" class="glyphicon glyphicon-home">プロジェクト一覧</a></li>
+                <li><a href="javascript:void(0)" class="glyphicon glyphicon-home" id="ToProjects_page">プロジェクト一覧</a></li>
             </ul>
             <p class="nav navbar-text">ここにプロジェクト名が入る　＜シナリオ一覧＞</p>
         </div>
@@ -306,6 +306,17 @@
 
         $(document).on("click", ".TransitToBoard", function(){
             window.location.href = "/board/" + String(PROJECT_ID);
+        })
+
+
+        // ページ遷移
+
+        $(document).on("click", "#ToProjects_page", function(){
+            $.ajax({
+                type : "POST",
+                url : "/bot/transit/Scenarios_to_Projects",
+                data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
         })
         
     </script>
