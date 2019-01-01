@@ -1,4 +1,4 @@
-import os, sys, glob2
+import os, sys, glob2, json
 from ShogiMovieBot.settings import BASE_DIR
 
 from django.shortcuts import render
@@ -18,7 +18,8 @@ from board.src.movie.get_movies import get_movies
 def get_movies_from_ScenarioId_request(request):
 
     print(request.POST)
-    scenario_id = request.POST["scenario_id"]
+    data = json.loads(request.body.decode("utf-8"))
+    scenario_id = data["scenario_id"]
     scenario_id = int(scenario_id)
 
     movie_paths = get_movies_from_ScenarioId(scenario_id)

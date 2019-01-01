@@ -1,4 +1,4 @@
-import os, sys, glob2
+import os, sys, glob2, json
 from ShogiMovieBot.settings import BASE_DIR
 
 from django.shortcuts import render
@@ -18,7 +18,8 @@ def delete_scenario_request(request):
 
     # receive
     print(request.POST)
-    scenario_id = request.POST["scenario_id"]
+    data = json.loads(request.body.decode("utf-8"))
+    scenario_id = data["scenario_id"]
     scenario_id = int(scenario_id)
 
     # delete

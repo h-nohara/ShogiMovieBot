@@ -1,4 +1,4 @@
-import os, sys, glob2
+import os, sys, glob2, json
 from ShogiMovieBot.settings import BASE_DIR
 
 from django.shortcuts import render
@@ -17,9 +17,10 @@ from accounts.src.utils.generate_fname import generate_basename
 def make_new_scenario_request(request):
 
     print(request.POST)
-    project_id = request.POST["project_id"]
+    data = json.loads(request.body.decode("utf-8"))
+    project_id = data["project_id"]
     project_id = int(project_id)
-    title = request.POST["title"]
+    title = data["title"]
 
     record_Project = Project.objects.get(id=project_id)
 

@@ -1,4 +1,4 @@
-import os, sys, glob2
+import os, sys, glob2, json
 from ShogiMovieBot.settings import BASE_DIR
 
 from django.shortcuts import render
@@ -14,7 +14,8 @@ from bot.models.scenario import Scenario
 def get_scenarios_request(request):
 
     print(request.POST)
-    project_id = request.POST["project_id"]
+    data = json.loads(request.body.decode("utf-8"))
+    project_id = data["project_id"]
     project_id = int(project_id)
 
     scenarios = get_scenarios(project_id)
