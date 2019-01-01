@@ -27,3 +27,26 @@ CHANNEL_SECRET = "4e128a5ebac89175f69af88f9715bc7a"
 
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
+
+
+def push_template_message(template, line_id=nohara_first_id):
+    
+    message = TemplateSendMessage(
+        alt_text='Buttons alt text',
+        template=template
+    )
+
+    line_bot_api.push_message(line_id, message)
+
+def push_text_message(text, line_id=nohara_first_id):
+    message = TextSendMessage(text=text)
+    line_bot_api.push_message(line_id, message)
+
+
+def template_to_message(template):
+
+    message = TemplateSendMessage(
+        alt_text = "Buttons alt text",
+        template=template
+    )
+    return message

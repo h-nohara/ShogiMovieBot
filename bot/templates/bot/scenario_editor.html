@@ -32,7 +32,7 @@
 
         <!-- 右側 -->
         <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
-            <span class="btn btn-info navbar-btn glyphicon glyphicon-dashboard">配信設定</span>
+            <span class="btn btn-info navbar-btn glyphicon glyphicon-dashboard" id="SettingsModal_opener">配信設定</span>
             <span class="btn btn-primary navbar-btn glyphicon glyphicon-ok" id="MessagesSaveButton">保存する</span>
         </div>
 
@@ -200,6 +200,27 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
                             <button type="button" class="btn btn-primary" id="EditMovieMessageModal_ModButton">決定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 設定モーダル -->
+            <div class="modal fade" id="SettingsModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">テキストメッセージを追加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <h2>配信設定</h2>
+                                <button class="btn btn-danger" id="DistributeNowButton">今すぐ配信する</button>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
                         </div>
                     </div>
                 </div>
@@ -484,6 +505,11 @@
         $("#EditMovieMessageModal").modal();
     })
 
+    // 設定のモーダル
+    $(document).on("click", "#SettingsModal_opener", function(){
+        $("#SettingsModal").modal();
+    })
+
 
     // テキストメッセージ追加
     $(document).on("click", "#AddTextMessageModal_AddButton", function(){
@@ -544,6 +570,24 @@
             else {
                 window.alert("failed save_messages");
                 // window.alert(response["error_message"]);
+            };
+        })
+    })
+
+    // 今すぐシナリオ配信
+
+    $(document).on("click", "#DistributeNowButton", function(){
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/distribute_now",
+            data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                window.alert("配信しました");
+            }
+            else {
+                window.alert("failed");
             };
         })
     })
