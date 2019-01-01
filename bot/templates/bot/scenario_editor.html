@@ -334,7 +334,7 @@
         // ];
 
         get_draw_scenario_info();
-        MOVIE_PATHS = get_movies();
+        get_movies();
 
         // テスト
         // MOVIE_PATHS = ["hoge/hoge1.mp4", "/aa/aa.mp4", "concat.mp4"];
@@ -419,7 +419,7 @@
             if (response["code"] == 200){
                 let data = response["data"];
                 let paths = data["paths"];
-                return paths;
+                MOVIE_PATHS = paths;
             }
             else {
                 window.alert("failed get_movies");
