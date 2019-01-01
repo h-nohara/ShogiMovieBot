@@ -11,6 +11,8 @@ from accounts.src.project import get_projects_request, make_new_project_request
 
 urlpatterns = [
 
+    # account/
+
     # ログイン・ログアウトページ
     url(r"^login$", views.login_page, name="login"),
     # ログイン・ログアウトページ
@@ -26,6 +28,6 @@ urlpatterns = [
     # プロジェクト一覧取得
     url(r"^project/get$", get_projects_request, name="get_projects_request"),
     # プロジェクト新規作成
-    url(r"^project/make$", make_new_project_request, name="make_new_project_request"),
+    url(r"^project/new$", make_new_project_request, name="make_new_project_request"),
 
 ]

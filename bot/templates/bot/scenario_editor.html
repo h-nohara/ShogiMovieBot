@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <!-- boostrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+
+
+    <!-- グローバルナビゲーション -->
+
+    <nav class="navbar navbar-default">
+        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#任意のID">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button> -->
+
+        <!-- 左側 -->
+        <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+            <ul class="nav navbar-nav">
+                <li><a href="" class="glyphicon glyphicon-home">プロジェクト一覧</a></li>
+                <li><a href="" class="glyphicon glyphicon-arrow-left">シナリオ一覧</a></li>
+            </ul>
+            <p class="nav navbar-text">ここにシナリオ名が入る　＜シナリオを編集する＞</p>
+        </div>
+
+        <!-- 右側 -->
+        <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
+            <span class="btn btn-info navbar-btn glyphicon glyphicon-dashboard">配信設定</span>
+            <span class="btn btn-primary navbar-btn glyphicon glyphicon-ok" id="MessagesSaveButton">保存する</span>
+        </div>
+
+        <style>
+            #nav_items_right {
+                margin-right: 7vw;
+            }
+            #nav_items_right.navbar-nav li{
+                width: 5vw;
+                text-align: center;
+            }
+            #nav_items_right li:hover {
+                background-color: #ffc9d7;
+            }
+        </style>
+
+        <!-- <script>
+            $("#new_project").click(function(){
+                $("#myMoal").modal("show");
+            })
+        </script> -->
+    </nav>
+
+    <!-- グローバルナビゲーション ここまで-->
+
+</header>
+
+<body>
+
+    <div class="container-fluid">
+
+        <style>
+            .container-fluid {
+                margin: 10px 5vw;
+            }
+        </style>
+        
+        <div class="row">
+
+            <!-- 作業ボタン -->
+
+            <div class="col-xs-2">
+
+                <div class="button_add_message">
+
+                    <div class="MessageAddButton btn btn-primary" id="AddTextMessageModal_opener">
+                        テキストメッセージ<br>を追加
+                    </div>
+
+                    <div class="MessageAddButton btn btn-primary" id="AddMovieMessageModal_opener">
+                        動画メッセージ<br>を追加
+                    </div>
+
+                    <style>
+                        .MessageAddButton {
+                            display: inline-block;
+                            height: 10vh;
+                            width: 90%;
+                            text-align: center;
+                            padding-top: 3.7vh;
+                            border: solid black 0.2px;
+                        }
+                    </style>
+
+                </div>
+            </div>
+
+            <!-- 作業ボタン ここまで -->
+
+
+            <!-- モーダル一覧 -->
+
+
+            <!-- テキストメッセージ追加モーダル -->
+            <div class="modal fade" id="AddTextMessageModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">テキストメッセージを追加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>テキストを入力</label>
+                                <input class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary" id="AddTextMessageModal_AddButton">追加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 動画メッセージ追加モーダル -->
+            <div class="modal fade" id="AddMovieMessageModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">動画メッセージを追加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <select size="6" id="AddMovieMessageModal_MovieSelector">
+                                    <!-- ここに動画一覧が入る -->
+                                </select>
+                            </div>
+                            <!-- <div>
+                                <p>hoge</p>
+                                <p>aaa</p>
+                                <video src="https://youtu.be/I-lMlAAx4QY"></video>
+                            </div> -->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary" id="AddMovieMessageModal_AddButton">追加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- テキストメッセージ編集モーダル -->
+            <div class="modal fade" id="EditTextMessageModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">テキストメッセージを追加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>テキストを入力</label>
+                                <input class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary" id="EditTextMessageModal_ModButton">変更</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 動画メッセージ編集モーダル -->
+            <div class="modal fade" id="EditMovieMessageModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">動画を選択</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <select size="6" id="EditMovieMessageModal_MovieSelector">
+                                    <!-- ここに動画一覧が入る -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary" id="EditMovieMessageModal_ModButton">決定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- モーダル一覧 ここまで-->
+
+
+            <!-- メッセージ一覧 -->
+
+            <div class="col-xs-9" style="overflow-y: scroll; height:92vh;" id="messages">
+                
+                <!-- <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">テキストメッセージ</h2>
+                    </div>
+                    <div class="panel-body">
+                        <p>四間飛車の定石だよ</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            <button class="btn btn-primary">編集</button>
+                            <button class="btn btn-danger">削除</button>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">テキストメッセージ</h2>
+                    </div>
+                    <div class="panel-body">
+                        <p>四間飛車の定石だよ</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            <button class="btn btn-primary">編集</button>
+                            <button class="btn btn-danger">削除</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">動画メッセージ</h2>
+                    </div>
+                    <div class="panel-body">
+                        <p>動画url : www/hohe/hohe.mp4</p>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-primary">編集</button>
+                        <button class="btn btn-danger">削除</button>
+                    </div>
+                </div> -->
+
+            </div>
+
+
+            <!-- メッセージ一覧 ここまで-->
+
+        </div>
+    </div>
+</body>
+
+
+
+<!-- html要素のテンプレート -->
+
+<!-- テキストメッセージ -->
+<script type="text/html" id="TextMessage_template">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">テキストメッセージ</h2>
+        </div>
+        <div class="panel-body">
+            <p class="TextMessageText"><%= text %></p>
+        </div>
+        <div class="panel-footer">
+            <div>
+                <button class="btn btn-primary TextEditModal_opener MessageEditButton">編集</button>
+                <button class="btn btn-danger MessageDelButton">削除</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 動画メッセージ -->
+<script type="text/html" id="MovieMessage_template">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">動画メッセージ</h2>
+        </div>
+        <div class="panel-body">
+            <p>動画url   :   <%= movie_path %></p>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-primary MovieEditModal_opener MessageEditButton">編集</button>
+            <button class="btn btn-danger MessageDelButton">削除</button>
+        </div>
+    </div>
+</script>
+
+<!-- html要素のテンプレート　ここまで-->
+
+
+<script>
+
+    // ロードされた時の処理
+
+    $(document).ready( function(){
+        
+        SCENARIO_ID = get_scenario_id();
+        MESSAGES = null;
+        WATCHING_MESSAGE_NUMBER = null;
+        MOVIE_PATHS = get_movies();
+
+        // テスト
+        MESSAGES = [
+            {"message_id" : 100, "kind" : "text", "text" : "四間飛車"},
+            {"message_id" : 200, "kind" : "movie", "movie_path" : "concat.mp4"},
+            {"message_id" : 100, "kind" : "text", "text" : "四間飛車"},
+        ];
+
+        get_draw_scenario_info();
+        MOVIE_PATHS = get_movies();
+
+        // テスト
+        MOVIE_PATHS = ["hoge/hoge1.mp4", "/aa/aa.mp4", "concat.mp4"];
+
+        set_movies_to_Modals(MOVIE_PATHS);
+    });
+
+    // scenario_idを取得
+    function get_scenario_id(){
+        let url = location.href;
+        let url_split = url.split("/");
+        let scenario_id = url_split[url_split.length-1];
+        scenario_id = parseInt(scenario_id, 10);
+        console.log("scenario_id : " + String(scenario_id));
+        return scenario_id
+    }
+
+    // シナリオ情報を取得
+    function get_draw_scenario_info(){
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/get_info",
+            data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                let data = response["data"];
+                let title = data["title"];
+                let thumb_path = data["thumb_path"];
+                let messages = data["messages"];
+                MESSAGES = messages;
+                draw_messages(messages);
+            }
+            else {
+                window.alert("failed get_scenario_info");
+                // window.alert(response["error_message"]);
+            };
+        })
+    }
+
+    // メッセージを描画
+    function draw_messages(messages){
+
+        $("#messages").html("");
+
+        var compiled_TextMessage = _.template($("#TextMessage_template").html());
+        var compiled_MovieMessage = _.template($("#MovieMessage_template").html());
+
+        for (info of messages){
+
+            let message_id = info["message_id"];
+            let kind = info["kind"];
+            let is_stop = info["is_stop"];
+
+            if (kind == "text"){
+                let text = info["text"];
+                var message_html = compiled_TextMessage({
+                    "text" : text,
+                    "title" : "テキストメッセージ"
+                });
+            }
+            else if (kind == "movie"){
+                let movie_path = info["movie_path"];
+                var message_html = compiled_MovieMessage({
+                    "movie_path" : movie_path,
+                    "title" : "動画メッセージ"
+                });
+            }
+
+            $("#messages").append(message_html);
+        }
+    }
+
+    // シナリオidから、このプロジェクトの動画一覧を取得する
+    function get_movies(){
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/movies",
+            data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                let data = response["data"];
+                let paths = data["paths"];
+                return paths;
+            }
+            else {
+                window.alert("failed get_movies");
+                // window.alert(response["error_message"]);
+            };
+        })
+    }
+
+    // 動画一覧を、モーダルに表示
+    function set_movies_to_Modals(movies){
+        let n_movies = movies.length;
+        selector_strs = ["#AddMovieMessageModal_MovieSelector", "#EditMovieMessageModal_MovieSelector"];
+        for (selector_str of selector_strs){
+            let selector = $(selector_str);
+            for (var i=0; i<movies.length; i++){
+                if (i == n_movies - 1){
+                    var label = "結合された動画";
+                }
+                else{
+                    var label = "動画" + String(i+1);
+                }
+                selector.append("<option value='" + movies[i] + "'>" + label + "</option>");
+            }
+        }
+    }
+
+    // モーダルを開く
+
+    // テキストメッセージ追加モーダル
+    $(document).on("click", "#AddTextMessageModal_opener", function(){
+        $("#AddTextMessageModal").find("input").val("");
+        $("#AddTextMessageModal").modal();
+    })
+
+    // 動画追加モーダル
+    $(document).on("click", "#AddMovieMessageModal_opener", function(){
+        $("#AddMovieMessageModal").modal();
+    })
+
+    // テキストメッセージの編集モーダル
+    $(document).on("click", ".TextEditModal_opener", function(){
+
+        // あらかじめ、現在のテキストをフォームに入れておく
+        let text = $(this).closest(".panel").find(".TextMessageText").text();
+        $("#EditTextMessageModal").find("input").val(text);
+
+        WATCHING_MESSAGE_NUMBER = $(".MessageEditButton").index(this);
+        $("#EditTextMessageModal").modal();
+    })
+
+
+    // 動画メッセージの編集モーダル
+    $(document).on("click", ".MovieEditModal_opener", function(){
+
+        WATCHING_MESSAGE_NUMBER = $(".MessageEditButton").index(this);
+        let movie_path = MESSAGES[WATCHING_MESSAGE_NUMBER]["movie_path"];
+
+        if (MOVIE_PATHS.indexOf(movie_path) < 0){
+            window.alert("エラー");
+            exit();
+        }
+
+        // あらかじめ、現在選択されている動画を選択状態にしておく
+        $("#EditMovieMessageModal_MovieSelector").val(movie_path);
+        $("#EditMovieMessageModal").modal();
+    })
+
+
+    // テキストメッセージ追加
+    $(document).on("click", "#AddTextMessageModal_AddButton", function(){
+        let text = $(this).closest(".modal-content").find("input").val();
+        let message = {"kind" : "text", "text" : text};
+        MESSAGES.push(message);
+        draw_messages(MESSAGES);
+        $("#AddTextMessageModal").modal("hide");
+    })
+
+
+    // テキストメッセージ変更
+    $(document).on("click", "#EditTextMessageModal_ModButton", function(){
+        let text = $(this).closest(".modal-content").find("input").val();
+        MESSAGES[WATCHING_MESSAGE_NUMBER]["text"] = text;
+        draw_messages(MESSAGES);
+        $("#EditTextMessageModal").modal("hide");
+    })
+
+    // 動画メッセージ追加
+    $(document).on("click", "#AddMovieMessageModal_AddButton", function(){
+        let movie_path = $("#AddMovieMessageModal_MovieSelector").val();
+        let message = {"kind" : "movie", "movie_path" : movie_path};
+        MESSAGES.push(message);
+        draw_messages(MESSAGES);
+        $("#AddMovieMessageModal").modal("hide");
+    })
+
+    // 動画メッセージ変更
+    $(document).on("click", "#EditMovieMessageModal_ModButton", function(){
+        let movie_path = $("#EditMovieMessageModal_MovieSelector").val();
+        MESSAGES[WATCHING_MESSAGE_NUMBER]["movie_path"] = movie_path;
+        draw_messages(MESSAGES);
+        $("#EditMovieMessageModal").modal("hide");
+    })
+
+
+    // メッセージ削除
+    $(document).on("click", ".MessageDelButton", function(){
+        let message_index = $(".MessageDelButton").index(this);
+        MESSAGES.splice(message_index, 1);
+        draw_messages(MESSAGES);
+    })
+
+    // シナリオを保存
+
+    $(document).on("click", "#MessagesSaveButton", function(){
+        
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/update_messages",
+            data : JSON.stringify({"messages" : MESSAGES, "scenario_id" : SCENARIO_ID})
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                window.alert("保存しました");
+            }
+            else {
+                window.alert("failed save_messages");
+                // window.alert(response["error_message"]);
+            };
+        })
+    })
+
+    
+</script>
+
+</html>

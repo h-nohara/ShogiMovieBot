@@ -42,6 +42,14 @@ handler = WebhookHandler(CHANNEL_SECRET)
 
 @csrf_exempt
 def callback(request):
+
+    '''
+    {
+        "data" : {
+            "text" : "hoge"
+        }
+    }
+    '''
     
     data = json.loads(request.body.decode("utf-8"))
     print(data)

@@ -10,8 +10,9 @@ from accounts.models.project import Project
 from board.models.movie import Movie
 
 
-def get_movies(record_Project):
+def get_movies(project_id):
 
+    record_Project = Project.objects.get(id=project_id)
     concat_movie_path = record_Project.concat_movie_path
 
     record_list_Movie = Movie.objects.filter(project=record_Project)
@@ -32,9 +33,7 @@ def get_movies_request(request):
     project_id = data["project_id"]
     project_id = int(project_id)
 
-    record_Project = Project.objects.get(id=project_id)
-
-    paths = get_movies(record_Project)
+    paths = get_movies(project_id)
 
     json_response = {
         "code" : 200,

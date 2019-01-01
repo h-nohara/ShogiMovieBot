@@ -13,28 +13,28 @@ def get_projects(record_User):
     record_list_Project = Project.objects.filter(user=record_User)
     record_list_Project = record_list_Project[::-1]
 
-    projects_info = []
+    projects = []
 
     for record_Project in record_list_Project:
 
-        id_ = record_Project.id
+        project_id = record_Project.id
         title = record_Project.title
         pickle_basename = record_Project.pickle_basename
         pickle_path = record_Project.pickle_path
         concat_movie_path = record_Project.concat_movie_path
 
         info = {
-            "id" : id_,
+            "id" : project_id,
             "title" : title,
             "pickle_path" : pickle_path,
             "pickle_basename" : pickle_basename,
             "concat_movie_path" : concat_movie_path
         }
 
-        projects_info.append(info)
+        projects.append(info)
 
     
-    return projects_info
+    return projects
 
 
 @csrf_exempt
@@ -46,12 +46,12 @@ def get_projects_request(request):
     user_id = int(user_id)
 
     record_User = User.objects.get(id=user_id)
-    projects_info = get_projects(record_User)
+    projects = get_projects(record_User)
 
     json_response = {
         "code" : 200 ,
-        "result" : {
-            "projects_info" : projects_info,
+        "data" : {
+            "projects" : projects,
         }
     }
 

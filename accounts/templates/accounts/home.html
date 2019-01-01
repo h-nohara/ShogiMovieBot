@@ -1,291 +1,288 @@
-<html>
-    <header>
-        <!-- jquery -->
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <!-- boostrap -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        <!-- d3 -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <!-- boostrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
 
 
-        <!-- グローバルナビゲーション -->
-        <nav class="navbar navbar-default">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#任意のID">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+    <!-- グローバルナビゲーション -->
 
-            <!-- 左側 -->
-            <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
-                <p class="nav navbar-text">プロジェクト一覧</p>
+    <nav class="navbar navbar-default">
+
+        <!-- 左側 -->
+        <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+            <p class="nav navbar-text">＜プロジェクト一覧＞</p>
+        </div>
+
+        <!-- 右側 -->
+        <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav">
+                <li><a href="">おはよう</a></li>
+            </ul>
+        </div>
+
+        <style>
+            #nav_items_right {
+                margin-right: 7vw;
+            }
+            #nav_items_right.navbar-nav li{
+                width: 5vw;
+                text-align: center;
+            }
+            #nav_items_right li:hover {
+                background-color: #ffc9d7;
+            }
+        </style>
+    </nav>
+
+    <!-- グローバルナビゲーション ここまで-->
+
+</header>
+
+
+<body>
+
+    <div class="container-fluid">
+
+        <style>
+            .container-fluid {
+                margin: 10px 5vw;
+            }
+        </style>
+        
+        <div class="row">
+
+            <!-- 作業ボタン -->
+
+            <div class="col-xs-2" style="background: chartreuse">
+
+                <div class="">
+
+                    <div class="LeftButton btn btn-primary" id="NewProjectModal_opener">
+                        新規プロジェクト
+                    </div>
+
+                    <div class="LeftButton btn btn-info">
+                        並び替え
+                    </div>
+
+                    <style>
+                        .LeftButton {
+                            display: inline-block;
+                            /* background-color: gray; */
+                            /* color: white; */
+                            height: 10vh;
+                            width: 90%;
+                            text-align: center;
+                            padding-top: 4vh;
+                            border: solid black 0.2px;
+                        }
+                    </style>
+
+                </div>
             </div>
 
-            <!-- 右側 -->
-            <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
-                <ul class="nav navbar-nav">
-                    <li><a href="">並び替え</a></li>
-                    <li><a href="">削除</a></li>
-                    <li id="login">
-                        <a href="" data-toggle="modal" data-target="#myModal">新規作成</a>
-                    </li>
-                </ul>
+            <!-- 作業ボタン ここまで-->
+
+
+            <!-- プロジェクト一覧 -->
+
+            <div class="col-xs-9" style="background:chocolate; overflow-y: scroll; height:92vh;" id="projects">
+                
+                    <div class="panel panel-info OneProject" id="100">
+                        <div class="panel-body">
+                            <p>四間飛車VS穴熊（サンプル）</p>
+                        </div>
+                        <div class="panel-footer">
+                            <div>
+                                <button class="btn btn-primary TransitToBoard">盤面を編集</button>
+                                <button class="btn btn-primary TransitToScenario">シナリオ一覧</button>
+                                <button class="btn btn-danger pull-right">削除</button>
+                            </div>
+                        </div>
+                    </div>
+
+                
+                <div class="panel panel-info OneProject" id="400">
+                    <div class="panel-body">
+                        <p>四間飛車VS穴熊（サンプル）</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            <button class="btn btn-primary TransitToBoard">盤面を編集</button>
+                            <button class="btn btn-primary TransitToScenario">シナリオ一覧</button>
+                            <button class="btn btn-danger pull-right">削除</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+    
 
-            <style>
-                #nav_items_right {
-                    margin-right: 7vw;
-                }
-                #nav_items_right.navbar-nav li{
-                    width: 5vw;
-                    text-align: center;
-                }
-                #nav_items_right li:hover {
-                    background-color: #ffc9d7;
-                }
-            </style>
+            <!-- プロジェクト一覧 ここまで-->
 
-            <!-- <script>
-                $("#new_project").click(function(){
-                    $("#myMoal").modal("show");
-                })
-            </script> -->
-        </nav>
+        </div>
 
-    </header>
+
+        <!-- モーダル -->
+
+        <!-- モーダル　新規プロジェクト作成 -->
+        <div class="modal fade" id="NewProjectModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                        <h4 class="modal-title">新規プロジェクト</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>タイトルを入力</label>
+                            <input class="form-control" name="title">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                        <button type="button" class="btn btn-primary" id="NewProjectModal_AddButton">作成</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- html要素のテンプレート -->
+
+    <!-- プロジェクト -->
+    <script type="text/html" id="project_template">
+
+        <div class="panel panel-info OneProject" id=<%= project_id %>>
+            <div class="panel-body">
+                <p><%= title %></p>
+            </div>
+            <div class="panel-footer">
+                <div>
+                    <button class="btn btn-primary TransitToBoard">盤面を編集</button>
+                    <button class="btn btn-primary TransitToScenario">シナリオ一覧</button>
+                    <button class="btn btn-danger pull-right">削除</button>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
 
     <script>
 
-        // 関数定義
-        function get_draw_projects(){
+        // ロードされた時
 
-            // 関数定義
-            function draw_projects(projects_info){
+        $(document).ready( function(){
+            USER_ID = get_id_from_url();
+            get_draw_projects();
+        });
 
-                // リフレッシュ
-                d3.select("#items").selectAll(".item").remove();
-
-                // 描画
-                var one_content = d3
-                .select("#items").selectAll(".item")
-                .data(projects_info)
-                .enter()
-                .append("div").attr("class", "col-sm-3 project_container item")
-                // .attr("data-toggle", "modal").attr("data-target", "#MoveModal")
-                .attr("data-project_id", function(data){
-                    return data["id"];
-                })
-                .attr("id", function(data){return data["id"];})
-                .append("div").attr("class", "project_content");
-
-                one_content
-                .append("div").attr("class", "project_image")
-                .append("img").attr("src", function(data){
-                    return data["thumb"];
-                });
-
-                one_content
-                .append("div").attr("class", "project_title")
-                .append("p").text(function(data){
-                    return data["title"];
-                });
-            }
-
-            // 最初にproject_idを取得（urlから）
+        // user_idを取得
+        function get_id_from_url(){
             let url = location.href;
             let url_split = url.split("/");
-            user_id = url_split[url_split.length-1];
-            user_id = parseInt(user_id, 10);
-            console.log("user_id : " + String(user_id));
+            let the_id = url_split[url_split.length-1];
+            the_id = parseInt(the_id, 10);
+            console.log("id : " + String(the_id));
+            return the_id
+        }
 
-            // プロジェクト一覧を取得
+        // プロジェクト一覧を取得
+        function get_draw_projects(){
             $.ajax({
                 type : "POST",
                 url : "/account/project/get",
-                data : JSON.stringify({"user_id" : user_id})
+                data : JSON.stringify({"user_id" : USER_ID})
             })
             .done(function(response){
                 if (response["code"] == 200){
-                    let projects_info = response["result"]["projects_info"];
+                    let projects = response["data"]["projects"];
                     console.log("receive response");
-                    console.log(projects_info);
-                    draw_projects(projects_info);
+                    console.log(projects);
+                    draw_projects(projects);
                 }
                 else {
                     window.alert(response["error_message"]);
                 };
             })
-        };
+        }
 
-        // ロードされた時
+        function draw_projects(projects){
+            for (info of projects){
+                let project_id = info["project_id"];
+                let title = info["title"];
+                var compiled = _.template($("#project_template").html());
+                $("#projects").append(
+                    compiled({
+                        "project_id" : project_id,
+                        "title" : title
+                    })
+                );
+            }
+        }
 
-        $(document).ready( function(){
-            WATCHING_PROJECT_ID = null;
-            get_draw_projects();
-        });
 
-        // プロジェクトをクリック
-        $(document).on("click", ".item", function(event){
-            WATCHING_PROJECT_ID = $(this).attr("id")
-            let modal = $("#MoveModal");
-            modal.modal('show');
+
+        // モーダルを開く
+        $(document).on("click", "#NewProjectModal_opener", function(){
+            $("#NewProjectModal").modal();
+        })
+
+
+        // 新規プロジェクト作成
+        $("#NewProjectModal_AddButton").on("click", function(){
+            let title = $("#NewProjectModal input[name='title']").val();
+            if ((title == "") || (title == null)){
+                window.alert("タイトルを入力してください");
+                exit();
+            }
+            console.log("title : " + title);
+            $.ajax({
+                type : "POST",
+                url : "/account/project/new",
+                data : JSON.stringify({"user_id" : USER_ID, "title" : title})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    console.log("success : make_new_project");
+                    // 描画し直す
+                    $("#projects").html("");
+                    get_draw_projects();
+                }
+                else {
+                    window.alert("failed");
+                    window.alert(response["error_message"]);
+                };
+            })
+        })
+
+        // 盤面を編集するページへ移動
+
+        $(document).on("click", ".TransitToBoard", function(){
+            let project_id = $(this).closest(".OneProject").attr("id");
+            window.location.href = "/board/" + String(project_id);
+        })
+
+        // シナリオ一覧ページへ移動
+
+        $(document).on("click", ".TransitToScenario", function(){
+            let project_id = $(this).closest(".OneProject").attr("id");
+            window.location.href = "/bot/scenarios/" + String(project_id);
         })
 
     </script>
-
-
-    <body>
-        
-        <!-- モーダル　新規プロジェクト作成 -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="myModalLabel">新規作成</h4>
-                </div>
-
-                <div class="modal-body">
-                    <p>プロジェクト名</p>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="title">
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="make_new">決定</button>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <script>
-            // 新規プロジェクト作成
-            $("#make_new").on("click", function(){
-                let title = $("input[name='title']").val();
-                console.log("title : " + title);
-                $.ajax({
-                    type : "POST",
-                    url : "/account/project/make",
-                    data : JSON.stringify({"user_id" : user_id, "title" : title})
-                })
-                .done(function(response){
-                    if (response["code"] == 200){
-                        console.log("success : make_new_project");
-                        get_draw_projects();
-                    }
-                    else {
-                        window.alert(response["error_message"]);
-                    };
-                })
-            })
-        </script>
-
-        <style>
-            .modal-dialog{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                min-height: 100%;
-                margin: auto;
-                pointer-events: none;
-            }
-            .modal-header {background-color: antiquewhite;}
-            .modal-content {pointer-events: all;}
-            .modal-footer button {background-color: cadetblue;}
-        </style>
-
-        <!-- プロジェクト一覧 -->
-        <div id="projects">
-            <div class="row" id="items">
-                <!-- <div class="col-sm-3 project_container item">
-                    <div class="project_content">
-                        <div class="project_image">
-                            <img src="http://www5b.biglobe.ne.jp/~goban/s1go6f/shogijuku1/1.jpg">
-                        </div>
-                        <div class="project_title">
-                            <p>四間飛車</p>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-        </div>
-
-
-
-        <!-- モーダル　盤面/シナリオへ移動 -->
-        <div class="modal fade" id="MoveModal" tabindex="-1" role="dialog" aria-labelledby="MoveModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="MoveModalLabel">移行</h4>
-                </div>
-
-                <div class="modal-body btn-toolbar">
-                    <div class="btn-group">
-                        <button class="btn btn-primary move_button">盤面を編集</button>
-                        <button class="btn btn-primary move_button">シナリオを編集</button>
-                    </div>
-                </div>
-
-            </div>
-            </div>
-        </div>
-
-        <script>
-            $(document).on("click", ".move_button", function(){
-                window.location.href = "/board/" + String(WATCHING_PROJECT_ID);
-            })
-        </script>
-
-
-
-        <style>
-            #projects {
-                margin-left: 7vw;
-                margin-right: 7vw;
-            }
-            .project_container{
-                margin: 1vh 0 1vh 0;
-                padding: 0 1vw;
-                height: 35vh;
-                /* border: black solid; */
-            }
-            .project_content {
-                text-align: center;
-                background-color: aliceblue;
-                padding: 0;
-                margin: 0;
-                height: 100%;
-                max-width: 100%;
-            }
-            .project_image{
-                height: 90%;
-                width: 100%;
-                /* background-color: bisque; */
-            }
-            .project_image img {
-                max-height: 100%;
-                max-width: 100%;
-                text-align: center;
-            }
-            .project_title{
-                height: 10%;
-                text-align: center;
-                padding: 1% 0 1% 0;
-                margin: 0;
-                background-color: darkgrey;
-            }
-
-        </style>
-
-    </body>
-</html>
+</body>

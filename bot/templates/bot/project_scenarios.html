@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <!-- boostrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+
+    <!-- グローバルナビゲーション -->
+
+    <nav class="navbar navbar-default">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#任意のID">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <!-- 左側 -->
+        <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+            <ul class="nav navbar-nav">
+                <li><a href="" class="glyphicon glyphicon-home">プロジェクト一覧</a></li>
+            </ul>
+            <p class="nav navbar-text">ここにプロジェクト名が入る　＜シナリオ一覧＞</p>
+        </div>
+
+        <!-- 右側 -->
+        <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
+            <button type="button" class="btn btn-default navbar-btn TransitToBoard">盤面を編集</button>
+        </div>
+
+        <style>
+            #nav_items_right {
+                margin-right: 7vw;
+            }
+            #nav_items_right.navbar-nav li{
+                width: 5vw;
+                text-align: center;
+            }
+            #nav_items_right li:hover {
+                background-color: #ffc9d7;
+            }
+        </style>
+
+    </nav>
+
+    <!-- グローバルナビゲーション ここまで-->
+
+</header>
+
+<body>
+
+    <div class="container-fluid">
+
+        <style>
+            .container-fluid {
+                margin: 10px 5vw;
+            }
+        </style>
+        
+        <div class="row">
+
+            <!-- 作業ボタン -->
+
+            <div class="col-xs-2" style="background: chartreuse">
+
+                <div class="">
+
+                    <div class="LeftButton btn btn-danger" id="NewScenarioModal_opener">
+                        新規シナリオ
+                    </div>
+
+                    <div class="LeftButton btn btn-primary">
+                        作成順に並び替え
+                    </div>
+
+                    <div class="LeftButton btn btn-primary">
+                        配信順に並び替え
+                    </div>
+
+                    <style>
+                        .LeftButton {
+                            display: inline-block;
+                            /* background-color: gray; */
+                            /* color: white; */
+                            height: 10vh;
+                            width: 90%;
+                            text-align: center;
+                            padding-top: 4vh;
+                            border: solid black 0.2px;
+                        }
+                    </style>
+
+                </div>
+            </div>
+
+            <!-- 作業ボタン ここまで-->
+
+
+            <!-- シナリオ一覧 -->
+
+            <div class="col-xs-9" style="background:chocolate; overflow-y: scroll; height:92vh;" id="scenarios">
+                
+                <!-- <div class="panel panel-info OneScenario" id="100">
+                    <div class="panel-body">
+                        <p>四間飛車の定石だよ</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="pull-left">
+                            <button class="btn btn-primary TransitToEditor">編集</button>
+                            <button class="btn btn-danger">削除</button>
+                        </div>
+                        <div class="text-right">
+                            <p>次回配信 : 2018/2/40</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel panel-info OneScenario" id="400">
+                    <div class="panel-body">
+                        <p>四間飛車の定石だよ</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="pull-left">
+                            <button class="btn btn-primary TransitToEditor">編集</button>
+                            <button class="btn btn-danger">削除</button>
+                        </div>
+                        <div class="text-right">
+                            <p>次回配信 : 2018/2/40</p>
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
+    
+
+            <!-- シナリオ一覧 ここまで-->
+
+        </div>
+    </div>
+
+
+    <!-- モーダル -->
+
+    <!-- モーダル　新規シナリオ作成 -->
+    <div class="modal fade" id="NewScenarioModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">新規シナリオ</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>タイトルを入力</label>
+                        <input class="form-control" name="title">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-primary" id="NewScenarioModal_AddButton">作成</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- html要素のテンプレート -->
+    <script type="text/html" id="scenario_template">
+
+        <div class="panel panel-info OneScenario" id=<%= scenario_id %>>
+            <div class="panel-body">
+                <p><%= title %></p>
+            </div>
+            <div class="panel-footer">
+                <div class="pull-left">
+                    <button class="btn btn-primary TransitToEditor">編集</button>
+                    <button class="btn btn-danger">削除</button>
+                </div>
+                <div class="text-right">
+                    <p>次回配信 : 2018/2/40</p>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+    <script>
+
+        // ロードされた時の処理
+
+        $(document).ready( function(){
+            
+            PROJECT_ID = get_id_from_url();
+            get_draw_scenarios();
+
+            // テスト
+            sample_scenarios = [
+                {"scenario_id" : 100, "title" : "シナリオ１"},
+                {"scenario_id" : 300, "title" : "シナリオ２"}
+            ];
+        });
+
+        // scenario_idを取得
+        function get_id_from_url(){
+            let url = location.href;
+            let url_split = url.split("/");
+            let the_id = url_split[url_split.length-1];
+            the_id = parseInt(the_id, 10);
+            console.log("id : " + String(the_id));
+            return the_id
+        }
+
+        // シナリオ情報を取得
+        function get_draw_scenarios(){
+            $.ajax({
+                type : "POST",
+                url : "/bot/scenario/get",
+                data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let data = response["data"];
+                    let scenarios = data["scenarios"];
+                    draw_scenarios(scenarios);
+                }
+                else {
+                    window.alert("failed get_scenarios");
+                    // window.alert(response["error_message"]);
+                };
+            })
+        }
+
+        function draw_scenarios(scenarios){
+
+            $("#scenarios").html("");
+            var compiled = _.template($("#scenario_template").html());
+            for (info of scenarios){
+                let scenario_id = info["scenario_id"];
+                let title = info["title"];
+                // let thumb_path = info["thumb_path"];
+                $("#scenarios").append(
+                    compiled({
+                        "scenario_id" : scenario_id,
+                        "title" : title
+                    })
+                );
+            }
+        }
+
+
+         // モーダルを開く
+
+        //  新規シナリオモーダル
+         $(document).on("click", "#NewScenarioModal_opener", function(){
+            $("#NewScenarioModal").modal();
+        })
+
+
+        // 新規シナリオ作成
+        $("#NewScenarioModal_AddButton").on("click", function(){
+            let title = $("#NewScenarioModal input[name='title']").val();
+            if ((title == "") || (title == null)){
+                window.alert("タイトルを入力してください");
+                exit();
+            }
+            console.log("title : " + title);
+            
+            $.ajax({
+                type : "POST",
+                url : "/bot/scenario/new",
+                data : JSON.stringify({"project_id" : PROJECT_ID, "title" : title})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    console.log("success : make_new_scenario");
+                    // 描画し直す
+                    get_draw_scenarios();
+                }
+                else {
+                    window.alert("failed");
+                    window.alert(response["error_message"]);
+                };
+            })
+        })
+
+
+        // シナリオ編集ページへ移動
+
+        $(document).on("click", ".TransitToEditor", function(){
+            let scenario_id = $(this).closest(".OneScenario").attr("id");
+            window.location.href = "/bot/scenario_editor/" + String(scenario_id);
+        })
+
+        // 盤面を編集するページへ移動
+
+        $(document).on("click", ".TransitToBoard", function(){
+            window.location.href = "/board/" + String(PROJECT_ID);
+        })
+        
+    </script>
+</body>
+
+</html>

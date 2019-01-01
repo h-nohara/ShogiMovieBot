@@ -1,0 +1,291 @@
+<html>
+    <header>
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <!-- boostrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <!-- d3 -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+
+
+        <!-- グローバルナビゲーション -->
+        <nav class="navbar navbar-default">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#任意のID">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- 左側 -->
+            <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+                <p class="nav navbar-text">プロジェクト一覧</p>
+            </div>
+
+            <!-- 右側 -->
+            <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    <li><a href="">並び替え</a></li>
+                    <li><a href="">削除</a></li>
+                    <li id="login">
+                        <a href="" data-toggle="modal" data-target="#myModal">新規作成</a>
+                    </li>
+                </ul>
+            </div>
+
+            <style>
+                #nav_items_right {
+                    margin-right: 7vw;
+                }
+                #nav_items_right.navbar-nav li{
+                    width: 5vw;
+                    text-align: center;
+                }
+                #nav_items_right li:hover {
+                    background-color: #ffc9d7;
+                }
+            </style>
+
+            <!-- <script>
+                $("#new_project").click(function(){
+                    $("#myMoal").modal("show");
+                })
+            </script> -->
+        </nav>
+
+    </header>
+
+    <script>
+
+        // 関数定義
+        function get_draw_projects(){
+
+            // 関数定義
+            function draw_projects(projects_info){
+
+                // リフレッシュ
+                d3.select("#items").selectAll(".item").remove();
+
+                // 描画
+                var one_content = d3
+                .select("#items").selectAll(".item")
+                .data(projects_info)
+                .enter()
+                .append("div").attr("class", "col-sm-3 project_container item")
+                // .attr("data-toggle", "modal").attr("data-target", "#MoveModal")
+                .attr("data-project_id", function(data){
+                    return data["id"];
+                })
+                .attr("id", function(data){return data["id"];})
+                .append("div").attr("class", "project_content");
+
+                one_content
+                .append("div").attr("class", "project_image")
+                .append("img").attr("src", function(data){
+                    return data["thumb"];
+                });
+
+                one_content
+                .append("div").attr("class", "project_title")
+                .append("p").text(function(data){
+                    return data["title"];
+                });
+            }
+
+            // 最初にproject_idを取得（urlから）
+            let url = location.href;
+            let url_split = url.split("/");
+            user_id = url_split[url_split.length-1];
+            user_id = parseInt(user_id, 10);
+            console.log("user_id : " + String(user_id));
+
+            // プロジェクト一覧を取得
+            $.ajax({
+                type : "POST",
+                url : "/account/project/get",
+                data : JSON.stringify({"user_id" : user_id})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let projects_info = response["result"]["projects_info"];
+                    console.log("receive response");
+                    console.log(projects_info);
+                    draw_projects(projects_info);
+                }
+                else {
+                    window.alert(response["error_message"]);
+                };
+            })
+        };
+
+        // ロードされた時
+
+        $(document).ready( function(){
+            WATCHING_PROJECT_ID = null;
+            get_draw_projects();
+        });
+
+        // プロジェクトをクリック
+        $(document).on("click", ".item", function(event){
+            WATCHING_PROJECT_ID = $(this).attr("id")
+            let modal = $("#MoveModal");
+            modal.modal('show');
+        })
+
+    </script>
+
+
+    <body>
+        
+        <!-- モーダル　新規プロジェクト作成 -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="myModalLabel">新規作成</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>プロジェクト名</p>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="title">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="make_new">決定</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <script>
+            // 新規プロジェクト作成
+            $("#make_new").on("click", function(){
+                let title = $("input[name='title']").val();
+                console.log("title : " + title);
+                $.ajax({
+                    type : "POST",
+                    url : "/account/project/make",
+                    data : JSON.stringify({"user_id" : user_id, "title" : title})
+                })
+                .done(function(response){
+                    if (response["code"] == 200){
+                        console.log("success : make_new_project");
+                        get_draw_projects();
+                    }
+                    else {
+                        window.alert(response["error_message"]);
+                    };
+                })
+            })
+        </script>
+
+        <style>
+            .modal-dialog{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                min-height: 100%;
+                margin: auto;
+                pointer-events: none;
+            }
+            .modal-header {background-color: antiquewhite;}
+            .modal-content {pointer-events: all;}
+            .modal-footer button {background-color: cadetblue;}
+        </style>
+
+        <!-- プロジェクト一覧 -->
+        <div id="projects">
+            <div class="row" id="items">
+                <!-- <div class="col-sm-3 project_container item">
+                    <div class="project_content">
+                        <div class="project_image">
+                            <img src="http://www5b.biglobe.ne.jp/~goban/s1go6f/shogijuku1/1.jpg">
+                        </div>
+                        <div class="project_title">
+                            <p>四間飛車</p>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+
+
+        <!-- モーダル　盤面/シナリオへ移動 -->
+        <div class="modal fade" id="MoveModal" tabindex="-1" role="dialog" aria-labelledby="MoveModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="MoveModalLabel">移行</h4>
+                </div>
+
+                <div class="modal-body btn-toolbar">
+                    <div class="btn-group">
+                        <button class="btn btn-primary move_button">盤面を編集</button>
+                        <button class="btn btn-primary move_button">シナリオを編集</button>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).on("click", ".move_button", function(){
+                window.location.href = "/board/" + String(WATCHING_PROJECT_ID);
+            })
+        </script>
+
+
+
+        <style>
+            #projects {
+                margin-left: 7vw;
+                margin-right: 7vw;
+            }
+            .project_container{
+                margin: 1vh 0 1vh 0;
+                padding: 0 1vw;
+                height: 35vh;
+                /* border: black solid; */
+            }
+            .project_content {
+                text-align: center;
+                background-color: aliceblue;
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                max-width: 100%;
+            }
+            .project_image{
+                height: 90%;
+                width: 100%;
+                /* background-color: bisque; */
+            }
+            .project_image img {
+                max-height: 100%;
+                max-width: 100%;
+                text-align: center;
+            }
+            .project_title{
+                height: 10%;
+                text-align: center;
+                padding: 1% 0 1% 0;
+                margin: 0;
+                background-color: darkgrey;
+            }
+
+        </style>
+
+    </body>
+</html>

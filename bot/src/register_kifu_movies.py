@@ -34,4 +34,4 @@ if __name__ == "__main__":
 
     dirname = os.path.join(BASE_DIR, "bot/static/kifu_movies/四間飛車_packed_up")
     register_kifu_movies(dirname)
-    pritn("all finished")
+    print("all finished")
