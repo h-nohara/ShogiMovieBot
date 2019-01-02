@@ -10,6 +10,7 @@ from bot.src.callback import callback
 from bot.src.get_scenarios import get_scenarios_request
 from bot.src.get_scenario_info import get_scenario_info_request
 from bot.src.make_new_scenario import make_new_scenario_request
+from bot.src.delete_scenario import delete_scenario_request
 from bot.src.get_movies_from_ScenarioId import get_movies_from_ScenarioId_request
 from bot.src.update_messages import update_messages_request
 from bot.src.transit import ScenarioEditor_to_ProjectScenarios_page, ScenarioEditor_to_Projects_page, Scenarios_to_Projects_page
@@ -42,6 +43,7 @@ urlpatterns = [
     url(r"^scenario/get$", get_scenarios_request, name="get_scenarios"),  # シナリオ一覧
     url(r"^scenario/get_info$", get_scenario_info_request, name="get_scenario_info"),  # シナリオのタイトル等の情報と、メッセージ一覧
     url(r"^scenario/new$", make_new_scenario_request, name="make_new_scenario"),
+    url(r"^scenario/delete$", delete_scenario_request, name="delete_scenario"),
     url(r"^scenario/movies$", get_movies_from_ScenarioId_request, name="get_movies_from_ScenarioId"),
     url(r"^scenario/update_messages$", update_messages_request, name="update_messages"),
     url(r"^scenario/distribute_now$", distribute_now_request, name="distribute_now"),

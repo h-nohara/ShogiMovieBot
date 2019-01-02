@@ -36,3 +36,5 @@ def delete_scenario(scenario_id):
 
     for record_Message in record_list_Message:
         record_Message.delete()
+
+    record_Scenario.delete()

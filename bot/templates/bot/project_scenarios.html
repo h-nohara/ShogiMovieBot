@@ -185,7 +185,7 @@
             <div class="panel-footer">
                 <div class="pull-left">
                     <button class="btn btn-primary TransitToEditor">編集</button>
-                    <button class="btn btn-danger">削除</button>
+                    <button class="btn btn-danger DeleteScenarioButton">削除</button>
                 </div>
                 <div class="text-right">
                     <p>次回配信 : 2018/2/40</p>
@@ -197,21 +197,27 @@
 
     <script>
 
+        // テスト描画関数
+        function draw_samples(){
+            sample_scenarios = [
+                {"scenario_id" : 100, "title" : "シナリオ１"},
+                {"scenario_id" : 300, "title" : "シナリオ２"}
+            ];
+            draw_scenarios(sample_scenarios);
+        }
+
         // ロードされた時の処理
 
         $(document).ready( function(){
             
+            WATCHING_SCENARIO_NUMBER = null;
+            SCENARIOS = null;
             PROJECT_ID = get_id_from_url();
             get_draw_scenarios();
 
-            // テスト
-            // sample_scenarios = [
-            //     {"scenario_id" : 100, "title" : "シナリオ１"},
-            //     {"scenario_id" : 300, "title" : "シナリオ２"}
-            // ];
         });
 
-        // scenario_idを取得
+        // project_idを取得
         function get_id_from_url(){
             let url = location.href;
             let url_split = url.split("/");
@@ -232,6 +238,7 @@
                 if (response["code"] == 200){
                     let data = response["data"];
                     let scenarios = data["scenarios"];
+                    SCENARIOS = scenarios;
                     draw_scenarios(scenarios);
                 }
                 else {
@@ -292,6 +299,30 @@
                     window.alert(response["error_message"]);
                 };
             })
+        })
+
+        // シナリオ削除
+        $(document).on("click", ".DeleteScenarioButton", function(){
+            WATCHING_SCENARIO_NUMBER = $(".DeleteScenarioButton").index(this);
+            if (window.confirm("削除します（元に戻せません）")){
+                let scenario_id = SCENARIOS[WATCHING_SCENARIO_NUMBER]["scenario_id"];
+                $.ajax({
+                    type : "POST",
+                    url : "/bot/scenario/delete",
+                    data : JSON.stringify({"scenario_id" : scenario_id})
+                })
+                .done(function(response){
+                    if (response["code"] == 200){
+                        window.alert("削除しました");
+                        // 描画し直す
+                        get_draw_scenarios();
+                    }
+                    else {
+                        window.alert("failed");
+                        // window.alert(response["error_message"]);
+                    };
+                })
+            }
         })
 
 
