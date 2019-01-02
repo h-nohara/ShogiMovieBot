@@ -71,7 +71,7 @@
 
             <!-- 作業ボタン -->
 
-            <div class="col-xs-2" style="background: chartreuse">
+            <div class="col-xs-2">
 
                 <div class="">
 
@@ -108,7 +108,7 @@
 
             <!-- シナリオ一覧 -->
 
-            <div class="col-xs-9" style="background:chocolate; overflow-y: scroll; height:92vh;" id="scenarios">
+            <div class="col-xs-9" style="overflow-y: scroll; height:92vh;" id="scenarios">
                 
                 <!-- <div class="panel panel-info OneScenario" id="100">
                     <div class="panel-body">
@@ -293,10 +293,13 @@
                     console.log("success : make_new_scenario");
                     // 描画し直す
                     get_draw_scenarios();
+
+                    $("#NewScenarioModal").modal("hide");
                 }
                 else {
                     window.alert("failed");
-                    window.alert(response["error_message"]);
+                    // window.alert(response["error_message"]);
+                    $("#NewScenarioModal").modal("hide");
                 };
             })
         })
