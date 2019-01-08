@@ -20,7 +20,7 @@ def copy_initial_pickle_local(path_local):
     shutil.copyfile(INITIAL_PICKLE, path_local)
 
 
-def make_new_project(record_User, title):
+def create_new_project(record_User, title):
 
     username = record_User.username
     n_project = len(get_projects(record_User))
@@ -39,11 +39,11 @@ def make_new_project(record_User, title):
 
     record_Project.save()
 
-    print("success : make new project")
+    print("success : create new project")
 
 
 @csrf_exempt
-def make_new_project_request(request):
+def create_new_project_request(request):
 
     data = json.loads(request.body.decode("utf-8"))
     user_id = data["user_id"]
@@ -52,6 +52,6 @@ def make_new_project_request(request):
 
     record_User = User.objects.get(id=user_id)
 
-    make_new_project(record_User, title)
+    create_new_project(record_User, title)
 
     return JsonResponse({"code" : 200})

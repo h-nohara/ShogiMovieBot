@@ -10,7 +10,7 @@ from accounts.models.user import User
 
 
 @csrf_exempt
-def make_new_account(request):
+def create_new_account(request):
 
     data = json.loads(request.body.decode("utf-8"))
     username = data["username"]
