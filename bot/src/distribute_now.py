@@ -42,7 +42,7 @@ def distribute(scenario_id, user_id):
     line_id = record_User.line_id
 
     # テスト
-    line_id = nohara_first_id
+    # line_id = nohara_first_id
 
     record_list_Message = Message.objects.filter(scenario=record_Scenario)
 
