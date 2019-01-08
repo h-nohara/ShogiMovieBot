@@ -7,9 +7,10 @@ from .views import project_scenarios_page, scenario_editor_page
 
 # api
 from bot.src.callback import callback
+from bot.src.create_new_account import create_new_account_request
 from bot.src.get_scenarios import get_scenarios_request
 from bot.src.get_scenario_info import get_scenario_info_request
-from bot.src.make_new_scenario import make_new_scenario_request
+from bot.src.create_new_scenario import create_new_scenario_request
 from bot.src.delete_scenario import delete_scenario_request
 from bot.src.get_movies_from_ScenarioId import get_movies_from_ScenarioId_request
 from bot.src.update_messages import update_messages_request
@@ -27,6 +28,7 @@ urlpatterns = [
 
     # ラインからのコールバック
     url(r"^callback$", callback, name="callback"),
+    url(r"^callback/new_account$", create_new_account_request, name="callback_new_account"),
 
     # シナリオ一覧ページ
     url(r"^scenarios/[-a-z0-9_]+$", project_scenarios_page, name="project_scenarios_page"),
@@ -42,7 +44,7 @@ urlpatterns = [
     # シナリオ
     url(r"^scenario/get$", get_scenarios_request, name="get_scenarios"),  # シナリオ一覧
     url(r"^scenario/get_info$", get_scenario_info_request, name="get_scenario_info"),  # シナリオのタイトル等の情報と、メッセージ一覧
-    url(r"^scenario/new$", make_new_scenario_request, name="make_new_scenario"),
+    url(r"^scenario/new$", create_new_scenario_request, name="create_new_scenario"),
     url(r"^scenario/delete$", delete_scenario_request, name="delete_scenario"),
     url(r"^scenario/movies$", get_movies_from_ScenarioId_request, name="get_movies_from_ScenarioId"),
     url(r"^scenario/update_messages$", update_messages_request, name="update_messages"),

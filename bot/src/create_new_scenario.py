@@ -15,7 +15,7 @@ from accounts.src.utils.generate_fname import generate_basename
 
 
 @csrf_exempt
-def make_new_scenario_request(request):
+def create_new_scenario_request(request):
 
     print(request.POST)
     data = json.loads(request.body.decode("utf-8"))
