@@ -64,8 +64,12 @@ function update_d3(dataset){
 
         History.watching_action["is_watching"] = false;
 
-        window.alert($(History.watching_dom).text());
-        $(History.watching_dom).css("background-color", "sandybrown");
+        if ($(History.watching_dom).text() == "branch"){
+            $(History.watching_dom).css("background-color", "sandybrown");
+        }
+        else{
+            $(History.watching_dom).css("background-color", "white");
+        }
 
         History.watching_action = action;
         History.watching_dom = this;
