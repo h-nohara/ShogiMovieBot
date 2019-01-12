@@ -63,8 +63,9 @@ function update_d3(dataset){
         // クリックされているボタンと背景色を更新
 
         History.watching_action["is_watching"] = false;
-        window.alert(History.watching_action.text());
-        $(History.watching_dom).css("background-color", "white");
+        if (Object.keys(action).indexOf("scenarios") < 0){
+            $(History.watching_dom).css("background-color", "white");
+        }
 
         History.watching_action = action;
         History.watching_dom = this;
