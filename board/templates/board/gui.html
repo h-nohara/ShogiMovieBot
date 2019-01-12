@@ -44,9 +44,9 @@
             <!-- 右側 -->
             <div id="nav_items_right" class="collapse navbar-collapse navbar-right" style="margin-right: 5vw;">
                 <span class="btn btn-default navbar-btn" id="">シナリオを編集</span>
-                <span class="btn btn-info navbar-btn" id="">生成した動画の一覧</span>
-                <span class="btn btn-danger navbar-btn" id="">動画を生成</span>
-                <span class="btn btn-primary navbar-btn" id="">保存</span>
+                <span class="btn btn-info navbar-btn" id="show_movies_button">生成した動画の一覧</span>
+                <span class="btn btn-danger navbar-btn" id="generate">動画を生成</span>
+                <span class="btn btn-primary navbar-btn" id="save">保存する</span>
             </div>
         </nav>
 
@@ -297,14 +297,15 @@
                 <button id="add_FlyTo">Fly To</button>
             </div> -->
 
-            <div id="save_make">
+            <!-- <div id="save_make">
                 <div><button id="save">保存</button></div>
                 <div><button id="generate">動画生成</button></div>
-            </div>
+            </div> -->
 
-            <div id="show_movies">
-                <div><button id="show_movies_button">動画一覧</button></div>
-                <script>
+            <!-- <div id="show_movies"> -->
+                <!-- <div><button id="show_movies_button">動画一覧</button></div> -->
+
+            <script>
                 // 作成済みの動画一覧
                 $(document).on("click", "#show_movies_button", function(event){
                     
@@ -337,8 +338,8 @@
                     });
 
                 })
-                </script>
-            </div>
+            </script>
+            <!-- </div> -->
 
             <!-- モーダル　作成済み動画一覧 -->
             <div class="modal fade" id="ShowMoviesModal" tabindex="-1" role="dialog" aria-labelledby="ShowMoviesModalLabel" aria-hidden="true">
@@ -599,7 +600,7 @@
 
             /* ========================= */
 
-            #save_make {
+            /* #save_make {
                 margin: 0;
                 padding: 0;
                 width: 100%;
@@ -624,7 +625,7 @@
                 background-color: red;
                 height: 100%;
                 width: 100%;
-            }
+            } */
 
 
         </style>
