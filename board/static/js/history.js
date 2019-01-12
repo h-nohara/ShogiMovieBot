@@ -41,12 +41,12 @@ function update_d3(dataset){
     .style("background-color", function(action){
 
         if (Object.keys(action).indexOf("scenarios") >= 0){
-            return "red";
+            return "sandybrown";
         }
         else if(Object.keys(action).indexOf("is_watching") >= 0){
             if (action["is_watching"] === true){
                 History.watching_dom = this;
-                return "blue";
+                return "cornflowerblue";
             }
             else{
                 return "white";
@@ -67,7 +67,7 @@ function update_d3(dataset){
 
         History.watching_action = action;
         History.watching_dom = this;
-        $(this).css("background-color", "blue");
+        $(this).css("background-color", "cornflowerblue");
 
 
         // シナリオ分岐ボタンを押したら
