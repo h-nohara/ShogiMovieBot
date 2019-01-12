@@ -73,6 +73,8 @@ function update_d3(dataset){
         // シナリオ分岐ボタンを押したら
         if (Object.keys(action).indexOf("scenarios") >= 0){
 
+            $(this).css("background-color", "sandybrown");
+
             d3.select("#sub_scenarios")
             .selectAll(".sub_sc")
             .data(action["scenarios"])
