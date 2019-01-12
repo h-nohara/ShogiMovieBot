@@ -375,7 +375,7 @@ function show_effects(reset_color=true){
 
     else if (Object.keys(watching_action).indexOf("move") >= 0){
         let loc = watching_action["move"][2] + watching_action["move"][3];
-        $("#" + loc).css("background-color", "brown");
+        $("#" + loc).css("background-color", "indianred");
     }
 }
 
