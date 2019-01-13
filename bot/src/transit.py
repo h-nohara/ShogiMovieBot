@@ -67,3 +67,17 @@ def Scenarios_to_Projects_page(request):
     the_url = "/account/home/{}".format(user_id)
     
     return JsonResponse({"code" : 200, "data" : {"url" : the_url}})
+
+
+# 盤面の編集ページからの移動
+
+@csrf_exempt
+def Board_to_ProjectScenarios_page(request):
+    
+    data = json.loads(request.body.decode("utf-8"))
+    project_id = data["project_id"]
+    project_id = int(project_id)
+
+    the_url = "/bot/scenarios/{}".format(project_id)
+    
+    return JsonResponse({"code" : 200, "data" : {"url" : the_url}})

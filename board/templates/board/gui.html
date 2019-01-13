@@ -43,7 +43,7 @@
 
             <!-- 右側 -->
             <div id="nav_items_right" class="collapse navbar-collapse navbar-right" style="margin-right: 5vw;">
-                <span class="btn btn-default navbar-btn" id="">シナリオを編集</span>
+                <span class="btn btn-default navbar-btn" id="ToScenarios_page">シナリオ一覧</span>
                 <span class="btn btn-info navbar-btn" id="show_movies_button">生成した動画の一覧</span>
                 <span class="btn btn-danger navbar-btn" id="generate">動画を生成</span>
                 <span class="btn btn-primary navbar-btn" id="save">保存する</span>
@@ -51,69 +51,6 @@
         </nav>
 
     </header>
-
-
-    <script>
-        // project_idを取得
-        function get_project_id(){
-            let url = location.href;
-            let url_split = url.split("/");
-            var project_id = url_split[url_split.length-1];
-            var project_id = parseInt(project_id, 10);
-            return project_id;
-        }
-
-        // pickleをロードする
-        function load_history(){
-
-            // project_idをurlから取得
-            project_id = get_project_id();
-
-            // historyを受け取る
-            $.ajax({
-                type : "POST",
-                url : "/board/load_pickle",
-                data : JSON.stringify({"project_id" : project_id})
-            })
-            .done(function(result){
-                if (result["code"] == 400){
-                    window.alert("pickleの読み込みに失敗しました");
-                }
-                else{
-                    History.history = result["result"]["history"];
-                    set_parent(History.history);  // parentを各アクションに設定
-
-                    // history_viewを最新に
-                    History.watching_action = History.history[0];
-                    History.watching_action["is_watching"] = true;
-                    History.update_view();
-
-                    // boardを最新に
-                    // SBoard.Board = History.watching_action["board_state"];
-                    SBoard.draw_main_board();
-                };
-
-            })
-            .fail(function(jqXHR, textStatus, errorThrown){
-                window.alert("failed load");
-            });
-        }
-    </script>
-
-    <script>
-
-        // ロードされた時
-        window.onload = function(){
-            SBoard = new ShogiBoard();
-            History = new HistoryHandler();
-
-            // 保存されている盤面を描画
-            load_history();
-
-            timer1 = setInterval(open_or_close_sub_sc, 100);
-        }
-
-    </script>
 
 
 
@@ -131,7 +68,7 @@
 
     <div id="main">
 
-
+        <!-- 将棋盤 -->
 
         <div id="main_sub_board">
             <div id="sub_board_gote" class="sub_board">
@@ -197,10 +134,9 @@
         </style>
 
 
+        <!-- ヒストリー -->
+
         <div id="history_scroll">
-            <!-- <template v-for="action in action_history">
-                <OneAction-component></OneAction-component>
-            </template> -->
         </div>
 
         <style>
@@ -225,13 +161,6 @@
 
 
         <div id="Right">
-
-            <!-- <div id="AddDelAction">
-                <div><button id="AddAction">追加</button></div>
-                <div><button id="AddActionBefore">手前に<br>追加</button></div>
-                <div><button id="UpdateAction">更新</button></div>
-                <div><button id="DelAction">削除</button></div>
-            </div> -->
 
 
             <div><h3>メッセージの追加/削除</h3></div>
@@ -297,49 +226,6 @@
                 <button id="add_FlyTo">Fly To</button>
             </div> -->
 
-            <!-- <div id="save_make">
-                <div><button id="save">保存</button></div>
-                <div><button id="generate">動画生成</button></div>
-            </div> -->
-
-            <!-- <div id="show_movies"> -->
-                <!-- <div><button id="show_movies_button">動画一覧</button></div> -->
-
-            <script>
-                // 作成済みの動画一覧
-                $(document).on("click", "#show_movies_button", function(event){
-                    
-                    $.ajax({
-                        type : "POST",
-                        url : "/board/movie/get",
-                        data : JSON.stringify({"project_id" : project_id})
-                    })
-                    .done(function(result){
-                        if (result["code"] == 400){
-                            window.alert("動画読み込み：失敗しました");
-                        }
-                        // ajax成功した時
-                        else{
-                            console.log(result);
-                            let modal = $("#ShowMoviesModal");
-                            let str_innnerHTML = "<p>生成された動画一覧</p>";
-                            let paths = result["result"]["paths"];  // 動画のpath一覧
-                            str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[paths.length-1] + "'" + ">結合された動画" + "</a></div>";
-                            for (var i=0; i<paths.length-1; i++){
-                                str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[i] + "'" + ">動画" + String(i+1) + "</a></div>";
-                            }
-                            $("#movie_urls").html(str_innnerHTML);
-                            modal.modal("show");
-                        };
-
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown){
-                        window.alert("動画取得：失敗");
-                    });
-
-                })
-            </script>
-            <!-- </div> -->
 
             <!-- モーダル　作成済み動画一覧 -->
             <div class="modal fade" id="ShowMoviesModal" tabindex="-1" role="dialog" aria-labelledby="ShowMoviesModalLabel" aria-hidden="true">
@@ -376,76 +262,6 @@
             <div id="sample_sub_scenarios"></div>
 
 
-            <!-- <style>
-            #generate {width: 50%; height: 5vh;}
-            #save {width: 50%; height: 5vh;}
-            </style> -->
-
-            <!-- pickleを保存 -->
-            <script>
-                function save_pickle(){
-                    project_id = get_project_id();
-
-                    // history
-                    let new_history = [];
-                    let history_copy = copy_history_without_parent(History.history, new_history);
-
-                    // コピーした時にオリジナルhistoryのparentが削除されてしまったので、再設定
-                    set_parent(History.history);
-
-                    $.ajax({
-                        type : "POST",
-                        url : "/board/save_pickle",
-                        data : JSON.stringify({"project_id" : project_id, "history" : history_copy})
-                    })
-                    .done(function(result){
-                        if (result["code"] == 400){
-                            window.alert("pickleの読み込みに失敗しました");
-                        }
-                        else{
-                            window.alert("保存しました");
-                        };
-
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown){
-                        window.alert("failed load");
-                    });
-                }
-
-                $(document).on("click", "#save", function(){
-                    save_pickle();
-                })
-            </script>
-
-            <!-- 動画を生成 -->
-            <script>
-                function generate(){
-                    project_id = get_project_id();
-
-                    $.ajax({
-                        type : "POST",
-                        url : "/board/movie/generate",
-                        data : JSON.stringify({"project_id" : project_id})
-                    })
-                    .done(function(result){
-                        if (result["code"] == 400){
-                            window.alert("動画の生成に失敗しました");
-                        }
-                        else{
-                            window.alert("動画を生成しました");
-                        };
-
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown){
-                        window.alert("送信エラー");
-                    });
-                }
-
-                $(document).on("click", "#generate", function(){
-                    generate();
-                })
-            </script>
-
         </div>
 
 
@@ -481,64 +297,9 @@
 
 
 
-        <style>
-            #Right {
-                /* background-color: darkkhaki;
-
-                display: grid;
-                grid-gap: 0;
-                grid-template-rows: repeat(6, 15vh); */
-
-                /* grid-template-rows: 15vh, 15vh, 15vh, 15vh, 5vh, 3vh; */
-            }
-        </style>
+        
 
         <style>
-            /* #AddDelAction {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                height: 100%;
-
-                display: grid;
-                grid-gap: 0;
-                grid-template-columns: 30% 20% 30% 20%;
-            }
-
-            #AddAction{
-                margin: 0;
-                padding: 0;
-                background-color: red;
-                height: 100%;
-                width: 100%;
-            }
-
-            #AddActionBefore{
-                margin: 0;
-                padding: 0;
-                background-color: lightcoral;
-                height: 100%;
-                width: 100%;
-            }
-
-            #UpdateAction{
-                margin: 0;
-                padding: 0;
-                background-color: orange;
-                height: 100%;
-                width: 100%;
-            }
-
-            #DelAction{
-                margin: 0;
-                padding: 0;
-                background-color: blue;
-                height: 100%;
-                width: 100%;
-            } */
-
-
-            /* ============================ */
 
             .action_kind {
                 margin: 0;
@@ -595,42 +356,7 @@
                 width: 100%; height: 70%;
             }
 
-
-
-            /* ========================= */
-
-            /* #save_make {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                height: 100%;
-
-                display: grid;
-                grid-gap: 0;
-                grid-template-columns: 50% 50%;
-            }
-
-            #save{
-                margin: 0;
-                padding: 0;
-                background-color: orange;
-                height: 100%;
-                width: 100%;
-            }
-
-            #generate{
-                margin: 0;
-                padding: 0;
-                background-color: red;
-                height: 100%;
-                width: 100%;
-            } */
-
-
         </style>
-
-
-
 
 
 
@@ -662,16 +388,6 @@
             visibility:visible;
         }
         
-        /* button{
-            display:inline-block;
-            vertical-align:middle;
-            border-radius:30px;
-            margin:.20rem;
-            font-size: 1rem;
-            color:#666666;
-            background:	#ffffff;
-            border:1px solid #666666;
-        } */
 
         </style>
 
@@ -687,6 +403,207 @@
         </script>
 
     </div>
+
+
+
+    <script>
+
+        // ロードされた時
+
+        window.onload = function(){
+
+            PROJECT_ID = get_project_id();
+
+            SBoard = new ShogiBoard();
+            History = new HistoryHandler();
+
+            // 保存されている盤面を描画
+            load_history();
+
+            timer1 = setInterval(open_or_close_sub_sc, 100);
+        }
+
+        // project_idを取得
+        function get_project_id(){
+            let url = location.href;
+            let url_split = url.split("/");
+            var project_id = url_split[url_split.length-1];
+            var project_id = parseInt(project_id, 10);
+            return project_id;
+        }
+
+        // 棋譜シナリオを取得する
+        function load_history(){
+
+            $.ajax({
+                type : "POST",
+                url : "/board/load_pickle",
+                data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
+            .done(function(result){
+                if (result["code"] == 400){
+                    window.alert("pickleの読み込みに失敗しました");
+                }
+                else{
+                    History.history = result["result"]["history"];
+                    set_parent(History.history);  // parentを各アクションに設定
+
+                    // history_viewを最新に
+                    History.watching_action = History.history[0];
+                    History.watching_action["is_watching"] = true;
+                    History.update_view();
+
+                    // boardを最新に
+                    // SBoard.Board = History.watching_action["board_state"];
+                    SBoard.draw_main_board();
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("failed load");
+            });
+        }
+
+
+        // 棋譜シナリオを保存する
+
+        $(document).on("click", "#save", function(){
+            save_pickle();
+        })
+
+        function save_pickle(){
+
+            // history
+            let new_history = [];
+            let history_copy = copy_history_without_parent(History.history, new_history);
+
+            // コピーした時にオリジナルhistoryのparentが削除されてしまったので、再設定
+            set_parent(History.history);
+
+            $.ajax({
+                type : "POST",
+                url : "/board/save_pickle",
+                data : JSON.stringify({"project_id" : PROJECT_ID, "history" : history_copy})
+            })
+            .done(function(result){
+                if (result["code"] == 400){
+                    window.alert("pickleの読み込みに失敗しました");
+                }
+                else{
+                    window.alert("保存しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("failed load");
+            });
+        }
+
+
+        // 動画を生成する
+
+        $(document).on("click", "#generate", function(){
+            generate();
+        })
+
+        function generate(){
+
+            $.ajax({
+                type : "POST",
+                url : "/board/movie/generate",
+                data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
+            .done(function(result){
+                if (result["code"] == 400){
+                    window.alert("動画の生成に失敗しました");
+                }
+                else{
+                    window.alert("動画を生成しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("送信エラー");
+            });
+        }
+
+
+        // モーダルを開く
+
+        // 作成済みの動画一覧
+        $(document).on("click", "#show_movies_button", function(event){
+                    
+            $.ajax({
+                type : "POST",
+                url : "/board/movie/get",
+                data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
+            .done(function(result){
+                if (result["code"] == 400){
+                    window.alert("動画読み込み：失敗しました");
+                }
+                // ajax成功した時
+                else{
+                    console.log(result);
+                    let modal = $("#ShowMoviesModal");
+                    let str_innnerHTML = "<p>生成された動画一覧</p>";
+                    let paths = result["result"]["paths"];  // 動画のpath一覧
+                    str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[paths.length-1] + "'" + ">結合された動画" + "</a></div>";
+                    for (var i=0; i<paths.length-1; i++){
+                        str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[i] + "'" + ">動画" + String(i+1) + "</a></div>";
+                    }
+                    $("#movie_urls").html(str_innnerHTML);
+                    modal.modal("show");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("動画取得：失敗");
+            });
+
+        })
+
+
+        // ページ遷移
+
+        // プロジェクト一覧へ
+        $(document).on("click", "#ToProjects_page", function(){
+            $.ajax({
+                type : "POST",
+                url : "/bot/transit/Scenarios_to_Projects",
+                data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let data = response["data"];
+                    let url = data["url"];
+                    window.location.href = url;
+                }
+                else {
+                    window.alert("failed");
+                };
+            })
+        })
+
+        // シナリオ一覧へ
+        $(document).on("click", "#ToScenarios_page", function(){
+            $.ajax({
+                type : "POST",
+                url : "/bot/transit/Board_to_Scenarios",
+                data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let data = response["data"];
+                    let url = data["url"];
+                    window.location.href = url;
+                }
+                else {
+                    window.alert("failed");
+                };
+            })
+        })
+    </script>
 
 
 

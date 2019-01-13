@@ -14,7 +14,7 @@ from bot.src.create_new_scenario import create_new_scenario_request
 from bot.src.delete_scenario import delete_scenario_request
 from bot.src.get_movies_from_ScenarioId import get_movies_from_ScenarioId_request
 from bot.src.update_messages import update_messages_request
-from bot.src.transit import ScenarioEditor_to_ProjectScenarios_page, ScenarioEditor_to_Projects_page, Scenarios_to_Projects_page
+from bot.src.transit import ScenarioEditor_to_ProjectScenarios_page, ScenarioEditor_to_Projects_page, Scenarios_to_Projects_page, Board_to_ProjectScenarios_page
 from bot.src.distribute_now import distribute_now_request
 
 
@@ -39,6 +39,7 @@ urlpatterns = [
     url(r"^transit/ScenarioEditor_to_ProjectScenarios$", ScenarioEditor_to_ProjectScenarios_page, name="ScenarioEditor_to_ProjectScenarios"),
     url(r"^transit/ScenarioEditor_to_Projects$", ScenarioEditor_to_Projects_page, name="ScenarioEditor_to_Projects"),
     url(r"^transit/Scenarios_to_Projects$", Scenarios_to_Projects_page, name="Scenarios_to_Projects"),
+    url(r"^transit/Board_to_Scenarios$", Board_to_ProjectScenarios_page, name="Board_to_ProjectScenarios"),
 
 
     # シナリオ
