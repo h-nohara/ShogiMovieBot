@@ -124,7 +124,6 @@ function update_d3(dataset){
     let scroll_box_height = $("#history_scroll").height();
     let pos = $(History.watching_dom).position().top;
     if (pos > scroll_box_height){
-        window.alert("hoge");
         $("#history_scroll").scrollTop(pos-10);
     }
 
