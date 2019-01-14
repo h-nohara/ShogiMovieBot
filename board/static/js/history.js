@@ -119,6 +119,15 @@ function update_d3(dataset){
         SBoard.draw_main_board();
         
     });
+
+    // 現在選択されている箇所へスクロール
+    let scroll_box_height = $("#history_scroll").height();
+    let pos = $(History.watching_dom).position().top;
+    if (pos > scroll_box_height){
+        window.alert("hoge");
+        $("#history_scroll").scrollTop(pos-10);
+    }
+
 }
 
 var emp_list = [];
