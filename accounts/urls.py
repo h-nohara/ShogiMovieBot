@@ -7,7 +7,7 @@ from .views import new_account_page
 
 # api
 from accounts.src.account import when_login, create_new_account
-from accounts.src.project import get_projects_request, create_new_project_request
+from accounts.src.project import get_projects_request, create_new_project_request, change_project_title_request
 
 urlpatterns = [
 
@@ -29,5 +29,7 @@ urlpatterns = [
     url(r"^project/get$", get_projects_request, name="get_projects_request"),
     # プロジェクト新規作成
     url(r"^project/new$", create_new_project_request, name="create_new_project_request"),
+    # プロジェクト名変更
+    url(r"^project/change_title$", change_project_title_request, name="change project title"),
 
 ]

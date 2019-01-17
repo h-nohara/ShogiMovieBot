@@ -161,6 +161,29 @@
     </div>
 
 
+    <!-- モーダル　プロジェクトタイトル変更 -->
+    <div class="modal fade" id="ProjectTitleEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">テキストメッセージを追加</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>テキストを入力</label>
+                        <input class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-primary" id="ProjectTitleEditModal_ModButton">変更</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- html要素のテンプレート -->
 
     <!-- プロジェクト -->
@@ -168,12 +191,13 @@
 
         <div class="panel panel-info OneProject" id=<%= project_id %>>
             <div class="panel-body">
-                <p><%= title %></p>
+                <p class="ProjectTitle"><%= title %></p>
             </div>
             <div class="panel-footer">
                 <div>
                     <button class="btn btn-primary TransitToBoard">盤面を編集</button>
                     <button class="btn btn-primary TransitToScenario">シナリオ一覧</button>
+                    <button class="btn btn-info ProjectTitleEditModal_opener">プロジェクト名を変更</button>
                     <button class="btn btn-danger pull-right">削除</button>
                 </div>
             </div>
@@ -194,6 +218,8 @@
             //     {"project_id" : 100, "title" : "サンプル１"},
             //     {"project_id" : 200, "title" : "サンプル２"}
             // ];
+
+            WATCHING_Project_ID = null;
         });
 
         // user_idを取得
@@ -243,8 +269,20 @@
 
 
         // モーダルを開く
+
+        // 新規プロジェクト作成モーダル
         $(document).on("click", "#NewProjectModal_opener", function(){
             $("#NewProjectModal").modal();
+        })
+
+        // プロジェクト名変更モーダル
+        $(document).on("click", ".ProjectTitleEditModal_opener", function(){
+            // あらかじめ、現在のテキストをフォームに入れておく
+            let title = $(this).closest(".panel").find(".ProjectTitle").text();
+            $("#ProjectTitleEditModal").find("input").val(title);
+
+            WATCHING_Project_ID = $(this).closest(".OneProject").attr("id");
+            $("#ProjectTitleEditModal").modal();
         })
 
 
@@ -267,6 +305,40 @@
                     // 描画し直す
                     $("#projects").html("");
                     get_draw_projects();
+
+                    $("#NewProjectModal").modal("hide");
+                }
+                else {
+                    window.alert("failed");
+                    window.alert(response["error_message"]);
+                };
+            })
+        })
+
+        // プロジェクト名変更
+        $("#ProjectTitleEditModal_ModButton").on("click", function(){
+
+            let title = $(this).closest(".modal-content").find("input").val();
+            let project_id = $(this).closest(".OneProject").attr("id");
+
+            if ((title == "") || (title == null)){
+                window.alert("タイトルを入力してください");
+                exit();
+            }
+            console.log("title : " + title);
+            $.ajax({
+                type : "POST",
+                url : "/account/project/change_title",
+                data : JSON.stringify({"project_id" : WATCHING_Project_ID, "title" : title})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    console.log("success : change project title");
+                    // 描画し直す
+                    $("#projects").html("");
+                    get_draw_projects();
+
+                    $("#ProjectTitleEditModal").modal("hide");
                 }
                 else {
                     window.alert("failed");

@@ -1,3 +1,4 @@
 
 from .get_projects import get_projects, get_projects_request
 from .create_new_project import create_new_project_request
+from .change_project_title import change_project_title_request
