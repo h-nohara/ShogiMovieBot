@@ -161,17 +161,17 @@
     </div>
 
 
-    <!-- モーダル　プロジェクトタイトル変更 -->
+    <!-- モーダル　プロジェクト名変更 -->
     <div class="modal fade" id="ProjectTitleEditModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
-                    <h4 class="modal-title">テキストメッセージを追加</h4>
+                    <h4 class="modal-title">プロジェクト名を変更</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>テキストを入力</label>
+                        <label>プロジェクト名を入力</label>
                         <input class="form-control">
                     </div>
                 </div>
@@ -253,6 +253,7 @@
         }
 
         function draw_projects(projects){
+            $("#projects").html("");
             for (info of projects){
                 let project_id = info["project_id"];
                 let title = info["title"];
@@ -303,7 +304,6 @@
                 if (response["code"] == 200){
                     console.log("success : make_new_project");
                     // 描画し直す
-                    $("#projects").html("");
                     get_draw_projects();
 
                     $("#NewProjectModal").modal("hide");
@@ -335,7 +335,6 @@
                 if (response["code"] == 200){
                     console.log("success : change project title");
                     // 描画し直す
-                    $("#projects").html("");
                     get_draw_projects();
 
                     $("#ProjectTitleEditModal").modal("hide");
