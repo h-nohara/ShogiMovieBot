@@ -360,11 +360,9 @@
 
 
         // シナリオ名を変更
-        $(document).on("click", ".ScenarioTitleEditModal_ModButton", function(){
+        $(document).on("click", "#ScenarioTitleEditModal_ModButton", function(){
 
             let title = $(this).closest(".modal-content").find("input").val();
-
-            window.alert("hoge");
 
             $.ajax({
                 type : "POST",
