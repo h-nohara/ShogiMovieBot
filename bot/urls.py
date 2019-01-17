@@ -11,6 +11,7 @@ from bot.src.create_new_account import create_new_account_request
 from bot.src.get_scenarios import get_scenarios_request
 from bot.src.get_scenario_info import get_scenario_info_request
 from bot.src.create_new_scenario import create_new_scenario_request
+from bot.src.change_scenario_title import change_scenario_title_request
 from bot.src.delete_scenario import delete_scenario_request
 from bot.src.get_movies_from_ScenarioId import get_movies_from_ScenarioId_request
 from bot.src.update_messages import update_messages_request
@@ -22,7 +23,6 @@ urlpatterns = [
 
     # /bot/
 
-    # 
     # url(r"^$", views.board_page, name="board"),
     # url(r"^[0-9]+$", views.board_page, name="board"),
 
@@ -46,6 +46,7 @@ urlpatterns = [
     url(r"^scenario/get$", get_scenarios_request, name="get_scenarios"),  # シナリオ一覧
     url(r"^scenario/get_info$", get_scenario_info_request, name="get_scenario_info"),  # シナリオのタイトル等の情報と、メッセージ一覧
     url(r"^scenario/new$", create_new_scenario_request, name="create_new_scenario"),
+    url(r"^scenario/change_title$", change_scenario_title_request, name="change_scenario_title"),
     url(r"^scenario/delete$", delete_scenario_request, name="delete_scenario"),
     url(r"^scenario/movies$", get_movies_from_ScenarioId_request, name="get_movies_from_ScenarioId"),
     url(r"^scenario/update_messages$", update_messages_request, name="update_messages"),

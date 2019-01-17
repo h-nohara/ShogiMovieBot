@@ -19,11 +19,6 @@
     <!-- グローバルナビゲーション -->
 
     <nav class="navbar navbar-default">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#任意のID">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
 
         <!-- 左側 -->
         <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
@@ -174,17 +169,41 @@
     </div>
 
 
+    <!-- モーダル　シナリオ名を変更 -->
+    <div class="modal fade" id="ScenarioTitleEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">シナリオ名を変更</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>シナリオ名を入力</label>
+                        <input class="form-control" name="title">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-primary" id="ScenarioTitleEditModal_ModButton">変更</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- html要素のテンプレート -->
     <script type="text/html" id="scenario_template">
 
         <div class="panel panel-info OneScenario" id=<%= scenario_id %>>
             <div class="panel-body">
-                <p><%= title %></p>
+                <p class="ScenarioTitle"><%= title %></p>
             </div>
             <div class="panel-footer">
                 <div class="pull-left">
                     <button class="btn btn-primary TransitToEditor">編集</button>
+                    <button class="btn btn-info ScenarioTitleEditModal_opener">シナリオ名を変更</button>
                     <button class="btn btn-danger DeleteScenarioButton">削除</button>
                 </div>
                 <div class="text-right">
@@ -210,7 +229,7 @@
 
         $(document).ready( function(){
             
-            WATCHING_SCENARIO_NUMBER = null;
+            WATCHING_SCENARIO_ID = null;
             SCENARIOS = null;
             PROJECT_ID = get_id_from_url();
             get_draw_scenarios();
@@ -304,15 +323,24 @@
             })
         })
 
+        // シナリオ名を変更
+        $(document).on("click", ".ScenarioTitleEditModal_opener", function(){
+            // あらかじめ、現在のテキストをフォームに入れておく
+            let title = $(this).closest(".panel").find(".ScenarioTitle").text();
+            $("#ScenarioTitleEditModal").find("input").val(title);
+
+            WATCHING_SCENARIO_ID = $(this).closest(".OneScenario").attr("id");
+            $("#ScenarioTitleEditModal").modal();
+        })
+
         // シナリオ削除
         $(document).on("click", ".DeleteScenarioButton", function(){
-            WATCHING_SCENARIO_NUMBER = $(".DeleteScenarioButton").index(this);
+            WATCHING_SCENARIO_ID = $(this).closest(".OneScenario").attr("id");
             if (window.confirm("削除します（元に戻せません）")){
-                let scenario_id = SCENARIOS[WATCHING_SCENARIO_NUMBER]["scenario_id"];
                 $.ajax({
                     type : "POST",
                     url : "/bot/scenario/delete",
-                    data : JSON.stringify({"scenario_id" : scenario_id})
+                    data : JSON.stringify({"scenario_id" : WATCHING_SCENARIO_ID})
                 })
                 .done(function(response){
                     if (response["code"] == 200){
@@ -326,6 +354,34 @@
                     };
                 })
             }
+        })
+
+        // モーダルを開く　ここまで
+
+
+        // シナリオ名を変更
+        $(document).on("click", ".ScenarioTitleEditModal_ModButton", function(){
+
+            let title = $(this).closest(".modal-content").find("input").val();
+
+            $.ajax({
+                type : "POST",
+                url : "/bot/scenario/change_title",
+                data : JSON.stringify({"scenario_id" : WATCHING_SCENARIO_ID, "title" : title})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    // 描画し直す
+                    get_draw_scenarios();
+
+                    $("#ScenarioTitleEditModal").modal("hide");
+                }
+                else {
+                    window.alert("failed");
+                    // window.alert(response["error_message"]);
+                };
+            })
+            
         })
 
 
