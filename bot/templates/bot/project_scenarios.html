@@ -364,6 +364,8 @@
 
             let title = $(this).closest(".modal-content").find("input").val();
 
+            window.alert("hoge");
+
             $.ajax({
                 type : "POST",
                 url : "/bot/scenario/change_title",
