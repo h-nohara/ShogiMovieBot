@@ -580,7 +580,7 @@
                     console.log(result);
                     let modal = $("#ShowMoviesModal");
                     let paths = result["result"]["paths"];  // 動画のpath一覧
-                    let str_innnerHTML = "<div><a href=" + "'" + paths[paths.length-1] + "'" + ">結合された動画" + "</a></div>";
+                    let str_innnerHTML = "<div><a href=" + "'" + paths[paths.length-1] + "'" + " target='_blank'>" + "結合された動画" + "</a></div>";
                     for (var i=0; i<paths.length-1; i++){
                         str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[i] + "'" + " target='_blank'>" + "動画" + String(i+1) + "</a></div>";
                     }
