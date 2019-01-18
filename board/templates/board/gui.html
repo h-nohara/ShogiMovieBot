@@ -579,11 +579,10 @@
                 else{
                     console.log(result);
                     let modal = $("#ShowMoviesModal");
-                    let str_innnerHTML = "<p>生成された動画一覧</p>";
                     let paths = result["result"]["paths"];  // 動画のpath一覧
-                    str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[paths.length-1] + "'" + ">結合された動画" + "</a></div>";
+                    let str_innnerHTML = "<div><a href=" + "'" + paths[paths.length-1] + "'" + ">結合された動画" + "</a></div>";
                     for (var i=0; i<paths.length-1; i++){
-                        str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[i] + "'" + ">動画" + String(i+1) + "</a></div>";
+                        str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[i] + "'" + " target='_blank'>" + "動画" + String(i+1) + "</a></div>";
                     }
                     $("#movie_urls").html(str_innnerHTML);
                     modal.modal("show");
