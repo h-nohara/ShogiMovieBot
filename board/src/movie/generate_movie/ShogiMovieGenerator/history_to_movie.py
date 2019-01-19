@@ -62,20 +62,41 @@ def draw_text(message, base_image_path, word_image_path):
     # 最初に文字画像を生成
 
     font_size = 50
+    len_one_row = 10
+
+    text = message["text"]
+    text_each_row = [text[i: i+len_one_row] for i in range(0, len(text), len_one_row)]
+    n_row = len(text_each_row)
+    text_with_br = "\n".join(text_each_row)  # 改行させる
 
     print("[ start : make wordimage")
 
+    # make_WordImage(
+    #     word = text, 
+    #     fontsize = font_size, 
+    #     fontfile = font_dict["hiragino_KakuGoW6"], 
+    #     num_color = 2, 
+    #     # colors = ["white", "'#6699ff'"],
+    #     colors = ["white", "'#FF1493'"],
+    #     stroke_ws = [2],
+    #     result_image = word_image_path,
+    #     W = font_size * (1 + len(text)),
+    #     H = font_size * 1.3
+    # )
+
+    # 改行ありバージョン
+
     make_WordImage(
-        word = message["text"], 
-        fontsize = font_size, 
-        fontfile = font_dict["hiragino_KakuGoW6"], 
-        num_color = 2, 
+        word = text_with_br,
+        fontsize = font_size,
+        fontfile = font_dict["hiragino_KakuGoW6"],
+        num_color = 2,
         # colors = ["white", "'#6699ff'"],
         colors = ["white", "'#FF1493'"],
         stroke_ws = [2],
         result_image = word_image_path,
-        W = font_size * (1 + len(message["text"])),
-        H = font_size * 1.3
+        W = font_size * (1 + len_one_row),
+        H = font_size * 1.3 * n_row
     )
 
     print("finish : make wordimage ]")
