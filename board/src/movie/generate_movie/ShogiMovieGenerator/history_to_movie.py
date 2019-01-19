@@ -65,7 +65,17 @@ def draw_text(message, base_image_path, word_image_path):
     len_one_row = 10
 
     text = message["text"]
-    text_each_row = [text[i: i+len_one_row] for i in range(0, len(text), len_one_row)]
+
+    # テキストを一行の文字数制限ごとに分割
+    
+    text_each_row = []
+    rows_original = text.split("\n")  # ユーザが入力したままの行ごと
+    for row in rows_original:
+        text_split = [row[i: i+len_one_row] for i in range(0, len(row), len_one_row)]  # 文字数制限ごとに分割
+        for chunk in text_split:
+            if chunk != "":
+                text_each_row.append(chunk)
+
     n_row = len(text_each_row)
     text_with_br = "\n".join(text_each_row)  # 改行させる
 
