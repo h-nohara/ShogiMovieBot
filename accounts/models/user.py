@@ -42,5 +42,5 @@ class User(AbstractUser):
         default = 1
     )
 
-    next_date_RandomSubscription = models.DateTimeField(auto_now_add=False)
+    next_date_RandomSubscription = models.DateTimeField(auto_now_add=False, null=True)
 
