@@ -22,3 +22,25 @@ class User(AbstractUser):
         null = True
     )
 
+
+    # 配信配信
+
+    # ランダム購読
+
+    is_enabled_RandomSubscription_own_scenario = models.BooleanField(
+        verbose_name = "enabled_RandomSubscription_own_scenario",
+        default = True
+    )
+
+    is_enabled_RandomSubscription_others_scenario = models.BooleanField(
+        verbose_name = "enabled_RandomSubscription_ohters_scenario",
+        default = False
+    )
+
+    interval_RandomSubscription = models.IntegerField(
+        verbose_name = "interval_random_distribution",
+        default = 1
+    )
+
+    next_date_RandomSubscription = models.DateTimeField(auto_now_add=False)
+

@@ -17,6 +17,8 @@ from bot.src.get_movies_from_ScenarioId import get_movies_from_ScenarioId_reques
 from bot.src.update_messages import update_messages_request
 from bot.src.transit import ScenarioEditor_to_ProjectScenarios_page, ScenarioEditor_to_Projects_page, Scenarios_to_Projects_page, Board_to_ProjectScenarios_page
 from bot.src.distribute_now import distribute_now_request
+from bot.src.change_subscription_setting import change_subscription_setting_request
+from bot.src.change_public_setting import change_public_setting_request
 
 
 urlpatterns = [
@@ -51,4 +53,6 @@ urlpatterns = [
     url(r"^scenario/movies$", get_movies_from_ScenarioId_request, name="get_movies_from_ScenarioId"),
     url(r"^scenario/update_messages$", update_messages_request, name="update_messages"),
     url(r"^scenario/distribute_now$", distribute_now_request, name="distribute_now"),
+    url(r"^scenario/change_subscription_setting$", change_subscription_setting_request, name="change_subscription_setting"),
+    url(r"^scenario/change_public_setting$", change_public_setting_request, name="change_public_setting"),
 ]

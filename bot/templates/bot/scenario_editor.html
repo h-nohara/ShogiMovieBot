@@ -27,7 +27,7 @@
                 <li><a href="javascript:void(0)" class="glyphicon glyphicon-home" id="ToProjects_page">プロジェクト一覧</a></li>
                 <li><a href="javascript:void(0)" class="glyphicon glyphicon-arrow-left" id="ToProjectScenarios_page">シナリオ一覧</a></li>
             </ul>
-            <p class="nav navbar-text">ここにシナリオ名が入る　＜シナリオを編集する＞</p>
+            <p class="nav navbar-text" id="scenario_title"></p>
         </div>
 
         <!-- 右側 -->
@@ -205,23 +205,33 @@
                 </div>
             </div>
 
-            <!-- 設定モーダル -->
+            <!-- 配信設定モーダル -->
             <div class="modal fade" id="SettingsModal" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
-                            <h4 class="modal-title">テキストメッセージを追加</h4>
+                            <h2 class="modal-title">配信設定</h2>
                         </div>
                         <div class="modal-body">
                             <div>
-                                <h2>配信設定</h2>
-                                <button class="btn btn-danger" id="DistributeNowButton">今すぐ配信する</button>
+                                <button class="btn btn-danger" id="DistributeNowButton">今すぐテスト配信</button>
                             </div>
+
+                            <div>
+                                <button class="btn btn-default" id="public_or_not_button" value="negative">非公開中</button>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-default" id="subscribing_or_not_button" value="negative">ランダム購読対象外</button>
+                            </div>
+                              
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary pull-left" id="save_dist_setting">設定を保存する</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">設定を変更せずに閉じる</button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -381,7 +391,14 @@
                 let data = response["data"];
                 let title = data["title"];
                 let thumb_path = data["thumb_path"];
+                let is_public = data["is_public"];
+                let is_subscribing = data["is_subscribing"];
                 let messages = data["messages"];
+
+                set_public_setting(is_public);
+                set_subsc_setting(is_subscribing);
+                $("#scenario_title").text(title);
+
                 MESSAGES = messages;
                 draw_messages(messages);
             }
@@ -592,6 +609,107 @@
             };
         })
     })
+
+
+    // 公開設定変更ボタン
+
+    $(document).on("click", "#public_or_not_button", function(){
+        let flag = $(this).val();
+        if (flag == "negative"){set_public_setting(public=true);}
+        else {set_public_setting(public=false);}
+    })
+
+    function set_public_setting(public){
+        if (public == true){
+            $("#public_or_not_button").val("positive");
+            $("#public_or_not_button").css("background-color", "#99FFFF");
+            $("#public_or_not_button").text("公開中（現在誰でもこのシナリオを登録できます）");
+        }
+        else{
+            $("#public_or_not_button").val("negative");
+            $("#public_or_not_button").css("background-color", "white");
+            $("#public_or_not_button").text("非公開中");
+        }
+    }
+
+    // ランダム購読設定変更ボタン
+
+    $(document).on("click", "#subscribing_or_not_button", function(){
+        let flag = $(this).val();
+        if (flag == "negative"){set_subsc_setting(true);}
+        else {set_subsc_setting(false);}
+    })
+
+    function set_subsc_setting(subsc){
+        if (subsc == true){
+            $("#subscribing_or_not_button").val("positive");
+            $("#subscribing_or_not_button").css("background-color", "#99FFFF");
+            $("#subscribing_or_not_button").text("ランダム購読の対象");
+        }
+        else {
+            $("#subscribing_or_not_button").val("negative");
+            $("#subscribing_or_not_button").css("background-color", "white");
+            $("#subscribing_or_not_button").text("ランダム購読対象外");
+        }
+    }
+
+    // 設定の変更をサーバに反映
+
+    document.on("click", "#save_dist_setting", function(){
+        change_public_and_subsc_setting();
+    })
+
+    function change_public_and_subsc_setting (){
+        // 公開設定を変更
+        let flag_public = $("#public_or_not_button").val();
+        if (flag_public == "positive"){var is_public = true;}else{var is_public = false;}
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/change_public_setting",
+            data : JSON.stringify(
+                {
+                    "scenario_id" : SCENARIO_ID,
+                    "is_public" : is_public
+                }
+            )
+        })
+        .done(function(response){
+
+            if (response["code"] == 200){
+                console.log("success : change_public_setting");
+                // 購読設定を変更
+                change_subsc_setting();
+            }
+            else {
+                window.alert("failed");
+            };
+        })
+    }
+
+    function change_subsc_setting (){
+        let flag_subsc = $("#subscribing_or_not_button").val();
+        if (flag_subsc == "positive"){var is_subsc = true;}else{var is_subsc = false;}
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/change_subscription_setting",
+            data : JSON.stringify(
+                {
+                    "scenario_id" : SCENARIO_ID,
+                    "is_subscribing" : is_subsc
+                }
+            )
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                console.log("success : change_subscription_setting");
+            }
+            else {
+                window.alert("failed");
+            };
+        })
+    }
+
+    // 公開・購読設定　ここまで
 
 
     // ページ遷移

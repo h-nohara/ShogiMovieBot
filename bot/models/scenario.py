@@ -26,6 +26,11 @@ class Scenario(models.Model):
         null = True
     )
 
+    is_public = models.BooleanField(
+        verbose_name = "public or not",
+        default = False
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

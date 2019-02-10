@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from accounts.models.project import Project
 from bot.models.scenario import Scenario
 from bot.models.message import Message
+from bot.models.subscription import Subscription
 
 
 @csrf_exempt
@@ -37,15 +38,25 @@ def get_scenario_info(scenario_id):
 
     record_Scenario = Scenario.objects.get(id=scenario_id)
     title = record_Scenario.title
-    thumb_path  =record_Scenario.thumb_path
+    thumb_path = record_Scenario.thumb_path
+    is_public = record_Scenario.is_public
 
     messages = get_messages(scenario_id)
+
+    author = record_Scenario.project.user
+    record_list_Subscription = Subscription.objects.filter(reader=author, author=author)
+    if len(record_list_Subscription) > 0:
+        is_subsc = True
+    else:
+        is_subsc = False
 
     result = {
         "scenario_id" : scenario_id,
         "title" : title,
         "thumb_path" : thumb_path,
-        "messages" : messages
+        "messages" : messages,
+        "is_public" : is_public,
+        "is_subscribing" : is_subsc
     }
 
     return result
