@@ -62,9 +62,10 @@ def change_subscription_setting_request(request):
     now = datetime.datetime.now()
     next_date = record_User.next_date_RandomSubscription
     # もし次回配信日が古かったら、更新
-    if now > next_date:
-        record_User.next_date_RandomSubscription = now + datetime.timedelta(days=record_User.interval_RandomSubscription)
-        record_User.save()
+    if is_subsc:
+        if (next_date is None) or (now > next_date):
+            record_User.next_date_RandomSubscription = now + datetime.timedelta(days=record_User.interval_RandomSubscription)
+            record_User.save()
 
     result = {
         "code" : 200,
