@@ -62,11 +62,13 @@ def change_subscription_setting_request(request):
 
     # 次回のランダム配信日のチェック
     jp = pytz.timezone('Asia/Tokyo')
+
     now = datetime.datetime.now()
-    now = jp.localize(now)
+    now = now.astimezone(jp)  # 日本時間に
+
     next_date = record_User.next_date_RandomSubscription
     if next_date is not None:
-        next_date = next_date.astimezone(jp)
+        next_date = next_date.astimezone(jp)  # 日本時間に
 
     # もし次回配信日が古かったら、更新
     if is_subsc:

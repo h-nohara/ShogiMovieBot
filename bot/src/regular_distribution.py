@@ -94,10 +94,9 @@ def distribute_random(reader=None):
 
     # 今日の日付
     jp = pytz.timezone('Asia/Tokyo')
-    now = datetime.datetime.now()
-    now = jp.localize(now)
-    date_today = now.date()
 
+    now = datetime.datetime.now()
+    now = now.astimezone(jp)  # 日本時間に
 
     # 購読者ごとに配信
 
@@ -114,9 +113,11 @@ def distribute_random(reader=None):
         next_date_RandomSubscription = record_User.next_date_RandomSubscription
         if next_date_RandomSubscription is None:
             continue
+        else:
+            next_date_RandomSubscription = next_date_RandomSubscription.astimezone(jp)  # 日本時間に
 
         # 配信日だったら
-        if date_today == next_date_RandomSubscription.date():
+        if now.date() == next_date_RandomSubscription.date():
 
             # 次回配信日を更新
             next_date = now + datetime.timedelta(days=record_User.interval_RandomSubscription)
