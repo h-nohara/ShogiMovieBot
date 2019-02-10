@@ -44,15 +44,16 @@ def change_subscription_setting_request(request):
 
     # 初の購読だったら、データベースに新規登録
     elif n == 0:
-        record_Subscription = Subscription(
-            reader = record_User,
-            scenario = record_Scenario,
-            author = record_Scenario.project.user,
-            is_scenario_public = record_Scenario.is_public,
-            is_enabled = True,
-            kind = "random"
-        )
-        record_Subscription.save()
+        if is_subsc:
+            record_Subscription = Subscription(
+                reader = record_User,
+                scenario = record_Scenario,
+                author = record_Scenario.project.user,
+                is_scenario_public = record_Scenario.is_public,
+                is_enabled = True,
+                kind = "random"
+            )
+            record_Subscription.save()
 
     else:
         print("複数登録されています！")
