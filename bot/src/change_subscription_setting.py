@@ -41,6 +41,7 @@ def change_subscription_setting_request(request):
     if n == 1:
         record_Subscription = record_list_Subscription[0]
         record_Subscription.is_enabled = is_subsc
+        record_Subscription.save()
 
     # 初の購読だったら、データベースに新規登録
     elif n == 0:
