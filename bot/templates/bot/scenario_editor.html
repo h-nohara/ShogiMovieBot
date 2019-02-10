@@ -655,7 +655,7 @@
 
     // 設定の変更をサーバに反映
 
-    document.on("click", "#save_dist_setting", function(){
+    $(document).on("click", "#save_dist_setting", function(){
         change_public_and_subsc_setting();
     })
 
@@ -701,7 +701,8 @@
         })
         .done(function(response){
             if (response["code"] == 200){
-                console.log("success : change_subscription_setting");
+                window.alert("設定を変更しました");
+                ("#SettingsModal").modal("hide");
             }
             else {
                 window.alert("failed");
