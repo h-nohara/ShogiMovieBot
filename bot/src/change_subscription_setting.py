@@ -1,4 +1,4 @@
-import os, sys, glob2, json, datetime
+import os, sys, glob2, json, datetime, pytz
 from ShogiMovieBot.settings import BASE_DIR
 
 from django.shortcuts import render
@@ -62,6 +62,9 @@ def change_subscription_setting_request(request):
 
     # 次回のランダム配信日のチェック
     now = datetime.datetime.now()
+    if now is not None:
+        jp = pytz.timezone('Asia/Tokyo')
+        now = jp.localize(now)
     next_date = record_User.next_date_RandomSubscription
     # もし次回配信日が古かったら、更新
     if is_subsc:

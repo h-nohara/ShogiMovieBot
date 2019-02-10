@@ -1,4 +1,4 @@
-import os, sys, glob2, json
+import os, sys, glob2, json, pytz
 import datetime, random
 from ShogiMovieBot.settings import BASE_DIR
 
@@ -93,7 +93,9 @@ def distribute_random(reader=None):
         record_list_User = [reader]
 
     # 今日の日付
+    jp = pytz.timezone('Asia/Tokyo')
     now = datetime.datetime.now()
+    now = jp.localize(now)
     date_today = now.date()
 
 
@@ -117,7 +119,7 @@ def distribute_random(reader=None):
         if date_today == next_date_RandomSubscription.date():
 
             # 次回配信日を更新
-            next_date = now + datetime.timedelta(days=record_User.interval_RandomSubscription) 
+            next_date = now + datetime.timedelta(days=record_User.interval_RandomSubscription)
             record_User.next_date_RandomSubscription = next_date
             record_User.save()
 
