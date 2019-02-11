@@ -24,7 +24,7 @@ from bot.src.distribute_now import distribute
 def regular_distribution_request(request):
 
     regular_distribution()
-    
+
 
 def regular_distribution():
 
@@ -82,13 +82,14 @@ def regular_distribution():
 #     print("all finished : キューのシナリオの配信")
 
 
-def distribute_random(reader=None):
+def distribute_random(reader=None, is_test=False):
 
     '''
     ランダム購読設定をしているユーザにシナリオを配信する。
     購読に設定している、自作のシナリオと他人のシナリオ、またはどちらかからランダムでシナリオを選んで配信。
 
     reader : Userオブジェクト。このユーザが購読するシナリオのみを対象にする。Noneなら全ユーザを対象にする。
+    us_test : Trueなら、次回配信日を更新しない。
     '''
 
     # 購読者を取得
@@ -126,9 +127,10 @@ def distribute_random(reader=None):
         if now.date() == next_date_RandomSubscription.date():
 
             # 次回配信日を更新
-            next_date = now + datetime.timedelta(days=record_User.interval_RandomSubscription)
-            record_User.next_date_RandomSubscription = next_date
-            record_User.save()
+            if not is_test:
+                next_date = now + datetime.timedelta(days=record_User.interval_RandomSubscription)
+                record_User.next_date_RandomSubscription = next_date
+                record_User.save()
 
 
             # シナリオ一覧を取得する

@@ -19,10 +19,15 @@ def get_scenarios_request(request):
     project_id = int(project_id)
 
     scenarios = get_scenarios(project_id)
+
+    record_Project = Project.objects.get(id=project_id)
+    project_title = record_Project.title
+    
     result = {
         "code" : 200,
         "data" : {
-            "scenarios" : scenarios
+            "scenarios" : scenarios,
+            "project_title" : project_title
         }
     }
 
