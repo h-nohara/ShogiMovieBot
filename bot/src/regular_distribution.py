@@ -20,6 +20,12 @@ from bot.src.distribute_now import distribute
 
 # 定期配信
 
+@csrf_exempt
+def regular_distribution_request(request):
+
+    regular_distribution()
+    
+
 def regular_distribution():
 
     # 貯まったキューを捌く
