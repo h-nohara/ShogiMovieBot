@@ -25,6 +25,19 @@ def regular_distribution_request(request):
 
     regular_distribution()
 
+@csrf_exempt
+def test_regular_distribution_request(request):
+
+    print("テスト配信を開始します")
+
+    push_text_message(text="テスト配信を開始します", line_id=nohara_first_id)
+
+    distribute_random(is_test=True)
+
+    push_text_message(text="テスト配信終了", line_id=nohara_first_id)
+
+    print("テスト配信終了")
+
 
 def regular_distribution():
 
@@ -93,11 +106,14 @@ def distribute_random(reader=None, is_test=False):
     '''
 
     # 購読者を取得
-    if reader is None:
-        record_list_User = User.objects.all()
-
+    if is_test:
+        me = User.objects.get(username="nohara")
+        record_list_User = [me]
     else:
-        record_list_User = [reader]
+        if reader is None:
+            record_list_User = User.objects.all()
+        else:
+            record_list_User = [reader]
 
     # 今日の日付
     jp = pytz.timezone('Asia/Tokyo')

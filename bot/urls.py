@@ -17,7 +17,7 @@ from bot.src.get_movies_from_ScenarioId import get_movies_from_ScenarioId_reques
 from bot.src.update_messages import update_messages_request
 from bot.src.transit import ScenarioEditor_to_ProjectScenarios_page, ScenarioEditor_to_Projects_page, Scenarios_to_Projects_page, Board_to_ProjectScenarios_page
 from bot.src.distribute_now import distribute_now_request
-from bot.src.regular_distribution import regular_distribution_request
+from bot.src.regular_distribution import regular_distribution_request, test_regular_distribution_request
 from bot.src.change_subscription_setting import change_subscription_setting_request
 from bot.src.change_public_setting import change_public_setting_request
 
@@ -57,4 +57,5 @@ urlpatterns = [
     url(r"^scenario/change_subscription_setting$", change_subscription_setting_request, name="change_subscription_setting"),
     url(r"^scenario/change_public_setting$", change_public_setting_request, name="change_public_setting"),
     url(r"^scenario/regular_distribution$", regular_distribution_request, name="regular_dist"),
+    url(r"^scenario/regular_distribution/test$", test_regular_distribution_request, name="test_regular_dist"),
 ]
