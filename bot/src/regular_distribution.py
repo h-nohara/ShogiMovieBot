@@ -25,6 +25,8 @@ def regular_distribution_request(request):
 
     regular_distribution()
 
+    return JsonResponse({"code" : 200})
+
 @csrf_exempt
 def test_regular_distribution_request(request):
 
@@ -37,6 +39,8 @@ def test_regular_distribution_request(request):
     push_text_message(text="テスト配信終了", line_id=nohara_first_id)
 
     print("テスト配信終了")
+
+    return JsonResponse({"code" : 200})
 
 
 def regular_distribution():
