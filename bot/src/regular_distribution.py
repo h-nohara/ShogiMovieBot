@@ -155,28 +155,29 @@ def distribute_random(reader=None, is_test=False):
 
             # シナリオ一覧を取得する
 
-            scenarios = []
+            subscriptions = []
             # scenarios_priority = []
 
             # 自作のシナリオ
             if is_enabled_RandomSubscription_own_scenario:
 
                 record_list_Scenario = Subscription.objects.filter(reader=record_User, author=record_User, kind="random", is_enabled=True)
-                scenarios.extend(list(record_list_Scenario))
+                subscriptions.extend(list(record_list_Scenario))
 
             # 他人のシナリオ
             if is_enabled_RandomSubscription_others_scenario:
 
                 record_list_Scenario = Subscription.objects.filter(reader=record_User, kind="random", is_enabled=True).exclude(author=record_User).filter(is_scenario_public=True)
-                scenarios.extend(list(record_list_Scenario))
+                subscriptions.extend(list(record_list_Scenario))
 
 
             # 配信
             push_text_message(text="＊＊ランダム購読の配信です＊＊", line_id=record_User.line_id)
 
-            if len(scenarios) > 0:
+            if len(subscriptions) > 0:
                 # ランダムに選択
-                choiced_scenario = random.choice(scenarios)
-                distribute(scenario_id=int(choiced_scenario.id), user_id=int(record_User.id))
+                choiced = random.choice(subscriptions)
+                scenario_id = choiced.scenario.id
+                distribute(scenario_id=int(scenario_id), user_id=int(record_User.id))
 
     print("all finished : ランダム購読配信")
