@@ -30,7 +30,7 @@ def regular_distribution_request(request):
 @csrf_exempt
 def test_regular_distribution_request(request):
 
-    print("テスト配信を開始します")
+    print("ーーテスト配信を開始します")
 
     push_text_message(text="テスト配信を開始します", line_id=nohara_first_id)
 
@@ -38,7 +38,7 @@ def test_regular_distribution_request(request):
 
     push_text_message(text="テスト配信終了", line_id=nohara_first_id)
 
-    print("テスト配信終了")
+    print("ーーテスト配信終了")
 
     return JsonResponse({"code" : 200})
 
@@ -175,6 +175,7 @@ def distribute_random(reader=None, is_test=False):
             choiced_scenario = random.choice(scenarios)
 
             # 配信
+            push_text_message(text="＊＊ランダム購読の配信です＊＊", line_id=record_User.line_id)
             distribute(scenario_id=choiced_scenario.id, user_id=record_User.id)
 
     print("all finished : ランダム購読配信")
