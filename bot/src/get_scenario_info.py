@@ -44,7 +44,7 @@ def get_scenario_info(scenario_id):
     messages = get_messages(scenario_id)
 
     author = record_Scenario.project.user
-    record_list_Subscription = Subscription.objects.filter(reader=author, author=author, is_enabled=True)
+    record_list_Subscription = Subscription.objects.filter(reader=author, author=author, scenario=record_Scenario, is_enabled=True)
     if len(record_list_Subscription) > 0:
         is_subsc = True
     else:
