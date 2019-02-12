@@ -170,12 +170,13 @@ def distribute_random(reader=None, is_test=False):
                 record_list_Scenario = Subscription.objects.filter(reader=record_User, kind="random", is_enabled=True).exclude(author=record_User).filter(is_scenario_public=True)
                 scenarios.extend(list(record_list_Scenario))
 
-            
-            # ランダムに選択
-            choiced_scenario = random.choice(scenarios)
 
             # 配信
             push_text_message(text="＊＊ランダム購読の配信です＊＊", line_id=record_User.line_id)
-            distribute(scenario_id=choiced_scenario.id, user_id=record_User.id)
+
+            if len(scenarios) > 0:
+                # ランダムに選択
+                choiced_scenario = random.choice(scenarios)
+                distribute(scenario_id=int(choiced_scenario.id), user_id=int(record_User.id))
 
     print("all finished : ランダム購読配信")
