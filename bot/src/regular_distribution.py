@@ -32,11 +32,11 @@ def test_regular_distribution_request(request):
 
     print("ーーテスト配信を開始します")
 
-    push_text_message(text="テスト配信を開始します", line_id=nohara_first_id)
+    push_text_message(text="ーーテスト配信を開始します", line_id=nohara_first_id)
 
     distribute_random(is_test=True)
 
-    push_text_message(text="テスト配信終了", line_id=nohara_first_id)
+    push_text_message(text="ーーテスト配信終了", line_id=nohara_first_id)
 
     print("ーーテスト配信終了")
 
