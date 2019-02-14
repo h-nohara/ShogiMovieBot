@@ -39,6 +39,7 @@ def load_pickle(request):
     project_id = int(project_id)
 
     record_Project = Project.objects.get(id=project_id)
+    project_title = record_Project.title
     pickle_basename = record_Project.pickle_basename
 
     pickle_path = pickle_path_local(pickle_basename)
@@ -50,7 +51,8 @@ def load_pickle(request):
     json_response = {
         "code" : 200,
         "result" : {
-            "history" : history
+            "history" : history,
+            "project_title" : project_title
         }
     }
 
