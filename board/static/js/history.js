@@ -28,7 +28,7 @@ function update_d3(dataset){
             let m = action["message"];
             // テキストがあったら
             if ( Object.keys(m).indexOf("text") >= 0) {
-                return m["text"].slice(0,6);
+                return m["text"].slice(0,8);
             }
             else {
                 return "メッセージ";
@@ -104,7 +104,7 @@ function update_d3(dataset){
                     let m = first_action["message"];
                     // テキストがあったら
                     if ( Object.keys(m).indexOf("text") >= 0) {
-                        return m["text"].slice(0,6);
+                        return m["text"].slice(0,8);
                     }
                     else {
                         return "メッセージ";
@@ -114,6 +114,8 @@ function update_d3(dataset){
             .on("click", function(sub_sc, i_sub_sc){
 
                 action["selected_scenario"] = i_sub_sc;
+
+                History.watching_dom = sub_sc[i_sub_sc][0];
 
                 var emp_list = [];
                 list_showing_actions(History.history, emp_list);
@@ -141,12 +143,21 @@ function update_d3(dataset){
     });
 
     // 現在選択されている箇所へスクロール
+    auto_scroll_history();
+    // let scroll_box_height = $("#history_scroll").height();
+    // let pos = $(History.watching_dom).position().top;
+    // if (pos > scroll_box_height){
+    //     $("#history_scroll").scrollTop(pos-10);
+    // }
+
+}
+
+function auto_scroll_history(){
     let scroll_box_height = $("#history_scroll").height();
     let pos = $(History.watching_dom).position().top;
     if (pos > scroll_box_height){
         $("#history_scroll").scrollTop(pos-10);
     }
-
 }
 
 var emp_list = [];
