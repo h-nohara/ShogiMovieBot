@@ -24,10 +24,11 @@ function update_d3(dataset){
             return action["move_str"];
         }
         else if (keys.indexOf("message") >= 0){
-            return "message";
+            // return "テロップ";
+            return action["message"].slice(0,6);
         }
         else if (keys.indexOf("scenarios") >= 0){
-            return "branch";
+            return "分岐点";
         }
         else if (keys.indexOf("fly_to") >= 0){
             return "fly_to";
@@ -88,8 +89,10 @@ function update_d3(dataset){
             .append("div")
             .append("button")
             .attr("class", "sub_sc")
-            .text(function(act){
-                return act[0]["move"];
+            .text(function(action_list){
+                let first_action = action_list[0];
+                if ( Object.keys(first_action).indexOf("move") >= 0 ){return first_action["move_str"];}
+                else if ( Object.keys(first_action).indexOf("move") >= 0 ){return first_action["message"].slice(0,6);}
             })
             .on("click", function(sub_sc, i_sub_sc){
 
