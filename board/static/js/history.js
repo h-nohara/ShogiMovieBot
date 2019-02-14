@@ -89,7 +89,7 @@ function update_d3(dataset){
 
         History.watching_action["is_watching"] = false;
 
-        if ($(History.watching_dom).text() == "branch"){
+        if ($(History.watching_dom).text() == "分岐点"){
             $(History.watching_dom).css("background-color", "sandybrown");
         }
         else{
@@ -132,8 +132,8 @@ function update_d3(dataset){
             .on("click", function(sub_sc, i_sub_sc){
 
                 action["selected_scenario"] = i_sub_sc;
-                History.watching_action["is_watching"] = false;
-                action["is_watching"] = true;
+                // History.watching_action["is_watching"] = false;
+                // action["is_watching"] = true;
 
                 var emp_list = [];
                 list_showing_actions(History.history, emp_list);
