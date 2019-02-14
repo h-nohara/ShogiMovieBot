@@ -90,6 +90,15 @@ class Plot:
             fname_base = '{}.png'.format(piece_str)
 
         fname = os.path.join(IMAGE_DIR, fname_base)
+
+        if not os.path.exists(fname):
+            if is_gote:
+                fname_base = '{}_gote_black.png'.format(piece_str)
+            else:
+                fname_base = '{}_black.png'.format(piece_str)
+
+            fname = os.path.join(IMAGE_DIR, fname_base)
+
         img = mpimg.imread(fname)
 
         self.ax1.autoscale(False)

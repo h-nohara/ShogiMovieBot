@@ -550,9 +550,10 @@ function get_natural_moves_move(Piece, Board){
         }
     }
 
+    
+    // それぞれの行き先に移動できるかどうかを確認＋成れるかどうかのチェック
 
-
-    let natural_moves = [];
+    let natural_moves = [];  // 最終結果
     for (var dest of potential_dests){
         if (can_move_to(Board, dest, is_sente)){
 
@@ -573,8 +574,8 @@ function get_natural_moves_move(Piece, Board){
                 natural_moves.push(loc + dest);
             }
 
-            // 成ることができれば加える
-            if (is_land_of_enemy(dest, is_sente)){
+            // 移動先か移動元が相手の陣地だったら、成りを加える
+            if ( (is_land_of_enemy(dest, is_sente)) || (is_land_of_enemy(loc, is_sente)) ){
                 // 王以外の成っていない駒は成ることができる
                 if (PieceName_Hand.indexOf(Piece.name) >= 0){
                     natural_moves.push(loc + dest + "+");
