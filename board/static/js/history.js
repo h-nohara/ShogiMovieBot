@@ -111,6 +111,7 @@ function update_d3(dataset){
                     }
                 }
             })
+            // シナリオ選択ボタンがクリックされたら
             .on("click", function(sub_sc, i_sub_sc){
 
                 action["selected_scenario"] = i_sub_sc;
