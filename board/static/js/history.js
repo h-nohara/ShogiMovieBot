@@ -114,8 +114,7 @@ function update_d3(dataset){
             .on("click", function(sub_sc, i_sub_sc){
 
                 action["selected_scenario"] = i_sub_sc;
-
-                History.watching_dom = sub_sc[i_sub_sc][0];
+                action["is_watching"] = true;
 
                 var emp_list = [];
                 list_showing_actions(History.history, emp_list);
