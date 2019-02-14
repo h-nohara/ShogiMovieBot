@@ -21,7 +21,7 @@ function update_d3(dataset){
     .text(function(action){
         let keys = Object.keys(action);
         if (keys.indexOf("move") >= 0){
-            return action["move_str"];
+            return String(action["order_of_hand"]) + "手目　" + action["move_str"];
         }
         else if (keys.indexOf("message") >= 0){
             // return "テロップ";
@@ -163,7 +163,7 @@ function auto_scroll_history(){
 var emp_list = [];
 
 
-function list_showing_actions(history, result_list){
+function list_showing_actions(history, result_list, order_of_hand=0){
 
     for (let i=0; i<history.length; i++){
 
@@ -186,11 +186,37 @@ function list_showing_actions(history, result_list){
 
         action["parent"] = history;
         action["order_in_parent"] = i;
+
+        // 全体で何手目かを記録
+
+        // 先頭ではなかったら
+        if (i > 0){
+            // 指し手だったら、数字を１つ増やす
+            if ( Object.keys(action).indexOf("move") >= 0 ){
+                action["order_of_hand"] = history[i-1]["order_of_hand"] + 1;
+            }
+            // 指し手以外だったら、前と同じに
+            else {
+                action["order_of_hand"] = history[i-1]["order_of_hand"];
+            }
+        }
+        // 先頭だったら
+        else {
+            // 指し手だったら、数字を１つ増やす
+            if ( Object.keys(action).indexOf("move") >= 0 ){
+                action["order_of_hand"] = order_of_hand + 1;
+            }
+            // 指し手以外だったら、前と同じに
+            else {
+                action["order_of_hand"] = order_of_hand;
+            }
+        }
+
         result_list.push(action);
 
         if (Object.keys(action).indexOf("scenarios") >= 0){
             let mini_history = action["scenarios"][action["selected_scenario"]];
-            list_showing_actions(mini_history, result_list);
+            list_showing_actions(mini_history, result_list, order_of_hand=action["order_of_hand"]);
         }
     }
 }
