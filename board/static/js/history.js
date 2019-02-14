@@ -8,13 +8,6 @@ function update_d3(dataset){
     console.log("dataset");
     console.log(dataset);
 
-    // どのボタンを見ているか、ここでチェック
-    for (action of dataset){
-        if (action["is_watching"] === true){
-            History.watching_dom = this;
-        }
-    }
-
 
     d3.select("#history_scroll").selectAll(".OneAction")
 
@@ -52,14 +45,20 @@ function update_d3(dataset){
         }
     })
 
-    // ボタンの色
+    // ボタンの色の決定と、現在見ているボタンのチェック
     .style("background-color", function(action){
 
         if (Object.keys(action).indexOf("scenarios") >= 0){
+            // is_watchingのチェック
+            if (action["is_watching"] === true){
+                History.watching_dom = this;
+            }
             return "sandybrown";
         }
         else{
+            // is_watchingのチェック
             if (action["is_watching"] === true){
+                History.watching_dom = this;
                 return "cornflowerblue";
             }
             else{
