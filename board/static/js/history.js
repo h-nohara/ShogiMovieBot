@@ -85,9 +85,7 @@ function update_d3(dataset){
         // 将棋盤の状態を元に戻す
         SBoard.init_state_now();
 
-        // クリックされているボタンと背景色を更新
-
-        History.watching_action["is_watching"] = false;
+        // ボタンの背景色を更新
 
         if ($(History.watching_dom).text() == "分岐点"){
             $(History.watching_dom).css("background-color", "sandybrown");
@@ -96,6 +94,8 @@ function update_d3(dataset){
             $(History.watching_dom).css("background-color", "white");
         }
 
+        // 現在見ているボタンを更新
+        History.watching_action["is_watching"] = false;
         History.watching_action = action;
         History.watching_dom = this;
         $(this).css("background-color", "cornflowerblue");
@@ -132,8 +132,8 @@ function update_d3(dataset){
             .on("click", function(sub_sc, i_sub_sc){
 
                 action["selected_scenario"] = i_sub_sc;
-                // History.watching_action["is_watching"] = false;
-                // action["is_watching"] = true;
+                History.watching_action["is_watching"] = false;
+                action["is_watching"] = true;
 
                 var emp_list = [];
                 list_showing_actions(History.history, emp_list);
