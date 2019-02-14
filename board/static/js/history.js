@@ -21,7 +21,7 @@ function update_d3(dataset){
     .text(function(action){
         let keys = Object.keys(action);
         if (keys.indexOf("move") >= 0){
-            return "(" + String(action["order_of_hand"]) + ")" + action["move_str"];
+            return "(" + String(action["order_of_hand"]) + " )" + action["move_str"];
         }
         else if (keys.indexOf("message") >= 0){
             // return "テロップ";
