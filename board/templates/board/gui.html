@@ -511,6 +511,9 @@
             // コピーした時にオリジナルhistoryのparentが削除されてしまったので、再設定
             set_parent(History.history);
 
+            // ローディング画面
+            dispLoading("盤面を保存中...");
+
             $.ajax({
                 type : "POST",
                 url : "/board/save_pickle",
@@ -518,15 +521,21 @@
             })
             .done(function(result){
                 if (result["code"] == 400){
-                    window.alert("pickleの読み込みに失敗しました");
+                    window.alert("保存に失敗しました");
                 }
-                else{
+                else if (result["code"] == 200){
                     window.alert("保存しました");
+                }
+                else {
+                    window.alert("意図しないコードがレスポンスされました");
                 };
 
             })
             .fail(function(jqXHR, textStatus, errorThrown){
-                window.alert("failed load");
+                window.alert("保存に失敗しました");
+            })
+            .always(function(){
+                removeLoading();
             });
         }
 
