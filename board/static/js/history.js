@@ -52,6 +52,8 @@ function update_d3(dataset){
             return "sandybrown";
         }
         else if(Object.keys(action).indexOf("is_watching") >= 0){
+
+            // どのボタンを見ているか、ここでチェック
             if (action["is_watching"] === true){
                 History.watching_dom = this;
                 return "cornflowerblue";
@@ -115,6 +117,7 @@ function update_d3(dataset){
             .on("click", function(sub_sc, i_sub_sc){
 
                 action["selected_scenario"] = i_sub_sc;
+                History.watching_action["is_watching"] = false;
                 action["is_watching"] = true;
 
                 var emp_list = [];
