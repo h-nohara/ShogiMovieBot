@@ -25,7 +25,14 @@ function update_d3(dataset){
         }
         else if (keys.indexOf("message") >= 0){
             // return "テロップ";
-            return action["message"].slice(0,6);
+            let m = action["message"];
+            // テキストがあったら
+            if ( Object.keys(m).indexOf("text") >= 0) {
+                return m["text"].slice(0,6);
+            }
+            else {
+                return "メッセージ";
+            }
         }
         else if (keys.indexOf("scenarios") >= 0){
             return "分岐点";
@@ -89,10 +96,20 @@ function update_d3(dataset){
             .append("div")
             .append("button")
             .attr("class", "sub_sc")
+            // シナリオ選択ボタンのテキスト
             .text(function(action_list){
                 let first_action = action_list[0];
                 if ( Object.keys(first_action).indexOf("move") >= 0 ){return first_action["move_str"];}
-                else if ( Object.keys(first_action).indexOf("move") >= 0 ){return first_action["message"].slice(0,6);}
+                else if ( Object.keys(first_action).indexOf("message") >= 0 ){
+                    let m = first_action["message"];
+                    // テキストがあったら
+                    if ( Object.keys(m).indexOf("text") >= 0) {
+                        return m["text"].slice(0,6);
+                    }
+                    else {
+                        return "メッセージ";
+                    }
+                }
             })
             .on("click", function(sub_sc, i_sub_sc){
 
