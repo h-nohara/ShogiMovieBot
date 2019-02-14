@@ -8,6 +8,13 @@ function update_d3(dataset){
     console.log("dataset");
     console.log(dataset);
 
+    // どのボタンを見ているか、ここでチェック
+    for (action of dataset){
+        if (action["is_watching"] === true){
+            History.watching_dom = this;
+        }
+    }
+
 
     d3.select("#history_scroll").selectAll(".OneAction")
 
@@ -51,17 +58,26 @@ function update_d3(dataset){
         if (Object.keys(action).indexOf("scenarios") >= 0){
             return "sandybrown";
         }
-        else if(Object.keys(action).indexOf("is_watching") >= 0){
-
-            // どのボタンを見ているか、ここでチェック
+        else{
             if (action["is_watching"] === true){
-                History.watching_dom = this;
                 return "cornflowerblue";
             }
             else{
                 return "white";
             }
         }
+
+        // else if(Object.keys(action).indexOf("is_watching") >= 0){
+
+        //     // どのボタンを見ているか、ここでチェック
+        //     if (action["is_watching"] === true){
+        //         History.watching_dom = this;
+        //         return "cornflowerblue";
+        //     }
+        //     else{
+        //         return "white";
+        //     }
+        // }
     })
 
     // ボタンがクリックされたら
