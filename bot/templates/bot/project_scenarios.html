@@ -402,13 +402,17 @@
         })
 
 
-        // ページ遷移
+        // ホーム画面へ移動
 
         $(document).on("click", "#ToProjects_page", function(){
+            // $.ajax({
+            //     type : "POST",
+            //     url : "/bot/transit/Scenarios_to_Projects",
+            //     data : JSON.stringify({"project_id" : PROJECT_ID})
+            // })
             $.ajax({
-                type : "POST",
+                type : "GET",
                 url : "/bot/transit/Scenarios_to_Projects",
-                data : JSON.stringify({"project_id" : PROJECT_ID})
             })
             .done(function(response){
                 if (response["code"] == 200){

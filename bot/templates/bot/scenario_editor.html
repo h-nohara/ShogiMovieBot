@@ -715,6 +715,8 @@
 
     // ページ遷移
 
+    // シナリオ一覧ページへ移動
+
     $(document).on("click", "#ToProjectScenarios_page", function(){
 
         $.ajax({
@@ -734,11 +736,17 @@
         })
     })
 
+    // ホーム画面へ移動
+
     $(document).on("click", "#ToProjects_page", function(){
+        // $.ajax({
+        //     type : "POST",
+        //     url : "/bot/transit/ScenarioEditor_to_Projects",
+        //     data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+        // })
         $.ajax({
-            type : "POST",
+            type : "GET",
             url : "/bot/transit/ScenarioEditor_to_Projects",
-            data : JSON.stringify({"scenario_id" : SCENARIO_ID})
         })
         .done(function(response){
             if (response["code"] == 200){

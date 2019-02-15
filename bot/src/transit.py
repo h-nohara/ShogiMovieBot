@@ -33,18 +33,19 @@ def ScenarioEditor_to_ProjectScenarios_page(request):
 @csrf_exempt
 def ScenarioEditor_to_Projects_page(request):
     
-    data = json.loads(request.body.decode("utf-8"))
-    scenario_id = data["scenario_id"]
-    scenario_id = int(scenario_id)
+    # data = json.loads(request.body.decode("utf-8"))
+    # scenario_id = data["scenario_id"]
+    # scenario_id = int(scenario_id)
 
-    record_Scenario = Scenario.objects.get(id=scenario_id)
-    record_Project = record_Scenario.project
-    record_User = record_Project.user
+    # record_Scenario = Scenario.objects.get(id=scenario_id)
+    # record_Project = record_Scenario.project
+    # record_User = record_Project.user
 
-    user_id = record_User.id
-    user_id = str(user_id)
+    # user_id = record_User.id
+    # user_id = str(user_id)
 
-    the_url = "/account/home/{}".format(user_id)
+    # the_url = "/account/home/{}".format(user_id)
+    the_url = "/account/home"
 
     return JsonResponse({"code" : 200, "data" : {"url" : the_url}})
 
@@ -54,17 +55,18 @@ def ScenarioEditor_to_Projects_page(request):
 @csrf_exempt
 def Scenarios_to_Projects_page(request):
     
-    data = json.loads(request.body.decode("utf-8"))
-    project_id = data["project_id"]
-    project_id = int(project_id)
+    # data = json.loads(request.body.decode("utf-8"))
+    # project_id = data["project_id"]
+    # project_id = int(project_id)
 
-    record_Project = Project.objects.get(id=project_id)
-    record_User = record_Project.user
+    # record_Project = Project.objects.get(id=project_id)
+    # record_User = record_Project.user
 
-    user_id = record_User.id
-    user_id = str(user_id)
+    # user_id = record_User.id
+    # user_id = str(user_id)
 
-    the_url = "/account/home/{}".format(user_id)
+    # the_url = "/account/home/{}".format(user_id)
+    the_url = "/account/home"
     
     return JsonResponse({"code" : 200, "data" : {"url" : the_url}})
 
