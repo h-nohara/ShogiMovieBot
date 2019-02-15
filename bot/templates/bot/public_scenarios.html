@@ -142,8 +142,8 @@
                     <h4 class="modal-title">シナリオ</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="messages">
-
+                    <div id="messages" style="overflow-y: scroll; max-height:70vh;">
+                        <!-- ここにメッセージ一覧が来る -->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -195,7 +195,7 @@
             </div>
             <div class="panel-body">
                 <!-- <p> <%= movie_path %></p> -->
-                <a href=<%= movie_path %>>動画メッセージ</a>
+                <a href=<%= movie_path %> target="_blank" >動画メッセージ</a>
             </div>
         </div>
     </script>
