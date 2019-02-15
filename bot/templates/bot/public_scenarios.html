@@ -183,12 +183,6 @@
             <div class="panel-body">
                 <p class="TextMessageText"><%= text %></p>
             </div>
-            <div class="panel-footer">
-                <div>
-                    <button class="btn btn-primary TextEditModal_opener MessageEditButton">編集</button>
-                    <button class="btn btn-danger MessageDelButton">削除</button>
-                </div>
-            </div>
         </div>
     </script>
 
@@ -200,11 +194,8 @@
                 <h2 class="panel-title">動画メッセージ</h2>
             </div>
             <div class="panel-body">
-                <p>動画url   :   <%= movie_path %></p>
-            </div>
-            <div class="panel-footer">
-                <button class="btn btn-primary MovieEditModal_opener MessageEditButton">編集</button>
-                <button class="btn btn-danger MessageDelButton">削除</button>
+                <!-- <p> <%= movie_path %></p> -->
+                <a href=<%= movie_path %>>動画メッセージ</a>
             </div>
         </div>
     </script>
