@@ -8,8 +8,8 @@ from .views import project_scenarios_page, scenario_editor_page
 # api
 from bot.src.callback import callback
 from bot.src.create_new_account import create_new_account_request
-from bot.src.get_scenarios import get_scenarios_request
-from bot.src.get_scenario_info import get_scenario_info_request
+from bot.src.get_scenarios import get_scenarios_request, get_public_scenarios_request
+from bot.src.get_scenario_info import get_scenario_info_request, get_messages_request
 from bot.src.create_new_scenario import create_new_scenario_request
 from bot.src.change_scenario_title import change_scenario_title_request
 from bot.src.delete_scenario import delete_scenario_request
@@ -47,6 +47,7 @@ urlpatterns = [
 
     # シナリオ
     url(r"^scenario/get$", get_scenarios_request, name="get_scenarios"),  # シナリオ一覧
+    url(r"^scenario/get_public$", get_public_scenarios_request, name="get_public_scenarios"),  # 公開されているシナリオ一覧
     url(r"^scenario/get_info$", get_scenario_info_request, name="get_scenario_info"),  # シナリオのタイトル等の情報と、メッセージ一覧
     url(r"^scenario/new$", create_new_scenario_request, name="create_new_scenario"),
     url(r"^scenario/change_title$", change_scenario_title_request, name="change_scenario_title"),

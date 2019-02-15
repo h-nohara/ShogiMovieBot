@@ -49,3 +49,34 @@ def get_scenarios(project_id):
         results.append(info)
 
     return results
+
+
+@csrf_exempt
+def get_public_scenarios_request(request):
+
+    scenarios = get_public_scenarios()
+
+    result = {
+        "code" : 200,
+        "data" : {
+            "scenarios" : scenarios,
+        }
+    }
+
+    return JsonResponse(result)
+
+
+def get_public_scenarios():
+
+    record_list_Scenario = Scenario.objects.filter(is_public=True)
+
+    result = []
+
+    for record_Scenario in record_list_Scenario:
+        scenario_id = record_Scenario.id
+        title = record_Scenario.title
+        thumb_path  =record_Scenario.thumb_path
+        info = {"scenario_id" : scenario_id, "title" : title, "thumb_path" : thumb_path}
+        result.append(info)
+
+    return result

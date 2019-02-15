@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <!-- boostrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+
+    <!-- グローバルナビゲーション -->
+
+    <nav class="navbar navbar-default">
+
+        <!-- 左側 -->
+        <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+            <ul class="nav navbar-nav">
+                <li><a href="javascript:void(0)" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
+            </ul>
+            <p class="nav navbar-text">＜公開されているシナリオ一覧＞</p>
+        </div>
+
+        <!-- 右側 -->
+        <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
+        </div>
+
+        <style>
+            #nav_items_right {
+                margin-right: 7vw;
+            }
+            #nav_items_right.navbar-nav li{
+                width: 5vw;
+                text-align: center;
+            }
+            #nav_items_right li:hover {
+                background-color: #ffc9d7;
+            }
+        </style>
+    </nav>
+
+    <!-- グローバルナビゲーション ここまで-->
+
+</header>
+
+
+<body>
+
+    <div class="container-fluid">
+
+        <style>
+            .container-fluid {
+                margin: 10px 5vw;
+            }
+        </style>
+        
+        <div class="row">
+
+            <!-- 作業ボタン -->
+
+            <div class="col-xs-2">
+
+                <div class="">
+
+                    <div class="LeftButton btn btn-info">
+                        並び替え
+                    </div>
+
+                    <style>
+                        .LeftButton {
+                            display: inline-block;
+                            /* background-color: gray; */
+                            /* color: white; */
+                            height: 10vh;
+                            width: 90%;
+                            text-align: center;
+                            padding-top: 4vh;
+                            border: solid black 0.2px;
+                        }
+                    </style>
+
+                </div>
+            </div>
+
+            <!-- 作業ボタン ここまで-->
+
+
+            <!-- 公開されているシナリオ一覧 -->
+
+            <div class="col-xs-9" style="overflow-y: scroll; height:92vh;" id="scenarios">
+                
+                <!-- <div class="panel panel-info OneProject" id="100">
+                    <div class="panel-body">
+                        <p>四間飛車VS穴熊（サンプル）</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            <button class="btn btn-primary TransitToBoard">盤面を編集</button>
+                            <button class="btn btn-primary TransitToScenario">シナリオ一覧</button>
+                            <button class="btn btn-danger pull-right">削除</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="panel panel-info OneProject" id="400">
+                    <div class="panel-body">
+                        <p>四間飛車VS穴熊（サンプル）</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            <button class="btn btn-primary TransitToBoard">盤面を編集</button>
+                            <button class="btn btn-primary TransitToScenario">シナリオ一覧</button>
+                            <button class="btn btn-danger pull-right">削除</button>
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
+    
+
+            <!-- プロジェクト一覧 ここまで-->
+
+        </div>
+
+
+        <!-- モーダル -->
+
+    <!-- モーダル　シナリオ -->
+    <div class="modal fade" id="MessagesModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">シナリオ</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="messages">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- html要素のテンプレート -->
+
+    <!-- シナリオ -->
+    <script type="text/html" id="scenario_template">
+
+        <div class="panel panel-info OneScenario" id=<%= scenario_id %>>
+            <div class="panel-body">
+                <p><%= title %></p>
+            </div>
+            <div class="panel-footer">
+                <div>
+                    <button class="btn btn-primary show_scenario">シナリオを見る</button>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+
+    <!-- テキストメッセージ -->
+    <script type="text/html" id="TextMessage_template">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">テキストメッセージ</h2>
+            </div>
+            <div class="panel-body">
+                <p class="TextMessageText"><%= text %></p>
+            </div>
+            <div class="panel-footer">
+                <div>
+                    <button class="btn btn-primary TextEditModal_opener MessageEditButton">編集</button>
+                    <button class="btn btn-danger MessageDelButton">削除</button>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- 動画メッセージ -->
+    <script type="text/html" id="MovieMessage_template">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">動画メッセージ</h2>
+            </div>
+            <div class="panel-body">
+                <p>動画url   :   <%= movie_path %></p>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary MovieEditModal_opener MessageEditButton">編集</button>
+                <button class="btn btn-danger MessageDelButton">削除</button>
+            </div>
+        </div>
+    </script>
+
+    <!-- html要素のテンプレート　ここまで-->
+
+
+    <script>
+
+        // ロードされた時
+
+        $(document).ready( function(){
+            // USER_ID = get_id_from_url();
+            get_draw_scenarios();
+
+            // sample_scenarios = [
+            //     {"project_id" : 100, "title" : "サンプル１"},
+            //     {"project_id" : 200, "title" : "サンプル２"}
+            // ];
+
+            WATCHING_Scenario_ID = null;
+        });
+
+        // 公開されているシナリオの一覧を取得
+        function get_draw_scenarios(){
+            // $.ajax({
+            //     type : "POST",
+            //     url : "/account/project/get",
+            //     data : JSON.stringify({"user_id" : USER_ID})
+            // })
+            $.ajax({
+                type : "GET",
+                url : "/bot/scenario/get_public",
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let scenarios = response["data"]["scenarios"];
+                    console.log("receive response");
+                    // console.log(scenarios);
+                    draw_scenarios(scenarios);
+                }
+                else {
+                    window.alert("公開されているシナリオの取得に失敗しました");
+                    window.alert(response["error_message"]);
+                };
+            })
+        }
+
+        function draw_scenarios(scenarios){
+            $("#scenarios").html("");
+            for (info of scenarios){
+                let scenario_id = info["scenario_id"];
+                let title = info["title"];
+                var compiled = _.template($("#scenario_template").html());
+                $("#scenarios").append(
+                    compiled({
+                        "scenario_id" : String(scenario_id),
+                        "title" : title
+                    })
+                );
+            }
+        }
+
+
+
+        // モーダルを開く
+
+
+        // シナリオを見る
+        $(document).on("click", "#show_scenario", function(){
+
+            let scenario_id = $(this).closest(".OneScenario").attr("id");
+            WATCHING_Scenario_ID = scenario_id;
+            get_draw_messages(scenario_id);
+
+            $("#MessagesModal").modal();
+        })
+
+        // シナリオ情報を取得
+        function get_draw_messages(scenario_id){
+            $.ajax({
+                async : false,
+                type : "POST",
+                url : "/bot/scenario/get_info",
+                data : JSON.stringify({"scenario_id" : scenario_id})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+
+                    let data = response["data"];
+
+                    let title = data["title"];
+                    let thumb_path = data["thumb_path"];
+                    let is_public = data["is_public"];
+                    let is_subscribing = data["is_subscribing"];
+                    let messages = data["messages"];
+
+                    set_public_setting(is_public);
+                    set_subsc_setting(is_subscribing);
+
+                    MESSAGES = messages;
+                    draw_messages(messages);
+                }
+                else {
+                    window.alert("failed get_scenario_info");
+                    // window.alert(response["error_message"]);
+                };
+            })
+        }
+
+        // メッセージを描画
+        function draw_messages(messages){
+
+            $("#messages").html("");
+
+            var compiled_TextMessage = _.template($("#TextMessage_template").html());
+            var compiled_MovieMessage = _.template($("#MovieMessage_template").html());
+
+            for (info of messages){
+
+                let message_id = info["message_id"];
+                let kind = info["kind"];
+                let is_stop = info["is_stop"];
+
+                if (kind == "text"){
+                    let text = info["text"];
+                    var message_html = compiled_TextMessage({
+                        "text" : text,
+                        "title" : "テキストメッセージ"
+                    });
+                }
+                else if (kind == "movie"){
+                    let movie_path = info["movie_path"];
+                    var message_html = compiled_MovieMessage({
+                        "movie_path" : movie_path,
+                        "title" : "動画メッセージ"
+                    });
+                }
+
+                $("#messages").append(message_html);
+            }
+        }
+
+
+        // ホーム画面へ移動
+
+        $(document).on("click", "#ToProjects_page", function(){
+            window.location.href = "/account/home"
+        })
+
+    </script>
+</body>

@@ -83,4 +83,3 @@ def get_messages(scenario_id):
         messages.append(info)
 
     return messages
-
