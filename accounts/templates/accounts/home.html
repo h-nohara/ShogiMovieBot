@@ -27,7 +27,7 @@
 
         <!-- 右側 -->
         <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
-            <button type="button" class="btn btn-success navbar-btn">公開されているシナリオを見に行く</button>
+            <button type="button" class="btn btn-success navbar-btn" id="ToPublicScenarios_page">公開されているシナリオを見に行く</button>
             <button type="button" class="btn btn-default navbar-btn">アカウント設定（未実装）</button>
         </div>
 
@@ -380,11 +380,16 @@
             window.location.href = "/board/" + String(project_id);
         })
 
+
         // シナリオ一覧ページへ移動
 
         $(document).on("click", ".TransitToScenario", function(){
             let project_id = $(this).closest(".OneProject").attr("id");
             window.location.href = "/bot/scenarios/" + String(project_id);
+        })
+
+        $(document).on("click", "#ToPublicScenarios_page", function(){
+            window.location.href = "/bot/public_scenarios"
         })
 
     </script>

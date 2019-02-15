@@ -9,3 +9,7 @@ def project_scenarios_page(request):
 @login_required(login_url="/account/login")
 def scenario_editor_page(request):
     return render(request, "bot/scenario_editor.html")
+
+@login_required(login_url="/account/login")
+def public_scenarios_page(request):
+    return render(request, "bot/public_scenarios.html")

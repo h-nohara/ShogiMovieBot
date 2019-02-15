@@ -3,7 +3,7 @@ import os, sys
 from django.conf.urls import include, url
 from django.shortcuts import render
 
-from .views import project_scenarios_page, scenario_editor_page
+from .views import project_scenarios_page, scenario_editor_page, public_scenarios_page
 
 # api
 from bot.src.callback import callback
@@ -37,6 +37,9 @@ urlpatterns = [
     url(r"^scenarios/[-a-z0-9_]+$", project_scenarios_page, name="project_scenarios_page"),
     # シナリオ編集ページ
     url(r"^scenario_editor/[-a-z0-9_]+$", scenario_editor_page, name="scenario_editor_page"),
+
+    # 公開されているシナリオの一覧ページ
+    url(r"^public_scenarios$", public_scenarios_page, name="public_scenarios_page"),
 
     # ページを戻る
     url(r"^transit/ScenarioEditor_to_ProjectScenarios$", ScenarioEditor_to_ProjectScenarios_page, name="ScenarioEditor_to_ProjectScenarios"),
