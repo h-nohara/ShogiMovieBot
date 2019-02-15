@@ -9,7 +9,7 @@ from .views import project_scenarios_page, scenario_editor_page
 from bot.src.callback import callback
 from bot.src.create_new_account import create_new_account_request
 from bot.src.get_scenarios import get_scenarios_request, get_public_scenarios_request
-from bot.src.get_scenario_info import get_scenario_info_request, get_messages_request
+from bot.src.get_scenario_info import get_scenario_info_request
 from bot.src.create_new_scenario import create_new_scenario_request
 from bot.src.change_scenario_title import change_scenario_title_request
 from bot.src.delete_scenario import delete_scenario_request
