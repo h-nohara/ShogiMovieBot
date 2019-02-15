@@ -41,7 +41,8 @@
             if (response["code"] == 200){
                 let user_id = response["result"]["user_id"];
                 console.log("success");
-                window.location.href = "/account/home/" + String(user_id);
+                // window.location.href = "/account/home/" + String(user_id);
+                window.location.href = "/account/home";
             }
             else {
                 window.alert(response["error_message"]);

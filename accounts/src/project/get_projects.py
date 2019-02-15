@@ -40,10 +40,10 @@ def get_projects(record_User):
 @csrf_exempt
 def get_projects_request(request):
 
-    data = json.loads(request.body.decode("utf-8"))
-    print(data)
-    user_id = data["user_id"]
-    user_id = int(user_id)
+    # payload = json.loads(request.body.decode("utf-8"))
+    # user_id = payload["user_id"]
+    # user_id = int(user_id)
+    user_id = request.user.id
 
     record_User = User.objects.get(id=user_id)
     projects = get_projects(record_User)

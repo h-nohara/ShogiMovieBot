@@ -7,11 +7,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 # db
 from accounts.models.project import Project
+from accounts.models.info import Info
 from bot.models.scenario import Scenario
 from bot.models.message import Message
-
-# api
-from accounts.src.utils.generate_fname import generate_basename
+from bot.models.subscription import Subscription
 
 
 @csrf_exempt
@@ -32,9 +31,26 @@ def delete_scenario_request(request):
 def delete_scenario(scenario_id):
 
     record_Scenario = Scenario.objects.get(id=scenario_id)
-    record_list_Message = Message.objects.filter(scenario=record_Scenario)
+    scenario_title = record_Scenario.title
 
+    # メッセージを削除
+    record_list_Message = Message.objects.filter(scenario=record_Scenario)
     for record_Message in record_list_Message:
         record_Message.delete()
 
-    record_Scenario.delete()
+    # 購読から削除
+    record_list_Subscription = Subscription.objects.filter(scenario=record_Scenario)
+
+    for record_Subscription in record_list_Subscription:
+
+        # シナリオが削除されたことを、購読者に通知
+        reader = record_Subscription.reader
+        record_Info = Info(
+            user = reader,
+            message = "{}は作成者によって削除されました".format(scenario_title)
+        )
+        record_Info.save()
+
+        record_Subscription.delete()
+
+    record_Scenario.delete()  # レコード削除

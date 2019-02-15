@@ -7,7 +7,7 @@ from .views import new_account_page
 
 # api
 from accounts.src.account import when_login, create_new_account
-from accounts.src.project import get_projects_request, create_new_project_request, change_project_title_request
+from accounts.src.project import get_projects_request, create_new_project_request, change_project_title_request, delete_project_request
 
 urlpatterns = [
 
@@ -25,11 +25,15 @@ urlpatterns = [
 
     # ホーム画面
     url(r"^home/[-a-z0-9_]+$", views.home_page, name="home"),
+    url(r"^home$", views.home_page, name="home"),
+
     # プロジェクト一覧取得
-    url(r"^project/get$", get_projects_request, name="get_projects_request"),
+    url(r"^project/get$", get_projects_request, name="get_projects"),
     # プロジェクト新規作成
-    url(r"^project/new$", create_new_project_request, name="create_new_project_request"),
+    url(r"^project/new$", create_new_project_request, name="create_new_project"),
     # プロジェクト名変更
     url(r"^project/change_title$", change_project_title_request, name="change project title"),
+    # プロジェクト削除
+    url(r"^project/delete$", delete_project_request, name="delete_project"),
 
 ]

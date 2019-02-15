@@ -196,7 +196,7 @@
                     <button class="btn btn-primary TransitToBoard">盤面を編集</button>
                     <button class="btn btn-primary TransitToScenario">シナリオ一覧</button>
                     <button class="btn btn-info ProjectTitleEditModal_opener">プロジェクト名を変更</button>
-                    <button class="btn btn-danger pull-right">削除</button>
+                    <button class="btn btn-danger pull-right DeleteProject">削除</button>
                 </div>
             </div>
         </div>
@@ -209,7 +209,7 @@
         // ロードされた時
 
         $(document).ready( function(){
-            USER_ID = get_id_from_url();
+            // USER_ID = get_id_from_url();
             get_draw_projects();
 
             // sample_projects = [
@@ -221,21 +221,25 @@
         });
 
         // user_idを取得
-        function get_id_from_url(){
-            let url = location.href;
-            let url_split = url.split("/");
-            let the_id = url_split[url_split.length-1];
-            the_id = parseInt(the_id, 10);
-            console.log("id : " + String(the_id));
-            return the_id
-        }
+        // function get_id_from_url(){
+        //     let url = location.href;
+        //     let url_split = url.split("/");
+        //     let the_id = url_split[url_split.length-1];
+        //     the_id = parseInt(the_id, 10);
+        //     console.log("id : " + String(the_id));
+        //     return the_id
+        // }
 
         // プロジェクト一覧を取得
         function get_draw_projects(){
+            // $.ajax({
+            //     type : "POST",
+            //     url : "/account/project/get",
+            //     data : JSON.stringify({"user_id" : USER_ID})
+            // })
             $.ajax({
-                type : "POST",
+                type : "GET",
                 url : "/account/project/get",
-                data : JSON.stringify({"user_id" : USER_ID})
             })
             .done(function(response){
                 if (response["code"] == 200){
@@ -296,7 +300,8 @@
             $.ajax({
                 type : "POST",
                 url : "/account/project/new",
-                data : JSON.stringify({"user_id" : USER_ID, "title" : title})
+                // data : JSON.stringify({"user_id" : USER_ID, "title" : title})
+                data : JSON.stringify({"title" : title})
             })
             .done(function(response){
                 if (response["code"] == 200){
@@ -342,6 +347,29 @@
                     window.alert(response["error_message"]);
                 };
             })
+        })
+
+        // プロジェクト削除
+        $(document).on("click", ".DeleteProject", function(){
+            WATCHING_Project_ID = $(this).closest(".OneProject").attr("id");
+            if ( window.confirm("プロジェクトを削除します（元に戻せません）") ){
+                $.ajax({
+                    type : "POST",
+                    url : "/account/project/delete",
+                    data : JSON.stringify({"project_id" : WATCHING_Project_ID})
+                })
+                .done(function(response){
+                    if (response["code"] == 200){
+                        window.alert("プロジェクトを削除しました");
+                        // 描画し直す
+                        get_draw_projects();
+                    }
+                    else {
+                        window.alert("プロジェクト削除に失敗しました");
+                        window.alert(response["error_message"]);
+                    };
+                })
+            }
         })
 
         // 盤面を編集するページへ移動

@@ -46,8 +46,9 @@ def create_new_project(record_User, title):
 def create_new_project_request(request):
 
     data = json.loads(request.body.decode("utf-8"))
-    user_id = data["user_id"]
-    user_id = int(user_id)
+    user_id = request.user.id
+    # user_id = data["user_id"]
+    # user_id = int(user_id)
     title = data["title"]
 
     record_User = User.objects.get(id=user_id)

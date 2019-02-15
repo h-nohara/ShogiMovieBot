@@ -17,7 +17,7 @@ def get_movies(project_id):
 
     record_list_Movie = Movie.objects.filter(project=record_Project)
 
-    basenames = [record_Movie.basename for record_Movie in record_list_Movie]
+    # basenames = [record_Movie.basename for record_Movie in record_list_Movie]
     paths = [record_Movie.path for record_Movie in record_list_Movie]
     paths.append(concat_movie_path)
 
@@ -29,8 +29,8 @@ def get_movies_request(request):
 
     print("[start get movies")
 
-    data = json.loads(request.body.decode("utf-8"))
-    project_id = data["project_id"]
+    payload = json.loads(request.body.decode("utf-8"))
+    project_id = payload["project_id"]
     project_id = int(project_id)
 
     paths = get_movies(project_id)
@@ -46,9 +46,3 @@ def get_movies_request(request):
     print("success : get movies]")
 
     return JsonResponse(json_response)
-
-
-# pickle_basename = record_Project.pickle_basename
-# key = pickle_basename.split(".")[0]
-
-
