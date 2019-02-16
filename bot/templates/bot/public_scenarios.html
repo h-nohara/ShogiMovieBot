@@ -356,6 +356,7 @@
 
             let flag = $(this).val();
             let scenario_id = $(this).closest(".panel").attr("id");
+            var this_dom = $(this);
 
             if (flag == "positive"){var is_subsc = true;}else{var is_subsc = false;}
 
@@ -373,15 +374,15 @@
                 if (response["code"] == 200){
 
                     if (is_subsc) {
-                        $(this).val("negative");
-                        $(this).css("background-color", "white");
-                        $(this).text("ランダム購読対象外");
+                        this_dom.val("negative");
+                        this_dom.css("background-color", "white");
+                        this_dom.text("ランダム購読対象外");
                         window.alert("購読対象から外しました");
                     }
                     else {
-                        $(this).val("positive");
-                        $(this).css("background-color", "#99FFFF");
-                        $(this).text("ランダム購読の対象");
+                        this_dom.val("positive");
+                        this_dom.css("background-color", "#99FFFF");
+                        this_dom.text("ランダム購読の対象");
                         window.alert("購読の対象に加えました");
                     }
                 }
