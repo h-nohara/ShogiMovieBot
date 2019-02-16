@@ -6,6 +6,7 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 # db
+from accounts.models.user import User
 from accounts.models.project import Project
 from bot.models.scenario import Scenario
 from bot.models.message import Message
@@ -24,7 +25,8 @@ def get_scenario_info_request(request):
     scenario_id = data["scenario_id"]
     scenario_id = int(scenario_id)
 
-    scenario_info = get_scenario_info(scenario_id)
+    user_id = int(request.user.id)
+    scenario_info = get_scenario_info(scenario_id, user_id=user_id)
 
     result = {
         "code" : 200,
@@ -34,7 +36,11 @@ def get_scenario_info_request(request):
     return JsonResponse(result)
 
 
-def get_scenario_info(scenario_id):
+def get_scenario_info(scenario_id, user_id):
+
+    '''
+    シナリオのタイトル等の情報と、メッセージ一覧を返す
+    '''
 
     record_Scenario = Scenario.objects.get(id=scenario_id)
     title = record_Scenario.title
@@ -43,8 +49,9 @@ def get_scenario_info(scenario_id):
 
     messages = get_messages(scenario_id)
 
-    author = record_Scenario.project.user
-    record_list_Subscription = Subscription.objects.filter(reader=author, author=author, scenario=record_Scenario, is_enabled=True)
+    record_User = User.objects.get(id=user_id)
+    record_list_Subscription = Subscription.objects.filter(reader=record_User, scenario=record_Scenario, is_enabled=True)
+
     if len(record_list_Subscription) > 0:
         is_subsc = True
     else:

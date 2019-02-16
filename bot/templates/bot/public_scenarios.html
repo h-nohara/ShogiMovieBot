@@ -166,6 +166,7 @@
             <div class="panel-footer">
                 <div>
                     <button class="btn btn-primary show_scenario">シナリオを見る</button>
+                    <button class="btn btn-default subsc_flag_button style='background-color:'<%= color %>" value=<%= flag %> ><%= text %></button>
                 </div>
             </div>
         </div>
@@ -242,11 +243,27 @@
             for (info of scenarios){
                 let scenario_id = info["scenario_id"];
                 let title = info["title"];
+                let is_subscribing = info["is_subscribing"];
+
+                if (is_subscribing){
+                    var flag = "positive";
+                    var text = "ランダム購読の対象";
+                    var color = "#99FFFF";
+                }
+                else{
+                    var flag = "negative";
+                    var text = "ランダム購読対象外";
+                    var color = "white";
+                }
+
                 var compiled = _.template($("#scenario_template").html());
                 $("#scenarios").append(
                     compiled({
                         "scenario_id" : String(scenario_id),
-                        "title" : title
+                        "title" : title,
+                        "flag" : flag,
+                        "text" : text,
+                        "color" : color
                     })
                 );
             }
@@ -331,6 +348,48 @@
                 $("#messages").append(message_html);
             }
         }
+
+
+        // ランダム購読設定変更ボタン
+
+        $(document).on("click", ".subsc_flag_button", function(){
+
+            let flag = $(this).val();
+            let scenario_id = $(this).closest(".panel").attr("id");
+
+            if (flag == "positive"){var is_subsc = true;}else{var is_subsc = false;}
+
+            $.ajax({
+                type : "POST",
+                url : "/bot/scenario/change_subscription_setting",
+                data : JSON.stringify(
+                    {
+                        "scenario_id" : scenario_id,
+                        "is_subscribing" : !is_subsc
+                    }
+                )
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+
+                    if (is_subsc) {
+                        $(this).val("negative");
+                        $(this).css("background-color", "white");
+                        $(this).text("ランダム購読対象外");
+                        window.alert("購読対象から外しました");
+                    }
+                    else {
+                        $(this).val("positive");
+                        $(this).css("background-color", "#99FFFF");
+                        $(this).text("ランダム購読の対象");
+                        window.alert("購読の対象に加えました");
+                    }
+                }
+                else {
+                    window.alert("購読設定の変更に失敗しました");
+                };
+            })
+        })
 
 
         // ホーム画面へ移動
