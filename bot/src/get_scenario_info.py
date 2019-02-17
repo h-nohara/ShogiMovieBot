@@ -22,8 +22,13 @@ def get_scenario_info_request(request):
 
     print(request.POST)
     data = json.loads(request.body.decode("utf-8"))
-    scenario_id = data["scenario_id"]
-    scenario_id = int(scenario_id)
+    is_attached_id = data["is_attached_id"]
+
+    if is_attached_id:
+        scenario_id = int(request.session.scenario_id)
+    else:
+        scenario_id = data["scenario_id"]
+        scenario_id = int(scenario_id)
 
     user_id = int(request.user.id)
     scenario_info = get_scenario_info(scenario_id, user_id=user_id)

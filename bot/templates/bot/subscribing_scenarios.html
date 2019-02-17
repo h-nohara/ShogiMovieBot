@@ -25,7 +25,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="javascript:void(0)" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
             </ul>
-            <p class="nav navbar-text">＜公開されているシナリオ一覧＞</p>
+            <p class="nav navbar-text">＜購読しているシナリオ一覧＞</p>
         </div>
 
         <!-- 右側 -->
@@ -92,7 +92,7 @@
             <!-- 作業ボタン ここまで-->
 
 
-            <!-- 公開されているシナリオ一覧 -->
+            <!-- 購読しているシナリオ一覧 -->
 
             <div class="col-xs-9" style="overflow-y: scroll; height:92vh;" id="scenarios">
                 
@@ -213,7 +213,7 @@
             WATCHING_Scenario_ID = null;
         });
 
-        // 公開されているシナリオの一覧を取得
+        // 購読しているシナリオの一覧を取得
         function get_draw_scenarios(){
             // $.ajax({
             //     type : "POST",
@@ -222,7 +222,7 @@
             // })
             $.ajax({
                 type : "GET",
-                url : "/bot/scenario/get_public",
+                url : "/bot/scenario/get_subscribing",
             })
             .done(function(response){
                 if (response["code"] == 200){
@@ -232,7 +232,7 @@
                     draw_scenarios(scenarios);
                 }
                 else {
-                    window.alert("公開されているシナリオの取得に失敗しました");
+                    window.alert("購読しているシナリオの取得に失敗しました");
                     window.alert(response["error_message"]);
                 };
             })
@@ -290,10 +290,7 @@
                 async : false,
                 type : "POST",
                 url : "/bot/scenario/get_info",
-                data : JSON.stringify({
-                    "is_attached_id" : true,
-                    "scenario_id" : scenario_id
-                })
+                data : JSON.stringify({"scenario_id" : scenario_id})
             })
             .done(function(response){
                 if (response["code"] == 200){

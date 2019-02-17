@@ -16,16 +16,18 @@ from bot.models.scenario import Scenario
 @csrf_exempt
 def ScenarioEditor_to_ProjectScenarios_page(request):
 
-    data = json.loads(request.body.decode("utf-8"))
-    scenario_id = data["scenario_id"]
-    scenario_id = int(scenario_id)
+    # data = json.loads(request.body.decode("utf-8"))
+    # scenario_id = data["scenario_id"]
+    # scenario_id = int(scenario_id)
 
-    record_Scenario = Scenario.objects.get(id=scenario_id)
-    record_Project = record_Scenario.project
-    project_id = record_Project.id
-    project_id = str(project_id)
+    # record_Scenario = Scenario.objects.get(id=scenario_id)
+    # record_Project = record_Scenario.project
+    # project_id = record_Project.id
+    # project_id = str(project_id)
 
-    the_url = "/bot/scenarios/{}".format(project_id)
+    # the_url = "/bot/scenarios/{}".format(project_id)
+
+    the_url = "/bot/scenarios"
 
     return JsonResponse({"code" : 200, "data" : {"url" : the_url}})
 
@@ -76,10 +78,12 @@ def Scenarios_to_Projects_page(request):
 @csrf_exempt
 def Board_to_ProjectScenarios_page(request):
     
-    data = json.loads(request.body.decode("utf-8"))
-    project_id = data["project_id"]
-    project_id = int(project_id)
+    # data = json.loads(request.body.decode("utf-8"))
+    # project_id = data["project_id"]
+    # project_id = int(project_id)
 
-    the_url = "/bot/scenarios/{}".format(project_id)
+    # the_url = "/bot/scenarios/{}".format(project_id)
+
+    the_url = "/bot/scenarios/"
     
     return JsonResponse({"code" : 200, "data" : {"url" : the_url}})

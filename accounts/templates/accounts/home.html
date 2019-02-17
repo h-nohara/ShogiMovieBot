@@ -377,7 +377,12 @@
 
         $(document).on("click", ".TransitToBoard", function(){
             let project_id = $(this).closest(".OneProject").attr("id");
-            window.location.href = "/board/" + String(project_id);
+            // window.location.href = "/board/" + String(project_id);
+            $.ajax({
+                type : "GET",
+                url : "/board",
+                data : JSON.stringify({"project_id" : project_id})
+            })
         })
 
 
@@ -385,7 +390,12 @@
 
         $(document).on("click", ".TransitToScenario", function(){
             let project_id = $(this).closest(".OneProject").attr("id");
-            window.location.href = "/bot/scenarios/" + String(project_id);
+            // window.location.href = "/bot/scenarios/" + String(project_id);
+            $.ajax({
+                type : "GET",
+                url : "/bot/scenarios/",
+                data : JSON.stringify({"project_id" : project_id})
+            })
         })
 
         $(document).on("click", "#ToPublicScenarios_page", function(){
