@@ -484,8 +484,8 @@
                     $("#project_title").text(project_title +  "  ＜棋譜を編集する＞");
 
                     // history_viewを最新に
-                    // History.watching_action = History.history[0];
-                    // History.watching_action["is_watching"] = true;
+                    History.watching_action = History.history[0];
+                    History.watching_action["is_watching"] = true;
                     History.update_view();
 
                     // boardを最新に
