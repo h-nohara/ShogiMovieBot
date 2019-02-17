@@ -1,6 +1,6 @@
 
 
-function update_d3(dataset){
+function update_d3(dataset, draw_board){
 
     d3.select("#history_scroll").selectAll(".OneAction").remove();
     d3.select("#sub_scenarios").selectAll(".sub_sc").remove();
@@ -52,6 +52,11 @@ function update_d3(dataset){
             // is_watchingのチェック
             if (action["is_watching"] === true){
                 History.watching_dom = this;
+
+                if (draw_board){
+                    SBoard.Board = deepcopy_Board(action["board_state"]);
+                    SBoard.draw_main_board();
+                }
             }
             return "sandybrown";
         }
@@ -59,6 +64,12 @@ function update_d3(dataset){
             // is_watchingのチェック
             if (action["is_watching"] === true){
                 History.watching_dom = this;
+
+                if (draw_board){
+                    SBoard.Board = deepcopy_Board(action["board_state"]);
+                    SBoard.draw_main_board();
+                }
+                
                 return "cornflowerblue";
             }
             else{
@@ -366,10 +377,10 @@ class HistoryHandler{
     }
 
 
-    update_view(){
+    update_view(draw_board=false){
         emp_list = [];
         list_showing_actions(this.history, emp_list);
-        update_d3(emp_list);
+        update_d3(emp_list, draw_board);
     }
 }
 

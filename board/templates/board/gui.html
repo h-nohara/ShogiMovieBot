@@ -484,12 +484,13 @@
                     $("#project_title").text(project_title +  "  ＜棋譜を編集する＞");
 
                     // history_viewを最新に
-                    History.watching_action = History.history[0];
-                    History.watching_action["is_watching"] = true;
-                    History.update_view();
+                    // History.watching_action = History.history[0];
+                    // History.watching_action["is_watching"] = true;
+                    History.update_view(draw_board=true);
 
                     // boardを最新に
-                    // SBoard.Board = History.watching_action["board_state"];
+                    // SBoard.Board = deepcopy_Board(History.watching_action["board_state"]);
+
                     SBoard.draw_main_board();
                 };
 
