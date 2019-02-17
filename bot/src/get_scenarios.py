@@ -20,7 +20,8 @@ def get_scenarios_request(request):
     # project_id = data["project_id"]
     # project_id = int(project_id)
 
-    project_id = int(request.session.project_id)
+    # project_id = int(request.session.project_id)
+    project_id = int(request.session.get("project_id"))
 
     scenarios = get_scenarios(project_id)
 
