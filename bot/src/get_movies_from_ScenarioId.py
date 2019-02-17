@@ -17,13 +17,11 @@ from board.src.movie.get_movies import get_movies
 @csrf_exempt
 def get_movies_from_ScenarioId_request(request):
 
-    print(request.POST)
-    data = json.loads(request.body.decode("utf-8"))
-
-    if request.method == "POST":
-        scenario_id = data["scenario_id"]
-    else:
+    if request.method == "GET":
         scenario_id = request.session.get("scenario_id")
+    else:
+        data = json.loads(request.body.decode("utf-8"))
+        scenario_id = data["scenario_id"]
 
     scenario_id = int(scenario_id)
     movie_paths = get_movies_from_ScenarioId(scenario_id)

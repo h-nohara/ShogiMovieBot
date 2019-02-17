@@ -20,13 +20,10 @@ def get_scenario_info_request(request):
     シナリオのタイトル等の情報と、メッセージ一覧を渡す
     '''
 
-    print(request.POST)
-    data = json.loads(request.body.decode("utf-8"))
-    is_attached_id = data["is_attached_id"]
-
-    if is_attached_id:
+    if request.method == "GET":
         scenario_id = int(request.session.get("scenario_id"))
     else:
+        data = json.loads(request.body.decode("utf-8"))
         scenario_id = data["scenario_id"]
         scenario_id = int(scenario_id)
 

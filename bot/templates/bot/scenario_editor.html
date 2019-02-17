@@ -382,10 +382,8 @@
     function get_draw_scenario_info(){
         $.ajax({
             async : false,
-            type : "POST",
-            url : "/bot/scenario/get_info",
-            // data : JSON.stringify({"scenario_id" : SCENARIO_ID})
-            data: JSON.stringify({"is_attached_id" : false})
+            type : "GET",
+            url : "/bot/scenario/get_info"
         })
         .done(function(response){
             if (response["code"] == 200){
