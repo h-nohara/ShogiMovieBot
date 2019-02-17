@@ -19,9 +19,13 @@ def get_movies_from_ScenarioId_request(request):
 
     print(request.POST)
     data = json.loads(request.body.decode("utf-8"))
-    scenario_id = data["scenario_id"]
-    scenario_id = int(scenario_id)
 
+    if "scenario_id" in data.keys():
+        scenario_id = data["scenario_id"]
+    else:
+        scenario_id = request.session.get("scenario_id")
+        
+    scenario_id = int(scenario_id)
     movie_paths = get_movies_from_ScenarioId(scenario_id)
 
     result = {

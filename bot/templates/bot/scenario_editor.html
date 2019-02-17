@@ -447,9 +447,9 @@
     function get_movies(){
         $.ajax({
             async : false,
-            type : "POST",
+            type : "GET",
             url : "/bot/scenario/movies",
-            data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+            // data : JSON.stringify({"scenario_id" : SCENARIO_ID})
         })
         .done(function(response){
             if (response["code"] == 200){
