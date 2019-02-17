@@ -25,7 +25,7 @@ def get_scenario_info_request(request):
     is_attached_id = data["is_attached_id"]
 
     if is_attached_id:
-        scenario_id = int(request.session.scenario_id)
+        scenario_id = int(request.session.get("scenario_id"))
     else:
         scenario_id = data["scenario_id"]
         scenario_id = int(scenario_id)

@@ -28,4 +28,8 @@ def overwrite_session_request(request):
         scenario_id = int(data["scenario_id"])
         request.session["scenario_id"] = scenario_id
 
+        print("")
+        print("セッションidを保存しました")
+        print("")
+
     return JsonResponse({"code" : 200})
