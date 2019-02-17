@@ -392,7 +392,24 @@
 
         $(document).on("click", ".TransitToEditor", function(){
             let scenario_id = $(this).closest(".OneScenario").attr("id");
-            window.location.href = "/bot/scenario_editor/" + String(scenario_id);
+            // window.location.href = "/bot/scenario_editor/" + String(scenario_id);
+            $.ajax({
+                type : "POST",
+                url : "/account/session/overwrite",
+                data : JSON.stringify({"scenario_id" : scenario_id})
+            })
+            .done(function(result){
+                if (result["code"] == 200){
+                    window.location.href = "/bot/scenario_editor";
+                }
+                else {
+                    window.alert("失敗しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("失敗しました");
+            })
         })
 
         // 盤面を編集するページへ移動

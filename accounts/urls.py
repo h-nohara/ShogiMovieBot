@@ -6,7 +6,7 @@ from . import views
 from .views import new_account_page
 
 # api
-from accounts.src.account import when_login, create_new_account
+from accounts.src.account import when_login, create_new_account, overwrite_session_request
 from accounts.src.project import get_projects_request, create_new_project_request, change_project_title_request, delete_project_request
 
 urlpatterns = [
@@ -17,6 +17,9 @@ urlpatterns = [
     url(r"^login$", views.login_page, name="login"),
     # ログイン・ログアウトページ
     url(r"^login/login$", when_login, name="when_login"),
+
+    # セッション変数を登録
+    url(r"^session/overwrite$", overwrite_session_request, name="overwrite_session_request"),
 
     # 新規アカウント作成
     url(r"^new/$", new_account_page, name="new_account_page"),

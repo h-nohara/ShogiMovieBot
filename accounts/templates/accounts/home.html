@@ -393,13 +393,25 @@
             // window.location.href = "/bot/scenarios/" + String(project_id);
             $.ajax({
                 type : "POST",
-                url : "/bot/scenarios",
+                url : "/account/session/overwrite",
                 data : JSON.stringify({"project_id" : project_id})
+            })
+            .done(function(result){
+                if (result["code"] == 200){
+                    window.location.href = "/bot/scenarios";
+                }
+                else {
+                    window.alert("失敗しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("失敗しました");
             })
         })
 
         $(document).on("click", "#ToPublicScenarios_page", function(){
-            window.location.href = "/bot/public_scenarios"
+            window.location.href = "/bot/public_scenarios";
         })
 
     </script>
