@@ -19,13 +19,13 @@ def overwrite_session_request(request):
 
     if "project_id" in keys:
         project_id = int(data["project_id"])
-        request.session.project_id = project_id
+        request.session["project_id"] = project_id
         print("")
         print("プロジェクトodを保存しました")
         print("")
 
     elif "scenario_id" in keys:
         scenario_id = int(data["scenario_id"])
-        request.session.scenario_id = scenario_id
+        request.session["scenario_id"] = scenario_id
 
     return JsonResponse({"code" : 200})
