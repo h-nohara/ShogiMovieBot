@@ -34,17 +34,17 @@ urlpatterns = [
     url(r"^callback/new_account$", create_new_account_request, name="callback_new_account"),
 
     # シナリオ一覧ページ
-    url(r"^scenarios/[-a-z0-9_]+$", project_scenarios_page, name="project_scenarios_page_old"),
+    # url(r"^scenarios/[-a-z0-9_]+$", project_scenarios_page, name="project_scenarios_page_old"),
     url(r"^scenarios$", project_scenarios_page, name="project_scenarios_page"),
     # シナリオ編集ページ
-    url(r"^scenario_editor/[-a-z0-9_]+$", scenario_editor_page, name="scenario_editor_page_old"),
+    # url(r"^scenario_editor/[-a-z0-9_]+$", scenario_editor_page, name="scenario_editor_page_old"),
     url(r"^scenario_editor$", scenario_editor_page, name="scenario_editor_page"),
 
     # 公開されているシナリオの一覧ページ
     url(r"^scenarios/public$", public_scenarios_page, name="public_scenarios_page"),
 
     # 購読しているシナリオの一覧ページ
-    url(r"^scenarios/subscribing/get$", get_subscribing_scenarios_request, name="get_subscribing"),
+    url(r"^scenario/subscribing/get$", get_subscribing_scenarios_request, name="get_subscribing"),
     url(r"^scenarios/subscribing$", subscribing_scenarios_page, name="subscribing_scenarios_page"),
 
     # ページを戻る
