@@ -133,6 +133,7 @@ def get_subscribing_scenarios(user_id):
     for record_Subscription in record_list_Subscription:
 
         record_Scenario = record_Subscription.scenario
+        publisher = record_Scenario.project.user.nickname
 
         scenario_id = int(record_Scenario.id)
         title = record_Scenario.title
@@ -142,7 +143,8 @@ def get_subscribing_scenarios(user_id):
             "scenario_id" : scenario_id,
             "title" : title,
             "thumb_path" : thumb_path,
-            "is_subscribing" : True
+            "is_subscribing" : True,
+            "publisher" : publisher
         }
 
         result.append(info)
