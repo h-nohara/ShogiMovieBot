@@ -31,7 +31,8 @@ class User(AbstractUser):
     nickname = models.CharField(
         verbose_name = "nickname",
         max_length = 1000,
-        null = True
+        null = True,
+        default = "匿名さん"
     )
 
 
