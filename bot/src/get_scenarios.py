@@ -124,7 +124,7 @@ def get_subscribing_scenarios(user_id):
 
     record_User = User.objects.get(id=user_id)
 
-    record_list_Subscription = Subscription.objects.filter(reader=record_User, is_enabled=True, is_scenario_public=True)
+    record_list_Subscription = Subscription.objects.filter(reader=record_User, is_enabled=True)
 
     result = []
 
