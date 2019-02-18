@@ -33,9 +33,13 @@ from accounts.src.utils import pickle_path_local
 
 @csrf_exempt
 def load_pickle(request):
+
+    if request.method == "GET":
+        project_id = request.session.get("project_id")
+    else:
+        data = json.loads(request.body.decode("utf-8"))
+        project_id = data["project_id"]
     
-    data = json.loads(request.body.decode("utf-8"))
-    project_id = data["project_id"]
     project_id = int(project_id)
 
     record_Project = Project.objects.get(id=project_id)

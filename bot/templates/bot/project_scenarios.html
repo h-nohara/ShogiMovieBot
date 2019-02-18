@@ -31,7 +31,10 @@
 
         <!-- 右側 -->
         <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
-            <button type="button" class="btn btn-default navbar-btn TransitToBoard">盤面を編集</button>
+            <!-- <button type="button" class="btn btn-default navbar-btn TransitToBoard">盤面を編集</button> -->
+            <ul class="nav navbar-nav">
+                <li><a href="/board">盤面を編集する</a></li>
+            </ul>
         </div>
 
         <style>
@@ -413,36 +416,6 @@
             })
         })
 
-        // 盤面を編集するページへ移動
-
-        $(document).on("click", ".TransitToBoard", function(){
-            window.location.href = "/board/" + String(PROJECT_ID);
-        })
-
-
-        // ホーム画面へ移動
-
-        $(document).on("click", "#ToProjects_page", function(){
-            // $.ajax({
-            //     type : "POST",
-            //     url : "/bot/transit/Scenarios_to_Projects",
-            //     data : JSON.stringify({"project_id" : PROJECT_ID})
-            // })
-            $.ajax({
-                type : "GET",
-                url : "/bot/transit/Scenarios_to_Projects",
-            })
-            .done(function(response){
-                if (response["code"] == 200){
-                    let data = response["data"];
-                    let url = data["url"];
-                    window.location.href = url;
-                }
-                else {
-                    window.alert("failed");
-                };
-            })
-        })
         
     </script>
 </body>
