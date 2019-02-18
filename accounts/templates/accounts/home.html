@@ -193,9 +193,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>ニックネームを入力</label>
+                        <label>ニックネーム（シナリオ配信の公開名）を入力</label>
                         <input class="form-control" id="nickname">
                     </div>
+                    <p id="interval_RandomSubscription"></p>
+                    <p id="next_date_RandomSubscription"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
@@ -334,6 +336,8 @@
 
                     // 現在の値を入れておく
                     $("#nickname").val(nickname);
+                    $("#interval_RandomSubscription").text("配信間隔 : "+String(interval_RandomSubscription)+"日")
+                    $("#next_date_RandomSubscription").text("次回配信日 ： "+next_date_RandomSubscription);
 
                     $("#AccountEditModal").modal();
                 }
