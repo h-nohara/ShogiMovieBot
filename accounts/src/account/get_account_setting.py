@@ -23,7 +23,7 @@ def get_account_setting_request(request):
     interval_RandomSubscription = record_User.interval_RandomSubscription
     next_date_RandomSubscription =record_User.next_date_RandomSubscription
 
-    info = {
+    data = {
         "username" : username,
         "nickname" : nickname,
         "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
@@ -34,9 +34,7 @@ def get_account_setting_request(request):
 
     result = {
         "code" : 200,
-        "data" : {
-            info
-        }
+        "data" : data
     }
 
     return JsonResponse(result)
