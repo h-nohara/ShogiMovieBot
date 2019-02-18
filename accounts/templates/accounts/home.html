@@ -196,8 +196,8 @@
                         <label>ニックネーム（シナリオ配信の公開名）を入力</label>
                         <input class="form-control" id="nickname">
                     </div>
-                    <p id="interval_RandomSubscription"></p>
-                    <p id="next_date_RandomSubscription"></p>
+                    <p style="font-weight:bold" id="interval_RandomSubscription"></p>
+                    <p style="font-weight:bold" id="next_date_RandomSubscription"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
@@ -331,8 +331,8 @@
                     let nickname = data["nickname"];
                     let is_enabled_RandomSubscription_own_scenario = data["is_enabled_RandomSubscription_own_scenario"];
                     let is_enabled_RandomSubscription_others_scenario = data["is_enabled_RandomSubscription_others_scenario"];
-                    let interval_RandomSubscription = ["interval_RandomSubscription"];
-                    let next_date_RandomSubscription = ["next_date_RandomSubscription"];
+                    let interval_RandomSubscription = data["interval_RandomSubscription"];
+                    let next_date_RandomSubscription = data["next_date_RandomSubscription"];
 
                     // 現在の値を入れておく
                     $("#nickname").val(nickname);
