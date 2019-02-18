@@ -469,7 +469,6 @@
             $.ajax({
                 type : "GET",
                 url : "/board/load_pickle",
-                // data : JSON.stringify({"project_id" : PROJECT_ID})
             })
             .done(function(result){
                 if (result["code"] == 400){

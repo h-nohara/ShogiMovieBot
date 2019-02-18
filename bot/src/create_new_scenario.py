@@ -19,8 +19,8 @@ def create_new_scenario_request(request):
 
     print(request.POST)
     data = json.loads(request.body.decode("utf-8"))
-    project_id = data["project_id"]
-    project_id = int(project_id)
+    
+    project_id = int(request.session.get("project_id"))
     title = data["title"]
 
     record_Project = Project.objects.get(id=project_id)

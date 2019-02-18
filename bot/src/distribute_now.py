@@ -20,9 +20,11 @@ from bot.src.line_bot_api import line_bot_api, push_text_message, nohara_first_i
 @csrf_exempt
 def distribute_now_request(request):
 
-    data = json.loads(request.body.decode("utf-8"))
-    scenario_id = data["scenario_id"]
-    scenario_id = int(scenario_id)
+    # data = json.loads(request.body.decode("utf-8"))
+    # scenario_id = data["scenario_id"]
+    # scenario_id = int(scenario_id)
+
+    scenario_id = int(request.session.get("scenario_id"))
 
     record_Scenario = Scenario.objects.get(id=scenario_id)
     record_Project = record_Scenario.project

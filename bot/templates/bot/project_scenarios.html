@@ -253,9 +253,9 @@
         // シナリオ情報を取得
         function get_draw_scenarios(){
             $.ajax({
-                type : "POST",
+                type : "GET",
                 url : "/bot/scenario/get",
-                data : JSON.stringify({"project_id" : PROJECT_ID})
+                // data : JSON.stringify({"project_id" : PROJECT_ID})
             })
             .done(function(response){
                 if (response["code"] == 200){
@@ -312,7 +312,7 @@
             $.ajax({
                 type : "POST",
                 url : "/bot/scenario/new",
-                data : JSON.stringify({"project_id" : PROJECT_ID, "title" : title})
+                data : JSON.stringify({"title" : title})
             })
             .done(function(response){
                 if (response["code"] == 200){
@@ -395,8 +395,9 @@
         // シナリオ編集ページへ移動
 
         $(document).on("click", ".TransitToEditor", function(){
+
             let scenario_id = $(this).closest(".OneScenario").attr("id");
-            // window.location.href = "/bot/scenario_editor/" + String(scenario_id);
+            
             $.ajax({
                 type : "POST",
                 url : "/account/session/overwrite",

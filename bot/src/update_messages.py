@@ -15,9 +15,8 @@ from bot.models.message import Message
 def update_messages_request(request):
 
     data = json.loads(request.body.decode("utf-8"))
-    scenario_id = data["scenario_id"]
-    scenario_id = int(scenario_id)
     messages = data["messages"]
+    scenario_id = int(request.session.get("scenario_id"))
 
     update_messages(scenario_id=scenario_id, messages=messages)
 

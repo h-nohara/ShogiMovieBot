@@ -15,14 +15,14 @@ from bot.models.subscription import Subscription
 @csrf_exempt
 def get_scenarios_request(request):
 
-    # print(request.POST)
-    # data = json.loads(request.body.decode("utf-8"))
-    # project_id = data["project_id"]
-    # project_id = int(project_id)
+    if request.method == "GET":
+        project_id = request.session.get("project_id")
 
-    # project_id = int(request.session.project_id)
-    project_id = int(request.session.get("project_id"))
-
+    else:
+        data = json.loads(request.body.decode("utf-8"))
+        project_id = data["project_id"]
+    
+    project_id = int(project_id)
     scenarios = get_scenarios(project_id)
 
     record_Project = Project.objects.get(id=project_id)

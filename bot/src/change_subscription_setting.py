@@ -23,10 +23,10 @@ def change_subscription_setting_request(request):
     print(request.POST)
     payload = json.loads(request.body.decode("utf-8"))
 
-    scenario_id = payload["scenario_id"]
+    # scenario_id = payload["scenario_id"]
     is_subsc = payload["is_subscribing"]
 
-    scenario_id = int(scenario_id)
+    scenario_id = int(request.session.get("scenario_id"))
 
     record_Scenario = Scenario.objects.get(id=scenario_id)
     record_User = request.user

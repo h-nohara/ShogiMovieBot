@@ -21,9 +21,11 @@ def change_public_setting_request(request):
 
     print(request.POST)
     payload = json.loads(request.body.decode("utf-8"))
-    scenario_id = payload["scenario_id"]
-    scenario_id = int(scenario_id)
+    # scenario_id = payload["scenario_id"]
+    # scenario_id = int(scenario_id)
     is_public = payload["is_public"]
+
+    scenario_id = int(request.session.get("scenario_id"))
 
     # シナリオの公開設定を更新
     record_Scenario = Scenario.objects.get(id=scenario_id)

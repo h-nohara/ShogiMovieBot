@@ -376,12 +376,25 @@
         // 盤面を編集するページへ移動
 
         $(document).on("click", ".TransitToBoard", function(){
+
             let project_id = $(this).closest(".OneProject").attr("id");
-            // window.location.href = "/board/" + String(project_id);
+
             $.ajax({
                 type : "POST",
-                url : "/board",
+                url : "/account/session/overwrite",
                 data : JSON.stringify({"project_id" : project_id})
+            })
+            .done(function(result){
+                if (result["code"] == 200){
+                    window.location.href = "/board";
+                }
+                else {
+                    window.alert("失敗しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("失敗しました");
             })
         })
 
@@ -389,8 +402,9 @@
         // シナリオ一覧ページへ移動
 
         $(document).on("click", ".TransitToScenario", function(){
+
             let project_id = $(this).closest(".OneProject").attr("id");
-            // window.location.href = "/bot/scenarios/" + String(project_id);
+
             $.ajax({
                 type : "POST",
                 url : "/account/session/overwrite",
