@@ -20,13 +20,14 @@ def change_subscription_setting_request(request):
     シナリオの購読設定を変更
     '''
 
-    print(request.POST)
     payload = json.loads(request.body.decode("utf-8"))
 
-    # scenario_id = payload["scenario_id"]
     is_subsc = payload["is_subscribing"]
 
-    scenario_id = int(request.session.get("scenario_id"))
+    if "scenario_id" in payload.keys():
+        scenario_id = payload["scenario_id"]
+    else:
+        scenario_id = int(request.session.get("scenario_id"))
 
     record_Scenario = Scenario.objects.get(id=scenario_id)
     record_User = request.user

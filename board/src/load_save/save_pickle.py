@@ -35,9 +35,9 @@ from .modify import modify
 def save_pickle(request):
 
     data = json.loads(request.body.decode("utf-8"))
-    project_id = data["project_id"]
-    project_id = int(project_id)
     history = data["history"]
+
+    project_id = int(request.session.get("project_id"))
 
     record_Project = Project.objects.get(id=project_id)
     basename = record_Project.pickle_basename

@@ -29,9 +29,14 @@ def get_movies_request(request):
 
     print("[start get movies")
 
-    payload = json.loads(request.body.decode("utf-8"))
-    project_id = payload["project_id"]
-    project_id = int(project_id)
+    # payload = json.loads(request.body.decode("utf-8"))
+    # project_id = payload["project_id"]
+    # project_id = int(project_id)
+
+    if request.method == "GET":
+        project_id = int(request.session.get("project_id"))
+    else:
+        raise ValueError("only GET receive")
 
     paths = get_movies(project_id)
 

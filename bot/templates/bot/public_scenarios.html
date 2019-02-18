@@ -23,7 +23,7 @@
         <!-- 左側 -->
         <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
             <ul class="nav navbar-nav">
-                <li><a href="javascript:void(0)" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
+                <li><a href="/account/home" class="glyphicon glyphicon-home">ホーム画面へ</a></li>
             </ul>
             <p class="nav navbar-text">＜公開されているシナリオ一覧＞</p>
         </div>
@@ -393,13 +393,6 @@
                     window.alert("購読設定の変更に失敗しました");
                 };
             })
-        })
-
-
-        // ホーム画面へ移動
-
-        $(document).on("click", "#ToProjects_page", function(){
-            window.location.href = "/account/home"
         })
 
     </script>

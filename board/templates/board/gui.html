@@ -43,7 +43,7 @@
 
             <!-- 右側 -->
             <div id="nav_items_right" class="collapse navbar-collapse navbar-right" style="margin-right: 5vw;">
-                <span class="btn btn-default navbar-btn" id="ToScenarios_page">シナリオ一覧</span>
+                <span class="btn btn-default navbar-btn" onclick="window.location.href='/bot/scenarios'">シナリオ一覧</span>
                 <span class="btn btn-info navbar-btn" id="show_movies_button">生成した動画の一覧</span>
                 <span class="btn btn-danger navbar-btn" id="generate">動画を生成</span>
                 <span class="btn btn-primary navbar-btn" id="save">保存する</span>
@@ -521,7 +521,7 @@
             $.ajax({
                 type : "POST",
                 url : "/board/save_pickle",
-                data : JSON.stringify({"project_id" : PROJECT_ID, "history" : history_copy})
+                data : JSON.stringify({"history" : history_copy})
             })
             .done(function(result){
                 if (result["code"] == 400){
@@ -556,9 +556,9 @@
             dispLoading("動画を生成中...");
 
             $.ajax({
-                type : "POST",
+                type : "GET",
                 url : "/board/movie/generate",
-                data : JSON.stringify({"project_id" : PROJECT_ID})
+                // data : JSON.stringify({"project_id" : PROJECT_ID})
             })
             .done(function(result){
                 if (result["code"] == 400){
@@ -585,9 +585,9 @@
         $(document).on("click", "#show_movies_button", function(event){
                     
             $.ajax({
-                type : "POST",
+                type : "GET",
                 url : "/board/movie/get",
-                data : JSON.stringify({"project_id" : PROJECT_ID})
+                // data : JSON.stringify({"project_id" : PROJECT_ID})
             })
             .done(function(result){
                 if (result["code"] == 400){
@@ -633,13 +633,6 @@
             $("#loading").remove();
         }
 
-
-        
-
-        // シナリオ一覧へ
-        $(document).on("click", "#ToScenarios_page", function(){
-            window.location.href = "/bot/scenarios"
-        })
     </script>
 
 
