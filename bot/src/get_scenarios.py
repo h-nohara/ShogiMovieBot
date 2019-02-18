@@ -83,6 +83,7 @@ def get_public_scenarios(user_id):
         scenario_id = record_Scenario.id
         title = record_Scenario.title
         thumb_path  =record_Scenario.thumb_path
+        publisher = record_Scenario.project.user.nickname
 
         record_User = User.objects.get(id=user_id)
         record_list_Subscription = Subscription.objects.filter(reader=record_User, scenario=record_Scenario, is_enabled=True)
@@ -95,7 +96,8 @@ def get_public_scenarios(user_id):
             "scenario_id" : scenario_id,
             "title" : title,
             "thumb_path" : thumb_path,
-            "is_subscribing" : is_subscribing
+            "is_subscribing" : is_subscribing,
+            "publisher" : publisher
         }
         result.append(info)
 

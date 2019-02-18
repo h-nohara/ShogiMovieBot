@@ -168,6 +168,9 @@
                     <button class="btn btn-primary show_scenario">シナリオを見る</button>
                     <button class="btn btn-default subsc_flag_button" style="background-color:<%= color %>" value=<%= flag %> ><%= text %></button>
                 </div>
+                <div class="text-right">
+                    <p>作成者 : <%= publisher %></p>
+                </div>
             </div>
         </div>
 
@@ -244,6 +247,7 @@
                 let scenario_id = info["scenario_id"];
                 let title = info["title"];
                 let is_subscribing = info["is_subscribing"];
+                let publisher = info["publisher"];
 
                 if (is_subscribing){
                     var flag = "positive";
@@ -263,7 +267,8 @@
                         "title" : title,
                         "flag" : flag,
                         "text" : text,
-                        "color" : color
+                        "color" : color,
+                        "publisher" : publisher
                     })
                 );
             }
