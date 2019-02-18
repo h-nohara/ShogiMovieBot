@@ -12,6 +12,7 @@ from accounts.models.user import User
 
 
 @login_required
+@csrf_exempt
 def change_account_setting_request(request):
 
     record_User = request.user
