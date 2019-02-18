@@ -23,7 +23,7 @@
         <!-- 左側 -->
         <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
             <ul class="nav navbar-nav">
-                <li><a href="javascript:void(0)" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
+                <li><a href="/account/home" class="glyphicon glyphicon-home">ホーム画面へ</a></li>
             </ul>
             <p class="nav navbar-text">＜購読しているシナリオ一覧＞</p>
         </div>
@@ -215,20 +215,15 @@
 
         // 購読しているシナリオの一覧を取得
         function get_draw_scenarios(){
-            // $.ajax({
-            //     type : "POST",
-            //     url : "/account/project/get",
-            //     data : JSON.stringify({"user_id" : USER_ID})
-            // })
+            
             $.ajax({
                 type : "GET",
-                url : "/bot/scenario/get_subscribing",
+                url : "/bot/scenario/subscribing/get",
             })
             .done(function(response){
                 if (response["code"] == 200){
                     let scenarios = response["data"]["scenarios"];
                     console.log("receive response");
-                    // console.log(scenarios);
                     draw_scenarios(scenarios);
                 }
                 else {
@@ -390,13 +385,6 @@
                     window.alert("購読設定の変更に失敗しました");
                 };
             })
-        })
-
-
-        // ホーム画面へ移動
-
-        $(document).on("click", "#ToProjects_page", function(){
-            window.location.href = "/account/home"
         })
 
     </script>

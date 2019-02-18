@@ -3,12 +3,12 @@ import os, sys
 from django.conf.urls import include, url
 from django.shortcuts import render
 
-from .views import project_scenarios_page, scenario_editor_page, public_scenarios_page
+from .views import project_scenarios_page, scenario_editor_page, public_scenarios_page, subscribing_scenarios_page
 
 # api
 from bot.src.callback import callback
 from bot.src.create_new_account import create_new_account_request
-from bot.src.get_scenarios import get_scenarios_request, get_public_scenarios_request
+from bot.src.get_scenarios import get_scenarios_request, get_public_scenarios_request, get_subscribing_scenarios_request
 from bot.src.get_scenario_info import get_scenario_info_request
 from bot.src.create_new_scenario import create_new_scenario_request
 from bot.src.change_scenario_title import change_scenario_title_request
@@ -41,7 +41,11 @@ urlpatterns = [
     url(r"^scenario_editor$", scenario_editor_page, name="scenario_editor_page"),
 
     # 公開されているシナリオの一覧ページ
-    url(r"^public_scenarios$", public_scenarios_page, name="public_scenarios_page"),
+    url(r"^scenarios/public$", public_scenarios_page, name="public_scenarios_page"),
+
+    # 購読しているシナリオの一覧ページ
+    url(r"^scenarios/subscribing/get$", get_subscribing_scenarios_request, name="get_subscribing"),
+    url(r"^scenarios/subscribing$", subscribing_scenarios_page, name="subscribing_scenarios_page"),
 
     # ページを戻る
     url(r"^transit/ScenarioEditor_to_ProjectScenarios$", ScenarioEditor_to_ProjectScenarios_page, name="ScenarioEditor_to_ProjectScenarios"),

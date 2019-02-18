@@ -100,3 +100,49 @@ def get_public_scenarios(user_id):
         result.append(info)
 
     return result
+
+
+
+@csrf_exempt
+def get_subscribing_scenarios_request(request):
+
+    user_id = int(request.user.id)
+    scenarios = get_subscribing_scenarios(user_id=user_id)
+
+    result = {
+        "code" : 200,
+        "data" : {
+            "scenarios" : scenarios,
+        }
+    }
+
+    return JsonResponse(result)
+
+
+
+def get_subscribing_scenarios(user_id):
+
+    record_User = User.objects.get(id=user_id)
+
+    record_list_Subscription = Subscription.objects.filter(reader=record_User, is_enabled=True, is_scenario_public=True)
+
+    result = []
+
+    for record_Subscription in record_list_Subscription:
+
+        record_Scenario = record_Subscription.scenario
+
+        scenario_id = int(record_Scenario.id)
+        title = record_Scenario.title
+        thumb_path  =record_Scenario.thumb_path
+
+        info = {
+            "scenario_id" : scenario_id,
+            "title" : title,
+            "thumb_path" : thumb_path,
+            "is_subscribing" : True
+        }
+
+        result.append(info)
+
+    return result

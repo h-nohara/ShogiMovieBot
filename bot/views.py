@@ -19,3 +19,8 @@ def scenario_editor_page(request):
 @login_required(login_url="/account/login")
 def public_scenarios_page(request):
     return render(request, "bot/public_scenarios.html")
+
+
+@login_required(login_url="/account/login")
+def subscribing_scenarios_page(request):
+    return render(request, "bot/subscribing_scenarios.html")

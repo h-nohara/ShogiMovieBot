@@ -26,10 +26,12 @@ def distribute_now_request(request):
 
     scenario_id = int(request.session.get("scenario_id"))
 
-    record_Scenario = Scenario.objects.get(id=scenario_id)
-    record_Project = record_Scenario.project
-    record_User = record_Project.user
-    user_id = record_User.id
+    # record_Scenario = Scenario.objects.get(id=scenario_id)
+    # record_Project = record_Scenario.project
+    # record_User = record_Project.user
+    # user_id = record_User.id
+
+    user_id = int(request.user.id)
 
     distribute(scenario_id=scenario_id, user_id=user_id)
 
