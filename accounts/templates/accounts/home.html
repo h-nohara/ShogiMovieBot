@@ -198,14 +198,14 @@
                         <input class="form-control" id="nickname">
                     </div>
                     <!-- 購読設定 -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>自分のシナリオのランダム購読　： </label>
                         <button class="btn btn-default enabled_flag" id="is_enabled_RandomSubscription_own_scenario"></button>
                     </div>
                     <div class="form-group">
                         <label>他人のシナリオのランダム購読　： </label>
                         <button class="btn btn-default enabled_flag" id="is_enabled_RandomSubscription_others_scenario"></button>
-                    </div>
+                    </div> -->
                     <!-- 配信日 -->
                     <p style="font-weight:bold" id="interval_RandomSubscription"></p>
                     <p style="font-weight:bold" id="next_date_RandomSubscription"></p>
@@ -351,23 +351,23 @@
                     $("#next_date_RandomSubscription").text("次回配信日 ： "+next_date_RandomSubscription);
 
                     // 購読の有効設定
-                    let id_flag_dict = {
-                        "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
-                        "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
-                    };
+                    // let id_flag_dict = {
+                    //     "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
+                    //     "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
+                    // };
 
-                    for (key of Object.keys(id_flag_dict)){
-                        if (id_flag_dict[key]){
-                            $("#"+key).val("positive");
-                            $("#"+key).text("有効");
-                            $("#"+key).css("background-color", "#99FFFF");
-                        }
-                        else {
-                            $("#"+key).val("negative");
-                            $("#"+key).text("無効");
-                            $("#"+key).css("background-color", "white");
-                        }
-                    }
+                    // for (key of Object.keys(id_flag_dict)){
+                    //     if (id_flag_dict[key]){
+                    //         $("#"+key).val("positive");
+                    //         $("#"+key).text("有効");
+                    //         $("#"+key).css("background-color", "#99FFFF");
+                    //     }
+                    //     else {
+                    //         $("#"+key).val("negative");
+                    //         $("#"+key).text("無効");
+                    //         $("#"+key).css("background-color", "white");
+                    //     }
+                    // }
 
                     $("#AccountEditModal").modal();
                 }
@@ -411,62 +411,62 @@
         })
 
         // 購読設定の変更
-        $(document).on("click", ".enabled_flag", function(){
-            if ($(this).val() == "positive"){
-                $(this).val("negative");
-                $(this).text("無効");
-                $(this).css("background-color", "white");
-            }
-            else {
-                $(this).val("positive");
-                $(this).text("有効");
-                $(this).css("background-color", "#99FFFF");
-            }
-        })
+        // $(document).on("click", ".enabled_flag", function(){
+        //     if ($(this).val() == "positive"){
+        //         $(this).val("negative");
+        //         $(this).text("無効");
+        //         $(this).css("background-color", "white");
+        //     }
+        //     else {
+        //         $(this).val("positive");
+        //         $(this).text("有効");
+        //         $(this).css("background-color", "#99FFFF");
+        //     }
+        // })
 
         // アカウント設定変更を送信
-        $(document).on("click", "#AccountEditModal_ModButton", function(){
+        // $(document).on("click", "#AccountEditModal_ModButton", function(){
 
-            // let username = $("#username").val();
-            let nickname = $("#nickname").val();
-            // let interval_RandomSubscription = $("#interval_RandomSubscription").val();
-            // let next_date_RandomSubscription = $("#next_date_RandomSubscription").val();
+        //     // let username = $("#username").val();
+        //     let nickname = $("#nickname").val();
+        //     // let interval_RandomSubscription = $("#interval_RandomSubscription").val();
+        //     // let next_date_RandomSubscription = $("#next_date_RandomSubscription").val();
 
-            let info = {
-                "nickname" : nickname
-            }
+        //     let info = {
+        //         "nickname" : nickname
+        //     }
 
-            // 購読設定
-            let id_flag_dict = {
-                "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
-                "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
-            };
+        //     // 購読設定
+        //     let id_flag_dict = {
+        //         "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
+        //         "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
+        //     };
 
-            for (key of Object.keys(id_flag_dict)){
-                let flag = $("#"+key).val();
-                if (flag == "positive"){
-                    info[key] = true;
-                }
-                else {
-                    info[key] = false;
-                }
-            }
+        //     for (key of Object.keys(id_flag_dict)){
+        //         let flag = $("#"+key).val();
+        //         if (flag == "positive"){
+        //             info[key] = true;
+        //         }
+        //         else {
+        //             info[key] = false;
+        //         }
+        //     }
 
-            $.ajax({
-                type : "POST",
-                url : "/account/change",
-                data : JSON.stringify(info)
-            })
-            .done(function(response){
-                if (response["code"] == 200){
-                    window.alert("アカウント情報を変更しました");
-                }
-                else {
-                    window.alert("失敗しました");
-                };
-            })
+        //     $.ajax({
+        //         type : "POST",
+        //         url : "/account/change",
+        //         data : JSON.stringify(info)
+        //     })
+        //     .done(function(response){
+        //         if (response["code"] == 200){
+        //             window.alert("アカウント情報を変更しました");
+        //         }
+        //         else {
+        //             window.alert("失敗しました");
+        //         };
+        //     })
 
-        })
+        // })
 
         // プロジェクト名変更
         $(document).on("click", "#ProjectTitleEditModal_ModButton", function(){
