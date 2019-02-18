@@ -425,48 +425,46 @@
         // })
 
         // アカウント設定変更を送信
-        // $(document).on("click", "#AccountEditModal_ModButton", function(){
+        $(document).on("click", "#AccountEditModal_ModButton", function(){
 
-        //     // let username = $("#username").val();
-        //     let nickname = $("#nickname").val();
-        //     // let interval_RandomSubscription = $("#interval_RandomSubscription").val();
-        //     // let next_date_RandomSubscription = $("#next_date_RandomSubscription").val();
+            // let username = $("#username").val();
+            let nickname = $("#nickname").val();
 
-        //     let info = {
-        //         "nickname" : nickname
-        //     }
+            let info = {
+                "nickname" : nickname
+            }
 
-        //     // 購読設定
-        //     let id_flag_dict = {
-        //         "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
-        //         "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
-        //     };
+            // 購読設定
+            // let id_flag_dict = {
+            //     "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
+            //     "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
+            // };
 
-        //     for (key of Object.keys(id_flag_dict)){
-        //         let flag = $("#"+key).val();
-        //         if (flag == "positive"){
-        //             info[key] = true;
-        //         }
-        //         else {
-        //             info[key] = false;
-        //         }
-        //     }
+            // for (key of Object.keys(id_flag_dict)){
+            //     let flag = $("#"+key).val();
+            //     if (flag == "positive"){
+            //         info[key] = true;
+            //     }
+            //     else {
+            //         info[key] = false;
+            //     }
+            // }
 
-        //     $.ajax({
-        //         type : "POST",
-        //         url : "/account/change",
-        //         data : JSON.stringify(info)
-        //     })
-        //     .done(function(response){
-        //         if (response["code"] == 200){
-        //             window.alert("アカウント情報を変更しました");
-        //         }
-        //         else {
-        //             window.alert("失敗しました");
-        //         };
-        //     })
+            $.ajax({
+                type : "POST",
+                url : "/account/change",
+                data : JSON.stringify(info)
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    window.alert("アカウント情報を変更しました");
+                }
+                else {
+                    window.alert("失敗しました");
+                };
+            })
 
-        // })
+        })
 
         // プロジェクト名変更
         $(document).on("click", "#ProjectTitleEditModal_ModButton", function(){
