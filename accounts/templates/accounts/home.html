@@ -192,10 +192,21 @@
                     <h4 class="modal-title">アカウント設定</h4>
                 </div>
                 <div class="modal-body">
+                    <!-- ニックネーム -->
                     <div class="form-group">
                         <label>ニックネーム（シナリオ配信の公開名）を入力</label>
                         <input class="form-control" id="nickname">
                     </div>
+                    <!-- 購読設定 -->
+                    <div class="form-group">
+                        <label>自分のシナリオのランダム購読</label>
+                        <button class="btn btn-default enabled_flag" id="is_enabled_RandomSubscription_own_scenario"></button>
+                    </div>
+                    <div class="form-group">
+                        <label>他人のシナリオのランダム購読</label>
+                        <button class="btn btn-default enabled_flag" id="is_enabled_RandomSubscription_others_scenario"></button>
+                    </div>
+                    <!-- 配信日 -->
                     <p style="font-weight:bold" id="interval_RandomSubscription"></p>
                     <p style="font-weight:bold" id="next_date_RandomSubscription"></p>
                 </div>
@@ -338,6 +349,25 @@
                     $("#nickname").val(nickname);
                     $("#interval_RandomSubscription").text("配信間隔 : "+String(interval_RandomSubscription)+"日")
                     $("#next_date_RandomSubscription").text("次回配信日 ： "+next_date_RandomSubscription);
+
+                    // 購読の有効設定
+                    let id_flag_dict = {
+                        "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
+                        "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
+                    };
+
+                    for (key of Object.keys(id_flag_dict)){
+                        if (id_flag_dict[key]){
+                            $("#"+key).val("positive");
+                            $("#"+key).text("有効");
+                            $("#"+key).css("background-color", "#99FFFF");
+                        }
+                        else {
+                            $("#"+key).val("negative");
+                            $("#"+key).text("無効");
+                            $("#"+key).css("background-color", "white");
+                        }
+                    }
 
                     $("#AccountEditModal").modal();
                 }
