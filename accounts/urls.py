@@ -6,7 +6,7 @@ from . import views
 from .views import new_account_page
 
 # api
-from accounts.src.account import when_login, create_new_account, overwrite_session_request
+from accounts.src.account import when_login, create_new_account, overwrite_session_request, get_account_info_request
 from accounts.src.project import get_projects_request, create_new_project_request, change_project_title_request, delete_project_request
 
 urlpatterns = [
@@ -25,6 +25,10 @@ urlpatterns = [
     url(r"^new/$", new_account_page, name="new_account_page"),
     # 新規アカウント作成
     url(r"^new/create$", create_new_account, name="create_new_account"),
+
+    # アカウント情報を取得
+    url(r"^get$", get_account_info_request, name="get_account_info"),
+    
 
     # ホーム画面
     url(r"^home/[-a-z0-9_]+$", views.home_page, name="home"),

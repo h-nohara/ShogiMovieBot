@@ -22,6 +22,18 @@ class User(AbstractUser):
         null = True
     )
 
+    line_display_name = models.CharField(
+        verbose_name = "line_display_name",
+        max_length = 1000,
+        null = True
+    )
+
+    nickname = models.CharField(
+        verbose_name = "nickname",
+        max_length = 1000,
+        null = True
+    )
+
 
     # 配信配信
 

@@ -29,7 +29,7 @@
         <div id="nav_items_right" class="collapse navbar-collapse navbar-right">
             <button type="button" class="btn btn-primary navbar-btn" onclick="window.location.href='/bot/scenarios/subscribing'">購読中のシナリオ</button>
             <button type="button" class="btn btn-success navbar-btn" onclick="window.location.href='/bot/scenarios/public'">公開されているシナリオを見に行く</button>
-            <button type="button" class="btn btn-default navbar-btn">アカウント設定（未実装）</button>
+            <button type="button" class="btn btn-default navbar-btn" id="AccountEditModal_opener">アカウント設定</button>
         </div>
 
         <style>
@@ -183,6 +183,28 @@
         </div>
     </div>
 
+    <!-- モーダル　アカウント設定 -->
+    <div class="modal fade" id="AccountEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">アカウント設定</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>ニックネームを入力</label>
+                        <input class="form-control" id="nickname">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-primary" id="AccountEditModal_ModButton">設定を保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- html要素のテンプレート -->
 
@@ -288,6 +310,36 @@
 
             WATCHING_Project_ID = $(this).closest(".OneProject").attr("id");
             $("#ProjectTitleEditModal").modal();
+        })
+
+        // アカウント設定モーダル
+        $(document).on("click", "#AccountEditModal_opener", function(){
+
+            // アカウント設定を取得
+            $.ajax({
+                type : "GET",
+                url : "/account/project/get",
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let data = response["data"];
+                    
+                    let username = data["username"];
+                    let nickname = data["nickname"];
+                    let is_enabled_RandomSubscription_own_scenario = data["is_enabled_RandomSubscription_own_scenario"];
+                    let is_enabled_RandomSubscription_others_scenario = data["is_enabled_RandomSubscription_others_scenario"];
+                    let interval_RandomSubscription = ["interval_RandomSubscription"];
+                    let next_date_RandomSubscription = ["next_date_RandomSubscription"];
+                    
+                    // 現在の値を入れておく
+                    $("#nickname").val(nickname);
+
+                    $("#AccountEditModal").modal();
+                }
+                else {
+                    window.alert(response["error_message"]);
+                };
+            })
         })
 
 
