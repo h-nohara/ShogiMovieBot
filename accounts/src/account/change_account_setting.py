@@ -15,7 +15,8 @@ from accounts.models.user import User
 @csrf_exempt
 def change_account_setting_request(request):
 
-    record_User = request.user
+    user_id = int(request.user.id)
+    record_User = User.objects.get(id=user_id)
 
     data = json.loads(request.body.decode("utf-8"))
 
