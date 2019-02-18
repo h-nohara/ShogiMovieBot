@@ -318,7 +318,7 @@
             // アカウント設定を取得
             $.ajax({
                 type : "GET",
-                url : "/account/project/get",
+                url : "/account/get",
             })
             .done(function(response){
                 if (response["code"] == 200){
@@ -331,10 +331,6 @@
                     let is_enabled_RandomSubscription_others_scenario = data["is_enabled_RandomSubscription_others_scenario"];
                     let interval_RandomSubscription = ["interval_RandomSubscription"];
                     let next_date_RandomSubscription = ["next_date_RandomSubscription"];
-
-                    window.alert(nickname);
-                    console.log("データ");
-                    console.log(data);
 
                     // 現在の値を入れておく
                     $("#nickname").val(nickname);
