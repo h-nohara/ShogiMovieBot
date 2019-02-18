@@ -36,8 +36,5 @@ def change_account_setting_request(request):
 
     record_User.save()
 
-    print("ニックネーム : {}".format(nickname))
-    print("ニックネーム保存 : {}".format(record_User.nickname))
-
     return JsonResponse({"code" : 200})
 

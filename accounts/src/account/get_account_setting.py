@@ -35,7 +35,7 @@ def get_account_setting_request(request):
     result = {
         "code" : 200,
         "data" : {
-            "info" : info
+            info
         }
     }
 
