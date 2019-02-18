@@ -36,7 +36,7 @@
             <!-- 左側 -->
             <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
                 <ul class="nav navbar-nav">
-                    <li><a href="javascript:void(0)" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
+                    <li><a href="/account/home" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
                 </ul>
                 <p class="nav navbar-text" id="project_title"></p>
             </div>
@@ -634,44 +634,11 @@
         }
 
 
-        // ページ遷移
-
-        // ホーム画面（プロジェクト一覧）へ
-        $(document).on("click", "#ToProjects_page", function(){
-            $.ajax({
-                type : "POST",
-                url : "/bot/transit/Scenarios_to_Projects",
-                data : JSON.stringify({"project_id" : PROJECT_ID})
-            })
-            .done(function(response){
-                if (response["code"] == 200){
-                    let data = response["data"];
-                    let url = data["url"];
-                    window.location.href = url;
-                }
-                else {
-                    window.alert("failed");
-                };
-            })
-        })
+        
 
         // シナリオ一覧へ
         $(document).on("click", "#ToScenarios_page", function(){
-            $.ajax({
-                type : "POST",
-                url : "/bot/transit/Board_to_Scenarios",
-                data : JSON.stringify({"project_id" : PROJECT_ID})
-            })
-            .done(function(response){
-                if (response["code"] == 200){
-                    let data = response["data"];
-                    let url = data["url"];
-                    window.location.href = url;
-                }
-                else {
-                    window.alert("failed");
-                };
-            })
+            window.location.href = "/bot/scenarios"
         })
     </script>
 
