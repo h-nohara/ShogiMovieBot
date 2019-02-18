@@ -12,7 +12,7 @@ from accounts.models.user import User
 
 
 @login_required
-def get_account_info_request(request):
+def get_account_setting_request(request):
 
     record_User = request.user
 
