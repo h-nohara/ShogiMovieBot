@@ -54,7 +54,9 @@ def delete_project(project_id):
     # pickleを削除
     basename = record_Project.pickle_basename
     local_path = pickle_path_local(basename)
-    os.remove(local_path)
-    print("deleted pickle : {}".format(local_path))
+
+    if os.path.exists(local_path):
+        os.remove(local_path)
+        print("deleted pickle : {}".format(local_path))
 
     record_Project.delete()
