@@ -649,11 +649,10 @@
             // ローディング画面
             dispLoading("盤面を保存中...");
 
-            // 新規プロジェクト作成
 
             $.ajax({
                 type : "POST",
-                url : "/board/save_pickle",
+                url : "/board/initial/editor/save",
                 data : JSON.stringify({
                     "title" : title,
                     "history" : new_history
