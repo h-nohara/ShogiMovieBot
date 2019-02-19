@@ -37,10 +37,10 @@ def save_initial_board_request(request):
     record_User = User.objects.get(id=user_id)
     username = record_User.username
     the_key = username + str(title)
-    pickle_path_local, pickle_basename = generate_pickle_path_local(key=the_key, get_basename=True)
+    path_local, pickle_basename = generate_pickle_path_local(key=the_key, get_basename=True)
 
     # pickleをコピー
-    copy_initial_pickle_local(pickle_path_local)
+    copy_initial_pickle_local(path_local)
 
     # プロジェクトを保存
     record_Project = Project(
