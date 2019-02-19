@@ -60,7 +60,7 @@ def load_pickle(request):
         }
     }
 
-    print("success : load pickle : project_id={}".format(str(project_id)))
+    print("success : load pickle")
 
     return JsonResponse(json_response)
 
