@@ -627,6 +627,9 @@
                 is_sente = true
             )
 
+            console.log("this is board obj");
+            console.log(board_obj);
+
             board_obj.board_history = [];  // 盤面の状態を毎回保存
             board_obj.legal_moves = get_legal_moves(deepcopy_Board(board_obj));  // 可能な指し手をだす
             board_obj.board_history.push(deepcopy_Board(board_obj));  // history
