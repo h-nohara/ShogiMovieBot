@@ -612,7 +612,8 @@
                         name = piece["name"],
                         is_sente = piece["is_sente"],
                         loc = loc
-                    )
+                    );
+                    piece_obj.loc = loc;
                     PieceManagerMain[key] = piece_obj;
                 }
             }
