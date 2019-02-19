@@ -488,7 +488,7 @@
                     History.update_view();
 
                     // boardを最新に
-                    // SBoard.Board = deepcopy_Board(History.watching_action["board_state"]);
+                    SBoard.Board = deepcopy_Board(History.watching_action["board_state"]);  // もともとコメントアウト
 
                     SBoard.draw_main_board();
                 };
