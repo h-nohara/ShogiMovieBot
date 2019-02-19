@@ -51,8 +51,6 @@ def save_initial_board_request(request):
 
     record_Project.save()
 
-    basename = record_Project.pickle_basename
-
     # 盤面を保存
 
     # なぜかmoveの「＋」が抜けてしまうので、対策
@@ -60,8 +58,7 @@ def save_initial_board_request(request):
 
     result = {"history" : history}
 
-    fname = pickle_path_local(basename)
-    with open(fname, mode="wb") as f:
+    with open(path_local, mode="wb") as f:
         pickle.dump(result, f)
 
     print("success : save_pickle")
