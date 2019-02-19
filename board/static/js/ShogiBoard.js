@@ -1,6 +1,6 @@
 var PieceNames_normal_NotNari = ["HI", "KA", "KI", "GI", "KE", "KY", "FU"];
 var PieceName_normal2kanji = {
-    "OU" : "王",
+    "OU" : "玉",
     "HI" : "飛",
     "KA" : "角",
     "KI" : "金",

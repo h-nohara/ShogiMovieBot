@@ -1,0 +1,681 @@
+<html>
+<HTML lang="ja">
+
+<body>
+
+    <header>
+        <!-- {% load static %} -->
+
+        <!-- jquery -->
+        <!-- <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script> -->
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+        </script>
+ 
+
+
+        <!-- d3.js -->
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <!-- <script src="{% static 'js/d3.min.js' %}" charset="utf-8"></script> -->
+
+        <!-- boostrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <!-- board -->
+        <!-- <script type="text/javascript" src="{% static 'js/util.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/piece.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/move.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/board.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/ShogiBoard.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/history.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/message.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/load_save.js' %}"></script> -->
+
+
+        <!-- グローバルナビゲーション -->
+
+        <nav class="navbar navbar-default">
+
+            <!-- 左側 -->
+            <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+                <ul class="nav navbar-nav">
+                    <li><a href="/account/home" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
+                </ul>
+                <p class="nav navbar-text">＜初期盤面を編集＞</p>
+            </div>
+
+            <!-- 右側 -->
+            <div id="nav_items_right" class="collapse navbar-collapse navbar-right" style="margin-right: 5vw;">
+                <span class="btn btn-primary navbar-btn" id="save">保存して新規プロジェクト作成</span>
+            </div>
+        </nav>
+
+    </header>
+
+
+
+
+    <div id="main">
+
+        <style>
+            #main {
+                margin: 0 5vw;
+            }
+        </style>
+
+        <!-- 将棋盤 -->
+
+        <div class="row">
+
+            <div class="col-sm-8">
+
+                <div id="main_sub_board">
+
+                    <style>
+                        #main_sub_board{
+                            margin: 0;
+                            padding: 0;
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                            /* height: 100vh; */
+                        }
+                    </style>
+
+                    <!-- 将棋盤 -->
+                    <div id="sub_board_gote" class="sub_board">
+                        <style>
+                            .sub_board{
+                                margin: 0;
+                                padding: 0;
+                                width: 100%;
+                                height: 7%;
+                                /* background-color: brown; */
+            
+                                display: grid;
+                                grid-gap: 0;
+                                grid-template-columns: repeat(8, 11%);
+                            }
+            
+                            .PieceInHand {
+                                margin: 0;
+                                padding: 0;
+                                height: 100%;
+                            }
+                        </style>
+                    </div>
+    
+                    <div id="main_board" class="grid">
+                        <style>
+                            #main_board {
+                                width: 90%;
+                                height: 65vh;
+                                background-color: aqua;
+                                margin: 1vh 0;
+                                padding: 0;
+                            }
+                            #main_board.OneSquare {height: 100%; width: 100%; padding: 0; margin: 0;}
+                            /* #main_board button {height: 100%; width: 100%; padding: 0; margin: 0;} */
+                            .grid {
+                                display: grid;
+                                grid-gap: 0px;
+                                grid-template-rows: repeat(9, 11%);
+                                grid-template-columns: repeat(9, 11%);
+                            }
+                        </style>
+                    </div>
+    
+                    <div id="sub_board_sente" class="sub_board">
+                    </div>
+        
+                </div>
+            </div>
+
+
+            <div class="col-sm-4">
+                <button class="btn btn-info" id="give_to_enemy">選択中の手駒を相手に渡す</button>
+            </div>
+        </div>
+
+
+
+        <style>
+        
+        .popup-overlay{
+            /*Hides pop-up when there is no "active" class*/
+            visibility:hidden;
+            /* position:absolute; */
+            background:#ffffff;
+            border:3px solid #666666;
+            /* width:50%; */
+            /* height:50%; */
+            /* left:25%; */
+        }
+        .popup-overlay.active{
+            /*displays pop-up when "active" class is present*/
+            visibility:visible;
+            text-align:center;
+        }
+        
+        .popup-content {
+            /*Hides pop-up content when there is no "active" class */
+            visibility:hidden;
+        }
+        
+        .popup-content.active {
+            /*Shows pop-up content when "active" class is present */
+            visibility:visible;
+        }
+        
+
+        </style>
+
+
+
+        <style>
+            /* ローディング画面 */
+
+            #loading {
+                display: table;
+                width: 100%;
+                height: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background-color: #fff;
+                opacity: 0.8;
+            }
+                
+            #loading .loadingMsg {
+                display: table-cell;
+                text-align: center;
+                vertical-align: middle;
+                padding-top: 140px;
+                background: url("{% static 'img/gif-load.gif' %}") center center no-repeat;
+            }
+        </style>
+
+    </div>
+
+
+
+    <!-- モーダル　プロジェクト名を入力 -->
+    <div class="modal fade" id="ProjectTitleEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">新規プロジェクト作成</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>プロジェクト名を入力</label>
+                        <input class="form-control" id="project_title">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-primary" id="MakeNewProject">新規作成</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+
+    <script>
+
+        // ロードされた時
+
+        window.onload = function(){
+            PieceManagerMain = {};
+            for (let i=0; i<10; i++){
+                for (let j=0; j<10; j++){
+                    PieceManagerMain[String(i)+String(j)] = null;
+                }
+            }
+            PieceManagerHand = {
+                "sente" : {"OU" : 1,"HI" : 1,"KA" : 1,"KI" : 2,"GI" : 2,"KE" : 2,"KY" : 2,"FU" : 9},
+                "gote" : {"OU" : 1,"HI" : 1,"KA" : 1,"KI" : 2,"GI" : 2,"KE" : 2,"KY" : 2,"FU" : 9}
+            }
+            draw_main_board_base();
+            draw_sub_board_base();
+
+            WATCHING_DOM = null;
+        }
+
+
+        // 棋譜シナリオを保存する
+
+        // $(document).on("click", "#save", function(){
+        //     save_pickle();
+        // })
+
+        // function save_pickle(){
+
+        //     // history
+        //     let new_history = [];
+        //     let history_copy = copy_history_without_parent(History.history, new_history);
+
+        //     // コピーした時にオリジナルhistoryのparentが削除されてしまったので、再設定
+        //     set_parent(History.history);
+
+        //     // ローディング画面
+        //     dispLoading("盤面を保存中...");
+
+        //     $.ajax({
+        //         type : "POST",
+        //         url : "/board/save_pickle",
+        //         data : JSON.stringify({"history" : history_copy})
+        //     })
+        //     .done(function(result){
+        //         if (result["code"] == 400){
+        //             window.alert("保存に失敗しました");
+        //         }
+        //         else if (result["code"] == 200){
+        //             window.alert("保存しました");
+        //         }
+        //         else {
+        //             window.alert("意図しないコードがレスポンスされました");
+        //         };
+
+        //     })
+        //     .fail(function(jqXHR, textStatus, errorThrown){
+        //         window.alert("保存に失敗しました");
+        //     })
+        //     .always(function(){
+        //         removeLoading();
+        //     });
+        // }
+
+
+        // モーダルを開く
+
+        // 動画生成中のローディングモーダル
+
+        function dispLoading(msg){
+            // 引数なし（メッセージなし）を許容
+            if( msg == undefined ){
+                msg = "";
+            }
+            // 画面表示メッセージ
+            var dispMsg = "<div class='loadingMsg'>" + msg + "</div>";
+            // ローディング画像が表示されていない場合のみ出力
+            if($("#loading").length == 0){
+                $("body").append("<div id='loading'>" + dispMsg + "</div>");
+            }
+        }
+        
+        function removeLoading(){
+            $("#loading").remove();
+        }
+
+    </script>
+
+
+
+    <!-- 盤面描画の関数 -->
+    <script>
+
+        // メインボードのベースを描画
+        function draw_main_board_base(){
+            for (var loc_y=1; loc_y<=9; loc_y++){
+                for (var x=1; x<=9; x++){
+                    var loc_x = 10 - x;
+                    var btn = document.createElement("button");
+                    var Loc = String(loc_x) + String(loc_y);
+                    // btn.innerHTML = Loc;
+                    btn.id = Loc;
+                    btn.className = "OneSquare";
+                    btn.style.backgroundColor = this.default_color;
+                    btn.style.color = "black";
+                    btn.style.fontSize = "120%";
+                    btn.value = "negative";
+                    document.getElementById("main_board").appendChild(btn);
+                }
+            }
+
+            console.log("base drawed");
+        }
+
+        // サブボードのベースを描画
+        function draw_sub_board_base(){
+
+            PieceName_normal2kanji = {
+                "OU" : "玉",
+                "HI" : "飛",
+                "KA" : "角",
+                "KI" : "金",
+                "GI" : "銀",
+                "KE" : "桂",
+                "KY" : "香",
+                "FU" : "歩",
+                "RY" : "龍",
+                "UM" : "馬",
+                "NG" : "成銀",
+                "NK" : "成桂",
+                "NY" : "成香",
+                "TO" : "と"
+            };
+
+            // 手駒のidは "HI0"　のような形式（０：先手、１：後手）
+            for (let i=0; i<2; i++){
+
+                if (i==0){var sente_or_gote = "sente";} else{var sente_or_gote = "gote";}
+
+                for (let PieceName of Object.keys(PieceManagerHand[sente_or_gote]) ){
+                    let btn = document.createElement("button");
+                    btn.id = PieceName + String(i);
+                    btn.innerHTML = PieceName_normal2kanji[PieceName] + "：" + String(PieceManagerHand[sente_or_gote][PieceName]);
+                    btn.className = "PieceInHand";
+                    btn.style.backgroundColor = this.default_color;
+                    btn.style.color = "black";
+                    btn.style.fontSize = "100%";
+                    btn.value = "negative";
+                    document.getElementById("sub_board_" + sente_or_gote).appendChild(btn);
+                }
+            }
+        }
+
+        // 盤面がクリックされたら
+
+        $(document).on("click", ".OneSquare", function(){
+
+            // 手駒が選択中だったら
+
+            if (WATCHING_DOM != null){
+                if ($(this).val() == "negative"){
+                    window.alert("ここには置けません");
+                }
+                else{
+                    let id = WATCHING_DOM.attr("id");
+                    let PieceName = id.slice(0, 2);
+                    let flag = Number(id.slice(2));
+                    
+                    if (flag == 0){is_sente = true; sente_or_gote="sente";}
+                    else {is_sente = false; sente_or_gote="gote";}
+
+                    PieceManagerHand[sente_or_gote][PieceName] -= 1;
+                    let loc = $(this).attr("id");
+                    PieceManagerMain[loc] = {"name" : PieceName, "is_sente" : is_sente};
+
+                    draw_main_board();
+                    draw_sub_board();
+
+                    WATCHING_DOM = null;
+                    $(".OneSquare").val("negative");
+                    $(".OneSquare").css("background-color", "");
+                    $(".PieceInHand").css("background-color", "");
+                    $(".PieceInHand").val("negative");
+                }
+            }
+
+            // 手駒が選択されていない状態だったら
+
+            else{
+                let loc = $(this).attr("id");
+                let piece = PieceManagerMain[loc];
+
+                // 盤面上の駒をクリックしたら
+
+                if (piece != null){
+
+                    let PieceName = piece["name"];
+                    let is_sente = piece["is_sente"];
+
+                    if (window.confirm("手駒に戻しますか？")){
+                        PieceManagerMain[loc] = null;
+
+                        if (is_sente){sente_or_gote = "sente"}
+                        else {sente_or_gote = "gote"}
+
+                        PieceManagerHand[sente_or_gote][PieceName] += 1;
+
+                        draw_main_board();
+                        draw_sub_board();
+                    }
+                }
+            }
+
+        })
+
+
+        // 手駒がクリックされたら
+
+        $(document).on("click", ".PieceInHand", function(){
+
+            // もともとクリックされていなかったら
+            if (WATCHING_DOM == null){
+
+                // 残りの手駒が存在するか確認
+                let id = $(this).attr("id");
+                let PieceName = id.slice(0, 2);
+                let flag = id.slice(2);
+                if (Number(flag) == 0){sente_or_gote = "sente"}
+                else {sente_or_gote = "gote"}
+                if (PieceManagerHand[sente_or_gote][PieceName] == 0){return}
+
+
+                $(this).css("background-color", "pink");
+                $(this).val("positive");
+                WATCHING_DOM = $(this);
+
+                let ids = get_emp_Square_id();
+                light_up_emp_Square(ids);
+            }
+            else{
+
+                // クリックしていたのとは別の駒がクリックされたら
+                if ($(this).val() == "negative"){
+
+                    // 以前見ていたdom
+                    WATCHING_DOM.css("background-color", "");
+                    WATCHING_DOM.val("negative");
+
+
+                    // 残りの手駒が存在するか確認
+                    let id = $(this).attr("id");
+                    let PieceName = id.slice(0, 2);
+                    let flag = id.slice(2);
+                    if (Number(flag) == 0){sente_or_gote = "sente"}
+                    else {sente_or_gote = "gote"}
+                    if (PieceManagerHand[sente_or_gote][PieceName] == 0){return}
+                    
+                    $(this).css("background-color", "pink");
+                    $(this).val("positive");
+                    WATCHING_DOM = $(this);
+
+                    let ids = get_emp_Square_id();
+                    light_up_emp_Square(ids);
+                    
+                }
+
+                // もともとクリックしていた持ち駒がクリックされたら、状態を元に戻す
+                else{
+                    $(this).css("background-color", "");
+                    $(this).val("negative");
+                    WATCHING_DOM = null;
+
+                    $(".OneSquare").css("background-color", "");
+                    $(".OneSquare").val("negative");
+                }
+            }
+
+        })
+
+        function draw_main_board(){
+
+            for (let key of Object.keys(PieceManagerMain)){
+                let piece = PieceManagerMain[key];
+                if (piece != null){
+                    if (piece["is_sente"]){
+                        $("#"+key).text(PieceName_normal2kanji[piece["name"]]);
+                    }
+                    else{
+                        $("#"+key).text("v" + PieceName_normal2kanji[piece["name"]]);
+                    }
+                }
+                else{
+                    $("#"+key).text("");
+                }
+
+            }
+        }
+
+
+        function draw_sub_board(){
+
+            for (let i=0; i<2; i++){
+
+                if (i == 0){
+                    var PieceDict = PieceManagerHand["sente"];
+                }
+                else{
+                    var PieceDict = PieceManagerHand["gote"];
+                }
+
+                for (let PieceName in PieceDict){
+                    let str = PieceName_normal2kanji[PieceName]+"："+PieceDict[PieceName];
+                    $("#"+PieceName+String(i) ).text(str);
+                }
+            }
+        }
+
+
+        // 手駒を相手にあげる
+        $(document).on("click", "#give_to_enemy", function(){
+            if (WATCHING_DOM == null){
+                window.alert("手駒を選んでください");
+            }
+            else{
+                // 残りの手駒が存在するか確認
+                let id = WATCHING_DOM.attr("id");
+                let PieceName = id.slice(0, 2);
+                let flag = id.slice(2);
+                if (Number(flag) == 0){sente_or_gote = "sente"; sente_or_gote_enemy = "gote";}
+                else {sente_or_gote = "gote"; sente_or_gote_enemy = "sente";}
+
+                if (PieceManagerHand[sente_or_gote][PieceName] == 0){
+                    window.alert("駒がもうありません");
+                    return
+                }
+
+                PieceManagerHand[sente_or_gote][PieceName] -= 1;
+                PieceManagerHand[sente_or_gote_enemy][PieceName] += 1;
+
+                draw_sub_board();
+            }
+        })
+
+        function get_emp_Square_id(){
+            let result = [];
+            for (key of Object.keys(PieceManagerMain)){
+                if (PieceManagerMain[key] == null){
+                    result.push(key);
+                }
+            }
+            return result
+        }
+
+        function light_up_emp_Square(ids){
+            for (id of ids){
+                $("#"+id).val("positive");
+                $("#"+id).css("background-color", "gold");
+            }
+        }
+
+
+        // プロジェクト名を入力
+
+        $(document).on("click", "#save", function(){
+            $("#ProjectTitleEditModal").modal();
+        })
+
+        // 新規プロジェクト作成と盤面の保存
+
+        $(document).on("click", "#MakeNewProject", function(){
+
+            let title = $("#project_title").val();
+            if ((title == null) || (title == "")){
+                window.alert("プロジェクト名を入力してください");
+                return
+            }
+
+            for (loc of Object.keys(PieceManagerMain) ){
+                let piece = PieceManagerMain[key];
+                if (piece != null){
+                    var piece_obj = new Piece(
+                        name = piece["name"],
+                        is_sente = piece["is_sente"],
+                        loc = loc
+                    )
+                    PieceManagerMain[key] = piece_obj;
+                }
+            }
+
+            let all_pieces = {
+                "main" : PieceManagerMain,
+                "hand" : {"sente" : PieceManagerHand["sente"], "gote" : PieceManagerHand["gote"]}
+            }
+
+            var board_obj = new Board(
+                all_pieces = all_pieces,
+                is_sente = true
+            )
+
+            board_obj.board_history = [];  // 盤面の状態を毎回保存
+            board_obj.legal_moves = get_legal_moves(deepcopy_Board(board_obj));  // 可能な指し手をだす
+            board_obj.board_history.push(deepcopy_Board(board_obj));  // history
+
+
+            // history
+            
+            let initial_action = {
+                "move" : "initial",
+                "order_in_parent" : 0,
+                "board_state" : board_obj,
+                "is_watching" : true
+            }
+
+            let new_history = [initial_action];
+
+            // ローディング画面
+            dispLoading("盤面を保存中...");
+
+            // 新規プロジェクト作成
+
+            $.ajax({
+                type : "POST",
+                url : "/board/save_pickle",
+                data : JSON.stringify({
+                    "title" : title,
+                    "history" : new_history
+                })
+            })
+            .done(function(result){
+                if (result["code"] == 200){
+                    window.location.href = "/account/home";
+                }
+                else {
+                    window.alert("保存に失敗しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("保存に失敗しました");
+                removeLoading();
+            })
+                
+        })
+
+    </script>
+
+
+
+</body>
+
+</html>
