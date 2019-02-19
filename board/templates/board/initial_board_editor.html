@@ -606,15 +606,14 @@
             }
 
             for (loc of Object.keys(PieceManagerMain) ){
-                let piece = PieceManagerMain[key];
+                let piece = PieceManagerMain[loc];
                 if (piece != null){
                     var piece_obj = new Piece(
                         name = piece["name"],
                         is_sente = piece["is_sente"],
                         loc = loc
                     );
-                    piece_obj.loc = loc;
-                    PieceManagerMain[key] = piece_obj;
+                    PieceManagerMain[loc] = piece_obj;
                 }
             }
 
