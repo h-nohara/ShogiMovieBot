@@ -70,16 +70,20 @@
 
                 <div class="">
 
-                    <div class="LeftButton btn btn-danger" id="NewScenarioModal_opener">
+                    <div class="LeftButton btn btn-primary" id="NewScenarioModal_opener">
                         新規シナリオ
                     </div>
 
-                    <div class="LeftButton btn btn-primary">
-                        作成順に並び替え
+                    <!-- <div class="LeftButton btn btn-info">
+                        作成順に<br>並び替え
                     </div>
 
-                    <div class="LeftButton btn btn-primary">
-                        配信順に並び替え
+                    <div class="LeftButton btn btn-info">
+                        配信順に<br>並び替え
+                    </div> -->
+
+                    <div class="LeftButton btn btn-primary" id="new_tsume-shogi_template">
+                        詰将棋テンプレ<br>ートで作成
                     </div>
 
                     <style>
@@ -324,6 +328,27 @@
                 };
             })
         })
+
+
+        // 詰将棋テンプレートで新規シナリオ作成
+        $(document).on("click", "#new_tsume-shogi_template", function(){
+            $.ajax({
+                type : "GET",
+                url : "/bot/scenario/TsumeShogi/new",
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    window.alert("作成しました");
+                    // 描画し直す
+                    get_draw_scenarios();
+                }
+                else {
+                    window.alert("失敗しました");
+                    // window.alert(response["error_message"]);
+                };
+            })
+        })
+
 
         // シナリオ名を変更
         $(document).on("click", ".ScenarioTitleEditModal_opener", function(){

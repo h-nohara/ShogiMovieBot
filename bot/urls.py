@@ -10,7 +10,10 @@ from bot.src.callback import callback
 from bot.src.create_new_account import create_new_account_request
 from bot.src.get_scenarios import get_scenarios_request, get_public_scenarios_request, get_subscribing_scenarios_request
 from bot.src.get_scenario_info import get_scenario_info_request
+# 新規プロジェクト
 from bot.src.create_new_scenario import create_new_scenario_request
+from bot.src.create_TsumeShogi_scenario import create_TsumeShogi_scenario_request
+
 from bot.src.change_scenario_title import change_scenario_title_request
 from bot.src.delete_scenario import delete_scenario_request
 from bot.src.get_movies_from_ScenarioId import get_movies_from_ScenarioId_request
@@ -58,7 +61,10 @@ urlpatterns = [
     url(r"^scenario/get$", get_scenarios_request, name="get_scenarios"),  # シナリオ一覧
     url(r"^scenario/get_public$", get_public_scenarios_request, name="get_public_scenarios"),  # 公開されているシナリオ一覧
     url(r"^scenario/get_info$", get_scenario_info_request, name="get_scenario_info"),  # シナリオのタイトル等の情報と、メッセージ一覧
-    url(r"^scenario/new$", create_new_scenario_request, name="create_new_scenario"),
+    # 新規プロジェクト作成
+    url(r"^scenario/new$", create_new_scenario_request, name="create_new_scenario"),  # 通常
+    url(r"^scenario/TsumeShogi/new$", create_TsumeShogi_scenario_request, name="create_new_TsumeShogi_scenario"),  # 詰将棋シナリオ
+
     url(r"^scenario/change_title$", change_scenario_title_request, name="change_scenario_title"),
     url(r"^scenario/delete$", delete_scenario_request, name="delete_scenario"),
     url(r"^scenario/movies$", get_movies_from_ScenarioId_request, name="get_movies_from_ScenarioId"),
@@ -68,4 +74,5 @@ urlpatterns = [
     url(r"^scenario/change_public_setting$", change_public_setting_request, name="change_public_setting"),
     url(r"^scenario/regular_distribution$", regular_distribution_request, name="regular_dist"),
     url(r"^scenario/regular_distribution/test$", test_regular_distribution_request, name="test_regular_dist"),
+
 ]

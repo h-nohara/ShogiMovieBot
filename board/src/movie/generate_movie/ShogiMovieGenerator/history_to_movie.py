@@ -192,6 +192,13 @@ def history_to_images(history, recorder):
                 history_to_images(mini_sc, recorder)  # 分岐後を順番に画像に
 
 
+def history_to_InitBoard_image(history, result_image):
+
+    action = history[0]
+    draw_boad(action["board_state"], result_image)
+
+
+
 def history_to_movies(history, save_dir_img, save_dir_movie):
 
     '''
