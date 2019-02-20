@@ -46,7 +46,7 @@ def push_text_message(text, line_id=nohara_first_id):
 
 def push_image_message(url, line_id):
 
-    message = ImageSendMessage(original_content_url=url, preview_image_url=the_url)
+    message = ImageSendMessage(original_content_url=url, preview_image_url=url)
     line_bot_api.push_message(line_id, message)
 
 
