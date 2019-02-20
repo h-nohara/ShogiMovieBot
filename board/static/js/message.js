@@ -41,6 +41,10 @@ $(document).on("click", "#AddActionBefore", function(){
     if (order > 0){
         var board_state_before = History.watching_action["parent"][order-1]["board_state"];
     }
+    else {
+        window.alert("だめ！");
+        return
+    }
 
     // let action = {"message" : {}, "board_state" : deepcopy_Board(SBoard.Board)};
     let action = {"message" : {}, "board_state" : deepcopy_Board(board_state_before)};
