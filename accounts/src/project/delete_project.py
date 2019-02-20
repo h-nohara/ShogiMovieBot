@@ -40,9 +40,16 @@ def delete_project(project_id):
         delete_scenario(scenario_id=record_Scenario.id)
     print("deleted all scenario")
 
-    # 動画をクラウドから削除
-    record_list_Movie = Movie.objects.filter(project=record_Project)
 
+    # 動画をクラウドから削除
+
+    # 結合された動画を削除
+    concat_movie_path = record_Project.concat_movie_path
+    concat_movie_basename = os.path.basename(concat_movie_path)
+    delete_file(bucket, concat_movie_basename, exist_check=True)
+
+    # 結合されていない動画を削除
+    record_list_Movie = Movie.objects.filter(project=record_Project)
     for record_Movie in record_list_Movie:
         movie_path = record_Movie.path
         key = os.path.basename(movie_path)

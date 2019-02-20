@@ -64,6 +64,7 @@ def generate_movies(request):
     for record_Movie in record_list_Movie:
         basename = record_Movie.basename
         delete_file(bucket=bucket, key=basename, exist_check=True)  # クラウドの動画を削除
+        print("deleted : {}".format(basename))
         record_Movie.delete()
 
     # 動画のpathを決め、Movieレコードとして保存
