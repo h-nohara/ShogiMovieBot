@@ -42,7 +42,7 @@ $(document).on("click", "#AddActionBefore", function(){
         var board_state_before = History.watching_action["parent"][order-1]["board_state"];
     }
     else {
-        window.alert("だめ！");
+        window.alert("シナリオの直後はだめ！（ただいま実装中）");
         return
     }
 

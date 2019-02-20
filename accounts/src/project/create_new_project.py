@@ -11,7 +11,8 @@ from accounts.models.project import Project
 
 # api
 from accounts.src.utils import generate_pickle_path_local
-from accounts.src.utils.generate_fname import INITIAL_PICKLE
+from accounts.src.utils.generate_fname import INITIAL_PICKLE, generate_basename
+from accounts.src.utils.aws_bucket import fname_cloud
 from accounts.src.project.get_projects import get_projects
 
 
@@ -27,6 +28,9 @@ def create_new_project(record_User, title):
     the_key = username + str(title) + str(n_project)
     pickle_path_local, pickle_basename = generate_pickle_path_local(key=the_key, get_basename=True)
 
+    the_key_movie = the_key + "concatmovie"
+    concat_movie_basename = generate_basename(key=the_key_movie, ext="mp4")
+
     # pickleをコピー
     copy_initial_pickle_local(pickle_path_local)
 
@@ -34,7 +38,8 @@ def create_new_project(record_User, title):
     record_Project = Project(
         user = record_User,
         title = title,
-        pickle_basename = pickle_basename
+        pickle_basename = pickle_basename,
+        concat_movie_path = fname_cloud(concat_movie_basename)
     )
 
     record_Project.save()
