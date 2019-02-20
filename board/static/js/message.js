@@ -36,7 +36,14 @@ $(document).on("click", "#AddActionBefore", function(){
     let LightUp_pos_str = $("#" + "LightUpAction_buttons p").text();
     let Mark_pos_str = $("#" + "MarkAction_buttons p").text();
 
-    let action = {"message" : {}, "board_state" : deepcopy_Board(SBoard.Board)};
+    // 一個手前の盤面をコピー
+    let order = History.watching_action["order_in_parent"];
+    if (order > 0){
+        var board_state_before = History.watching_action["parent"][order-1]["board_state"];
+    }
+
+    // let action = {"message" : {}, "board_state" : deepcopy_Board(SBoard.Board)};
+    let action = {"message" : {}, "board_state" : deepcopy_Board(board_state_before)};
 
     if ((text != null) && (text != "")){
         action["message"]["text"] = text;
