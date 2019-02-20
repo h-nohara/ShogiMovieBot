@@ -5,7 +5,8 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage,
+    TextSendMessage, ImageSendMessage,
     SourceUser, SourceGroup, SourceRoom,
     TemplateSendMessage, ConfirmTemplate, MessageAction,
     ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
@@ -39,7 +40,13 @@ def push_template_message(template, line_id=nohara_first_id):
     line_bot_api.push_message(line_id, message)
 
 def push_text_message(text, line_id=nohara_first_id):
+
     message = TextSendMessage(text=text)
+    line_bot_api.push_message(line_id, message)
+
+def push_image_message(url, line_id):
+
+    message = ImageSendMessage(original_content_url=url, preview_image_url=the_url)
     line_bot_api.push_message(line_id, message)
 
 

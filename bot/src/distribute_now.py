@@ -12,7 +12,7 @@ from bot.models.scenario import Scenario
 from bot.models.message import Message
 
 # api
-from bot.src.line_bot_api import line_bot_api, push_text_message, nohara_first_id
+from bot.src.line_bot_api import line_bot_api, nohara_first_id, push_text_message, push_image_message
 
 
 # シナリオを今すぐ配信
@@ -62,3 +62,7 @@ def distribute(scenario_id, user_id):
         elif kind == "movie":
             movie_path = record_Message.movie_path
             push_text_message(text=movie_path, line_id=line_id)
+
+        elif kind == "image":
+            image_path = record_Message.image_path
+            push_image_message(url=image_path, line_id=line_id)

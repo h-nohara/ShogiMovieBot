@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from accounts.models.user import User
 from accounts.models.project import Project
 from board.models.movie import Movie
+from board.models.image import Image
 from bot.models.scenario import Scenario
 
 # api
@@ -57,6 +58,16 @@ def delete_project(project_id):
         record_Movie.delete()  # レコードを削除
 
     print("deleted all movie file and record")
+
+    # 画像ファイルを削除
+    record_list_Image = Image.objects.filter(project=record_Project)
+    for record_Image in record_list_Image:
+        basename = record_Image.basename
+        if basename is None:
+            basename = os.path.basename(record_Image.path)
+        delete_file(bucket, basename, exist_check=True)  # クラウドの画像を削除
+        record_Image.delete()  # レコードを削除
+
 
     # pickleを削除
     basename = record_Project.pickle_basename

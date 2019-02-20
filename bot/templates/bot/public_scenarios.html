@@ -195,6 +195,22 @@
         </div>
     </script>
 
+    <!-- 画像メッセージ -->
+    <script type="text/html" id="ImageMessage_template">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">画像メッセージ</h2>
+            </div>
+            <div class="panel-body">
+                <a href=<%= image_path %> target="_blank" >画像メッセージ</a>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-danger MessageDelButton">削除</button>
+            </div>
+        </div>
+    </script>
+
     <!-- html要素のテンプレート　ここまで-->
 
 
@@ -329,6 +345,7 @@
 
             var compiled_TextMessage = _.template($("#TextMessage_template").html());
             var compiled_MovieMessage = _.template($("#MovieMessage_template").html());
+            var compiled_ImageMessage = _.template($("#ImageMessage_template").html());
 
             for (info of messages){
 
@@ -348,6 +365,12 @@
                     var message_html = compiled_MovieMessage({
                         "movie_path" : movie_path,
                         "title" : "動画メッセージ"
+                    });
+                }
+                else if (kind == "image"){
+                    let image_path = info["image_path"];
+                    var message_html = compiled_ImageMessage({
+                        "image_path" : image_path,
                     });
                 }
 
