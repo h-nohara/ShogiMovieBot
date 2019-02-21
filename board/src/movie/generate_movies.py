@@ -84,7 +84,8 @@ def generate_movies(request):
     concat_movie_path = record_Project.concat_movie_path
     if concat_movie_path is None:
         new_basename = generate_basename(key="concatmoviebasename"+str(project_id), ext="mp4")
-        record_Project.concat_movie_path = fname_cloud(new_basename)
+        concat_movie_path = fname_cloud(new_basename)
+        record_Project.concat_movie_path = concat_movie_path
         record_Project.save()
         print("oh no, concat movie path was None")
     concat_movie_basename = os.path.basename(concat_movie_path)  # クラウドのキー
