@@ -15,10 +15,10 @@ from accounts.models.user import User
 from accounts.models.project import Project
 
 # api
-from accounts.src.utils import pickle_path_local
+from accounts.src.utils import pickle_path_local, generate_pickle_path_local
+from accounts.src.utils.generate_fname import INITIAL_PICKLE, generate_basename
+from accounts.src.utils.aws_bucket import fname_cloud
 from .modify import modify
-from accounts.src.utils import generate_pickle_path_local
-from accounts.src.utils.generate_fname import INITIAL_PICKLE
 from accounts.src.project.get_projects import get_projects
 from accounts.src.project.create_new_project import copy_initial_pickle_local
 
@@ -42,11 +42,15 @@ def save_initial_board_request(request):
     # pickleをコピー
     copy_initial_pickle_local(path_local)
 
+    # concat_movie_pathを「生成
+    concat_movie_basename = generate_basename(key=the_key+"concatmoviebasename", ext="mp4")
+
     # プロジェクトを保存
     record_Project = Project(
         user = record_User,
         title = title,
-        pickle_basename = pickle_basename
+        pickle_basename = pickle_basename,
+        concat_movie_path = fname_cloud(concat_movie_basename)
     )
 
     record_Project.save()
