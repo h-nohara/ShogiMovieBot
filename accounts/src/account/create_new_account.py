@@ -12,6 +12,9 @@ from accounts.models.user import User
 @csrf_exempt
 def create_new_account(request):
 
+    if not request.user.is_superuser:
+        raise("not super user")
+
     data = json.loads(request.body.decode("utf-8"))
     username = data["username"]
     password = data["password"]
@@ -28,6 +31,7 @@ def create_new_account(request):
 
     record_User = User(
         username = username,
+        is_superuser = False,
     )
     record_User.set_password(password)
 

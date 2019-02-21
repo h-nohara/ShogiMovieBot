@@ -43,7 +43,8 @@ def create_new_account(request):
         username = username,
         line_id = line_id,
         line_display_name = line_display_name,
-        line_thumb_path = line_thumb_path
+        line_thumb_path = line_thumb_path,
+        is_superuser = False,
     )
 
     record_User.set_password(password)
