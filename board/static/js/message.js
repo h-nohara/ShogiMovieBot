@@ -245,9 +245,15 @@ function handle_emp_scenario(history){
             console.log("find scenarios");
 
             let n_sub_sc = action["scenarios"].length;
+
             console.log("n_sub : " + String(n_sub_sc));
+
             let selected_scenario = action["selected_scenario"];
             let watching_sub_scenario = action["scenarios"][selected_scenario];
+
+            console.log("watching_sub_scenario.length");
+            console.log(watching_sub_scenario.length);
+            console.log(watching_sub_scenario);
 
             // 空じゃなかったら、そのシナリオの中身を同じようにチェック
             if (watching_sub_scenario.length >= 1){
