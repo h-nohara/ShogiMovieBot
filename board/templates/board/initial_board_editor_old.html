@@ -83,8 +83,6 @@
                             width: 100%;
                             /* height: 100vh; */
                         }
-
-                        .inverted {transform: rotate(180deg);}
                     </style>
 
                     <!-- 将棋盤 -->
@@ -115,12 +113,11 @@
                             #main_board {
                                 width: 90%;
                                 height: 65vh;
-                                /* background-color: aqua; */
+                                background-color: aqua;
                                 margin: 1vh 0;
                                 padding: 0;
                             }
                             #main_board.OneSquare {height: 100%; width: 100%; padding: 0; margin: 0;}
-                            .OneSquare {background-color: #2E2E2E;}
                             /* #main_board button {height: 100%; width: 100%; padding: 0; margin: 0;} */
                             .grid {
                                 display: grid;
@@ -251,6 +248,53 @@
             WATCHING_DOM = null;
         }
 
+
+        // 棋譜シナリオを保存する
+
+        // $(document).on("click", "#save", function(){
+        //     save_pickle();
+        // })
+
+        // function save_pickle(){
+
+        //     // history
+        //     let new_history = [];
+        //     let history_copy = copy_history_without_parent(History.history, new_history);
+
+        //     // コピーした時にオリジナルhistoryのparentが削除されてしまったので、再設定
+        //     set_parent(History.history);
+
+        //     // ローディング画面
+        //     dispLoading("盤面を保存中...");
+
+        //     $.ajax({
+        //         type : "POST",
+        //         url : "/board/save_pickle",
+        //         data : JSON.stringify({"history" : history_copy})
+        //     })
+        //     .done(function(result){
+        //         if (result["code"] == 400){
+        //             window.alert("保存に失敗しました");
+        //         }
+        //         else if (result["code"] == 200){
+        //             window.alert("保存しました");
+        //         }
+        //         else {
+        //             window.alert("意図しないコードがレスポンスされました");
+        //         };
+
+        //     })
+        //     .fail(function(jqXHR, textStatus, errorThrown){
+        //         window.alert("保存に失敗しました");
+        //     })
+        //     .always(function(){
+        //         removeLoading();
+        //     });
+        // }
+
+
+        // モーダルを開く
+
         // 動画生成中のローディングモーダル
 
         function dispLoading(msg){
@@ -288,7 +332,7 @@
                     btn.id = Loc;
                     btn.className = "OneSquare";
                     btn.style.backgroundColor = this.default_color;
-                    btn.style.color = "white";
+                    btn.style.color = "black";
                     btn.style.fontSize = "120%";
                     btn.value = "negative";
                     document.getElementById("main_board").appendChild(btn);
@@ -468,18 +512,11 @@
             for (let key of Object.keys(PieceManagerMain)){
                 let piece = PieceManagerMain[key];
                 if (piece != null){
-                    let the_button = $("#" + key);
                     if (piece["is_sente"]){
-                        if ($(the_button).hasClass("inverted")){
-                            the_button.removeClass("inverted");
-                        }
                         $("#"+key).text(PieceName_normal2kanji[piece["name"]]);
                     }
                     else{
-                        if (! $(the_button).hasClass("inverted")){
-                            the_button.addClass("inverted");
-                        }
-                        $("#"+key).text(PieceName_normal2kanji[piece["name"]]);
+                        $("#"+key).text("v" + PieceName_normal2kanji[piece["name"]]);
                     }
                 }
                 else{
