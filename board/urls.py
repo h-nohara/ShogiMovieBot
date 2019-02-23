@@ -18,7 +18,7 @@ urlpatterns = [
     # 盤面の編集画面
     url(r"^$", views.board_page, name="board"),
     url(r"^[0-9]+$", views.board_page, name="board"),
-    url(r"^$", views.board_test_page, name="board"),  # テストページ
+    url(r"^test_page$", views.board_test_page, name="board"),  # テストページ
 
     # 開始盤面の編集画面
     url(r"^initial/editor$", views.initial_board_page, name="board"),
