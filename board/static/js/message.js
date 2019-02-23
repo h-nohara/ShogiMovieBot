@@ -146,9 +146,8 @@ $(document).on("click", "#DelAction", function(){
         }
 
         // 見ているもの以降を削除
-        // History.watching_action["parent"].splice(order);
-        History.watching_action["parent"] = [];
-
+        History.watching_action["parent"].splice(order);
+        // History.watching_action["parent"] = [];
         History.history = handle_emp_scenario(History.history);
 
        // 画面更新
