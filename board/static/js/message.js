@@ -103,7 +103,7 @@ $(document).on("click", "#UpdateAction", function(){
         delete action["message"]["mark"];
     }
 
-
+    History.update_view();
     show_message_contents(action);
     
 })
