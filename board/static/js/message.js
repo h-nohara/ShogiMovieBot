@@ -242,6 +242,8 @@ function handle_emp_scenario(history){
         // シナリオアクションだったら
         if (Object.keys(action).indexOf("scenarios") >= 0){
 
+            console.log("find scenarios");
+
             let n_sub_sc = action["scenarios"].length;
             let selected_scenario = action["selected_scenario"];
             let watching_sub_scenario = action["scenarios"][selected_scenario];
@@ -279,7 +281,7 @@ function handle_emp_scenario(history){
 
                 }
                 // 分岐は２つ以上あるはず
-                else if (n_sub_sc == 1){
+                else {
                     window.alert("バグです。「分岐は１つだけのはず」と作成者に報告してください");
                 }
             }
