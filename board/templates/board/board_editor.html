@@ -72,7 +72,9 @@
         <!-- 将棋盤 -->
 
         <style>
-            .col-md-4 {margin: 0 2vw;}
+            #main_sub_board {margin: 0 1vw;}
+            #history_scroll {margin: 0 1vw;}
+            #Right {margin: 0 1vw;}
         </style>
 
         <div id="main_sub_board" class="col-md-4">
@@ -166,10 +168,6 @@
 
 
         <div id="Right" class="col-md-4">
-
-            <style>
-                #Right {margin: 0;}
-            </style>
 
 
             <div><h3>メッセージの追加/削除</h3></div>
@@ -424,13 +422,13 @@
 
         <script>
 
-        function open_pull(){
-            $(".popup-overlay, .popup-content").addClass("active");
-        };
+        // function open_pull(){
+        //     $(".popup-overlay, .popup-content").addClass("active");
+        // };
 
-        function close_pull(){
-            $(".popup-overlay, .popup-content").removeClass("active");
-        };
+        // function close_pull(){
+        //     $(".popup-overlay, .popup-content").removeClass("active");
+        // };
         </script>
 
 
@@ -476,7 +474,7 @@
             // 保存されている盤面を描画
             load_history();
 
-            timer1 = setInterval(open_or_close_sub_sc, 100);
+            // timer1 = setInterval(open_or_close_sub_sc, 100);
         }
 
         // project_idを取得

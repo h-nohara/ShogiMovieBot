@@ -134,6 +134,7 @@ $(document).on("click", "#DelAction", function(){
 
     let order = History.watching_action["order_in_parent"];
 
+    // サブシナリオの最初を削除したら
     if (order == 0){
 
         // initialは削除できない
@@ -144,10 +145,9 @@ $(document).on("click", "#DelAction", function(){
             }
         }
 
-        // サブシナリオの最初を削除したら
-
         // 見ているもの以降を削除
-        History.watching_action["parent"].splice(order);
+        // History.watching_action["parent"].splice(order);
+        History.watching_action["parent"] = [];
 
         History.history = handle_emp_scenario(History.history);
 
@@ -177,6 +177,61 @@ $(document).on("click", "#DelAction", function(){
 })
 
 
+// function handle_emp_scenario(history){
+
+//     // ブランチを削除した時（ブランチの最初のアクションを削除した時）に、historyを編集
+
+//     for (let i=0; i<history.length; i++){
+//         let action = history[i];
+
+//         // シナリオアクションを見つけたら
+//         if (Object.keys(action).indexOf("scenarios") >= 0){
+//             let emp_sc_number = null;
+//             let n_sub_sc = action["scenarios"].length;
+
+//             for (let j=0; j<n_sub_sc; j++){
+//                 sub_sc = action["scenarios"][j];
+
+//                 // 空のシナリオだったら
+//                 if (sub_sc.length == 0){
+//                     emp_sc_number = j;
+//                     break;
+//                 }
+//                 // 空じゃなかったら、そのシナリオの中身を同じようにチェック
+//                 else{
+//                     action["scenarios"][j] = handle_emp_scenario(sub_sc);
+//                 }
+//             }
+//             // 空のシナリオを見つけていたら
+//             if (emp_sc_number != null){
+//                 if (n_sub_sc >= 3){
+//                     action["scenarios"].splice(emp_sc_number, 1);
+//                 }
+//                 else{
+//                     let survive_sub_sc_number = Math.abs(action["selected_scenario"] - 1);  // 現在見ているのと別の方のシナリオ
+//                     if (survive_sub_sc_number > 1){
+//                         window.alert("koara");
+//                         exit;
+//                     }
+//                     let tail_actions = action["scenarios"][survive_sub_sc_number];
+//                     for (let tail_action of tail_actions){
+//                         tail_action["parent"] = history;
+//                     }
+
+//                     history.splice(-1);  // ブランチアクションを削除（親の最後)
+//                     history = history.concat(tail_actions); // 確認　見ていない方のサブシナリオを親の最後に加える
+
+//                     History.watching_action = history[i-1];
+//                     History.watching_action["is_watching"] = true;
+//                 }
+//             }
+//         }
+//     }
+
+//     return history;
+// }
+
+
 function handle_emp_scenario(history){
 
     // ブランチを削除した時（ブランチの最初のアクションを削除した時）に、historyを編集
@@ -184,45 +239,45 @@ function handle_emp_scenario(history){
     for (let i=0; i<history.length; i++){
         let action = history[i];
 
-        // シナリオアクションを見つけたら
+        // シナリオアクションだったら
         if (Object.keys(action).indexOf("scenarios") >= 0){
-            let emp_sc_number = null;
+
             let n_sub_sc = action["scenarios"].length;
+            let selected_scenario = action["selected_scenario"];
+            let watching_sub_scenario = action["scenarios"][selected_scenario];
 
-            for (let j=0; j<n_sub_sc; j++){
-                sub_sc = action["scenarios"][j];
-
-                // 空のシナリオだったら
-                if (sub_sc.length == 0){
-                    emp_sc_number = j;
-                    break;
-                }
-                // 空じゃなかったら、そのシナリオの中身を同じようにチェック
-                else{
-                    action["scenarios"][j] = handle_emp_scenario(sub_sc);
-                }
+            // 空じゃなかったら、そのシナリオの中身を同じようにチェック
+            if (watching_sub_scenario.length >= 1){
+                action["scenarios"][selected_scenario] = handle_emp_scenario(watching_sub_scenario);
             }
-            // 空のシナリオを見つけていたら
-            if (emp_sc_number != null){
+            // 空のシナリオだったら
+            else{
+                // 分岐が３つ以上なら、見ている分岐を削除するだけ
                 if (n_sub_sc >= 3){
-                    action["scenarios"].splice(emp_sc_number, 1);
+                    action["scenarios"].splice(selected_scenario, 1);
+                    action["selected_scenario"] = 0;
                 }
-                else{
-                    let survive_sub_sc_number = Math.abs(action["selected_scenario"] - 1);  // 現在見ているのと別の方のシナリオ
-                    if (survive_sub_sc_number > 1){
-                        window.alert("koara");
-                        exit;
-                    }
-                    let tail_actions = action["scenarios"][survive_sub_sc_number];
+                // 分岐が２つなら、分岐をなくして連結
+                else if (n_sub_sc == 2){
+
+                    action["scenarios"].splice(selected_scenario, 1);  // 今見ている方の分岐を削除
+
+                    // 連結するアクションたち
+                    let tail_actions = action["scenarios"][0];
                     for (let tail_action of tail_actions){
                         tail_action["parent"] = history;
                     }
 
-                    history.splice(-1);  // ブランチアクションを削除（親の最後)
-                    history = history.concat(tail_actions); // 確認　見ていない方のサブシナリオを親の最後に加える
+                    history.splice(i, 1);  // 分岐アクション自体を削除
+                    history = history.concat(tail_actions); // 見ていない方のサブシナリオを親の最後に加える
 
                     History.watching_action = history[i-1];
                     History.watching_action["is_watching"] = true;
+
+                }
+                // 分岐は２つ以上あるはず
+                else if (n_sub_sc == 1){
+                    window.alert("バグです。「分岐は１つだけのはず」と作成者に報告してください");
                 }
             }
         }

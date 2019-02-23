@@ -5,8 +5,8 @@ function update_d3(dataset){
     d3.select("#history_scroll").selectAll(".OneAction").remove();
     d3.select("#sub_scenarios").selectAll(".sub_sc").remove();
 
-    console.log("dataset");
-    console.log(dataset);
+    // console.log("dataset");
+    // console.log(dataset);
 
 
     d3.select("#history_scroll").selectAll(".OneAction")
@@ -161,8 +161,8 @@ function update_d3(dataset){
             show_message_contents(action);
 
             // parentを表示
-            console.log("parent");
-            console.log(action["parent"]);
+            // console.log("parent");
+            // console.log(action["parent"]);
         }
 
         
@@ -198,21 +198,6 @@ function list_showing_actions(history, result_list, order_of_hand=0){
     for (let i=0; i<history.length; i++){
 
         let action = history[i];
-
-        // // 分岐の表示だったら
-        // if (Object.keys(action).indexOf("scenarios") >= 0){
-
-        //     result_list.push({"scenarios" : action["scenarios"], "original" : action});
-        //     let mini_history = action["scenarios"][action["selected_scenario"]];
-            
-        //     list_showing_actions(mini_history, result_list);
-        // }
-        // // それ以外だったら
-        // else {
-        //     action["parent"] = history;
-        //     action["order_in_parent"] = i;
-        //     result_list.push(action);
-        // }
 
         action["parent"] = history;
         action["order_in_parent"] = i;
@@ -503,12 +488,12 @@ $(document)
 // 常に監視する関数たち
 
 
-function open_or_close_sub_sc(){
-    let watching_action = History.watching_action;
-    if (Object.keys(watching_action).indexOf("scenarios") >= 0){
-        open_pull();
-    }
-    else{
-        close_pull();
-    }
-}
+// function open_or_close_sub_sc(){
+//     let watching_action = History.watching_action;
+//     if (Object.keys(watching_action).indexOf("scenarios") >= 0){
+//         open_pull();
+//     }
+//     else{
+//         close_pull();
+//     }
+// }
