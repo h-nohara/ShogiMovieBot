@@ -147,7 +147,6 @@ $(document).on("click", "#DelAction", function(){
 
         // 見ているもの以降を削除
         History.watching_action["parent"].splice(order);
-        // History.watching_action["parent"] = [];
         History.history = handle_emp_scenario(History.history);
 
        // 画面更新
@@ -241,18 +240,10 @@ function handle_emp_scenario(history){
         // シナリオアクションだったら
         if (Object.keys(action).indexOf("scenarios") >= 0){
 
-            console.log("find scenarios");
-
             let n_sub_sc = action["scenarios"].length;
-
-            console.log("n_sub : " + String(n_sub_sc));
 
             let selected_scenario = action["selected_scenario"];
             let watching_sub_scenario = action["scenarios"][selected_scenario];
-
-            console.log("watching_sub_scenario.length");
-            console.log(watching_sub_scenario.length);
-            console.log(watching_sub_scenario);
 
             // 空じゃなかったら、そのシナリオの中身を同じようにチェック
             if (watching_sub_scenario.length >= 1){
@@ -260,17 +251,13 @@ function handle_emp_scenario(history){
             }
             // 空のシナリオだったら
             else{
-                console.log("find emp scenario");
                 // 分岐が３つ以上なら、見ている分岐を削除するだけ
                 if (n_sub_sc >= 3){
-                    console.log("n_sub_sc = 3");
                     action["scenarios"].splice(selected_scenario, 1);
                     action["selected_scenario"] = 0;
                 }
                 // 分岐が２つなら、分岐をなくして連結
                 else if (n_sub_sc == 2){
-
-                    console.log("n_sub_sc = 2");
 
                     action["scenarios"].splice(selected_scenario, 1);  // 今見ている方の分岐を削除
 

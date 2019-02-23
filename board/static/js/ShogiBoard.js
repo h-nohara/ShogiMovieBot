@@ -87,9 +87,15 @@ class ShogiBoard {
             let piece = this.Board.all_pieces["main"][key];
             if (piece != null){
                 if (piece.is_sente){
+                    if ( $("#"+key).hasClass("inverted") ){
+                        $("#"+key).removeClass("inverted");
+                    }
                     $("#"+key).text(PieceName_normal2kanji[piece.name]);
                 }
                 else{
+                    if (! $("#"+key).hasClass("inverted")){
+                        $("#"+key).addClass("inverted");
+                    }
                     $("#"+key).text("v" + PieceName_normal2kanji[piece.name]);
                 }
             }
