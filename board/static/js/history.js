@@ -96,10 +96,11 @@ function update_d3(dataset){
         // 将棋盤の状態を元に戻す
         SBoard.init_state_now();
 
-        // ボタンの背景色を更新
+        // ボタンの背景色を更新、分岐点以外のボタンなら分岐一覧を非表示に
 
         if ($(History.watching_dom).text() == "分岐点"){
             $(History.watching_dom).css("background-color", "sandybrown");
+            $("#sub_scenarios").html("");
         }
         else{
             $(History.watching_dom).css("background-color", "white");
