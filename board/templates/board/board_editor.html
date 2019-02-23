@@ -236,6 +236,35 @@
                 <button id="add_FlyTo">Fly To</button>
             </div> -->
 
+            <h4>分岐シナリオ一覧</h4>
+            <div class="popup-overlay">
+                <div class="popup-content">
+                    <div id="sub_scenarios"></div>
+                </div>
+            </div>
+    
+                <style>
+                    .popup-overlay {
+                        height: 30vh;
+                        overflow: scroll;
+                    }
+    
+                    #sub_scenarios{
+                        background-color: antiquewhite;
+                        margin: 0;
+                        padding: 0;
+                    }
+            
+                    #sub_scenarios button {
+                        background-color : white;
+                        color: black;
+                        font-size: 120%;
+                        width: 100%;
+                        height: 5vh;
+                    }
+            
+                </style>
+
 
             <!-- モーダル　作成済み動画一覧 -->
             <div class="modal fade" id="ShowMoviesModal" tabindex="-1" role="dialog" aria-labelledby="ShowMoviesModalLabel" aria-hidden="true">
@@ -268,39 +297,29 @@
                 </style>
             </div>
 
-
-            <div id="sample_sub_scenarios"></div>
-
-
         </div>
 
 
         
         <!-- サブシナリオの表示/非表示 -->
 
-        <div class="popup-overlay col-md-2">
-            <!--Creates the popup content-->
+        <!-- <div class="popup-overlay col-md-2">
+
             <div class="popup-content">
                 <div id="sub_scenarios"></div>
             </div>
+        </div>
 
             <style>
                 .popup-overlay {
-                    max-height: 30vh;
+                    height: 35vh;
                     overflow: scroll;
-                }
-
-                .popup-content {
-                    max-height: 30vh;
                 }
 
                 #sub_scenarios{
                     background-color: antiquewhite;
                     margin: 0;
                     padding: 0;
-                    /* overflow: scroll; */
-                    /* max-height: 100%; */
-                    /* width: 100%; */
                 }
         
                 #sub_scenarios button {
@@ -311,10 +330,7 @@
                     height: 5vh;
                 }
         
-            </style>
-        </div>
-
-
+            </style> -->
 
         
 
