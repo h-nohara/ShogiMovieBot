@@ -103,6 +103,7 @@ $(document).on("click", "#UpdateAction", function(){
         delete action["message"]["mark"];
     }
 
+    action["is_watching"] = true;
     History.update_view();
     show_message_contents(action);
     
