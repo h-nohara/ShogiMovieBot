@@ -260,6 +260,8 @@ function handle_emp_scenario(history){
                 // 分岐が２つなら、分岐をなくして連結
                 else if (n_sub_sc == 2){
 
+                    console.log("n_sub_sc = 2");
+
                     action["scenarios"].splice(selected_scenario, 1);  // 今見ている方の分岐を削除
 
                     // 連結するアクションたち
@@ -282,6 +284,9 @@ function handle_emp_scenario(history){
             }
         }
     }
+
+    console.log("this is result");
+    console.log(history);
 
     return history;
 }
