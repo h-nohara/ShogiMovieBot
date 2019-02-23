@@ -576,8 +576,8 @@ function get_natural_moves_move(Piece, Board){
 
             // 移動先か移動元が相手の陣地だったら、成りを加える
             if ( (is_land_of_enemy(dest, is_sente)) || (is_land_of_enemy(loc, is_sente)) ){
-                // 王以外の成っていない駒は成ることができる
-                if (PieceName_Hand.indexOf(Piece.name) >= 0){
+                // 王と金以外の成っていない駒は成ることができる
+                if (PieceName_canNari.indexOf(Piece.name) >= 0){
                     natural_moves.push(loc + dest + "+");
                 }
             }

@@ -4,6 +4,7 @@ PieceName_all = ["OU", "HI", "KA", "KI", "GI", "KE", "KY", "FU", "RY", "UM", "NG
 PieceName_notNari = ["OU", "HI", "KA", "KI", "GI", "KE", "KY", "FU", ];
 PieceName_Nari = ["RY", "UM", "NG", "NK", "NY", "TO"];
 PieceName_Hand = ["HI", "KA", "KI", "GI", "KE", "KY", "FU"];
+PieceName_canNari = ["HI", "KA", "GI", "KE", "KY", "FU"];
 
 
 PieceName_normal2kanji = {
