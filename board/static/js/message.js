@@ -245,6 +245,7 @@ function handle_emp_scenario(history){
             console.log("find scenarios");
 
             let n_sub_sc = action["scenarios"].length;
+            console.log("n_sub : " + String(n_sub_sc));
             let selected_scenario = action["selected_scenario"];
             let watching_sub_scenario = action["scenarios"][selected_scenario];
 
@@ -254,6 +255,7 @@ function handle_emp_scenario(history){
             }
             // 空のシナリオだったら
             else{
+                console.log("find emp scenario");
                 // 分岐が３つ以上なら、見ている分岐を削除するだけ
                 if (n_sub_sc >= 3){
                     console.log("n_sub_sc = 3");
