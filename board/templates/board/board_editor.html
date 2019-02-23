@@ -1,0 +1,650 @@
+<html>
+<HTML lang="ja">
+
+<body>
+
+    <header>
+        {% load static %}
+
+        <!-- jquery -->
+        <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
+        <!-- d3.js -->
+        <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+        <script src="{% static 'js/d3.min.js' %}" charset="utf-8"></script>
+
+        <!-- boostrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <!-- board -->
+        <script type="text/javascript" src="{% static 'js/util.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/piece.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/move.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/board.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/ShogiBoard.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/history.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/message.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/load_save.js' %}"></script>
+        <!-- <script type="text/javascript" src="/static/ActionHistory.js"></script> -->
+
+
+        <!-- グローバルナビゲーション -->
+
+        <nav class="navbar navbar-default">
+
+            <!-- 左側 -->
+            <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+                <ul class="nav navbar-nav">
+                    <li><a href="/account/home" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
+                </ul>
+                <p class="nav navbar-text" id="project_title"></p>
+            </div>
+
+            <!-- 右側 -->
+            <div id="nav_items_right" class="collapse navbar-collapse navbar-right" style="margin-right: 5vw;">
+                <span class="btn btn-default navbar-btn" onclick="window.location.href='/bot/scenarios'">シナリオ一覧</span>
+                <span class="btn btn-info navbar-btn" id="show_movies_button">生成した動画の一覧</span>
+                <span class="btn btn-danger navbar-btn" id="generate">動画を生成</span>
+                <span class="btn btn-primary navbar-btn" id="save">保存する</span>
+            </div>
+        </nav>
+
+    </header>
+
+
+
+    <style>
+        #main {
+            /* display: grid;
+            grid-gap: 1vw;
+            grid-template-columns: 35vw 10vw 30vw 10vw; */
+            margin-left : 3vw;
+            margin-top : 2vh;
+            max-height: 90vh;
+        }
+
+    </style>
+
+
+    <div id="main" class="row">
+
+        <!-- 将棋盤 -->
+
+        <style>
+            .col-md-4 {margin: 0 2vw;}
+        </style>
+
+        <div id="main_sub_board" class="col-md-4">
+            <div id="sub_board_gote" class="sub_board">
+            </div>
+
+            <div id="main_board" class="grid">
+            </div>
+
+            <div id="sub_board_sente" class="sub_board">
+            </div>
+
+        </div>
+
+        <style>
+            #main_sub_board{
+                /* margin: 0; */
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                /* width: 100%; */
+                height: 90vh;
+            }
+        </style>
+
+
+
+        <style>
+            #main_board {
+                width: 100%;
+                height: 55vh;
+                background-color: aqua;
+                /* margin: 1vh 0; */
+                padding: 0;
+            }
+            #main_board.OneSquare {height: 100%; width: 100%; padding: 0; margin: 0;}
+            /* #main_board button {height: 100%; width: 100%; padding: 0; margin: 0;} */
+            .grid {
+                display: grid;
+                grid-gap: 0px;
+                grid-template-rows: repeat(9, 11%);
+                grid-template-columns: repeat(9, 11%);
+            }
+        </style>
+
+        <style>
+            .sub_board{
+                margin: 0;
+                padding: 0;
+                /* width: 100%; */
+                height: 7%;
+                /* background-color: brown; */
+
+                display: grid;
+                grid-gap: 0;
+                grid-template-columns: repeat(7, 13%);
+            }
+
+            .PieceInHand {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+        </style>
+
+
+        <!-- ヒストリー -->
+
+        <div id="history_scroll" class="col-md-2">
+        </div>
+
+        <style>
+            #history_scroll{
+                background-color: antiquewhite;
+                margin: 0;
+                padding: 0;
+                overflow: scroll;
+                height: 90vh;
+                /* width: 100%; */
+            }
+
+            .OneAction {
+                background-color : white;
+                color: black;
+                font-size: 120%;
+                width: 100%;
+                height: 7vh;
+            }
+
+        </style>
+
+
+        <div id="Right" class="col-md-4">
+
+            <style>
+                #Right {margin: 0;}
+            </style>
+
+
+            <div><h3>メッセージの追加/削除</h3></div>
+
+            <div id="AddDelAction" class="btn-toolbar" style="width:100%;">
+                <div class="btn-group-lg" style="width:100%;">
+                    <button id="AddAction" class="btn btn-primary">追加</button>
+                    <button id="AddActionBefore" class="btn btn-primary">手前に<br>追加</button>
+                    <button id="UpdateAction" class="btn btn-warning">更新</button>
+                    <button id="DelAction" class="btn btn-danger">削除</button>
+                </div>
+
+            </div>
+
+            <style>
+                #AddDelAction {
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                    height: 15vh;
+                }
+
+                #AddDelAction button {
+                    width: 22%;
+                    height: 90%;
+                }
+            </style>
+
+            
+
+            <div id="TextAction" class="action_kind" style="height: 15vh;">
+                <div id="TextAction_title" class="action_header_text">
+                    <p>テキストを入力</p>
+                </div>
+
+                <!-- <input type="text" id="TextAction_text_box" class="action_contents"> -->
+                <textarea id="TextAction_text_box" rows="3" cols="18" wrap="physical"></textarea>
+                
+            </div>
+
+            <div id="LightUpAction" class="action_kind" style="height: 15vh;">
+                <div id="LightUpAction_title" class="action_header">
+                    <div class="action_title"><p>ライトアップ</p></div>
+                    <div><button id="adding_LightUp" class="one_action_add_button">＋</button></div>
+                    <div><button id="reflesh_LightUp" class="one_action_reflesh_button">ー</button></div>
+                </div>
+                <div id="LightUpAction_buttons" class="action_contents">
+                    <p></p>
+                </div>
+            </div>
+
+            <!-- <div id="MarkAction" class="action_kind" style="height: 15vh;">
+                <div id="MarkAction_title" class="action_header">
+                    <div class="action_title"><p>マーク</p></div>
+                    <div><button id="adding_Mark" class="one_action_add_button">＋</button></div>
+                    <div><button id="reflesh_Mark" class="one_action_reflesh_button">ー</button></div>
+                </div>
+                <div id="MarkAction_buttons" class="action_contents">
+                    <p></p>
+                </div>
+            </div> -->
+
+            <!-- <div id="FlyToAction" class="action_kind">
+                <button id="add_FlyTo">Fly To</button>
+            </div> -->
+
+
+            <!-- モーダル　作成済み動画一覧 -->
+            <div class="modal fade" id="ShowMoviesModal" tabindex="-1" role="dialog" aria-labelledby="ShowMoviesModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h3 class="modal-title">動画一覧</h4>
+                        </div>
+
+                        <div class="modal-body" id="movie_urls">
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .modal-dialog{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        min-height: 100%;
+                        margin: auto;
+                        pointer-events: none;
+                    }
+                    .modal-header {background-color: antiquewhite;}
+                    .modal-content {pointer-events: all;}
+                </style>
+            </div>
+
+
+            <div id="sample_sub_scenarios"></div>
+
+
+        </div>
+
+
+        
+        <!-- サブシナリオの表示/非表示 -->
+
+        <div class="popup-overlay col-md-2">
+            <!--Creates the popup content-->
+            <div class="popup-content">
+                <div id="sub_scenarios"></div>
+            </div>
+
+            <style>
+                .popup-content {
+                    max-height: 90vh;
+                }
+
+                #sub_scenarios{
+                    background-color: antiquewhite;
+                    margin: 0;
+                    padding: 0;
+                    overflow: scroll;
+                    max-height: 100%;
+                    /* width: 100%; */
+                }
+        
+                #sub_scenarios button {
+                    background-color : white;
+                    color: black;
+                    font-size: 120%;
+                    width: 100%;
+                    height: 7vh;
+                }
+        
+            </style>
+        </div>
+
+
+
+        
+
+        <style>
+
+            .action_kind {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+                background-color: azure;
+            }
+
+            .action_header {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 30%;
+                border: solid 0.02px;
+
+                display: grid;
+                grid-gap: 0;
+                grid-template-columns: 70% 20% 10%;
+            }
+
+            button.one_action_add_button{
+                margin: 0;
+                padding: 0;
+                background-color: lightsteelblue;
+                height: 100%;
+                width: 100%;
+            }
+
+            button.one_action_reflesh_button{
+                margin: 0;
+                padding: 0;
+                background-color: wheat;
+                height: 100%;
+                width: 100%;
+            }
+
+
+            .action_contents {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 70%;
+            }
+
+            /* #TextAction_text_box{
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 90%;
+            } */
+
+            #add_FlyTo {
+                width: 100%; height: 70%;
+            }
+
+        </style>
+
+
+
+        <style>
+        
+        .popup-overlay{
+            /*Hides pop-up when there is no "active" class*/
+            visibility:hidden;
+            /* position:absolute; */
+            background:#ffffff;
+            border:3px solid #666666;
+            /* width:50%; */
+            /* height:50%; */
+            /* left:25%; */
+        }
+        .popup-overlay.active{
+            /*displays pop-up when "active" class is present*/
+            visibility:visible;
+            text-align:center;
+        }
+        
+        .popup-content {
+            /*Hides pop-up content when there is no "active" class */
+            visibility:hidden;
+        }
+        
+        .popup-content.active {
+            /*Shows pop-up content when "active" class is present */
+            visibility:visible;
+        }
+        
+
+        </style>
+
+        <script>
+
+        function open_pull(){
+            $(".popup-overlay, .popup-content").addClass("active");
+        };
+
+        function close_pull(){
+            $(".popup-overlay, .popup-content").removeClass("active");
+        };
+        </script>
+
+
+
+        <style>
+            /* ローディング画面 */
+
+            #loading {
+                display: table;
+                width: 100%;
+                height: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background-color: #fff;
+                opacity: 0.8;
+            }
+                
+            #loading .loadingMsg {
+                display: table-cell;
+                text-align: center;
+                vertical-align: middle;
+                padding-top: 140px;
+                background: url("{% static 'img/gif-load.gif' %}") center center no-repeat;
+            }
+        </style>
+
+    </div>
+
+
+
+    <script>
+
+        // ロードされた時
+
+        window.onload = function(){
+
+            PROJECT_ID = get_project_id();
+
+            SBoard = new ShogiBoard();
+            History = new HistoryHandler();
+
+            // 保存されている盤面を描画
+            load_history();
+
+            timer1 = setInterval(open_or_close_sub_sc, 100);
+        }
+
+        // project_idを取得
+        function get_project_id(){
+            let url = location.href;
+            let url_split = url.split("/");
+            var project_id = url_split[url_split.length-1];
+            var project_id = parseInt(project_id, 10);
+            return project_id;
+        }
+
+        // 棋譜シナリオを取得する
+        function load_history(){
+
+            $.ajax({
+                type : "GET",
+                url : "/board/load_pickle",
+            })
+            .done(function(result){
+                if (result["code"] == 400){
+                    window.alert("読み込みに失敗しました");
+                }
+                else{
+                    History.history = result["result"]["history"];
+                    set_parent(History.history);  // parentを各アクションに設定
+
+                    // プロジェクト名を表示
+                    let project_title = result["result"]["project_title"];
+                    $("#project_title").text(project_title +  "  ＜棋譜を編集する＞");
+
+                    // history_viewを最新に
+                    History.watching_action = History.history[0];
+                    History.watching_action["is_watching"] = true;
+                    History.update_view();
+
+                    // boardを最新に
+                    SBoard.Board = deepcopy_Board(History.watching_action["board_state"]);  // もともとコメントアウト
+
+                    SBoard.draw_main_board();
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("failed load");
+            });
+        }
+
+
+        // 棋譜シナリオを保存する
+
+        $(document).on("click", "#save", function(){
+            save_pickle();
+        })
+
+        function save_pickle(){
+
+            // history
+            let new_history = [];
+            let history_copy = copy_history_without_parent(History.history, new_history);
+
+            // コピーした時にオリジナルhistoryのparentが削除されてしまったので、再設定
+            set_parent(History.history);
+
+            // ローディング画面
+            dispLoading("盤面を保存中...");
+
+            $.ajax({
+                type : "POST",
+                url : "/board/save_pickle",
+                data : JSON.stringify({"history" : history_copy})
+            })
+            .done(function(result){
+                if (result["code"] == 400){
+                    window.alert("保存に失敗しました");
+                }
+                else if (result["code"] == 200){
+                    window.alert("保存しました");
+                }
+                else {
+                    window.alert("意図しないコードがレスポンスされました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("保存に失敗しました");
+            })
+            .always(function(){
+                removeLoading();
+            });
+        }
+
+
+        // 動画を生成する
+
+        $(document).on("click", "#generate", function(){
+            generate();
+        })
+
+        function generate(){
+
+            // ローディング画面
+            dispLoading("動画を生成中...");
+
+            $.ajax({
+                type : "GET",
+                url : "/board/movie/generate",
+                // data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
+            .done(function(result){
+                if (result["code"] == 400){
+                    window.alert("動画の生成に失敗しました");
+                }
+                else{
+                    window.alert("動画を生成しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("送信エラー");
+            })
+            .always(function(){
+                removeLoading();
+            })
+            ;
+        }
+
+
+        // モーダルを開く
+
+        // 作成済みの動画一覧
+        $(document).on("click", "#show_movies_button", function(event){
+                    
+            $.ajax({
+                type : "GET",
+                url : "/board/movie/get",
+                // data : JSON.stringify({"project_id" : PROJECT_ID})
+            })
+            .done(function(result){
+                if (result["code"] == 400){
+                    window.alert("動画読み込み：失敗しました");
+                }
+                // ajax成功した時
+                else{
+                    console.log(result);
+                    let modal = $("#ShowMoviesModal");
+                    let paths = result["result"]["paths"];  // 動画のpath一覧
+                    let str_innnerHTML = "<div><a href=" + "'" + paths[paths.length-1] + "'" + " target='_blank'>" + "結合された動画" + "</a></div>";
+                    for (var i=0; i<paths.length-1; i++){
+                        str_innnerHTML = str_innnerHTML + "<div><a href=" + "'" + paths[i] + "'" + " target='_blank'>" + "動画" + String(i+1) + "</a></div>";
+                    }
+                    $("#movie_urls").html(str_innnerHTML);
+                    modal.modal("show");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("動画取得：失敗");
+            });
+
+        })
+
+
+        // 動画生成中のローディングモーダル
+
+        function dispLoading(msg){
+            // 引数なし（メッセージなし）を許容
+            if( msg == undefined ){
+                msg = "";
+            }
+            // 画面表示メッセージ
+            var dispMsg = "<div class='loadingMsg'>" + msg + "</div>";
+            // ローディング画像が表示されていない場合のみ出力
+            if($("#loading").length == 0){
+                $("body").append("<div id='loading'>" + dispMsg + "</div>");
+            }
+        }
+        
+        function removeLoading(){
+            $("#loading").remove();
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>

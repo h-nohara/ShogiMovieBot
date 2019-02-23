@@ -8,3 +8,7 @@ def board_page(request):
 @login_required(login_url="/account/login")
 def initial_board_page(request):
     return render(request, "board/initial_board_editor.html")
+
+@login_required(login_url="/account/login")
+def initial_board_page(request):
+    return render(request, "board/board_editor.html")
