@@ -254,6 +254,7 @@ function handle_emp_scenario(history){
             else{
                 // 分岐が３つ以上なら、見ている分岐を削除するだけ
                 if (n_sub_sc >= 3){
+                    console.log("n_sub_sc = 3");
                     action["scenarios"].splice(selected_scenario, 1);
                     action["selected_scenario"] = 0;
                 }
