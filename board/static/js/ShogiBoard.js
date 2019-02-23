@@ -96,7 +96,7 @@ class ShogiBoard {
                     if (! $("#"+key).hasClass("inverted")){
                         $("#"+key).addClass("inverted");
                     }
-                    $("#"+key).text("v" + PieceName_normal2kanji[piece.name]);
+                    $("#"+key).text(PieceName_normal2kanji[piece.name]);
                 }
             }
             else{
