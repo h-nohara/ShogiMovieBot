@@ -33,7 +33,7 @@ urlpatterns = [
     
 
     # ホーム画面
-    url(r"^home/[-a-z0-9_]+$", views.home_page, name="home"),
+    # url(r"^home/[-a-z0-9_]+$", views.home_page, name="home"),
     url(r"^home$", views.home_page, name="home"),
 
     # ホーム画面future
