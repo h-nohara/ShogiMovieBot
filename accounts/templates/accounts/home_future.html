@@ -161,6 +161,43 @@ font-size:1vw;
     </div>
 
 
+
+    <!-- モーダル　アカウント設定 -->
+    <div class="modal fade" id="AccountEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">アカウント設定</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- ニックネーム -->
+                    <div class="form-group">
+                        <label>ニックネーム（シナリオ配信の公開名）を入力</label>
+                        <input class="form-control" id="nickname">
+                    </div>
+                    <!-- 購読設定 -->
+                    <!-- <div class="form-group">
+                        <label>自分のシナリオのランダム購読　： </label>
+                        <button class="btn btn-default enabled_flag" id="is_enabled_RandomSubscription_own_scenario"></button>
+                    </div>
+                    <div class="form-group">
+                        <label>他人のシナリオのランダム購読　： </label>
+                        <button class="btn btn-default enabled_flag" id="is_enabled_RandomSubscription_others_scenario"></button>
+                    </div> -->
+                    <!-- 配信日 -->
+                    <p style="font-weight:bold" id="interval_RandomSubscription"></p>
+                    <p style="font-weight:bold" id="next_date_RandomSubscription"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">設定を変更せずに閉じる</button>
+                    <button type="button" class="btn btn-primary" id="AccountEditModal_ModButton">設定を保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- html要素のテンプレート -->
 
     <!-- プロジェクト -->
