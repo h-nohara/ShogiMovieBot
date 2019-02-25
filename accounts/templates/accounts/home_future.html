@@ -42,7 +42,7 @@
  	
        <li><button class="btn btn-primary col-xs-12" onclick="window.location.href='/bot/scenarios/subscribing'">購読中のシナリオ</button>
        <li><button class=" btn btn-success col-xs-12 " onclick="window.location.href='/bot/scenarios/public'">公開されているシナリオを見に行く</button>
-       <li><button class=" btn btn-default col-xs-12">アカウント設定</button>
+       <li><button class=" btn btn-info col-xs-12" id="AccountEditModal_opener">アカウント設定</button>
        <li><button class=" btn btn-primary col-xs-12" id="NewProjectModal_opener">新規プロジェクト</button>
 	   <li><button class=" btn btn-info col-xs-12">並び替え</button>
 </div>
@@ -267,6 +267,58 @@ font-size:1vw;
             $("#ProjectTitleEditModal").modal();
         })
 
+        // アカウント設定モーダル
+        $(document).on("click", "#AccountEditModal_opener", function(){
+
+            // アカウント設定を取得
+            $.ajax({
+                type : "GET",
+                url : "/account/get",
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+
+                    let data = response["data"];
+                    
+                    let username = data["username"];
+                    let nickname = data["nickname"];
+                    let is_enabled_RandomSubscription_own_scenario = data["is_enabled_RandomSubscription_own_scenario"];
+                    let is_enabled_RandomSubscription_others_scenario = data["is_enabled_RandomSubscription_others_scenario"];
+                    let interval_RandomSubscription = data["interval_RandomSubscription"];
+                    let next_date_RandomSubscription = data["next_date_RandomSubscription"];
+
+                    // 現在の値を入れておく
+                    $("#nickname").val(nickname);
+                    $("#interval_RandomSubscription").text("配信間隔　： "+String(interval_RandomSubscription)+"日")
+                    $("#next_date_RandomSubscription").text("次回配信日 ： "+next_date_RandomSubscription);
+
+                    // 購読の有効設定
+                    // let id_flag_dict = {
+                    //     "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
+                    //     "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
+                    // };
+
+                    // for (key of Object.keys(id_flag_dict)){
+                    //     if (id_flag_dict[key]){
+                    //         $("#"+key).val("positive");
+                    //         $("#"+key).text("有効");
+                    //         $("#"+key).css("background-color", "#99FFFF");
+                    //     }
+                    //     else {
+                    //         $("#"+key).val("negative");
+                    //         $("#"+key).text("無効");
+                    //         $("#"+key).css("background-color", "white");
+                    //     }
+                    // }
+
+                    $("#AccountEditModal").modal();
+                }
+                else {
+                    window.alert(response["error_message"]);
+                };
+            })
+        })
+
 
         // 新規プロジェクト作成
         $("#NewProjectModal_AddButton").on("click", function(){
@@ -296,6 +348,53 @@ font-size:1vw;
                 };
             })
         })
+
+
+
+
+        // アカウント設定変更を送信
+        $(document).on("click", "#AccountEditModal_ModButton", function(){
+
+            // let username = $("#username").val();
+            let nickname = $("#nickname").val();
+
+            let info = {
+                "nickname" : nickname
+            }
+
+            // 購読設定
+            // let id_flag_dict = {
+            //     "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
+            //     "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
+            // };
+
+            // for (key of Object.keys(id_flag_dict)){
+            //     let flag = $("#"+key).val();
+            //     if (flag == "positive"){
+            //         info[key] = true;
+            //     }
+            //     else {
+            //         info[key] = false;
+            //     }
+            // }
+
+            $.ajax({
+                type : "POST",
+                url : "/account/change",
+                data : JSON.stringify(info)
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    window.alert("アカウント情報を変更しました");
+                }
+                else {
+                    window.alert("失敗しました");
+                };
+            })
+
+        })
+
+
 
         // プロジェクト名変更
         $("#ProjectTitleEditModal_ModButton").on("click", function(){
