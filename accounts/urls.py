@@ -35,6 +35,7 @@ urlpatterns = [
     # ホーム画面
     # url(r"^home/[-a-z0-9_]+$", views.home_page, name="home"),
     url(r"^home$", views.home_page, name="home"),
+    url(r"^home/sp$", views.home_page_sp, name="home sp"),
 
     # プロジェクト一覧取得
     url(r"^project/get$", get_projects_request, name="get_projects"),
@@ -53,6 +54,6 @@ urlpatterns = [
     # url(r"^home/test_page$", views.home_page_future, name="home future"),
 
     # ホーム画面スマホ用テスト
-    url(r"^sm/home/test_page$", views.test_home_page_sm, name="home sm test"),
+    url(r"^sm/home/test_page$", views.test_home_page_sm, name="home sp test"),
 
 ]

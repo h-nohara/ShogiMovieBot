@@ -17,10 +17,13 @@ urlpatterns = [
 
     # 盤面の編集画面
     url(r"^$", views.board_page, name="board"),
-    url(r"^[0-9]+$", views.board_page, name="board"),
+    # url(r"^[0-9]+$", views.board_page, name="board"),
+    url(r"^sp$", views.board_page_sp, name="board sp"),
 
     # 開始盤面の編集画面
     url(r"^initial/editor$", views.initial_board_page, name="board"),
+    url(r"^initial/editor/sp$", views.initial_board_page_sp, name="board sp"),
+
     url(r"^initial/editor/save$", save_initial_board_request, name="save initial board"),
 
     # 盤面読み込み・保存

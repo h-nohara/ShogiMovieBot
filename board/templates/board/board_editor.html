@@ -469,7 +469,10 @@
 
         window.onload = function(){
 
-            PROJECT_ID = get_project_id();
+            let w = screen.width;
+            if (w < 960){window.location.href = window.location.href + "/sp";}
+
+            // PROJECT_ID = get_project_id();
 
             SBoard = new ShogiBoard();
             History = new HistoryHandler();

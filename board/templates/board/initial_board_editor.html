@@ -235,6 +235,10 @@
         // ロードされた時
 
         window.onload = function(){
+
+            let w = screen.width;
+            if (w < 960){window.location.href = window.location.href + "/sp";}
+
             PieceManagerMain = {};
             for (let i=1; i<10; i++){
                 for (let j=1; j<10; j++){

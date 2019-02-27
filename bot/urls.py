@@ -40,16 +40,22 @@ urlpatterns = [
     # シナリオ一覧ページ
     # url(r"^scenarios/[-a-z0-9_]+$", project_scenarios_page, name="project_scenarios_page_old"),
     url(r"^scenarios$", project_scenarios_page, name="project_scenarios_page"),
+    url(r"^scenarios/sp$", views.project_scenarios_page_sp, name="project_scenarios_page sp"),
+
     # シナリオ編集ページ
     # url(r"^scenario_editor/[-a-z0-9_]+$", scenario_editor_page, name="scenario_editor_page_old"),
     url(r"^scenario_editor$", scenario_editor_page, name="scenario_editor_page"),
+    url(r"^scenario_editor/sp$", views.scenario_editor_page_sp, name="scenario_editor_page sp"),
 
     # 公開されているシナリオの一覧ページ
     url(r"^scenarios/public$", public_scenarios_page, name="public_scenarios_page"),
+    url(r"^scenarios/public/sp$", views.public_scenarios_page_sp, name="public_scenarios_page sp"),
 
     # 購読しているシナリオの一覧ページ
-    url(r"^scenario/subscribing/get$", get_subscribing_scenarios_request, name="get_subscribing"),
     url(r"^scenarios/subscribing$", subscribing_scenarios_page, name="subscribing_scenarios_page"),
+    url(r"^scenarios/subscribing/sp$", views.subscribing_scenarios_page_sp, name="subscribing_scenarios_page sp"),
+
+    url(r"^scenario/subscribing/get$", get_subscribing_scenarios_request, name="get_subscribing"),
 
     # ページを戻る
     url(r"^transit/ScenarioEditor_to_ProjectScenarios$", ScenarioEditor_to_ProjectScenarios_page, name="ScenarioEditor_to_ProjectScenarios"),

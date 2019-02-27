@@ -9,6 +9,16 @@ def board_page(request):
 def initial_board_page(request):
     return render(request, "board/initial_board_editor.html")
 
+# sp
+
+@login_required(login_url="/account/login")
+def board_page_sp(request):
+    return render(request, "board/sp/board_editor_sm.html")
+
+@login_required(login_url="/account/login")
+def initial_board_page_sp(request):
+    return render(request, "board/sp/initial_board_editor_sm.html")
+
 
 # テストページ
 

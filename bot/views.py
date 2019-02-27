@@ -26,6 +26,28 @@ def subscribing_scenarios_page(request):
     return render(request, "bot/subscribing_scenarios.html")
 
 
+# sp
+
+@login_required(login_url="/account/login")
+def project_scenarios_page_sp(request):
+    return render(request, "bot/sp/project_scenarios.html")
+
+
+@login_required(login_url="/account/login")
+def scenario_editor_page_sp(request):
+    return render(request, "bot/sp/scenario_editor.html")
+
+
+
+@login_required(login_url="/account/login")
+def public_scenarios_page_sp(request):
+    return render(request, "bot/sp/public_scenarios.html")
+
+
+@login_required(login_url="/account/login")
+def subscribing_scenarios_page_sp(request):
+    return render(request, "bot/sp/subscribing_scenarios.html")
+
 
 # テストページ
 
