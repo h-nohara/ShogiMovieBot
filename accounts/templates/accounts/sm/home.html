@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+
+    <!-- jquery -->
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+
+    <!-- d3 -->
+    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+    <script src="{% static 'js/d3.min.js' %}" charset="utf-8"></script>
+
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+
+
+    <nav class="navbar navbar-default">
+        <style>
+            .navbar {height: 5vh; z-index: 1;}
+        </style>
+        <div class="navbar-header">
+
+            <p class="navbar-brand" id="home">ホーム画面</p>
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#gnavi">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        
+        <div id="gnavi" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav row">
+                <li><button class="btn btn-default col-xs-12" onclick="window.location.href='/account/home'">ホーム画面へ</button></li>
+                <li><button class="btn btn-primary col-xs-12" onclick="window.location.href='/bot/scenarios/subscribing'">購読中のシナリオ</button>
+                <li><button class=" btn btn-success col-xs-12 " onclick="window.location.href='/bot/scenarios/public'">公開されているシナリオを見に行く</button>
+                <li><button class=" btn btn-info col-xs-12" id="AccountEditModal_opener">アカウント設定</button>
+                <li><button class=" btn btn-primary col-xs-12" id="NewProjectModal_opener">新規プロジェクト</button>
+                <li><button class=" btn btn-primary col-xs-12" onclick="window.location.href='/board/initial/editor' ">初期盤面から作成</button>
+                <!-- <li><button class=" btn btn-info col-xs-12">並び替え</button> -->
+            </ul>
+
+            <style>
+                #gnavi button {height: 10vh;}
+            </style>
+        </div>
+        
+    </nav>
+
+
+    <!-- グローバルナビゲーション ここまで-->
+
+</header>
+
+
+<body>
+
+    <div>
+        
+        <div>
+
+            <!-- プロジェクト一覧 -->
+
+            <div style="overflow-y: scroll; height:90vh;" id="projects">
+                
+                <div class="panel panel-info OneProject" id="100">
+                        <div class="panel-body">
+                            <p>四間飛車VS穴熊（サンプル）</p>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <button class="btn btn-primary TransitToBoard col-md-2 col-sm-3 col-xs-6">盤面編集</button>
+                                <button class="btn btn-primary TransitToScenario col-md-2 col-sm-3 col-xs-6">シナリオ一覧</button>
+                                <button class="btn btn-info TransitToScenario col-md-2 col-sm-3 col-xs-8">プロジェクト名変更</button>
+                                <button class="btn btn-danger pull-right col-md-2 col-sm-3 col-xs-4">削除</button>
+                            </div>
+                        </div>
+                    </div>
+    
+                    
+                    <div class="panel panel-info OneProject" id="400">
+                        <div class="panel-body">
+                            <p>四間飛車VS穴熊（サンプル）</p>
+                        </div>
+                        <div class="panel-footer">
+                        <div class="row">
+                                <button class="btn btn-primary TransitToBoard col-md-2 col-sm-3 col-xs-6">盤面編集</button>
+                                <button class="btn btn-primary TransitToScenario col-md-2 col-sm-3 col-xs-6">シナリオ一覧</button>
+                                <button class="btn btn-info TransitToScenario col-md-2 col-sm-3 col-xs-8">プロジェクト名変更</button>
+                                <button class="btn btn-danger pull-right col-md-2 col-sm-3 col-xs-4">削除</button>
+                            </div>
+                    </div> 
+    
+                </div>
+    
+
+            <!-- プロジェクト一覧 ここまで-->
+
+        </div>
+
+
+        <!-- モーダル -->
+
+        <!-- モーダル　新規プロジェクト作成 -->
+        <div class="modal fade" id="NewProjectModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                        <h4 class="modal-title">新規プロジェクト</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>タイトルを入力</label>
+                            <input class="form-control" name="title">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                        <button type="button" class="btn btn-primary" id="NewProjectModal_AddButton">作成</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- モーダル　プロジェクト名変更 -->
+    <div class="modal fade" id="ProjectTitleEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">プロジェクト名を変更</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>プロジェクト名を入力</label>
+                        <input class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-primary" id="ProjectTitleEditModal_ModButton">変更</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- モーダル　アカウント設定 -->
+    <div class="modal fade" id="AccountEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">アカウント設定</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- ニックネーム -->
+                    <div class="form-group">
+                        <label>ニックネーム（シナリオ配信の公開名）を入力</label>
+                        <input class="form-control" id="nickname">
+                    </div>
+                    <!-- 購読設定 -->
+                    <!-- <div class="form-group">
+                        <label>自分のシナリオのランダム購読　： </label>
+                        <button class="btn btn-default enabled_flag" id="is_enabled_RandomSubscription_own_scenario"></button>
+                    </div>
+                    <div class="form-group">
+                        <label>他人のシナリオのランダム購読　： </label>
+                        <button class="btn btn-default enabled_flag" id="is_enabled_RandomSubscription_others_scenario"></button>
+                    </div> -->
+                    <!-- 配信日 -->
+                    <p style="font-weight:bold" id="interval_RandomSubscription"></p>
+                    <p style="font-weight:bold" id="next_date_RandomSubscription"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">設定を変更せずに閉じる</button>
+                    <button type="button" class="btn btn-primary" id="AccountEditModal_ModButton">設定を保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- html要素のテンプレート -->
+
+    <!-- プロジェクト -->
+    <script type="text/html" id="project_template">
+
+        <div class="panel panel-info OneProject" id=<%= project_id %>>
+            <div class="panel-body">
+                <p class="ProjectTitle"><%= title %></p>
+            </div>
+            <div class="panel-footer">
+                <div>
+                    <button class="btn btn-primary TransitToBoard">盤面を編集</button>
+                    <button class="btn btn-primary TransitToScenario">シナリオ一覧</button>
+                    <button class="btn btn-info ProjectTitleEditModal_opener">プロジェクト名を変更</button>
+                    <button class="btn btn-danger pull-right DeleteProject">削除</button>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+
+    <script>
+
+        // ロードされた時
+
+        $(document).ready( function(){
+            // USER_ID = get_id_from_url();
+            get_draw_projects();
+
+            // sample_projects = [
+            //     {"project_id" : 100, "title" : "サンプル１"},
+            //     {"project_id" : 200, "title" : "サンプル２"}
+            // ];
+
+            WATCHING_Project_ID = null;
+        });
+
+        // user_idを取得
+        // function get_id_from_url(){
+        //     let url = location.href;
+        //     let url_split = url.split("/");
+        //     let the_id = url_split[url_split.length-1];
+        //     the_id = parseInt(the_id, 10);
+        //     console.log("id : " + String(the_id));
+        //     return the_id
+        // }
+
+        // プロジェクト一覧を取得
+        function get_draw_projects(){
+            // $.ajax({
+            //     type : "POST",
+            //     url : "/account/project/get",
+            //     data : JSON.stringify({"user_id" : USER_ID})
+            // })
+            $.ajax({
+                type : "GET",
+                url : "/account/project/get",
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let projects = response["data"]["projects"];
+                    console.log("receive response");
+                    console.log(projects);
+                    draw_projects(projects);
+                }
+                else {
+                    window.alert(response["error_message"]);
+                };
+            })
+        }
+
+        function draw_projects(projects){
+            $("#projects").html("");
+            for (info of projects){
+                let project_id = info["project_id"];
+                let title = info["title"];
+                var compiled = _.template($("#project_template").html());
+                $("#projects").append(
+                    compiled({
+                        "project_id" : String(project_id),
+                        "title" : title
+                    })
+                );
+            }
+        }
+
+
+
+        // モーダルを開く
+
+        // 新規プロジェクト作成モーダル
+        $(document).on("click", "#NewProjectModal_opener", function(){
+            $("#NewProjectModal").modal();
+        })
+
+        // プロジェクト名変更モーダル
+        $(document).on("click", ".ProjectTitleEditModal_opener", function(){
+            // あらかじめ、現在のテキストをフォームに入れておく
+            let title = $(this).closest(".panel").find(".ProjectTitle").text();
+            $("#ProjectTitleEditModal").find("input").val(title);
+
+            WATCHING_Project_ID = $(this).closest(".OneProject").attr("id");
+            $("#ProjectTitleEditModal").modal();
+        })
+
+        // アカウント設定モーダル
+        $(document).on("click", "#AccountEditModal_opener", function(){
+
+            // アカウント設定を取得
+            $.ajax({
+                type : "GET",
+                url : "/account/get",
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+
+                    let data = response["data"];
+                    
+                    let username = data["username"];
+                    let nickname = data["nickname"];
+                    let is_enabled_RandomSubscription_own_scenario = data["is_enabled_RandomSubscription_own_scenario"];
+                    let is_enabled_RandomSubscription_others_scenario = data["is_enabled_RandomSubscription_others_scenario"];
+                    let interval_RandomSubscription = data["interval_RandomSubscription"];
+                    let next_date_RandomSubscription = data["next_date_RandomSubscription"];
+
+                    // 現在の値を入れておく
+                    $("#nickname").val(nickname);
+                    $("#interval_RandomSubscription").text("配信間隔　： "+String(interval_RandomSubscription)+"日")
+                    $("#next_date_RandomSubscription").text("次回配信日 ： "+next_date_RandomSubscription);
+
+                    // 購読の有効設定
+                    // let id_flag_dict = {
+                    //     "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
+                    //     "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
+                    // };
+
+                    // for (key of Object.keys(id_flag_dict)){
+                    //     if (id_flag_dict[key]){
+                    //         $("#"+key).val("positive");
+                    //         $("#"+key).text("有効");
+                    //         $("#"+key).css("background-color", "#99FFFF");
+                    //     }
+                    //     else {
+                    //         $("#"+key).val("negative");
+                    //         $("#"+key).text("無効");
+                    //         $("#"+key).css("background-color", "white");
+                    //     }
+                    // }
+
+                    $("#AccountEditModal").modal();
+                }
+                else {
+                    window.alert(response["error_message"]);
+                };
+            })
+        })
+
+
+        // モーダルを開く関数　ここまで
+
+
+        // 新規プロジェクト作成
+        $(document).on("click", "#NewProjectModal_AddButton", function(){
+            let title = $("#NewProjectModal input[name='title']").val();
+            if ((title == "") || (title == null)){
+                window.alert("タイトルを入力してください");
+                exit();
+            }
+            console.log("title : " + title);
+            $.ajax({
+                type : "POST",
+                url : "/account/project/new",
+                // data : JSON.stringify({"user_id" : USER_ID, "title" : title})
+                data : JSON.stringify({"title" : title})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    console.log("success : make_new_project");
+                    // 描画し直す
+                    get_draw_projects();
+
+                    $("#NewProjectModal").modal("hide");
+                }
+                else {
+                    window.alert("failed");
+                    window.alert(response["error_message"]);
+                };
+            })
+        })
+
+        // 購読設定の変更
+        // $(document).on("click", ".enabled_flag", function(){
+        //     if ($(this).val() == "positive"){
+        //         $(this).val("negative");
+        //         $(this).text("無効");
+        //         $(this).css("background-color", "white");
+        //     }
+        //     else {
+        //         $(this).val("positive");
+        //         $(this).text("有効");
+        //         $(this).css("background-color", "#99FFFF");
+        //     }
+        // })
+
+        // アカウント設定変更を送信
+        $(document).on("click", "#AccountEditModal_ModButton", function(){
+
+            // let username = $("#username").val();
+            let nickname = $("#nickname").val();
+
+            let info = {
+                "nickname" : nickname
+            }
+
+            // 購読設定
+            // let id_flag_dict = {
+            //     "is_enabled_RandomSubscription_own_scenario" : is_enabled_RandomSubscription_own_scenario,
+            //     "is_enabled_RandomSubscription_others_scenario" : is_enabled_RandomSubscription_others_scenario
+            // };
+
+            // for (key of Object.keys(id_flag_dict)){
+            //     let flag = $("#"+key).val();
+            //     if (flag == "positive"){
+            //         info[key] = true;
+            //     }
+            //     else {
+            //         info[key] = false;
+            //     }
+            // }
+
+            $.ajax({
+                type : "POST",
+                url : "/account/change",
+                data : JSON.stringify(info)
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    window.alert("アカウント情報を変更しました");
+                }
+                else {
+                    window.alert("失敗しました");
+                };
+            })
+
+        })
+
+        // プロジェクト名変更
+        $(document).on("click", "#ProjectTitleEditModal_ModButton", function(){
+
+            let title = $(this).closest(".modal-content").find("input").val();
+            let project_id = $(this).closest(".OneProject").attr("id");
+
+            if ((title == "") || (title == null)){
+                window.alert("タイトルを入力してください");
+                exit();
+            }
+            console.log("title : " + title);
+            $.ajax({
+                type : "POST",
+                url : "/account/project/change_title",
+                data : JSON.stringify({"project_id" : WATCHING_Project_ID, "title" : title})
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    console.log("success : change project title");
+                    // 描画し直す
+                    get_draw_projects();
+
+                    $("#ProjectTitleEditModal").modal("hide");
+                }
+                else {
+                    window.alert("failed");
+                    window.alert(response["error_message"]);
+                };
+            })
+        })
+
+        // プロジェクト削除
+        $(document).on("click", ".DeleteProject", function(){
+            WATCHING_Project_ID = $(this).closest(".OneProject").attr("id");
+            if ( window.confirm("プロジェクトを削除します（元に戻せません）") ){
+                $.ajax({
+                    type : "POST",
+                    url : "/account/project/delete",
+                    data : JSON.stringify({"project_id" : WATCHING_Project_ID})
+                })
+                .done(function(response){
+                    if (response["code"] == 200){
+                        window.alert("プロジェクトを削除しました");
+                        // 描画し直す
+                        get_draw_projects();
+                    }
+                    else {
+                        window.alert("プロジェクト削除に失敗しました");
+                        window.alert(response["error_message"]);
+                    };
+                })
+            }
+        })
+
+        // 盤面を編集するページへ移動
+
+        $(document).on("click", ".TransitToBoard", function(){
+
+            let project_id = $(this).closest(".OneProject").attr("id");
+
+            $.ajax({
+                type : "POST",
+                url : "/account/session/overwrite",
+                data : JSON.stringify({"project_id" : project_id})
+            })
+            .done(function(result){
+                if (result["code"] == 200){
+                    window.location.href = "/board";
+                }
+                else {
+                    window.alert("失敗しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("失敗しました");
+            })
+        })
+
+
+        // シナリオ一覧ページへ移動
+
+        $(document).on("click", ".TransitToScenario", function(){
+
+            let project_id = $(this).closest(".OneProject").attr("id");
+
+            $.ajax({
+                type : "POST",
+                url : "/account/session/overwrite",
+                data : JSON.stringify({"project_id" : project_id})
+            })
+            .done(function(result){
+                if (result["code"] == 200){
+                    window.location.href = "/bot/scenarios";
+                }
+                else {
+                    window.alert("失敗しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("失敗しました");
+            })
+        })
+
+    </script>
+</body>

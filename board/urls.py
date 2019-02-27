@@ -18,7 +18,6 @@ urlpatterns = [
     # 盤面の編集画面
     url(r"^$", views.board_page, name="board"),
     url(r"^[0-9]+$", views.board_page, name="board"),
-    url(r"^test_page$", views.board_test_page, name="board"),  # テストページ
 
     # 開始盤面の編集画面
     url(r"^initial/editor$", views.initial_board_page, name="board"),
@@ -31,4 +30,10 @@ urlpatterns = [
     # 動画
     url(r"^movie/get$", get_movies_request, name="get_movies"),
     url(r"^movie/generate$", generate_movies, name="generate_movies"),
+
+
+    # テストページ
+
+    url(r"^sm/test_page$", views.test_board_page_sm, name="board"),
+    url(r"^sm/initial/editor/test_page$", views.test_initial_board_page_sm, name="board"),
 ]

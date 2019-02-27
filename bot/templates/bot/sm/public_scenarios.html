@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <!-- boostrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+
+
+    <!-- グローバルナビゲーション -->
+
+    <nav class="navbar navbar-default">
+        <style>
+            .navbar {height: 5vh;}
+        </style>
+        <div class="navbar-header">
+
+            <p class="navbar-brand">公開されているシナリオ一覧</p>
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#gnavi">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        
+        <div id="gnavi" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav row">
+                <li><button class="btn btn-default col-xs-12" onclick="window.location.href='/account/home'">ホーム画面へ</button></li>
+            </ul>
+
+            <style>
+                #gnavi button {height: 10vh;}
+            </style>
+        </div>
+            
+    </nav>
+
+
+    <!-- グローバルナビゲーション ここまで-->
+
+</header>
+
+
+<body>
+
+    <div class="container-fluid">
+        
+        <div>
+
+            <!-- 公開されているシナリオ一覧 -->
+
+            <div style="overflow-y: scroll; height:90vh;" id="scenarios">
+                
+                <div class="panel panel-info OneProject" id="100">
+                    <div class="panel-body">
+                        <p>四間飛車VS穴熊（サンプル）</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            <button class="btn btn-primary TransitToBoard">シナリオを見る</button>
+                            <button class="btn btn-default">ランダム購読の対象</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="panel panel-info OneProject" id="400">
+                    <div class="panel-body">
+                        <p>四間飛車VS穴熊（サンプル）</p>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            <button class="btn btn-primary TransitToBoard">シナリオを見る</button>
+                            <button class="btn btn-default">ランダム購読の対象</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    
+
+            <!-- プロジェクト一覧 ここまで-->
+
+        </div>
+
+
+        <!-- モーダル -->
+
+    <!-- モーダル　シナリオ -->
+    <div class="modal fade" id="MessagesModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">メッセージ一覧</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="messages" style="overflow-y: scroll; max-height:70vh;">
+                        <!-- ここにメッセージ一覧が来る -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- html要素のテンプレート -->
+
+    <!-- シナリオ -->
+    <script type="text/html" id="scenario_template">
+
+        <div class="panel panel-info OneScenario" id=<%= scenario_id %>>
+            <div class="panel-body">
+                <p><%= title %></p>
+            </div>
+            <div class="panel-footer">
+                <div>
+                    <button class="btn btn-primary show_scenario">シナリオを見る</button>
+                    <button class="btn btn-default subsc_flag_button" style="background-color:<%= color %>" value=<%= flag %> ><%= text %></button>
+                    <p class="pull-right">作成者 : <%= publisher %></p>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+
+    <!-- テキストメッセージ -->
+    <script type="text/html" id="TextMessage_template">
+
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <p class="TextMessageText"><%= text %></p>
+            </div>
+        </div>
+    </script>
+
+    <!-- 動画メッセージ -->
+    <script type="text/html" id="MovieMessage_template">
+
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <a href=<%= movie_path %> target="_blank" >動画メッセージ</a>
+            </div>
+        </div>
+    </script>
+
+    <!-- 画像メッセージ -->
+    <script type="text/html" id="ImageMessage_template">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">画像メッセージ</h2>
+            </div>
+            <div class="panel-body">
+                <a href=<%= image_path %> target="_blank" >画像メッセージ</a>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-danger MessageDelButton">削除</button>
+            </div>
+        </div>
+    </script>
+
+    <!-- html要素のテンプレート　ここまで-->
+
+
+    <script>
+
+        // ロードされた時
+
+        $(document).ready( function(){
+            // USER_ID = get_id_from_url();
+            get_draw_scenarios();
+
+            // sample_scenarios = [
+            //     {"project_id" : 100, "title" : "サンプル１"},
+            //     {"project_id" : 200, "title" : "サンプル２"}
+            // ];
+
+            WATCHING_Scenario_ID = null;
+        });
+
+        // 公開されているシナリオの一覧を取得
+        function get_draw_scenarios(){
+            // $.ajax({
+            //     type : "POST",
+            //     url : "/account/project/get",
+            //     data : JSON.stringify({"user_id" : USER_ID})
+            // })
+            $.ajax({
+                type : "GET",
+                url : "/bot/scenario/get_public",
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+                    let scenarios = response["data"]["scenarios"];
+                    console.log("receive response");
+                    // console.log(scenarios);
+                    draw_scenarios(scenarios);
+                }
+                else {
+                    window.alert("公開されているシナリオの取得に失敗しました");
+                    window.alert(response["error_message"]);
+                };
+            })
+        }
+
+        function draw_scenarios(scenarios){
+            $("#scenarios").html("");
+            for (info of scenarios){
+                let scenario_id = info["scenario_id"];
+                let title = info["title"];
+                let is_subscribing = info["is_subscribing"];
+                let publisher = info["publisher"];
+
+                if (is_subscribing){
+                    var flag = "positive";
+                    var text = "ランダム購読の対象";
+                    var color = "#99FFFF";
+                }
+                else{
+                    var flag = "negative";
+                    var text = "ランダム購読対象外";
+                    var color = "white";
+                }
+
+                var compiled = _.template($("#scenario_template").html());
+                $("#scenarios").append(
+                    compiled({
+                        "scenario_id" : String(scenario_id),
+                        "title" : title,
+                        "flag" : flag,
+                        "text" : text,
+                        "color" : color,
+                        "publisher" : publisher
+                    })
+                );
+            }
+        }
+
+
+
+        // モーダルを開く
+
+
+        // シナリオを見る
+        $(document).on("click", ".show_scenario", function(){
+
+            let scenario_id = $(this).closest(".OneScenario").attr("id");
+            WATCHING_Scenario_ID = scenario_id;
+            get_draw_messages(scenario_id);
+
+            $("#MessagesModal").modal();
+        })
+
+        // シナリオ情報を取得
+        function get_draw_messages(scenario_id){
+            $.ajax({
+                async : false,
+                type : "POST",
+                url : "/bot/scenario/get_info",
+                data : JSON.stringify({
+                    "is_attached_id" : true,
+                    "scenario_id" : scenario_id
+                })
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+
+                    let data = response["data"];
+
+                    let title = data["title"];
+                    let thumb_path = data["thumb_path"];
+                    let is_public = data["is_public"];
+                    let is_subscribing = data["is_subscribing"];
+                    let messages = data["messages"];
+
+                    // set_public_setting(is_public);
+                    // set_subsc_setting(is_subscribing);
+
+                    MESSAGES = messages;
+                    draw_messages(messages);
+                }
+                else {
+                    window.alert("failed get_scenario_info");
+                    // window.alert(response["error_message"]);
+                };
+            })
+        }
+
+        // メッセージを描画
+        function draw_messages(messages){
+
+            $("#messages").html("");
+
+            var compiled_TextMessage = _.template($("#TextMessage_template").html());
+            var compiled_MovieMessage = _.template($("#MovieMessage_template").html());
+            var compiled_ImageMessage = _.template($("#ImageMessage_template").html());
+
+            for (info of messages){
+
+                let message_id = info["message_id"];
+                let kind = info["kind"];
+                let is_stop = info["is_stop"];
+
+                if (kind == "text"){
+                    let text = info["text"];
+                    var message_html = compiled_TextMessage({
+                        "text" : text,
+                        "title" : "テキストメッセージ"
+                    });
+                }
+                else if (kind == "movie"){
+                    let movie_path = info["movie_path"];
+                    var message_html = compiled_MovieMessage({
+                        "movie_path" : movie_path,
+                        "title" : "動画メッセージ"
+                    });
+                }
+                else if (kind == "image"){
+                    let image_path = info["image_path"];
+                    var message_html = compiled_ImageMessage({
+                        "image_path" : image_path,
+                    });
+                }
+
+                $("#messages").append(message_html);
+            }
+        }
+
+
+        // ランダム購読設定変更ボタン
+
+        $(document).on("click", ".subsc_flag_button", function(){
+
+            let flag = $(this).val();
+            let scenario_id = $(this).closest(".panel").attr("id");
+            var this_dom = $(this);
+
+            if (flag == "positive"){var is_subsc = true;}else{var is_subsc = false;}
+
+            $.ajax({
+                type : "POST",
+                url : "/bot/scenario/change_subscription_setting",
+                data : JSON.stringify(
+                    {
+                        "scenario_id" : scenario_id,
+                        "is_subscribing" : !is_subsc
+                    }
+                )
+            })
+            .done(function(response){
+                if (response["code"] == 200){
+
+                    if (is_subsc) {
+                        this_dom.val("negative");
+                        this_dom.css("background-color", "white");
+                        this_dom.text("ランダム購読対象外");
+                        window.alert("購読対象から外しました");
+                    }
+                    else {
+                        this_dom.val("positive");
+                        this_dom.css("background-color", "#99FFFF");
+                        this_dom.text("ランダム購読の対象");
+                        window.alert("購読の対象に加えました");
+                    }
+                }
+                else {
+                    window.alert("購読設定の変更に失敗しました");
+                };
+            })
+        })
+
+    </script>
+</body>

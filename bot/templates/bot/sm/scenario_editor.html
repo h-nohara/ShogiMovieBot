@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <!-- boostrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+
+
+    <!-- グローバルナビゲーション -->
+
+    <nav class="navbar navbar-default">
+        <style>
+            .navbar {height: 5vh;}
+        </style>
+        <div class="navbar-header">
+
+            <p class="navbar-brand" id="scenario_title"></p>
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#gnavi">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        
+        <div id="gnavi" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav row">
+                <li><button class="btn btn-default col-xs-12" onclick="window.location.href='/account/home'">ホーム画面へ</button></li>
+                <li><button class="btn btn-default col-xs-12" onclick="window.location.href='/bot/scenarios'">シナリオ一覧</button></li>
+                <li><button class="btn btn-info col-xs-12" id="SettingsModal_opener">配信設定</button></li>
+                <li><button class="btn btn-primary col-xs-12" id="MessagesSaveButton">保存する</button></li>
+            </ul>
+
+            <style>
+                #gnavi button {height: 10vh;}
+            </style>
+        </div>
+            
+    </nav>
+
+
+    <!-- グローバルナビゲーション ここまで-->
+
+</header>
+
+<body>
+
+    <div id="main">
+
+        <style>
+            #main {margin : 1vh 2vw;}
+        </style>
+
+        <!-- メッセージ一覧 -->
+
+        <div style="overflow-y: scroll; height:75vh;" id="messages">
+
+                <style>
+                    #messages {margin : 2vh 0;}
+                </style>
+                
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h2 class="panel-title">テキストメッセージ</h2>
+                </div>
+                <div class="panel-body">
+                    <p>四間飛車の定石だよ</p>
+                </div>
+                <div class="panel-footer">
+                    <div>
+                        <button class="btn btn-primary">編集</button>
+                        <button class="btn btn-danger">削除</button>
+                    </div>
+                </div>
+            </div>
+                
+                
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h2 class="panel-title">テキストメッセージ</h2>
+                </div>
+                <div class="panel-body">
+                    <p>四間飛車の定石だよ</p>
+                </div>
+                <div class="panel-footer">
+                    <div>
+                        <button class="btn btn-primary">編集</button>
+                        <button class="btn btn-danger">削除</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h2 class="panel-title">動画メッセージ</h2>
+                </div>
+                <div class="panel-body">
+                    <p>動画url : www/hohe/hohe.mp4</p>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary">編集</button>
+                    <button class="btn btn-danger">削除</button>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">動画メッセージ</h2>
+                    </div>
+                    <div class="panel-body">
+                        <p>動画url : www/hohe/hohe.mp4</p>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-primary">編集</button>
+                        <button class="btn btn-danger">削除</button>
+                    </div>
+                </div>
+
+        </div>
+
+
+        <!-- メッセージ一覧 ここまで-->
+
+        <!-- 作業ボタン -->
+
+
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <button class="MessageAddButton btn btn-primary" id="AddTextMessageModal_opener">
+                    テキストメッセージ<br>を追加
+                </button>
+                <button class="MessageAddButton btn btn-primary" id="AddMovieMessageModal_opener">
+                    動画メッセージ<br>を追加
+                </button>
+            </div>
+        </div>
+
+        <!-- 作業ボタン ここまで -->
+
+
+            <!-- モーダル一覧 -->
+
+
+            <!-- テキストメッセージ追加モーダル -->
+            <div class="modal fade" id="AddTextMessageModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">テキストメッセージを追加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>テキストを入力</label>
+                                <input class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary" id="AddTextMessageModal_AddButton">追加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 動画メッセージ追加モーダル -->
+            <div class="modal fade" id="AddMovieMessageModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">動画メッセージを追加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <select size="6" id="AddMovieMessageModal_MovieSelector">
+                                    <!-- ここに動画一覧が入る -->
+                                </select>
+                            </div>
+                            <!-- <div>
+                                <p>hoge</p>
+                                <p>aaa</p>
+                                <video src="https://youtu.be/I-lMlAAx4QY"></video>
+                            </div> -->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary" id="AddMovieMessageModal_AddButton">追加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- テキストメッセージ編集モーダル -->
+            <div class="modal fade" id="EditTextMessageModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">テキストメッセージを追加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>テキストを入力</label>
+                                <input class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary" id="EditTextMessageModal_ModButton">変更</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 動画メッセージ編集モーダル -->
+            <div class="modal fade" id="EditMovieMessageModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h4 class="modal-title">動画を選択</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <select size="6" id="EditMovieMessageModal_MovieSelector">
+                                    <!-- ここに動画一覧が入る -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                            <button type="button" class="btn btn-primary" id="EditMovieMessageModal_ModButton">決定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 配信設定モーダル -->
+            <div class="modal fade" id="SettingsModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                            <h2 class="modal-title">配信設定</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <button class="btn btn-danger" id="DistributeNowButton">今すぐテスト配信</button>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-default" id="public_or_not_button" value="negative">非公開中</button>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-default" id="subscribing_or_not_button" value="negative">ランダム購読対象外</button>
+                            </div>
+                              
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary pull-left" id="save_dist_setting">設定を保存する</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">設定を変更せずに閉じる</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- モーダル一覧 ここまで-->
+
+        </div>
+    </div>
+</body>
+
+
+
+<!-- html要素のテンプレート -->
+
+<!-- テキストメッセージ -->
+<script type="text/html" id="TextMessage_template">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">テキストメッセージ</h2>
+        </div>
+        <div class="panel-body">
+            <p class="TextMessageText"><%= text %></p>
+        </div>
+        <div class="panel-footer">
+            <div>
+                <button class="btn btn-primary TextEditModal_opener MessageEditButton">編集</button>
+                <button class="btn btn-danger MessageDelButton">削除</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 動画メッセージ -->
+<script type="text/html" id="MovieMessage_template">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">動画メッセージ</h2>
+        </div>
+        <div class="panel-body">
+            <a href=<%= movie_path %> target="_blank" >動画メッセージ</a>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-primary MovieEditModal_opener MessageEditButton">編集</button>
+            <button class="btn btn-danger MessageDelButton">削除</button>
+        </div>
+    </div>
+</script>
+
+<!-- 画像メッセージ -->
+<script type="text/html" id="ImageMessage_template">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">画像メッセージ</h2>
+        </div>
+        <div class="panel-body">
+            <a href=<%= image_path %> target="_blank" >画像メッセージ</a>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-danger MessageDelButton">削除</button>
+        </div>
+    </div>
+</script>
+
+<!-- html要素のテンプレート　ここまで-->
+
+
+<script>
+
+    // ロードされた時の処理
+
+    $(document).ready( function(){
+        
+        SCENARIO_ID = get_scenario_id();
+        MESSAGES = null;
+        WATCHING_MESSAGE_NUMBER = null;
+        MOVIE_PATHS = get_movies();
+
+        // テスト
+        // MESSAGES = [
+        //     {"message_id" : 100, "kind" : "text", "text" : "四間飛車"},
+        //     {"message_id" : 200, "kind" : "movie", "movie_path" : "concat.mp4"},
+        //     {"message_id" : 100, "kind" : "text", "text" : "四間飛車"},
+        // ];
+
+        get_draw_scenario_info();
+        get_movies();
+
+        // テスト
+        // MOVIE_PATHS = ["hoge/hoge1.mp4", "/aa/aa.mp4", "concat.mp4"];
+
+        set_movies_to_Modals(MOVIE_PATHS);
+    });
+
+    // scenario_idを取得
+    function get_scenario_id(){
+        let url = location.href;
+        let url_split = url.split("/");
+        let scenario_id = url_split[url_split.length-1];
+        scenario_id = parseInt(scenario_id, 10);
+        console.log("scenario_id : " + String(scenario_id));
+        return scenario_id
+    }
+
+    // シナリオ情報を取得
+    function get_draw_scenario_info(){
+        $.ajax({
+            async : false,
+            type : "GET",
+            url : "/bot/scenario/get_info"
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                let data = response["data"];
+                let title = data["title"];
+                let thumb_path = data["thumb_path"];
+                let is_public = data["is_public"];
+                let is_subscribing = data["is_subscribing"];
+                let messages = data["messages"];
+
+                set_public_setting(is_public);
+                set_subsc_setting(is_subscribing);
+                $("#scenario_title").text(title+" ＜シナリオを編集＞");
+
+                MESSAGES = messages;
+                draw_messages(messages);
+            }
+            else {
+                window.alert("failed get_scenario_info");
+                // window.alert(response["error_message"]);
+            };
+        })
+    }
+
+    // メッセージを描画
+    function draw_messages(messages){
+
+        $("#messages").html("");
+
+        var compiled_TextMessage = _.template($("#TextMessage_template").html());
+        var compiled_MovieMessage = _.template($("#MovieMessage_template").html());
+        var compiled_ImageMessage = _.template($("#ImageMessage_template").html());
+
+        for (info of messages){
+
+            let message_id = info["message_id"];
+            let kind = info["kind"];
+            let is_stop = info["is_stop"];
+
+            if (kind == "text"){
+                let text = info["text"];
+                var message_html = compiled_TextMessage({
+                    "text" : text,
+                    "title" : "テキストメッセージ"
+                });
+            }
+            else if (kind == "movie"){
+                let movie_path = info["movie_path"];
+                var message_html = compiled_MovieMessage({
+                    "movie_path" : movie_path,
+                    "title" : "動画メッセージ"
+                });
+            }
+            else if (kind == "image"){
+                let image_path = info["image_path"];
+                var message_html = compiled_ImageMessage({
+                    "image_path" : image_path,
+                });
+            }
+
+            $("#messages").append(message_html);
+        }
+    }
+
+    // シナリオidから、このプロジェクトの動画一覧を取得する
+    function get_movies(){
+        $.ajax({
+            async : false,
+            type : "GET",
+            url : "/bot/scenario/movies",
+            // data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                let data = response["data"];
+                let paths = data["paths"];
+                MOVIE_PATHS = paths;
+            }
+            else {
+                window.alert("failed get_movies");
+                // window.alert(response["error_message"]);
+            };
+        })
+    }
+
+    // 動画一覧を、モーダルに表示
+    function set_movies_to_Modals(movies){
+        let n_movies = movies.length;
+        selector_strs = ["#AddMovieMessageModal_MovieSelector", "#EditMovieMessageModal_MovieSelector"];
+        for (selector_str of selector_strs){
+            let selector = $(selector_str);
+            for (var i=0; i<movies.length; i++){
+                if (i == n_movies - 1){
+                    var label = "結合された動画";
+                }
+                else{
+                    var label = "動画" + String(i+1);
+                }
+                selector.append("<option value='" + movies[i] + "'>" + label + "</option>");
+            }
+        }
+    }
+
+    // モーダルを開く
+
+    // テキストメッセージ追加モーダル
+    $(document).on("click", "#AddTextMessageModal_opener", function(){
+        $("#AddTextMessageModal").find("input").val("");
+        $("#AddTextMessageModal").modal();
+    })
+
+    // 動画追加モーダル
+    $(document).on("click", "#AddMovieMessageModal_opener", function(){
+        $("#AddMovieMessageModal").modal();
+    })
+
+    // テキストメッセージの編集モーダル
+    $(document).on("click", ".TextEditModal_opener", function(){
+
+        // あらかじめ、現在のテキストをフォームに入れておく
+        let text = $(this).closest(".panel").find(".TextMessageText").text();
+        $("#EditTextMessageModal").find("input").val(text);
+
+        WATCHING_MESSAGE_NUMBER = $(".MessageEditButton").index(this);
+        $("#EditTextMessageModal").modal();
+    })
+
+
+    // 動画メッセージの編集モーダル
+    $(document).on("click", ".MovieEditModal_opener", function(){
+
+        WATCHING_MESSAGE_NUMBER = $(".MessageEditButton").index(this);
+        let movie_path = MESSAGES[WATCHING_MESSAGE_NUMBER]["movie_path"];
+
+        if (MOVIE_PATHS.indexOf(movie_path) < 0){
+            window.alert("エラー");
+            exit();
+        }
+
+        // あらかじめ、現在選択されている動画を選択状態にしておく
+        $("#EditMovieMessageModal_MovieSelector").val(movie_path);
+        $("#EditMovieMessageModal").modal();
+    })
+
+    // 設定のモーダル
+    $(document).on("click", "#SettingsModal_opener", function(){
+        $("#SettingsModal").modal();
+    })
+
+
+    // テキストメッセージ追加
+    $(document).on("click", "#AddTextMessageModal_AddButton", function(){
+        let text = $(this).closest(".modal-content").find("input").val();
+        let message = {"kind" : "text", "text" : text};
+        MESSAGES.push(message);
+        draw_messages(MESSAGES);
+        $("#AddTextMessageModal").modal("hide");
+    })
+
+
+    // テキストメッセージ変更
+    $(document).on("click", "#EditTextMessageModal_ModButton", function(){
+        let text = $(this).closest(".modal-content").find("input").val();
+        MESSAGES[WATCHING_MESSAGE_NUMBER]["text"] = text;
+        draw_messages(MESSAGES);
+        $("#EditTextMessageModal").modal("hide");
+    })
+
+    // 動画メッセージ追加
+    $(document).on("click", "#AddMovieMessageModal_AddButton", function(){
+        let movie_path = $("#AddMovieMessageModal_MovieSelector").val();
+        let message = {"kind" : "movie", "movie_path" : movie_path};
+        MESSAGES.push(message);
+        draw_messages(MESSAGES);
+        $("#AddMovieMessageModal").modal("hide");
+    })
+
+    // 動画メッセージ変更
+    $(document).on("click", "#EditMovieMessageModal_ModButton", function(){
+        let movie_path = $("#EditMovieMessageModal_MovieSelector").val();
+        MESSAGES[WATCHING_MESSAGE_NUMBER]["movie_path"] = movie_path;
+        draw_messages(MESSAGES);
+        $("#EditMovieMessageModal").modal("hide");
+    })
+
+
+    // メッセージ削除
+    $(document).on("click", ".MessageDelButton", function(){
+        let message_index = $(".MessageDelButton").index(this);
+        MESSAGES.splice(message_index, 1);
+        draw_messages(MESSAGES);
+    })
+
+    // シナリオを保存
+
+    $(document).on("click", "#MessagesSaveButton", function(){
+        
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/update_messages",
+            data : JSON.stringify({"messages" : MESSAGES})
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                window.alert("保存しました");
+            }
+            else {
+                window.alert("failed save_messages");
+                // window.alert(response["error_message"]);
+            };
+        })
+    })
+
+    // 今すぐシナリオ配信
+
+    $(document).on("click", "#DistributeNowButton", function(){
+        $.ajax({
+            type : "GET",
+            url : "/bot/scenario/distribute_now",
+            // data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                window.alert("配信しました");
+                $("#SettingsModal").modal("hide");
+            }
+            else {
+                window.alert("failed");
+            };
+        })
+    })
+
+
+    // 公開設定変更ボタン
+
+    $(document).on("click", "#public_or_not_button", function(){
+        let flag = $(this).val();
+        if (flag == "negative"){set_public_setting(public=true);}
+        else {set_public_setting(public=false);}
+    })
+
+    function set_public_setting(public){
+        if (public == true){
+            $("#public_or_not_button").val("positive");
+            $("#public_or_not_button").css("background-color", "#99FFFF");
+            $("#public_or_not_button").text("公開中（現在誰でもこのシナリオを登録できます）");
+        }
+        else{
+            $("#public_or_not_button").val("negative");
+            $("#public_or_not_button").css("background-color", "white");
+            $("#public_or_not_button").text("非公開中");
+        }
+    }
+
+    // ランダム購読設定変更ボタン
+
+    $(document).on("click", "#subscribing_or_not_button", function(){
+        let flag = $(this).val();
+        if (flag == "negative"){set_subsc_setting(true);}
+        else {set_subsc_setting(false);}
+    })
+
+    function set_subsc_setting(subsc){
+        if (subsc == true){
+            $("#subscribing_or_not_button").val("positive");
+            $("#subscribing_or_not_button").css("background-color", "#99FFFF");
+            $("#subscribing_or_not_button").text("ランダム購読の対象");
+        }
+        else {
+            $("#subscribing_or_not_button").val("negative");
+            $("#subscribing_or_not_button").css("background-color", "white");
+            $("#subscribing_or_not_button").text("ランダム購読対象外");
+        }
+    }
+
+    // 設定の変更をサーバに反映
+
+    $(document).on("click", "#save_dist_setting", function(){
+        change_public_and_subsc_setting();
+    })
+
+    function change_public_and_subsc_setting (){
+        // 公開設定を変更
+        let flag_public = $("#public_or_not_button").val();
+        if (flag_public == "positive"){var is_public = true;}else{var is_public = false;}
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/change_public_setting",
+            data : JSON.stringify(
+                {
+                    "is_public" : is_public
+                }
+            )
+        })
+        .done(function(response){
+
+            if (response["code"] == 200){
+                console.log("success : change_public_setting");
+                // 購読設定を変更
+                change_subsc_setting();
+            }
+            else {
+                window.alert("failed");
+            };
+        })
+    }
+
+    function change_subsc_setting (){
+        let flag_subsc = $("#subscribing_or_not_button").val();
+        if (flag_subsc == "positive"){var is_subsc = true;}else{var is_subsc = false;}
+        $.ajax({
+            type : "POST",
+            url : "/bot/scenario/change_subscription_setting",
+            data : JSON.stringify(
+                {
+                    "is_subscribing" : is_subsc
+                }
+            )
+        })
+        .done(function(response){
+            if (response["code"] == 200){
+                window.alert("設定を変更しました");
+                ("#SettingsModal").modal("hide");
+            }
+            else {
+                window.alert("failed");
+            };
+        })
+    }
+
+    // 公開・購読設定　ここまで
+
+
+    // ページ遷移
+
+    // シナリオ一覧ページへ移動
+
+    // $(document).on("click", "#ToProjectScenarios_page", function(){
+
+    //     $.ajax({
+    //         type : "POST",
+    //         url : "/bot/transit/ScenarioEditor_to_ProjectScenarios",
+    //         data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+    //     })
+    //     .done(function(response){
+    //         if (response["code"] == 200){
+    //             let data = response["data"];
+    //             let url = data["url"];
+    //             window.location.href = url;
+    //         }
+    //         else {
+    //             window.alert("failed");
+    //         };
+    //     })
+    // })
+
+    // ホーム画面へ移動
+
+    // $(document).on("click", "#ToProjects_page", function(){
+    //     // $.ajax({
+    //     //     type : "POST",
+    //     //     url : "/bot/transit/ScenarioEditor_to_Projects",
+    //     //     data : JSON.stringify({"scenario_id" : SCENARIO_ID})
+    //     // })
+    //     $.ajax({
+    //         type : "GET",
+    //         url : "/bot/transit/ScenarioEditor_to_Projects",
+    //     })
+    //     .done(function(response){
+    //         if (response["code"] == 200){
+    //             let data = response["data"];
+    //             let url = data["url"];
+    //             window.location.href = url;
+    //         }
+    //         else {
+    //             window.alert("failed");
+    //         };
+    //     })
+    // })
+
+    
+</script>
+
+</html>

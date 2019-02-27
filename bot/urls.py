@@ -4,6 +4,7 @@ from django.conf.urls import include, url
 from django.shortcuts import render
 
 from .views import project_scenarios_page, scenario_editor_page, public_scenarios_page, subscribing_scenarios_page
+from . import views
 
 # api
 from bot.src.callback import callback
@@ -74,5 +75,13 @@ urlpatterns = [
     url(r"^scenario/change_public_setting$", change_public_setting_request, name="change_public_setting"),
     url(r"^scenario/regular_distribution$", regular_distribution_request, name="regular_dist"),
     url(r"^scenario/regular_distribution/test$", test_regular_distribution_request, name="test_regular_dist"),
+
+
+    # テストページ
+
+    url(r"^sm/scenarios/test_page$", views.test_project_scenarios_page_sm, name="project_scenarios_page sm"),
+    url(r"^sm/scenario_editor/test_page$", views.test_scenario_editor_page_sm, name="scenario_editor_page sm"),
+    url(r"^sm/scenarios/public/test_page$", views.test_public_scenarios_page_sm, name="public_scenarios_page sm"),
+    url(r"^sm/scenarios/subscribing/test_page$", views.test_subscribing_scenarios_page_sm, name="subscribing_scenarios_page sm"),
 
 ]

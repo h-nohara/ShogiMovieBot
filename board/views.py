@@ -9,6 +9,13 @@ def board_page(request):
 def initial_board_page(request):
     return render(request, "board/initial_board_editor.html")
 
+
+# テストページ
+
 @login_required(login_url="/account/login")
-def board_test_page(request):
-    return render(request, "board/board_editor.html")
+def test_board_page_sm(request):
+    return render(request, "board/sm/board_editor_sm.html")
+
+@login_required(login_url="/account/login")
+def test_initial_board_page_sm(request):
+    return render(request, "board/sm/initial_board_editor_sm.html")
