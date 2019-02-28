@@ -273,7 +273,7 @@ class HistoryHandler{
 
 
         // 新たなブランチを作成する　：　親の最新でないアクションを見ている時にmoveアクションが追加されたら
-        if ((Object.keys(action).indexOf("move") >= 0) && (History.watching_action["order_in_parent"] != History.watching_action["parent"].length - 1)){
+        if ((Object.keys(action).indexOf("scenarios") < 0) && (History.watching_action["order_in_parent"] != History.watching_action["parent"].length - 1)){
 
             this.make_branch(action);
         }
