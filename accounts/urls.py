@@ -15,7 +15,9 @@ urlpatterns = [
 
     # ログイン・ログアウトページ
     url(r"^login$", views.login_page, name="login"),
-    # ログイン・ログアウトページ
+    url(r"^login/sp$", views.login_page_sp, name="login sp"),
+
+    # ログイン処理
     url(r"^login/login$", when_login, name="when_login"),
 
     # セッション変数を登録

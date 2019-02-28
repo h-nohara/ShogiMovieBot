@@ -17,6 +17,9 @@ def new_account_page(request):
 
 # sp
 
+def login_page_sp(request):
+    return render(request, "accounts/sp/login.html")
+
 @login_required(login_url="/account/login")
 def home_page_sp(request):
     return render(request, "accounts/sp/home.html")
