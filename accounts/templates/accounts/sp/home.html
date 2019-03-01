@@ -172,7 +172,15 @@
                     <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
                     <h4 class="modal-title">アカウント設定</h4>
                 </div>
+
                 <div class="modal-body">
+
+                    <!-- username -->
+                    <div class="form-group">
+                        <label>usernameを入力</label>
+                        <input class="form-control" id="username">
+                    </div>
+
                     <!-- ニックネーム -->
                     <div class="form-group">
                         <label>ニックネーム（シナリオ配信の公開名）を入力</label>
@@ -327,6 +335,7 @@
                     let next_date_RandomSubscription = data["next_date_RandomSubscription"];
 
                     // 現在の値を入れておく
+                    $("#username").val(username);
                     $("#nickname").val(nickname);
                     $("#interval_RandomSubscription").text("配信間隔　： "+String(interval_RandomSubscription)+"日")
                     $("#next_date_RandomSubscription").text("次回配信日 ： "+next_date_RandomSubscription);
@@ -408,10 +417,11 @@
         // アカウント設定変更を送信
         $(document).on("click", "#AccountEditModal_ModButton", function(){
 
-            // let username = $("#username").val();
+            let username = $("#username").val();
             let nickname = $("#nickname").val();
 
             let info = {
+                "username" : username,
                 "nickname" : nickname
             }
 

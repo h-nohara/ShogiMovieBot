@@ -27,8 +27,12 @@ def change_account_setting_request(request):
     # interval_RandomSubscription = data["interval_RandomSubscription"]
     # next_date_RandomSubscription = data["next_date_RandomSubscription"]
 
-    record_User.username = username
-    record_User.nickname = nickname
+    if (username != "") and (username != None):
+        record_User.username = username
+    
+    if (nickname != "") and (nickname != None):
+        record_User.nickname = nickname
+        
     # record_User.is_enabled_RandomSubscription_own_scenario = is_enabled_RandomSubscription_own_scenario
     # record_User.is_enabled_RandomSubscription_others_scenario = is_enabled_RandomSubscription_others_scenario
     # record_User.interval_RandomSubscription = interval_RandomSubscription
