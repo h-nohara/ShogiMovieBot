@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.sidr/2.2.1/stylesheets/jquery.sidr.dark.min.css">
         <script src="https://cdn.jsdelivr.net/jquery.sidr/2.2.1/jquery.sidr.min.js"></script>
 
+
         <!-- board -->
         <script type="text/javascript" src="{% static 'js/util.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/piece.js' %}"></script>
@@ -76,6 +77,7 @@
                     <li><button class="btn btn-default col-xs-12" onclick="window.location.href='/account/home'">ホーム画面へ</button></li>
                     <li><button class=" btn btn-default col-xs-12 " onclick="window.location.href='/bot/scenarios'">シナリオ一覧</button></li>
                     <li><button class=" btn btn-default col-xs-12" id="show_movies_button">生成した動画の一覧</button></li>
+                    <li><button class=" btn btn-primary col-xs-12" id="new_project_with_board">表示中の局面から新規プロジェクト</button></li>
                     <li><button class=" btn btn-danger col-xs-12" id="generate">動画を生成</button></li>
                     <li><button class=" btn btn-primary col-xs-12" id="save">保存する</button></li>
                 </ul>
@@ -465,12 +467,19 @@
         }
     </style>
 
+    <div id="Dummy_loading_modal"></div>
+    <div id="Dummy_new_project"></div>
+
 
     <script>
 
         // ロードされた時
 
         window.onload = function(){
+
+            // モーダル用
+            $("#Dummy_loading_modal").load("{% static 'js/common/loading_modal.html' %}");
+            $("#Dummy_new_project").load("{% static 'js/common/create_new_project_with_board.html' %}");
 
             PROJECT_ID = get_project_id();
 

@@ -1,0 +1,59 @@
+<script>
+
+    $(document).on("click", "#new_project_with_board", function(){
+        create_new_project_with_board();
+    })
+
+    function create_new_project_with_board(){
+
+        let boar_obj = deepcopy_Board(History.watching_action["board_state"]);
+        title = "【新規】コピーされた局面";
+        create_new_project_from_board(board_obj, title);
+
+    }
+
+    function create_new_project_from_board(board_obj, title, with_modal=true){
+
+        // モーダルを使うには、loading_modal.htmlを読み込んでいる必要がある
+
+        let initial_action = {
+            "move" : "initial",
+            "move_str" : "initial",
+            "order_in_parent" : 0,
+            "board_state" : board_obj,
+            "is_watching" : true
+        }
+
+        let new_history = [initial_action];
+
+        if (with_modal){
+            // ローディング画面
+            dispLoading("盤面を保存中...");
+        }
+
+
+        $.ajax({
+            type : "POST",
+            url : "/board/initial/editor/save",
+            data : JSON.stringify({
+                "title" : title,
+                "history" : new_history
+            })
+        })
+        .done(function(result){
+            if (result["code"] == 200){
+                window.location.href = "/account/home";
+            }
+            else {
+                window.alert("保存に失敗しました");
+            };
+
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            window.alert("保存に失敗しました");
+            if (with_modal){
+                removeLoading();
+            }
+        })
+    }
+</script>
