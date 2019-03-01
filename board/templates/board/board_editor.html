@@ -90,6 +90,11 @@
             <div id="sub_board_sente" class="sub_board">
             </div>
 
+            <button class="btn btn-default" id="new_project_with_board">現在の局面をコピー</button>
+            <style>
+                #new_project_with_board {margin-top: 3vh;}
+            </style>
+
         </div>
 
         <style>
@@ -461,6 +466,9 @@
 
     </div>
 
+    <div id="Dummy_loading_modal"></div>
+    <div id="Dummy_new_project"></div>
+
 
 
     <script>
@@ -468,6 +476,10 @@
         // ロードされた時
 
         window.onload = function(){
+
+            // モーダル用
+            $("#Dummy_loading_modal").load("{% static 'js/common/loading_modal.html' %}");
+            $("#Dummy_new_project").load("{% static 'js/common/create_new_project_with_board.html' %}");
 
             let w = screen.width;
             if (w < 960){window.location.href = window.location.href + "sp";}
