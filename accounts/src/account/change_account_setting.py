@@ -20,14 +20,14 @@ def change_account_setting_request(request):
 
     data = json.loads(request.body.decode("utf-8"))
 
-    # username = data["username"]
+    username = data["username"]
     nickname = data["nickname"]
     # is_enabled_RandomSubscription_own_scenario = data["is_enabled_RandomSubscription_own_scenario"]
     # is_enabled_RandomSubscription_others_scenario = data["is_enabled_RandomSubscription_others_scenario"]
     # interval_RandomSubscription = data["interval_RandomSubscription"]
     # next_date_RandomSubscription = data["next_date_RandomSubscription"]
 
-    # record_User.username = username
+    record_User.username = username
     record_User.nickname = nickname
     # record_User.is_enabled_RandomSubscription_own_scenario = is_enabled_RandomSubscription_own_scenario
     # record_User.is_enabled_RandomSubscription_others_scenario = is_enabled_RandomSubscription_others_scenario

@@ -196,6 +196,13 @@
                     <h4 class="modal-title">アカウント設定</h4>
                 </div>
                 <div class="modal-body">
+
+                    <!-- ユーザーネーム -->
+                    <div class="form-group">
+                        <label>username</label>
+                        <input class="form-control" id="username">
+                    </div>
+
                     <!-- ニックネーム -->
                     <div class="form-group">
                         <label>ニックネーム（シナリオ配信の公開名）を入力</label>
@@ -435,10 +442,14 @@
         // アカウント設定変更を送信
         $(document).on("click", "#AccountEditModal_ModButton", function(){
 
-            // let username = $("#username").val();
+            let username = $("#username").val();
             let nickname = $("#nickname").val();
 
+            if ((username == "") || (username == null)){window.alert("usernameを入力してください"); return}
+            if ((nickname == "") || (nickname == null)){window.alert("ニックネームを入力してください"); return}
+
             let info = {
+                "username" : username,
                 "nickname" : nickname
             }
 
