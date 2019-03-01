@@ -6,7 +6,7 @@
 
     function create_new_project_with_board(){
 
-        let boar_obj = deepcopy_Board(History.watching_action["board_state"]);
+        let board_obj = deepcopy_Board(History.watching_action["board_state"]);
         title = "【新規】コピーされた局面";
         create_new_project_from_board(board_obj, title);
 
