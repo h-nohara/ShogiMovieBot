@@ -482,7 +482,7 @@
             $("#Dummy_new_project").load("{% static 'js/common/create_new_project_with_board.html' %}");
 
             let w = screen.width;
-            if (w < 960){window.location.href = window.location.href + "sp";}
+            if (w < 960){window.location.href = window.location.href + "sp"; return}
 
             // PROJECT_ID = get_project_id();
 
