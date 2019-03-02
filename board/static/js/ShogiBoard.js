@@ -1,20 +1,20 @@
 var PieceNames_normal_NotNari = ["HI", "KA", "KI", "GI", "KE", "KY", "FU"];
-var PieceName_normal2kanji = {
-    "OU" : "玉",
-    "HI" : "飛",
-    "KA" : "角",
-    "KI" : "金",
-    "GI" : "銀",
-    "KE" : "桂",
-    "KY" : "香",
-    "FU" : "歩",
-    "RY" : "龍",
-    "UM" : "馬",
-    "NG" : "成銀",
-    "NK" : "成桂",
-    "NY" : "成香",
-    "TO" : "と"
-};
+// var PieceName_normal2kanji = {
+//     "OU" : "玉",
+//     "HI" : "飛",
+//     "KA" : "角",
+//     "KI" : "金",
+//     "GI" : "銀",
+//     "KE" : "桂",
+//     "KY" : "香",
+//     "FU" : "歩",
+//     "RY" : "龍",
+//     "UM" : "馬",
+//     "NG" : "成銀",
+//     "NK" : "成桂",
+//     "NY" : "成香",
+//     "TO" : "と"
+// };
 
 
 function DictKeys_to_String(dict){
