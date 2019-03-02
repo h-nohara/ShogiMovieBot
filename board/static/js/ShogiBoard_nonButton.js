@@ -141,7 +141,6 @@ class ShogiBoard {
                 dom.className = "OneSquare";
                 dom.style.backgroundColor = this.default_color;
                 dom.style.color = "black";
-                dom.style.fontSize = "50px";
                 document.getElementById("main_board").appendChild(dom);
             }
         }
