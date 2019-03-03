@@ -95,6 +95,11 @@
                 #new_project_with_board {margin-top: 3vh;}
             </style>
 
+            <button class="btn btn-default" id="change_mode">編集モード/対局モード　切り替え</button>
+            <style>
+                #change_mode {margin-top: 3vh;}
+            </style>
+
         </div>
 
         <style>
@@ -468,6 +473,7 @@
 
     <div id="Dummy_loading_modal"></div>
     <div id="Dummy_new_project"></div>
+    <div id="Dummy_change_mode"></div>
 
 
 
@@ -477,12 +483,13 @@
 
         window.onload = function(){
 
-            // モーダル用
-            $("#Dummy_loading_modal").load("{% static 'js/common/loading_modal.html' %}");
-            $("#Dummy_new_project").load("{% static 'js/common/create_new_project_with_board.html' %}");
-
             let w = screen.width;
             if (w < 960){window.location.href = window.location.href + "sp"; return}
+
+            // 読み込み
+            $("#Dummy_loading_modal").load("{% static 'js/common/loading_modal.html' %}");
+            $("#Dummy_new_project").load("{% static 'js/common/create_new_project_with_board.html' %}");
+            $("#Dummy_change_mode").load("{% static 'js/common/change_mode.html' %}");
 
             // PROJECT_ID = get_project_id();
 
