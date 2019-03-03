@@ -64,9 +64,28 @@
 
     </div>
 
+    <div id="Dummy_loading_modal"></div>
+
     <script>
+
+        // ロードされた時
+
+        window.onload = function(){
+
+            // let w = screen.width;
+            // if (w < 960){window.location.href = window.location.href + "sp"; return}
+
+            // 読み込み
+            $("#Dummy_loading_modal").load("{% static 'js/common/loading_modal.html' %}");
+
+        }
+
+
         $(document).on("click", "#make", function(){
             let data = $("#kifu").val();
+
+            // ローディング画面
+            dispLoading("新規プロジェクト作成中...");
             
             $.ajax({
                 type : "POST",
@@ -84,6 +103,9 @@
             })
             .fail(function(jqXHR, textStatus, errorThrown){
                 window.alert("失敗しました");
+            })
+            .always(function(){
+                removeLoading();
             });
         })
     </script>
