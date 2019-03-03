@@ -1,4 +1,4 @@
- #!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import os, sys, copy
@@ -19,26 +19,58 @@ natural_moves : 王手されていることを考えない、可能な指し手
 legal_moves : 可能な指し手
 '''
 
-
-
-def get_legal_moves(Board, loc=None):
+def get_legal_move_chunk_inner(moves, Board, loc_of_OU):
     
-    # s = time.time()
+    legal_moves = []
+    
+    for move in moves:
+    
+        assert (len(move) == 4) or (len(move) == 5)
+        original_piece = Board.all_pieces["main"][move[:2]]
+        try:
+            assert original_piece is not None
+        except:
+            raise ValueError(move)
+        # 駒を移動
+        board_copy = copy.deepcopy(Board)
+        board_copy.all_pieces["main"][move[:2]] = None
+        new_piece = Piece(name=original_piece.name, is_sente=original_piece.is_sente)
+        new_piece.loc = move[2:4]
+        board_copy.all_pieces["main"][move[2:4]] = new_piece
+
+        if new_piece.name == "OU":
+            loc_of_OU_now = new_piece.loc
+        else:
+            loc_of_OU_now = loc_of_OU
+
+        # 手番を交代
+        board_copy.is_sente = not board_copy.is_sente
+
+        natural_moves_enemy = get_all_natural_moves(board_copy)
+        natural_moves_dest_enemy = [move[2:4] for move in natural_moves_enemy]
+        if loc_of_OU_now not in natural_moves_dest_enemy:
+            legal_moves.append(move)
+
+    return legal_moves
+
+def get_legal_move_chunk(args):
+    return get_legal_move_chunk_inner(*args)
+
+
+
+
+def _get_legal_moves(Board, loc=None):
+    
+    s = time.time()
     
     # natural_movesを取得
     
     natural_moves = get_all_natural_moves(Board)
 
-    # print("natural")
-    # print(natural_moves)
-
-    # e = time.time()
+    e = time.time()
 
     
-    # もしそれぞれのnatural_moveを行った場合、玉が相手の駒にattackされている状態になっていないかチェックする
-
-    # 玉の位置を探す
-    sente_or_gote = "sente" if Board.is_sente else "gote"
+    # もしそれぞれのlegal_moveを行った場合、玉が相手の駒にattackされている状態になっていないかチェックする
 
     for piece in Board.all_pieces["main"].values():
         if piece is not None:
@@ -47,69 +79,91 @@ def get_legal_moves(Board, loc=None):
 
     legal_moves = []
 
-#    print(natural_moves)
+    print(natural_moves)
 
-#    print("="*20)
-#    print(Board.all_pieces["main"]["99"].loc)
+    print("="*20)
+    print(Board.all_pieces["main"]["99"].loc)
 
-    # ss = time.time()
+    ss = time.time()
+
+    length = len(natural_moves)
+    one = int(length/3)
+    move_chunks = [(natural_moves[:one], Board, loc_of_OU), (natural_moves[one:one*2] ,Board, loc_of_OU), (natural_moves[one*2:],Board, loc_of_OU)]
+
+    p = Pool(4)
+    legal_moves = p.map(get_legal_move_chunk, move_chunks)
+    legal_moves = list(chain.from_iterable(legal_moves))
+
+
+    ee = time.time()
+
+    print(e -s)
+    print(ee-ss)
+
+    return legal_moves
+
+
+
+
+
+def get_legal_moves(Board, loc=None):
+    
+    s = time.time()
+    
+    # natural_movesを取得
+    
+    natural_moves = get_all_natural_moves(Board)
+
+    e = time.time()
+
+    
+    # もしそれぞれのlegal_moveを行った場合、玉が相手の駒にattackされている状態になっていないかチェックする
+
+    for piece in Board.all_pieces["main"].values():
+        if piece is not None:
+            if (piece.name == "OU") and (piece.is_sente == Board.is_sente):
+                loc_of_OU = piece.loc
+
+    legal_moves = []
+
+    print(natural_moves)
+
+    print("="*20)
+    print(Board.all_pieces["main"]["99"].loc)
+
+    ss = time.time()
 
     for move in natural_moves:
-
         assert (len(move) == 4) or (len(move) == 5)
-        board_copy = copy.deepcopy(Board)
-        
-        # 移動
-        if move[:2] not in PieceName_Hand:
-            
-            original_piece = Board.all_pieces["main"][move[:2]]
-            
+        original_piece = Board.all_pieces["main"][move[:2]]
+        try:
             assert original_piece is not None
+        except:
+            raise ValueError(move)
+        # 駒を移動
+        board_copy = copy.deepcopy(Board)
+        board_copy.all_pieces["main"][move[:2]] = None
+        new_piece = Piece(name=original_piece.name, is_sente=original_piece.is_sente)
+        new_piece.loc = move[2:4]
+        board_copy.all_pieces["main"][move[2:4]] = copy.deepcopy(new_piece)
 
-            # 駒を移動
-            board_copy.all_pieces["main"][move[:2]] = None
-            new_piece = Piece(name=original_piece.name, is_sente=original_piece.is_sente, loc=move[2:4])
-            board_copy.all_pieces["main"][move[2:4]] = copy.deepcopy(new_piece)
-
-            if new_piece.name == "OU":
-                # print("yes")
-                loc_of_OU_now = new_piece.loc
-            else:
-                # print("no")
-                loc_of_OU_now = loc_of_OU
-
-        # 打ち手
+        if new_piece.name == "OU":
+            loc_of_OU_now = new_piece.loc
         else:
             loc_of_OU_now = loc_of_OU
-            the_piece_name = move[:2]
-            board_copy.all_pieces["hand"][sente_or_gote][the_piece_name] -= 1
-            board_copy.all_pieces["main"][move[2:4]] = copy.deepcopy(Piece(name=the_piece_name, is_sente=board_copy.is_sente, loc=move[2:4]))
 
         # 手番を交代
         board_copy.is_sente = not board_copy.is_sente
 
         natural_moves_enemy = get_all_natural_moves(board_copy)
         natural_moves_dest_enemy = [move[2:4] for move in natural_moves_enemy]
-
         if loc_of_OU_now not in natural_moves_dest_enemy:
             legal_moves.append(move)
-        # else:
-        #     print("natural moves dest enem")
-        #     # print(move) #######
-        #     # print("board copy")
-        #     # print(board_copy)
-        #     print(natural_moves_enemy)
-        #     print("loc of ou : {}".format(loc_of_OU_now))
 
-        # board_copy = None
+    ee = time.time()
 
-    # ee = time.time()
-
-    # print("legal")
-    # print(legal_moves)
-
-#    print(e -s)
-#    print(ee-ss)
+    print(e -s)
+    print(ee-ss)
 
     return legal_moves
 
@@ -122,68 +176,40 @@ def get_all_natural_moves(Board, loc=None):
     '''
     
     if loc is None:
+        is_sente = Board.is_sente
 
-        # 移動
-        natural_moves_move = get_all_natural_moves_move(Board)
+        # 全ての味方の駒の、全ての移動可能な場所を洗い出す
+        natural_moves_move = []
+
+        for piece in Board.all_pieces["main"].values():
+            if piece is not None:
+                if piece.is_sente == is_sente:
+                    natural_moves_move += get_natural_moves_move(piece, Board)
+
         # 手駒
-        natural_moves_put = get_all_natural_moves_put(Board)
+        natural_moves_put = []
 
+        if is_sente:
+            pieces_in_hand = Board.all_pieces["hand"]["sente"]
+        else:
+            pieces_in_hand = Board.all_pieces["hand"]["gote"]
+
+        for piece_name in pieces_in_hand.keys():
+            if pieces_in_hand[piece_name] > 0:
+                piece = copy.deepcopy(Piece(name=piece_name, is_sente=is_sente))
+                natural_moves_put += get_natural_moves_put(piece, Board)
+
+        
         # 移動と打ち手を合わせる
         all_natural_moves = natural_moves_move + natural_moves_put
 
 
     else:
         # 引数の駒が手駒かどうか（locで確認）確認して
-        raise ValueError("not useable")
+        pass
 
     return all_natural_moves
 
-
-
-def get_all_natural_moves_move(Board):
-
-    # Board = copy.deepcopy(Board)
-
-    is_sente = Board.is_sente
-
-    # 全ての味方の駒の、全ての移動可能な場所を洗い出す
-    natural_moves_move = []
-
-    for key in Board.all_pieces["main"].keys():
-        piece = Board.all_pieces["main"][key]
-    # for piece in Board.all_pieces["main"].values():
-        if piece is not None:
-            if piece.is_sente == is_sente:
-
-                if piece.loc is None:
-                    print("oh no!")
-                    print(key)
-                    print(piece.__dict__)
-                    raise ValueError("aa")
-
-                natural_moves_move += get_natural_moves_move(piece, Board)
-
-    return natural_moves_move
-
-
-def get_all_natural_moves_put(Board):
-
-    # Board = copy.deepcopy(Board)
-
-    is_sente = Board.is_sente
-    natural_moves_put = []
-
-    if is_sente:
-        pieces_in_hand = Board.all_pieces["hand"]["sente"]
-    else:
-        pieces_in_hand = Board.all_pieces["hand"]["gote"]
-
-    for piece_name in pieces_in_hand.keys():
-        if pieces_in_hand[piece_name] > 0:
-            piece = copy.deepcopy(Piece(name=piece_name, is_sente=is_sente))
-            natural_moves_put += get_natural_moves_put(piece, Board)
-
-    return natural_moves_put
         
     
 
@@ -201,11 +227,7 @@ def can_move_to(Board, dest, is_sente):
     >>> can_move_to(board, "55", True)
     '''
 
-    if (len(dest) != 2) and (len(dest) != 3):
-        print()
-        print(dest)
-        print()
-        raise ValueError("oh my")
+    assert (len(dest) == 2) or (len(dest) == 3)
 
     if (len(dest) == 3) and (dest[-1] != "+"):
         return False
@@ -414,7 +436,7 @@ def get_natural_moves_move(Piece, Board):
                 str(col_num) + str(row_num-1),  # 上
                 str(col_num) + str(row_num+1),  # 下
                 str(col_num-1) + str(row_num),  # 右
-            ]
+                ]
 
     elif (Piece.name == "HI") or (Piece.name == "RY"):
         
@@ -446,7 +468,7 @@ def get_natural_moves_move(Piece, Board):
 
         # 上
         r = row_num - 1
-        while r > 0:
+        while c > 0:
             dest = str(col_num) + str(r)
             if can_move_to(Board, dest, is_sente) is True:
                 potential_dests.append(dest)
@@ -459,7 +481,7 @@ def get_natural_moves_move(Piece, Board):
         
         # 下
         r = row_num + 1
-        while r < 10:
+        while c > 0:
             dest = str(col_num) + str(r)
             if can_move_to(Board, dest, is_sente) is True:
                 potential_dests.append(dest)
@@ -477,33 +499,27 @@ def get_natural_moves_move(Piece, Board):
                 str(col_num+1) + str(row_num-1),  # 左上
                 str(col_num-1) + str(row_num+1),  # 右下
                 str(col_num-1) + str(row_num-1),  # 右上
-            ]
+                ]
 
 
     natural_moves = []
-
     for dest in potential_dests:
-
-        # 移動先が盤内ではないものは無視
-        if (dest[:2] == "10") or (dest[-2:] == "10"):
-            continue
-
         if can_move_to(Board, dest, is_sente):
 
             # 歩か香は、最終段以外なら成らずに進める
             if (Piece.name == "FU") or (Piece.name == "KY"):
                 if dest[1] != "9":
                     natural_moves.append(loc + dest)
-            # 桂馬は、最終段とその手前以外なら成らずに進める
+            # 桂馬
             elif (Piece.name == "KE"):
                 if (dest[1] != "8") and (dest[1] != "9"):
                     natural_moves.append(loc + dest)
-            # それ以外の駒は、無条件で成らずに進める
+            # それ以外
             else:
                 natural_moves.append(loc + dest)
 
-            # 成ることができれば、その手も加える（移動先か移動元が敵陣なら成ることができる）
-            if is_land_of_enemy(dest, is_sente) or is_land_of_enemy(loc, is_sente):
+            # 成ることができれば加える
+            if is_land_of_enemy(dest, is_sente):
                 if Piece.name in PieceName_Hand:
                     natural_moves.append(loc + dest + "+")
                 

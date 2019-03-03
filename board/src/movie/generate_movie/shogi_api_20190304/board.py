@@ -21,7 +21,7 @@ class Board:
             self.all_pieces = {
                 "main" : loc_piece_dict,
                 "hand" : {"sente" : copy.deepcopy(pieces_in_hand), "gote" : copy.deepcopy(pieces_in_hand)}
-            }
+                }
 
         else:
             self.all_pieces = all_pieces
@@ -70,30 +70,16 @@ class Board:
         '''
         '''
 
-#        print("~"*20)
-#        print(self.all_pieces["main"]["99"].loc)
-
+        print("~"*20)
+        print(self.all_pieces["main"]["99"].loc)
+        
         assert (len(move) == 4) or (len(move) == 5)
 
         loc_from = move[:2]
         loc_to = move[2:4]
 
         # その手が可能かチェック
-        try:
-            assert move in self.legal_moves
-        except:
-            print()
-            print("="*50)
-            print()
-            print("move : {}".format(move))
-            print("legal moves : ")
-            print(self.legal_moves)
-            print()
-            print(self)
-            print()
-            print("="*50)
-            print()
-            raise ValueError("8888888")
+        assert move in self.legal_moves
 
         # 手駒を打つ
         if loc_from in PieceName_Hand:
@@ -107,7 +93,7 @@ class Board:
                 self.all_pieces["hand"]["gote"][piece_name] -= 1
 
             # 駒オブジェクトを生成して盤上に配置
-            the_piece = copy.deepcopy(Piece(name=piece_name, is_sente=self.is_sente, loc=loc_to))
+            the_piece = Piece(name=piece_name, is_sente=self.is_sente)
             self.all_pieces["main"][loc_to] = the_piece
 
 
@@ -138,16 +124,16 @@ class Board:
             self.all_pieces["main"][loc_from] = None
             self.all_pieces["main"][loc_to] = copy.deepcopy(piece)
 
-#        print("%"*20)
-#        print(self.all_pieces["main"]["99"].loc)
+        print("%"*20)
+        print(self.all_pieces["main"]["99"].loc)
 
         # 手番を交代
         self.is_sente = not self.is_sente
         # legal_movesを出しておく
         self.legal_moves = get_legal_moves(copy.deepcopy(self))
 
-#        print("e"*20)
-#        print(self.all_pieces["main"]["99"].loc)
+        print("e"*20)
+        print(self.all_pieces["main"]["99"].loc)
 
         # historyに追加
         # self.board_history.append(copy.deepcopy(self))
