@@ -31,6 +31,7 @@ from accounts.src.project.read_external_kifu.kifu_wars2normal import kifu_wars2n
 def create_new_project_from_external_kifu_request(request):
 
     data = json.loads(request.body.decode("utf-8"))
+    kifu = data["kifu"]
     user_id = int(request.user.id)
     create_new_project_from_external_kifu(user_id=user_id, data=data)
 
@@ -40,7 +41,7 @@ def create_new_project_from_external_kifu_request(request):
 def create_new_project_from_external_kifu(user_id, data):
 
     # とりあえずウォーズの棋譜のみを想定
-    hands_normal, hands_str  = kifu_wars2normal(data=data)
+    hands_normal, hands_str  = kifu_wars2normal(data=kifu)
 
     history = kifu_to_history(hands=hands_normal, hands_str=hands_str)
     create_new_project_from_history(user_id=user_id, history=history, title="【新規】将棋ウォーズから")
