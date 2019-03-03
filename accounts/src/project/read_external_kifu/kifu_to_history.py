@@ -14,7 +14,11 @@ def kifu_to_history(hands, hands_str):
     history = []
     
     # 初期盤面
-    initial_action = {"move" : "initial", "board_state" : {"all_pieces" : copy.deepcopy(shogi_board.all_pieces)}}
+    initial_action = {
+        "move" : "initial",
+        "move_str" : "initial",
+        "board_state" : {"all_pieces" : copy.deepcopy(shogi_board.all_pieces)}
+    }
     loc_piece_dict = initial_action["board_state"]["all_pieces"]["main"]
     # Pieceオブジェクトから辞書へ
     for loc in loc_piece_dict.keys():
