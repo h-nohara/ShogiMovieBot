@@ -8,6 +8,7 @@ from .views import new_account_page
 # api
 from accounts.src.account import when_login, create_new_account, overwrite_session_request, get_account_setting_request, change_account_setting_request
 from accounts.src.project import get_projects_request, create_new_project_request, change_project_title_request, delete_project_request
+from accounts.src.project.create_new_project_from_external_kifu import create_new_project_from_external_kifu_request
 
 urlpatterns = [
 
@@ -23,7 +24,7 @@ urlpatterns = [
     # セッション変数を登録
     url(r"^session/overwrite$", overwrite_session_request, name="overwrite_session_request"),
 
-    # 新規アカウント作成
+    # 新規アカウント作成ページ
     url(r"^new/$", new_account_page, name="new_account_page"),
     # 新規アカウント作成
     url(r"^new/create$", create_new_account, name="create_new_account"),
@@ -41,10 +42,17 @@ urlpatterns = [
 
     # プロジェクト一覧取得
     url(r"^project/get$", get_projects_request, name="get_projects"),
+
+    # 棋譜の読み込みページ
+    url(r"^project/from_WarsKifu$", views.new_project_from_WarsKifu_page, name="new_project_from_WarsKifu_page"),
+
     # プロジェクト新規作成
     url(r"^project/new$", create_new_project_request, name="create_new_project"),
+    url(r"^project/create/from_WarsKifu$", create_new_project_from_external_kifu_request, name="create_new_project wars"),
+
     # プロジェクト名変更
     url(r"^project/change_title$", change_project_title_request, name="change project title"),
+
     # プロジェクト削除
     url(r"^project/delete$", delete_project_request, name="delete_project"),
 

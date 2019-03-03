@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<header>
+    <meta charset="UTF-8">
+    <!-- boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <!-- boostrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+
+    <!-- グローバルナビゲーション -->
+
+    <nav class="navbar navbar-default">
+
+        <!-- 左側 -->
+        <div id="nav_items_left" class="collapse navbar-collapse navbar-left">
+            <ul class="nav navbar-nav">
+                <li><a href="/account/home" class="glyphicon glyphicon-home" id="ToProjects_page">ホーム画面へ</a></li>
+            </ul>
+            <p class="nav navbar-text">＜棋譜の読み込み＞</p>
+        </div>
+
+        <style>
+            #nav_items_right {
+                margin-right: 7vw;
+            }
+            #nav_items_right.navbar-nav li{
+                width: 5vw;
+                text-align: center;
+            }
+            #nav_items_right li:hover {
+                background-color: #ffc9d7;
+            }
+        </style>
+    </nav>
+
+    <!-- グローバルナビゲーション ここまで-->
+
+</header>
+
+
+<body>
+
+    <div id="main">
+        <style>
+            #main {margin: 3vh 10vw;}
+        </style>
+
+        <p>将棋ウォーズの棋譜を貼り付けてください</p>
+
+        <div>
+            <textarea id="kifu" style="width: 50vw; height: 60vh;" wrap="physical"></textarea>
+        </div>
+
+        <button class="btn btn-primary" id="make" style="margin: 3vh 0;">この棋譜から新規プロジェクト作成</button>
+
+    </div>
+
+    <script>
+        $(document).on("click", "#make", function(){
+            let data = $("#kifu").val();
+            
+            $.ajax({
+                type : "POST",
+                url : "/account/project/create/from_WarsKifu",
+                data : JSON.stringify({"kifu" : data})
+            })
+            .done(function(result){
+                if (result["code"] == 200){
+                    window.location.href = "/account/home"
+                }
+                else{
+                    window.alert("失敗しました");
+                };
+
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                window.alert("失敗しました");
+            });
+        })
+    </script>
+
+
+</body>
+</html>
