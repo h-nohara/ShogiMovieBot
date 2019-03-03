@@ -16,7 +16,7 @@ def new_account_page(request):
 
 @login_required(login_url="/account/login")
 def new_project_from_WarsKifu_page(request):
-    return render(request, "accounts/new_project_from_WarsKifu_page.html")
+    return render(request, "accounts/new_project_from_WarsKifu.html")
 
 
 # sp
