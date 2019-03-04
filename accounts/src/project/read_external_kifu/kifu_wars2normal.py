@@ -25,6 +25,8 @@ number2kanji = {
 
 kanji2number = {kanji : key for key, kanji in number2kanji.items()}
 
+final_states = ["中断", "投了", "持将棋", "千日手", "詰み", "切れ負け", "反則勝ち", "反則負け"]
+
 
 def kifu_wars2normal(data):
     
@@ -50,7 +52,7 @@ def kifu_wars2normal(data):
         hand = blocks[1]
         hand_str = hand.split("(")[0]
 
-        if hand == "投了":
+        if hand in final_states:
             break
 
         elif hand[-1] == "打":

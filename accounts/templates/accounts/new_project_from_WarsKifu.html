@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 
     {% load static %}
-    
+
     <!-- boostrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script
@@ -57,13 +57,9 @@
             #main {margin: 3vh 10vw;}
         </style>
 
-        <p>将棋ウォーズの棋譜を貼り付けてください</p>
+        <div id="for_read_WarsKifu">
 
-        <div>
-            <textarea id="kifu" style="width: 50vw; height: 60vh;" wrap="physical"></textarea>
         </div>
-
-        <button class="btn btn-primary" id="make" style="margin: 3vh 0;">この棋譜から新規プロジェクト作成</button>
 
     </div>
 
@@ -80,37 +76,10 @@
 
             // 読み込み
             $("#Dummy_loading_modal").load("{% static 'js/common/loading_modal.html' %}");
+            $("#for_read_WarsKifu").load("{% static 'js/read_WarsKifu.html' %}");
 
         }
 
-
-        $(document).on("click", "#make", function(){
-            let data = $("#kifu").val();
-
-            // ローディング画面
-            dispLoading("新規プロジェクト作成中...");
-            
-            $.ajax({
-                type : "POST",
-                url : "/account/project/create/from_WarsKifu",
-                data : JSON.stringify({"kifu" : data})
-            })
-            .done(function(result){
-                if (result["code"] == 200){
-                    window.location.href = "/account/home"
-                }
-                else{
-                    window.alert("失敗しました");
-                };
-
-            })
-            .fail(function(jqXHR, textStatus, errorThrown){
-                window.alert("失敗しました");
-            })
-            .always(function(){
-                removeLoading();
-            });
-        })
     </script>
 
 

@@ -1,0 +1,37 @@
+<p>将棋ウォーズの棋譜をKIF形式に変換したものを貼り付けてください</p>
+
+<div>
+    <textarea id="kifu" style="width: 50vw; height: 60vh;" wrap="physical"></textarea>
+</div>
+
+<button class="btn btn-primary" id="make" style="margin: 3vh 0;">この棋譜から新規プロジェクト作成</button>
+
+<script>
+    $(document).on("click", "#make", function(){
+        let data = $("#kifu").val();
+
+        // ローディング画面
+        dispLoading("新規プロジェクト作成中...");
+        
+        $.ajax({
+            type : "POST",
+            url : "/account/project/create/from_WarsKifu",
+            data : JSON.stringify({"kifu" : data})
+        })
+        .done(function(result){
+            if (result["code"] == 200){
+                window.location.href = "/account/home"
+            }
+            else{
+                window.alert("失敗しました");
+            };
+
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            window.alert("失敗しました");
+        })
+        .always(function(){
+            removeLoading();
+        });
+    })
+</script>
