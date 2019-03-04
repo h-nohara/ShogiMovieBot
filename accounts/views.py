@@ -28,6 +28,10 @@ def login_page_sp(request):
 def home_page_sp(request):
     return render(request, "accounts/sp/home.html")
 
+@login_required(login_url="/account/login")
+def new_project_from_WarsKifu_page_sp(request):
+    return render(request, "accounts/sp/new_project_from_WarsKifu.html")
+
 
 
 # テスト

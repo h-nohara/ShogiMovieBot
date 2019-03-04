@@ -45,6 +45,7 @@ urlpatterns = [
 
     # 棋譜の読み込みページ
     url(r"^project/from_WarsKifu$", views.new_project_from_WarsKifu_page, name="new_project_from_WarsKifu_page"),
+    url(r"^project/from_WarsKifu/sp$", views.new_project_from_WarsKifu_page_sp, name="new_project_from_WarsKifu_page sp"),
 
     # プロジェクト新規作成
     url(r"^project/new$", create_new_project_request, name="create_new_project"),
