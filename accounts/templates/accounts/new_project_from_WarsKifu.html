@@ -72,7 +72,7 @@
         window.onload = function(){
 
             let w = screen.width;
-            if (w < 960){window.location.href = window.location.href + "sp"; return}
+            if (w < 960){window.location.href = window.location.href + "/sp"; return}
 
             // 読み込み
             $("#Dummy_loading_modal").load("{% static 'js/common/loading_modal.html' %}");
