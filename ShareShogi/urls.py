@@ -3,7 +3,6 @@ import os, sys
 from django.conf.urls import include, url
 from django.shortcuts import render
 from . import views
-from .views import new_account_page
 
 # api
 from ShareShogi.src.contents.create.create_book import create_book_request
