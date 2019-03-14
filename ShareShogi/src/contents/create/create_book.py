@@ -39,6 +39,8 @@ def create_book_request(request):
     thumb = request.FILES["thumb"]
     print(thumb)
     print(thumb.__dict__)
+    print(thumb._name)
+    print(thumb.temporary_file_path())
 
     return JsonResponse({"code" : 200})
 
