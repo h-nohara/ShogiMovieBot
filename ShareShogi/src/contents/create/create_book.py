@@ -12,7 +12,7 @@ from ShareShogi.models.scene import Scene
 
 # src
 from accounts.src.utils.generate_fname import generate_basename
-from accounts.src.utils.aws_bucket import fname_cloud
+from accounts.src.utils.aws_bucket import fname_cloud, bucket
 from accounts.src.utils.extentions import get_normalized_ext
 
 
@@ -39,29 +39,53 @@ def create_book_request(request):
     thumb = request.FILES["thumb"]
     print(thumb)
     print(thumb.__dict__)
-    print(thumb._name)
+    fname = thumb._name
+    print(fname)
+    content_type = thumb.content_type
+    print(content_type)
+
+    temporal_path = None
+
     try:
-        print(thumb.temporary_file_path())
+        temporal_path = thumb.temporary_file_path()
+        print(temporal_path)
     except:
         print("hoge")
 
-    return JsonResponse({"code" : 200})
+    # return JsonResponse({"code" : 200})
 
-    if "user_id" in payload.keys():
-        user_id = int(payload["user_id"])
+    # if "user_id" in payload.keys():
+    #     user_id = int(payload["user_id"])
 
-    else:
-        user_id = int(request.user.id)
+    # else:
+    #     user_id = int(request.user.id)
 
     # 画像のパスを生成
-    thumb_fname = "hoge"
-    ext_original = thumb_fname.split(".")[-1]
+    ext_original = fname.split(".")[-1]
     ext = get_normalized_ext(ext=ext_original, restriction="image")
     assert ext is not None
-    thumb_basename = generate_basename(key=str(user_id)+"bookthumb", ext=ext)
+    # thumb_basename = generate_basename(key=str(user_id)+"bookthumb", ext=ext)
+    thumb_basename = fname  # 一時的
     thumb_path = fname_cloud(thumb_basename)
+    print(thumb_path)
 
     # 画像をアップロード
+
+    if temporal_path is None:
+        obj = bucket.Object(thumb_basename)
+        response = obj.put(
+            Body = thumb.read(),
+            ContentType = content_type
+        )
+    else:
+        bucket.upload_file(
+            temporal_path,
+            thumb_basename,
+            ExtraArgs={"ContentType": content_type}
+        )
+
+
+    return JsonResponse({"code" : 200})
 
     # レコードを保存
     record_User = User.objects.get(id=user_id)
