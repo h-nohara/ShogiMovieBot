@@ -30,6 +30,7 @@ def create_book_request(request):
     print()
     print("title : {}".format(payload["title"]))
     print("name : {}".format(payload["thumb"]))
+    print(type(payload["thumb"]))
 
     # payload = json.loads(request.body.decode("utf-8"))
     # print(payload)
