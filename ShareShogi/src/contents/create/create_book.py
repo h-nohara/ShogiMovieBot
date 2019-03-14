@@ -25,11 +25,14 @@ def create_book_request(request):
 
     print("create new bool request")
     print()
-
-    print(request.POST)
-
-    payload = json.loads(request.body.decode("utf-8"))
+    payload = request.POST
     print(payload)
+    print()
+    print("title : {}".format(payload["title"]))
+    print("name : {}".format(payload["thumb"]))
+
+    # payload = json.loads(request.body.decode("utf-8"))
+    # print(payload)
 
     print(request.FILES)
 
