@@ -187,8 +187,18 @@ def history_to_images(history, recorder):
 
             # サブシナリオを順番にみていく
             for mini_sc in action["scenarios"]:
+
                 save_name = recorder.next(True)
                 draw_boad(board_before_branch, save_name)  # 分岐の直前の状態を毎回画像に
+
+                # 分岐の後にメッセージを入れる
+                # save_name = recorder.next(True)
+                # message_action = {
+                #     "board_state" : board_before_branch,
+                #     "message" : {"text" : "分岐前に戻ります"}
+                # }
+                # action_to_image(message_action, save_name)
+
                 history_to_images(mini_sc, recorder)  # 分岐後を順番に画像に
 
 

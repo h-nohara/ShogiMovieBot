@@ -21,7 +21,7 @@ MOVIE_USER_DIR = os.path.abspath(os.path.join(MOVIE_DIR, "user"))
 
 
 # api
-
+from accounts.src.utils.extentions import get_normalized_ext
 
 
 def get_TimeStringSeries():
@@ -43,6 +43,26 @@ def generate_basename(key, ext):
     hashed = get_sha256(key)
     fname = "{}.{}".format(hashed, ext)
     return fname
+
+
+def generate_basename_with_ExtCheck(fname, restriction, key):
+
+    '''
+    restriction : "image" or "movie"
+
+    >>> generate_basename_with_ExtCheck(fname="hoge.PNG", restriction="image", key="hogehoge")
+    "samsam.png"
+    >>> generate_basename_with_ExtCheck(fname="hoge.PNG", restriction="movie", key="hogehoge")
+    None
+    '''
+
+    ext_original = fname.split(".")[-1]
+    ext = get_normalized_ext(ext=ext_original, restriction=restriction)
+    if ext is None:
+        return None
+    basename = generate_basename(key=key, ext=ext)
+
+    return basename
 
 
 # pickle

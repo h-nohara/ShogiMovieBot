@@ -6,4 +6,5 @@ urlpatterns = [
     url(r"^account/", include("accounts.urls")),
     url(r"^board/", include("board.urls")),
     url(r"^bot/", include("bot.urls")),
+    url(r"^ShareShogi/", include("ShareShogi.urls")),
 ]
