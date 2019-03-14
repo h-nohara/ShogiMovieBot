@@ -40,7 +40,10 @@ def create_book_request(request):
     print(thumb)
     print(thumb.__dict__)
     print(thumb._name)
-    print(thumb.temporary_file_path())
+    try:
+        print(thumb.temporary_file_path())
+    except:
+        print("hoge")
 
     return JsonResponse({"code" : 200})
 
