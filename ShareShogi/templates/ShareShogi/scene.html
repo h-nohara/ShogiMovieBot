@@ -132,11 +132,11 @@
 
 						BookChaptersScenes = result["result"];
 
-						let book_id = result["book_id"];
-						let book_title = result["book_title"];
-						let publisher = result["publisher"];
+						let book_id = BookChaptersScenes["book_id"];
+						let book_title = BookChaptersScenes["book_title"];
+						let publisher = BookChaptersScenes["publisher"];
 
-						let ChaptersScenes = result["ChaptersScenes"];
+						let ChaptersScenes = BookChaptersScenes["ChaptersScenes"];
 						draw_ChaptersScenes(ChaptersScenes);
 
 					}
