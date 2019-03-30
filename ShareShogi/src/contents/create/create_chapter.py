@@ -22,6 +22,12 @@ def create_chapter_request(request):
     新たなチャプターを作成する
     '''
 
+    print("=======")
+    print()
+    print(request.POST)
+
+    return JsonResponse({"code" : 200})
+
     payload = json.loads(request.body.decode("utf-8"))
 
     book_id = payload["book_id"]

@@ -10,6 +10,8 @@ from ShareShogi.src.contents.get.get_latest_books import get_latest_books_reques
 from ShareShogi.src.contents.get.get_chapters import get_BookChapters_request
 from ShareShogi.src.contents.get.get_scenes import get_BookChaptersScenes_request
 
+from ShareShogi.src.contents.create.create_chapter import create_chapter_request
+
 urlpatterns = [
 
     # ShareShogi/
@@ -22,10 +24,11 @@ urlpatterns = [
     # url(r"^reader/search/exec$", views.search_page, name="exec search"),  # 検索結果を取得
     # url(r"^reader/book-info$", , name="get book info"),  # 本の内容を取得
 
-    # チャプター一覧ページ
+    # チャプター
 
     url(r"^chapters/page$", views.chapters_page, name="chapter page"),  # チャプター一覧画面
     url(r"^chapters/get$", get_BookChapters_request, name="get chapters"),
+    url(r"^chapters/create$", create_chapter_request, name="create chapters"),
 
     # 各シーンのページ
     url(r"^scenes/page$", views.scene_page, name="scene page"),
