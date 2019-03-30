@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	{% load static %}
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>各シーン</title>
+
+	<meta name="author" content="Alvaro Trigo Lopez" />
+	<meta name="description" content="fullPage very simple demo." />
+	<meta name="keywords"  content="fullpage,jquery,demo,simple" />
+	<meta name="Resource-type" content="Document" />
+
+	<link rel="stylesheet" type="text/css" href="{% static 'dist/fullpage.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/examples.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+	<!-- jquery -->
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+
+  	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+
+	<!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+</head>
+
+
+<!-- html要素のテンプレート -->
+
+<!-- 各セクション（チャプターに相当） -->
+<script type="text/html" id="section_template">
+
+	<div class="section" id=<%= chapter_id %>>
+	</div>
+
+
+</script>
+
+<!-- 各シーン -->
+<script type="text/html" id="scene_template">
+
+	<div class=" slide border" id=<%= scene_id %> >
+		<img src=<%= image_url %> class="card-img-top " alt="...">
+		<div class="h-25 comments" style="overflow:hidden"><%= text %></div>
+	</div>
+
+</script>
+
+<script>
+	function draw_scenes(tree){
+
+		// 元ある描画を更新
+		$("#fullpage").html("");
+
+		for (chapter of tree) {
+			var compiled_section = _.template($("#section_template").html());
+			var chapter_id = chapter["chapter_id"];
+			var section_html = compiled_section({
+				"chapter_id" : chapter_id,
+			});
+			$("#fullpage").append(section_html);
+
+			for (scene of chapter["scenes"]){
+				var compiled_scene = _.template($("#scene_template").html());
+				var scene_html = compiled_scene({
+					"image_url" : scene["thumb_path"],
+					"text" : scene["text"],
+					"scene_id" : scene["scene_id"]
+				});
+				$("#"+String(chapter_id)).append(scene_html);
+			}
+		}
+	}
+</script>
+
+
+<body>
+	<script>
+		$(document).ready(function(){
+			
+			var urlParams = new URLSearchParams(window.location.search);
+			var entries = urlParams.entries();
+			//pairにパラメータとデータの配列が代入される
+			for (pair of entries) {
+				console.log("hoge");
+			}
+
+			let sample_image = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
+			let sample_text = "これはテストだよ"
+			let sample_tree = [
+				{
+					"chapter_id" : 100,
+					"scenes" : [
+						{"scene_id" : 1, "text" : sample_text, "thumb_path" : sample_image},
+					]
+				},
+				{
+					"chapter_id" : 110,
+					"scenes" : [
+						{"scene_id" : 3, "text" : sample_text, "thumb_path" : sample_image},
+						{"scene_id" : 4, "text" : sample_text, "thumb_path" : sample_image},
+					]
+				},
+				{
+					"chapter_id" : 120,
+					"scenes" : [
+						{"scene_id" : 5, "text" : sample_text, "thumb_path" : sample_image},
+						{"scene_id" : 6, "text" : sample_text, "thumb_path" : sample_image},
+						{"scene_id" : 10, "text" : sample_text, "thumb_path" : sample_image}
+					]
+				}
+			]
+
+			$.ajax({
+					type : "GET",
+					url : "/hoge",
+				})
+				.always(function(){
+
+					draw_scenes(sample_tree);
+
+					var myFullpage = new fullpage('#fullpage', {
+						sectionsColor: ['#ffffff'],
+						licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
+
+					});
+					
+				})
+
+			// draw_scenes(sample_tree);
+
+			// $('#fullpage').fullpage();
+			// var myFullpage = new fullpage('#fullpage', {
+			// 	sectionsColor: ['#ffffff'],
+			// 	licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
+
+			// });
+
+			// $.fn.fullpage.destroy('all');
+			// $.fn.fullpage.reBuild();
+
+
+			// 検索結果を取得する
+			// $.ajax({
+			// 		type : "POST",
+			// 		url : "/ShareShogi/reader/chapters",
+			// 		data: "chapter_id="+pair[0]
+			// 	})
+			// 	.done(function(result){
+			// 		if (result["code"] == 400){
+			// 			window.alert("読み込みに失敗しました");
+			// 		}
+			// 		else{
+
+			// 			$(".section:first").find('img').attr('src',result['result']['scenes'][0]['image_path']);
+			// 			$(".section:first").find('.comments').text(result['result']['scenes'][0]['title']);
+			// 			for(let i=1; i<result['result']['scenes'].length; i++){
+			// 				$(".section:first").clone().insertAfter('.section:last');
+			// 				$(".section:last").find('img').attr('src',result['result']['scenes'][i]['image_path']);
+			// 				$(".section:last").find('.comments').text(result['result']['scenes'][i]['title']);
+			// 			}
+
+			// 		}
+
+			// 	})
+			// 	.fail(function(jqXHR, textStatus, errorThrown){
+			// 		window.alert("failed load");
+			// 	});
+		})
+
+
+	
+	</script>
+
+
+	<!--  ヘッダー部分（上部固定） -->
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
+			<a class="navbar-brand" href="#">各局面</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="search_book2.html">ホーム画面に戻る</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="myBook.html?id=100">マイブック編集</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="account.html">アカウント設定</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+
+<div class="container">
+	<a href="chapter.html">
+		<div class="row mb-3 fixed-bottom">
+			<button type="submit" class="btn btn-primary btn-bg col-12">チャプター一覧へ戻る</button>
+		</div>
+	</a>
+	<div id="fullpage" >
+
+		<div class="section">
+	  			<!-- <div class=" slide border border-secondary w-75 mx-auto">
+  					<img src="" class="card-img-top " alt="...">
+  					<div class="h-25 comments" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
+				</div> -->
+				
+				<div class=" slide border">
+					<img src="./shogi-board.jpg" class="card-img-top " alt="...">
+					<div class="h-25 comments" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
+				</div>
+				<div class=" slide border">
+					<img src="./shogi-board.jpg" class="card-img-top " alt="...">
+					<div class="h-25 comments" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
+				</div>
+		</div>
+
+		<div class="section">
+			<div class=" border border-secondary w-75 mx-auto">
+				<img src="./shogi-board.jpg" class="card-img-top " alt="...">
+				<div class="h-25" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="{% static 'dist/fullpage.js' %}"></script>
+<script type="text/javascript" src="{% static 'dist/fullpage.extensions.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'dist/jquery.fullpage.extensions.min.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.4/vendors/easings.min.js"></script>
+
+<!-- <script type="text/javascript">
+	var myFullpage = new fullpage('#fullpage', {
+		sectionsColor: ['#ffffff'],
+		 licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
+
+	});
+</script> -->
+
+</body>
+</html>

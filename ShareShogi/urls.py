@@ -27,7 +27,7 @@ urlpatterns = [
     url(r"^chapters/get$", get_BookChapters_request, name="get chapters"),
 
     # 各シーンのページ
-    url(r"^reader/scene$", views.scene_page, name="scene page"),
+    url(r"^scenes/page$", views.scene_page, name="scene page"),
 
     # 新規ブック作成
     url(r"^create/book$", create_book_request, name="create book"),
