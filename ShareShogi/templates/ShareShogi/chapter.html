@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    {% load static %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>チャプター一覧</title>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+  </head>
+  <body>
+
+  
+<!-- html要素のテンプレート -->
+
+<!-- チャプター -->
+<script type="text/html" id="chapter_template">
+
+  <div class="col-6 border border-secondary" style="height:45vh; padding: 1vh 1vw;" id=<%= chapter_id %>>
+      <img src= <%= image_url %> class="card-img-top " alt="...">
+      <div class="h-25" style="overflow:hidden; background-color:gray"></div>
+      <div><p> <%= title %>  </p></div>
+  </div>
+
+</script>
+
+<script>
+  function draw_chapters(chapters){
+
+    $(".allchapter").html("");
+
+    for (chapter of chapters){
+
+      var compiled_chapter = _.template($("#chapter_template").html());
+      var chapter_html = compiled_chapter({
+          "chapter_id" : chapter["chapter_id"],
+          "image_url" : chapter["thumb_url"],
+          "title" : chapter["title"],
+      });
+
+      $(".allchapter").append(chapter_html);
+    }
+  }
+</script>
+
+
+  <script>
+  $(function(){
+
+      //既存のデータ取得
+      // var urlParams = new URLSearchParams(window.location.search);
+      // var entries = urlParams.entries();
+      // //pairにパラメータとデータの配列が代入される
+      // for (pair of entries) {
+      //     //pair[0]がパラメータ
+      //     //pair[1]がデータ
+      // }
+
+      // for(let i=0; i<10; i++){
+      
+      //     var compiled_chapter = _.template($("#chapter_template").html());
+      //     var chapter_html = compiled_chapter({
+      //         "image_url" : "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png",
+      //         "text" : "これはサンプルです\nこれはサンプルです\nこれはサンプルです"
+      //     });
+      //     $(".allchapter").append(chapter_html);
+      // }
+
+
+    // チャプター情報を取得
+       $.ajax({
+                  type : "POST",
+                  url : "/ShareShogi/chapters/get",
+                  data : JSON.stringify({"book_id" : 100})
+              })
+              .done(function(result){
+
+                  if (result["code"] != 200){
+                      window.alert("失敗しました");
+                  }
+
+                  else{
+
+                      let BookChapters = result["result"];
+
+                      let book_id = BookChapters["book_id"];
+                      let book_title = BookChapters["book_title"];
+                      let publisher = BookChapters["publisher"];
+                      $("#bookTitle").text(book_title);
+
+                      let chapters = BookChapters["chapters"];
+                      draw_chapters(chapters);
+                   }
+
+              })
+              .fail(function(jqXHR, textStatus, errorThrown){
+                  window.alert("エラー");
+              });
+
+
+
+
+
+
+  });
+  </script>
+  <!--ヘッダー部分（上部固定） -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
+      <a class="navbar-brand" href="#">チャプター一覧</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="search_book2.html">ホーム画面に戻る</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="myBook.html?id=100">マイブック編集</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="account.html">アカウント設定</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!--ヘッダーここまで -->
+    <div class="container pt-5">
+
+      <div class="border border-secondary mt-3 mb-5 mx-auto">
+        <p class="text-center h6" id="bookTitle">ここにブックのタイトルが入りますここにブックのタイトルが入ります</p>
+      </div>
+
+      <div class="row mt-6 allchapter">
+
+        <!-- <div class="col-6 border border-secondary" style="height:55vh"><a href="scean.html"><img src="./shogi-board.jpg" class="card-img-top " alt="..."><div class="h-25 comments" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div></a></div>
+            <div class="col-6 border border-secondary " style="height:55vh">
+          <a href="">
+          <img src="https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png" class="card-img-top " alt="...">
+          <div class="h-25" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります</div>
+          </a> -->
+      </div>
+
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
