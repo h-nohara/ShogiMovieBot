@@ -22,8 +22,8 @@ class Chapter(models.Model):
         null = True
     )
 
-    thumb_path = models.CharField(
-        verbose_name = "thumb_path",
+    thumb_url = models.CharField(
+        verbose_name = "thumb_url",
         max_length = 1000,
         null = True
     )

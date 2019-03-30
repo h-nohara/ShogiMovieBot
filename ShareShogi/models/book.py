@@ -21,8 +21,8 @@ class Book(models.Model):
         null = True
     )
 
-    thumb_path = models.CharField(
-        verbose_name = "thumb_path",
+    thumb_url = models.CharField(
+        verbose_name = "thumb_url",
         max_length = 1000,
         null = True
     )
@@ -32,14 +32,14 @@ class Book(models.Model):
         default = False
     )
 
-    senkei_sente = models.CharField(
-        verbose_name = "senkei sente",
+    opening_sente = models.CharField(
+        verbose_name = "opening sente",
         max_length = 1000,
         null = True
     )
 
-    senkei_gote = models.CharField(
-        verbose_name = "senkei gote",
+    opening_gote = models.CharField(
+        verbose_name = "opening gote",
         max_length = 1000,
         null = True
     )

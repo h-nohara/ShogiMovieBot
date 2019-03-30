@@ -14,3 +14,7 @@ def scene_page(request):
 
 def account_page(request):
     return render(request, "ShareShogi/account.html")
+
+@login_required
+def myBook_page(request):
+    return render(request, "ShareShogi/myBook.html")

@@ -45,7 +45,7 @@ def get_book_info(book_id, get_childs=False):
     book_info = {
         "nickname" : record_Book.user.nickname,
         "title" : record_Book.title,
-        "thumb_path" : record_Book.thumb_path,
+        "thumb_url" : record_Book.thumb_path,
         "is_public" : record_Book.is_public,
         "senkei_sente" : record_Book.senkei_sente,
         "senkei_gote" : record_Book.senkei_gote,
@@ -79,7 +79,7 @@ def get_all_chapters(book_id, get_childs=False):
         chapter_info = {
             "id" : chapter_id,
             "title" : record_Chapter.title,
-            "thumb_path" : record_Chapter.thumb_path,
+            "thumb_url" : record_Chapter.thumb_path,
         }
 
         # 全てのシーン情報を加える

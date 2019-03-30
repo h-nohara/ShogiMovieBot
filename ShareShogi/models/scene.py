@@ -23,14 +23,14 @@ class Scene(models.Model):
         null = True
     )
 
-    image_path = models.CharField(
-        verbose_name = "image_path",
+    image_url = models.CharField(
+        verbose_name = "image_url",
         max_length = 1000,
         null = True
     )
 
-    movie_path = models.CharField(
-        verbose_name = "movie_path",
+    movie_url = models.CharField(
+        verbose_name = "movie_url",
         max_length = 1000,
         null = True
     )

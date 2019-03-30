@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jquery -->
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <title>マイブック一覧</title>
+  </head>
+
+
+  <!-- html要素のテンプレート -->
+
+  <!-- ブック -->
+  <script type="text/html" id="book_template">
+
+    <div class="col-6 border border-secondary" id=<%= book_id %> >
+      <img src=<%= image_url %> class="card-img-top " alt="..." >
+      <div class="h-25" style="overflow:hidden"><%= title %></div>
+    </div>
+  </script>
+
+
+  <script>
+    function draw_books(books){
+
+      $("#books").html("");
+
+      for (book of books){
+        var compiled_book = _.template($("#book_template").html());
+        var book_html = compiled_book({
+            "book_id" : book["book_id"],
+            "image_url" : book["thumb_url"],
+            "title" : book["title"],
+        });
+        $("#books").append(book_html);
+      }
+    }
+  </script>
+
+
+  <script>
+
+    // ロード時の処理
+
+    $(document).ready(function(){
+
+    // 検索結果を取得する
+
+      $.ajax({
+          type : "GET",
+          url : "/ShareShogi/books/get-mine",
+        })
+        .done(function(result){
+
+          if (result["code"] != 200){
+            window.alert("読み込みに失敗しました");
+          }
+          else{
+            let books = result["result"];
+            draw_books(books);
+          }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            window.alert("failed load");
+        });
+
+    });
+    </script>
+
+
+  <body>
+    <!--ヘッダー部分（上部固定） -->
+    <header>
+  		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
+  			<a class="navbar-brand" href="#">マイブック一覧</a>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
+  				<span class="navbar-toggler-icon"></span>
+  			</button>
+
+  			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  				<ul class="navbar-nav mr-auto">
+  					<li class="nav-item">
+  						<a class="nav-link" href="search_book.html">ホーム画面に戻る</a>
+  					</li>
+  					<li class="nav-item">
+  						<a class="nav-link" href="myBook.html">マイブック編集</a>
+  					</li>
+  					<li class="nav-item">
+  						<a class="nav-link" href="account.html">アカウント設定</a>
+            </li>
+          </ul>
+        </div>
+  		</nav>
+    </header>
+    <!--ヘッダーここまで -->
+
+
+  <!--編集メニュー-->
+
+    <div class="container">
+
+      <ul class="list-group pt-5 allmybook">
+        <a href="newbook.html"> <li class="list-group-item list-group-item-primary mb-5 mt-5">新規ブック作成</li></a>
+
+        <h5>マイブック一覧</h5>
+
+
+        <div class="row mt-5 pt-3 books" id="books">
+
+            <div class="col-6 border border-secondary">
+              <img src="./shogi-board.jpg" class="card-img-top " alt="...">
+              <div class="h-25" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります</div>
+            </div>
+
+        </div>
+
+        <!-- <li class="list-group-item list-group-item-secondary allmybook">
+          <a href="chapter.html?id=100">
+            四間飛車定跡
+          </a>
+          <div class="float-right">
+            <a href="book_edit2.html"><button class="btn btn-primary">編集</button></a>
+            <button class="btn btn-danger">削除</button>
+          </div>
+        </li> -->
+
+    </ul>
+    
+    </div>
+
+  </body>
+</html>
