@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <title>新規ブック作成</title>
+  </head>
+
+  <script>
+    $(function(){
+
+      //プレビュー表示
+      $(".upload").click(function(){
+        $(this).next().click();
+      });
+      $(".file").on('change', function(){
+        var fileprop = $(this).prop('files')[0],
+            find_img = $(this).parent().find('img'),
+            filereader = new FileReader(),
+            view_box = $(this).parent('.view_box');
+
+        if(find_img.length){
+          find_img.nextAll().remove();
+          find_img.remove();
+        }
+
+        var img = '<div class="img_view"><img alt="" class="img"><a href="#" class="img_del"><br /><button class="btn btn-danger mt-3">画像を削除する</button></a></div>';
+
+        view_box.append(img);
+        view_box.find('.upload').hide();
+
+
+        filereader.onload = function() {
+          view_box.find('img').attr('src', filereader.result);
+          img_del(view_box);
+        }
+        filereader.readAsDataURL(fileprop);
+      });
+
+      function img_del(target){
+        target.find("a.img_del").on('click',function(){
+          var self = $(this),
+              parentBox = self.parent().parent().parent();
+          if(window.confirm('画像を削除します。\nよろしいですか？')){
+            setTimeout(function(){
+              parentBox.find('input[type=file]').val('');
+              parentBox.find('.img_view').remove();
+            parentBox.find('.upload').show();
+            } , 0);
+          }
+          return false;
+        });
+      }
+      
+    });
+
+
+  </script>
+  <body>
+    <!--ヘッダー部分（上部固定） -->
+    <header>
+  		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
+  			<a class="navbar-brand" href="#">新規チャプター作成</a>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
+  				<span class="navbar-toggler-icon"></span>
+  			</button>
+
+  			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  				<ul class="navbar-nav mr-auto">
+  					<li class="nav-item">
+  						<a class="nav-link" href="search_book2.html">ホーム画面に戻る</a>
+  					</li>
+  					<li class="nav-item">
+  						<a class="nav-link" href="myBook.html?id=100">マイブック編集</a>
+  					</li>
+  					<li class="nav-item">
+  						<a class="nav-link" href="account.html">アカウント設定</a>
+  					</li>
+  				</ul>
+  			</div>
+  		</nav>
+    </header>
+    <!--ヘッダーここまで -->
+
+    <div class="container">
+      <h5 class="mt-3">新規ブック作成</h5>
+
+      <form action="http://54.248.29.6:8000/ShareShogi/books/create" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- <div class="form-group">
+          <label for="exampleFormControlSelect1">タイトル名</label>
+          <input class="form-control" type="text" placeholder="新規チャプター名">
+        </div> -->
+
+        <div class="form-group">
+          <div class="view_box">
+            <div class="upload" ></div>
+            <input type="file" name="thumb" class="file" style="display:none" >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="chapterTitle">タイトル</label>
+          <textarea class="form-control" id="chapterTitle" rows="3" name="title" placeholder="タイトルを入力してください"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="sente">先手の戦型を選択</label>
+            <select class="form-control" id="sente" name="opening['sente']">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+            </div>
+
+            <div class="form-group">
+            <label for="gote">後手の戦型を選択</label>
+            <select class="form-control" id="gote" name="opening['gote']">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" >作成</button>
+
+      </form>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
