@@ -6,6 +6,7 @@ from . import views
 
 # api
 from ShareShogi.src.contents.create.create_book import create_book_request
+from ShareShogi.src.contents.get.get_latest_books import get_latest_books_request
 
 urlpatterns = [
 
@@ -13,6 +14,7 @@ urlpatterns = [
 
     # 検索ページ
     url(r"^reader/search$", views.search_page, name="search page"),
+    url(r"^books/get-news$", get_latest_books_request, name="search page"),
 
     url(r"^reader/search/exec$", views.search_page, name="exec search"),  # 検索結果を取得
     # url(r"^reader/book-info$", , name="get book info"),  # 本の内容を取得
