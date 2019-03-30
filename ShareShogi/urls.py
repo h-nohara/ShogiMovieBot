@@ -20,6 +20,7 @@ urlpatterns = [
 
     url(r"^books/page$", views.search_page, name="search page"),  # 検索画面
     url(r"^books/get-latests$", get_latest_books_request, name="search latests"),  # 最新のブックを取得
+    url(r"^books/create$", create_book_request, name="create book"),  # 新規ブック作成
 
     # url(r"^reader/search/exec$", views.search_page, name="exec search"),  # 検索結果を取得
     # url(r"^reader/book-info$", , name="get book info"),  # 本の内容を取得
@@ -38,8 +39,5 @@ urlpatterns = [
 
     url(r"^accounts/page$", views.account_page, name="account page"),  # アカウント設定画面
     url(r"^accounts/get$", views.account_page, name="account page"),  # アカウント設定を取得
-
-    # 新規ブック作成
-    url(r"^create/book$", create_book_request, name="create book"),
 
 ]

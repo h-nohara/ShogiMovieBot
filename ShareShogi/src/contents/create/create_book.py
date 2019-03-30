@@ -46,6 +46,8 @@ def create_book_request(request):
 
     temporal_path = None
 
+    return JsonResponse({"code" : 200})
+
     try:
         temporal_path = thumb.temporary_file_path()
         print(temporal_path)

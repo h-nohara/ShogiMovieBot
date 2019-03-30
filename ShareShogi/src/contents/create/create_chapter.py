@@ -12,7 +12,8 @@ from ShareShogi.models.scene import Scene
 
 # src
 from accounts.src.utils.generate_fname import generate_basename
-from accounts.src.utils.aws_bucket import fname_cloud
+from accounts.src.utils.aws_bucket import fname_cloud, bucket
+from accounts.src.utils.extentions import get_normalized_ext
 
 
 @csrf_exempt
