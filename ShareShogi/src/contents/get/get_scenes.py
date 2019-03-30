@@ -50,9 +50,9 @@ def get_ChaptersScenes(book_id):
 
     ChaptersScenes = []
 
-    for _ in range(3):
+    for i in range(3):
 
-        ChaptersScenes.append(get_ChapterScenes(chapter_id=3))
+        ChaptersScenes.append(get_ChapterScenes(chapter_id=i))
 
     return ChaptersScenes
 
@@ -62,16 +62,16 @@ def get_ChapterScenes(chapter_id):
     sample_thumb = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
     
     ChapterScenes = {
-        "chapter_id" : 100,
+        "chapter_id" : chapter_id,
         "thumb_url" : sample_thumb,
         "title" : "四間飛車の定跡",
         "scenes" : []
     }
 
-    for _ in range(4):
+    for i in range(4):
 
         scene = {
-            "scene_id" : 10,
+            "scene_id" : i,
             "thumb_url" : sample_thumb,
             "text" : "この局面で、歩を取ると圧倒的に不利になってしまいます",
         }
