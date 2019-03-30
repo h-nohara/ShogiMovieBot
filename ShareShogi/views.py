@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def search_page(request):
-    return render(request, "ShareShogi/search.html")
+    return render(request, "ShareShogi/search_book.html")
 
 def chapters_page(request):
     return render(request, "ShareShogi/chapters.html")

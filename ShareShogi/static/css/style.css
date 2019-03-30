@@ -1,0 +1,20 @@
+@charset "utf-8";
+.upload{
+  width:60vw;
+  height:30vh;
+  margin:0 auto;
+  z-index:-1;
+  background-image:url('upload.png');
+  background-repeat:no-repeat;
+  background-size:contain;
+}
+
+p.comment{
+
+  	background-color: rgb(172, 172, 172);
+	height:25%;
+	overflow:hidden;
+}
+.fp-tableCell{
+
+}
