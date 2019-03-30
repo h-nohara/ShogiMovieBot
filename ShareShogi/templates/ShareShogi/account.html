@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <title>アカウント設定</title>
+  </head>
+  <body>
+<script>
+
+
+$(function(){
+
+    function get_draw_scenarios(){
+           $.ajax({
+               type : "GET",
+               url : "/ShareShogi/account/get",
+           })
+           .done(function(result){
+
+               if (response["code"] == 200){
+              let userName  = result['result']['userName'];
+              let nickName  = result['result']['nickName'];
+              $("#Input1").attr("value",userName);
+              $("#Input2").attr("value",nickName);
+
+               }
+               else {
+                   window.alert("failed");
+                   // window.alert(response["error_message"]);
+               };
+           })
+       }
+     });
+       </script>
+       <!--ヘッダー部分（上部固定） -->
+       <header>
+     		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
+     			<a class="navbar-brand" href="#">アカウント設定</a>
+     			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
+     				<span class="navbar-toggler-icon"></span>
+     			</button>
+
+     			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+     				<ul class="navbar-nav mr-auto">
+     					<li class="nav-item">
+     						<a class="nav-link" href="search_book2.html">ホーム画面に戻る</a>
+     					</li>
+     					<li class="nav-item">
+     						<a class="nav-link" href="myBook.html?id=100">マイブック編集</a>
+     					</li>
+     					<li class="nav-item">
+     						<a class="nav-link" href="account.html">アカウント設定</a>
+     					</li>
+     				</ul>
+     			</div>
+     		</nav>
+       </header>
+       <!--ヘッダーここまで -->
+  <!--編集メニュー-->
+
+    <div class="container">
+      <div class="container">
+        <h5 class="mt-5 pt-5">アカウント設定</h5>
+
+        <form action="" method="post">
+          {% csrf_token %}
+
+          <div class="form-group mt-5">
+            <label for="Input1">ユーザネーム</label>
+            <input type="text" class="form-control" id="Input1" value="" placeholder="username" name="username" pattern="^[a-zA-Z0-9]+$">
+          </div>
+          <div class="form-group">
+            <label for="Input2">ニックネーム</label>
+            <input type="text" class="form-control" id="Input2" value="" placeholder="nickname" name="nickname" pattern="^[a-zA-Z0-9]+$">
+          </div>
+          <div class="form-group">
+            <label for="InputPassword1">パスワード</label>
+            <input type="password" class="form-control"  id="Password1" value="" placeholder="password" name="password" pattern="(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{6,}">
+          </div>
+
+          <button type="submit" class="btn btn-primary mt-4">変更する</button>
+        </form>
+        <!-- <a href="account.html"><button type="button" class="btn btn-primary mt-3">アカウント設定画面に戻る</button></a> -->
+      </div>
+    </div>
+
+  </body>
+</html>

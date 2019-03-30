@@ -8,6 +8,7 @@ from . import views
 from ShareShogi.src.contents.create.create_book import create_book_request
 from ShareShogi.src.contents.get.get_latest_books import get_latest_books_request
 from ShareShogi.src.contents.get.get_chapters import get_BookChapters_request
+from ShareShogi.src.contents.get.get_scenes import get_BookChaptersScenes_request
 
 urlpatterns = [
 
@@ -28,6 +29,12 @@ urlpatterns = [
 
     # 各シーンのページ
     url(r"^scenes/page$", views.scene_page, name="scene page"),
+    url(r"^scenes/get$", get_BookChaptersScenes_request, name="get scenes"),
+
+    # アカウント
+
+    url(r"^accounts/page$", views.account_page, name="account page"),  # アカウント設定画面
+    url(r"^accounts/get$", views.account_page, name="account page"),  # アカウント設定を取得
 
     # 新規ブック作成
     url(r"^create/book$", create_book_request, name="create book"),

@@ -11,3 +11,6 @@ def chapters_page(request):
 
 def scene_page(request):
     return render(request, "ShareShogi/scene.html")
+
+def account_page(request):
+    return render(request, "ShareShogi/account.html")

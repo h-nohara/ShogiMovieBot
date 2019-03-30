@@ -53,7 +53,7 @@
 </script>
 
 <script>
-	function draw_scenes(tree){
+	function draw_ChaptersScenes(tree){
 
 		// 元ある描画を更新
 		$("#fullpage").html("");
@@ -69,7 +69,7 @@
 			for (scene of chapter["scenes"]){
 				var compiled_scene = _.template($("#scene_template").html());
 				var scene_html = compiled_scene({
-					"image_url" : scene["thumb_path"],
+					"image_url" : scene["thumb_url"],
 					"text" : scene["text"],
 					"scene_id" : scene["scene_id"]
 				});
@@ -84,54 +84,74 @@
 	<script>
 		$(document).ready(function(){
 			
-			var urlParams = new URLSearchParams(window.location.search);
-			var entries = urlParams.entries();
-			//pairにパラメータとデータの配列が代入される
-			for (pair of entries) {
-				console.log("hoge");
-			}
+			// var urlParams = new URLSearchParams(window.location.search);
+			// var entries = urlParams.entries();
+			// //pairにパラメータとデータの配列が代入される
+			// for (pair of entries) {
+			// 	console.log("hoge");
+			// }
 
-			let sample_image = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
-			let sample_text = "これはテストだよ"
-			let sample_tree = [
-				{
-					"chapter_id" : 100,
-					"scenes" : [
-						{"scene_id" : 1, "text" : sample_text, "thumb_path" : sample_image},
-					]
-				},
-				{
-					"chapter_id" : 110,
-					"scenes" : [
-						{"scene_id" : 3, "text" : sample_text, "thumb_path" : sample_image},
-						{"scene_id" : 4, "text" : sample_text, "thumb_path" : sample_image},
-					]
-				},
-				{
-					"chapter_id" : 120,
-					"scenes" : [
-						{"scene_id" : 5, "text" : sample_text, "thumb_path" : sample_image},
-						{"scene_id" : 6, "text" : sample_text, "thumb_path" : sample_image},
-						{"scene_id" : 10, "text" : sample_text, "thumb_path" : sample_image}
-					]
-				}
-			]
+			// let sample_image = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
+			// let sample_text = "これはテストだよ"
+			// let sample_tree = [
+			// 	{
+			// 		"chapter_id" : 100,
+			// 		"scenes" : [
+			// 			{"scene_id" : 1, "text" : sample_text, "thumb_url" : sample_image},
+			// 		]
+			// 	},
+			// 	{
+			// 		"chapter_id" : 110,
+			// 		"scenes" : [
+			// 			{"scene_id" : 3, "text" : sample_text, "thumb_url" : sample_image},
+			// 			{"scene_id" : 4, "text" : sample_text, "thumb_url" : sample_image},
+			// 		]
+			// 	},
+			// 	{
+			// 		"chapter_id" : 120,
+			// 		"scenes" : [
+			// 			{"scene_id" : 5, "text" : sample_text, "thumb_url" : sample_image},
+			// 			{"scene_id" : 6, "text" : sample_text, "thumb_url" : sample_image},
+			// 			{"scene_id" : 10, "text" : sample_text, "thumb_url" : sample_image}
+			// 		]
+			// 	}
+			// ]
 
 			$.ajax({
-					type : "GET",
-					url : "/hoge",
+					type : "POST",
+					url : "/chapters/get",
+					data : JSON.stringify({"book_id" : 300})
+				})
+				.done(function(result){
+
+					if (result["code"] != 200){
+						window.alert("失敗しました");
+					}
+
+					else {
+
+						BookChaptersScenes = result["result"];
+
+						let book_id = result["book_id"];
+						let book_title = result["book_title"];
+						let publisher = result["publisher"];
+
+						let ChaptersScenes = result["ChaptersScenes"];
+						draw_ChaptersScenes(ChaptersScenes);
+
+					}
+				})
+				.fail(function(){
+					window.alert("失敗しました");
 				})
 				.always(function(){
-
-					draw_scenes(sample_tree);
-
+					// fullpage.jsを作用させる
 					var myFullpage = new fullpage('#fullpage', {
 						sectionsColor: ['#ffffff'],
 						licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
 
 					});
-					
-				})
+				});
 
 			// draw_scenes(sample_tree);
 
@@ -146,32 +166,6 @@
 			// $.fn.fullpage.reBuild();
 
 
-			// 検索結果を取得する
-			// $.ajax({
-			// 		type : "POST",
-			// 		url : "/ShareShogi/reader/chapters",
-			// 		data: "chapter_id="+pair[0]
-			// 	})
-			// 	.done(function(result){
-			// 		if (result["code"] == 400){
-			// 			window.alert("読み込みに失敗しました");
-			// 		}
-			// 		else{
-
-			// 			$(".section:first").find('img').attr('src',result['result']['scenes'][0]['image_path']);
-			// 			$(".section:first").find('.comments').text(result['result']['scenes'][0]['title']);
-			// 			for(let i=1; i<result['result']['scenes'].length; i++){
-			// 				$(".section:first").clone().insertAfter('.section:last');
-			// 				$(".section:last").find('img').attr('src',result['result']['scenes'][i]['image_path']);
-			// 				$(".section:last").find('.comments').text(result['result']['scenes'][i]['title']);
-			// 			}
-
-			// 		}
-
-			// 	})
-			// 	.fail(function(jqXHR, textStatus, errorThrown){
-			// 		window.alert("failed load");
-			// 	});
 		})
 
 
