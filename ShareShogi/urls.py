@@ -25,7 +25,7 @@ urlpatterns = [
     url(r"^books/page$", views.search_page, name="search page"),  # 検索画面
     url(r"^books/mypage$", views.myBook_page, name="my books page"),  # マイブック一覧画面
     url(r"^books/get-latests$", get_latest_books_request, name="search latests"),  # 最新のブックを取得
-    url(r"^books/get-mine$", get_mybooks_request, name="get my books"),  # 自分のブックを取得
+    url(r"^books/get-mine$", get_books_request, name="get my books"),  # 自分のブックを取得
     url(r"^books/create$", create_book_request, name="create book"),  # 新規ブック作成
 
     # url(r"^reader/search/exec$", views.search_page, name="exec search"),  # 検索結果を取得
