@@ -36,7 +36,7 @@
 <!-- 各セクション（チャプターに相当） -->
 <script type="text/html" id="section_template">
 
-	<div class="section" id=<%= chapter_id %>>
+	<div class="section" id="chapter-<%= chapter_id %>" >
 	</div>
 
 
@@ -73,7 +73,7 @@
 					"text" : scene["text"],
 					"scene_id" : scene["scene_id"]
 				});
-				$("#"+String(chapter_id)).append(scene_html);
+				$("#chapter-"+String(chapter_id)).append(scene_html);
 			}
 		}
 	}
