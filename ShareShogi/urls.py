@@ -8,7 +8,7 @@ from . import views
 
 from ShareShogi.src.contents.create.create_book import create_book_request
 from ShareShogi.src.contents.get.get_latest_books import get_latest_books_request
-from ShareShogi.src.contents.get.get_mybooks import get_mybooks_request
+from ShareShogi.src.contents.get.get_books import get_books_request
 
 from ShareShogi.src.contents.get.get_chapters import get_BookChapters_request
 from ShareShogi.src.contents.create.create_chapter import create_chapter_request
