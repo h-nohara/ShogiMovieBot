@@ -6,14 +6,20 @@ from . import views
 
 # api
 
+## book
 from ShareShogi.src.contents.create.create_book import create_book_request
 from ShareShogi.src.contents.get.get_latest_books import get_latest_books_request
 from ShareShogi.src.contents.get.get_books import get_books_request
 
+## chapter
 from ShareShogi.src.contents.get.get_chapters import get_BookChapters_request
 from ShareShogi.src.contents.create.create_chapter import create_chapter_request
 
+## scene
 from ShareShogi.src.contents.get.get_scenes import get_BookChaptersScenes_request
+
+## transition
+from ShareShogi.src.contents.transition.books_to_chapters import books_to_chapters_request
 
 
 urlpatterns = [
@@ -47,5 +53,9 @@ urlpatterns = [
 
     url(r"^accounts/page$", views.account_page, name="account page"),  # アカウント設定画面
     url(r"^accounts/get$", views.account_page, name="account page"),  # アカウント設定を取得
+
+    # セッション変数を保存してページ遷移
+
+    url(r"^transition/books-to-chapters$", books_to_chapters_request, name="books to chapters"),  # ブック一覧画面から、チャプター一覧画面へ
 
 ]

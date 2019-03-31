@@ -88,7 +88,16 @@
     $(document).on("click", ".onePanel", function(){
 
       let chapter_id = $(this).attr("id");
-      window.alert(chapter_id);
+      // window.alert(chapter_id);
+
+      $.ajax({
+        type : "GET",
+        url : "ShareShogi/transition/books-to-chapters"
+      })
+      .fail(function(jqXHR, textStatus, errorThrown){
+          window.alert("ページ遷移に失敗しました");
+      });
+
     })
   
   </script>

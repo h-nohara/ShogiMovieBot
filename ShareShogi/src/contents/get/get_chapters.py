@@ -18,12 +18,18 @@ def get_BookChapters_request(request):
 
     # book_idを取得する
 
-    if request.method == "POST":
+    if request.method == "GET":
+        if "book_id" in request.session:
+            book_id = int(request.session["book_id"])
+        else:
+            return JsonResponse({"code" : 400})
+
+    elif request.method == "POST":
         payload = json.loads(request.body.decode("utf-8"))
         book_id = int(payload["book_id"])
 
-    else:
-        return JsonResponse({"code" : 400})
+    # else:
+    #     return JsonResponse({"code" : 400})
 
     # ブック情報を取得
     record_Book = Book.objects.get(id=book_id)
