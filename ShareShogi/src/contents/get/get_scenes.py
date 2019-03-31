@@ -20,17 +20,40 @@ def get_BookChaptersScenes_request(request):
     ブックのチャプター一覧を取得する
     '''
 
-    book_id = 100
-    book_title = "四間飛車の定跡"
-    publisher = "匿名さん"
+    # book_idを取得する
 
-    # bookの情報を取得する
+    if request.method == "GET":
+
+        if "mybook_id" in request.session:
+            book_id = int(request.session["mybook_id"])
+        else:
+            return JsonResponse({"code" : 400})
+
+        if "mychapter_id" in request.session:
+            chapter_id = int(request.session["mychapter_id"])
+        else:
+            return JsonResponse({"code" : 400})
+
+    elif request.method == "POST":
+        payload = json.loads(request.body.decode("utf-8"))
+        book_id = int(payload["book_id"])
+        chapter_id = int(payload["chapter_id"])
+
+    # book情報を取得
+
+    record_Book = Book.objects.get(id=book_id)
+
+    book_title = record_Book.title
+    publisher = record_Book.user.nickname
+
+    # チャプター一覧以下の情報を取得する
     ChaptersScenes = get_ChaptersScenes(book_id=book_id)
 
     BookChaptersScenes = {
         "book_id" : book_id,
         "book_title" : book_title,
         "publisher" : publisher,
+        "watching_chapter_id" : chapter_id,
         "ChaptersScenes" : ChaptersScenes
     }
 
@@ -45,37 +68,46 @@ def get_BookChaptersScenes_request(request):
 def get_ChaptersScenes(book_id):
 
     '''
-    
+    チャプター一覧以下の情報を取得する
     '''
 
     ChaptersScenes = []
+    
+    queryset_Chapter = Chapter.objects.filter(book=Book.objects.get(id=book_id))
 
-    for i in range(3):
+    for record_Chapter in queryset_Chapter:
 
-        ChaptersScenes.append(get_ChapterScenes(chapter_id=i))
+        chaper_id = record_Chapter.id
+
+        ChapterScenes = {
+            "chapter_id" : chaper_id,
+            "thumb_url" : record_Chapter.thumb_url,
+            "title" : record_Chapter.title,
+            "scenes" : None
+        }
+
+        # シーン一覧を取得
+        ChapterScenes["scenes"] = get_all_scenes(chapter_id=chaper_id)
+
+        ChaptersScenes.append(ChapterScenes)
 
     return ChaptersScenes
 
 
-def get_ChapterScenes(chapter_id):
+def get_all_scenes(chapter_id):
 
-    sample_thumb = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
-    
-    ChapterScenes = {
-        "chapter_id" : chapter_id,
-        "thumb_url" : sample_thumb,
-        "title" : "四間飛車の定跡",
-        "scenes" : []
-    }
+    all_scenes = []
 
-    for i in range(4):
+    queryset_Scenes = Scene.objects.filter(chapter=Chapter.objects.get(id=chapter_id))
+
+    for record_Scene in queryset_Scenes:
 
         scene = {
-            "scene_id" : i,
-            "thumb_url" : sample_thumb,
-            "text" : "この局面で、歩を取ると圧倒的に不利になってしまいます",
+            "scene_id" : record_Scene.id,
+            "image_url" : record_Scene.image_url,
+            "text" : record_Scene.text
         }
 
-        ChapterScenes["scenes"].append(scene)
+        all_scenes.append(scene)
 
-    return ChapterScenes
+    return all_scenes

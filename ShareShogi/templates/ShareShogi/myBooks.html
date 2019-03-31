@@ -93,7 +93,7 @@
       $.ajax({
         type : "POST",
         url : "/ShareShogi/transition/books-to-chapters",
-        data : JSON.stringify({"book_id" : book_id})
+        data : JSON.stringify({"book_id" : book_id, "is_mine" : true})
       })
       .done(function(result){
         console.log(result);

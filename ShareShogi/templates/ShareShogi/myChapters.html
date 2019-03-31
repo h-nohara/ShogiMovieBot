@@ -81,7 +81,37 @@
         });
 
     });
-    </script>
+  </script>
+
+  <script>
+
+    // シーン画面へ遷移
+
+    $(document).on("click", ".onePanel", function(){
+
+      let chapter_id = $(this).attr("id");
+      // window.alert(book_id);
+
+      $.ajax({
+        type : "POST",
+        url : "/ShareShogi/transition/chapters-to-scenes",
+        data : JSON.stringify({"chapter_id" : chapter_id, "is_mine" : true})
+      })
+      .done(function(result){
+        console.log(result);
+        if (result["code"] != 200){
+          window.alert("失敗しました");
+        }
+        else {
+          window.location.href = result["result"];
+        }
+      })
+      .fail(function(jqXHR, textStatus, errorThrown){
+          window.alert("ページ遷移に失敗しました");
+      });
+
+    })
+  </script>
 
 
   <body>

@@ -71,9 +71,9 @@
 			for (scene of chapter["scenes"]){
 				var compiled_scene = _.template($("#scene_template").html());
 				var scene_html = compiled_scene({
-					"image_url" : scene["thumb_url"],
-					"text" : scene["text"],
-					"scene_id" : scene["scene_id"]
+					"scene_id" : scene["scene_id"],
+					"image_url" : scene["image_url"],
+					"text" : scene["text"]
 				});
 				$("#chapter-"+String(chapter_id)).append(scene_html);
 			}

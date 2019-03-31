@@ -20,6 +20,7 @@ from ShareShogi.src.contents.get.get_scenes import get_BookChaptersScenes_reques
 
 ## transition
 from ShareShogi.src.contents.transition.books_to_chapters import books_to_chapters_request
+from ShareShogi.src.contents.transition.chapters_to_scenes import chapters_to_scenes_request
 
 
 urlpatterns = [
@@ -47,7 +48,8 @@ urlpatterns = [
     url(r"^chapters/create$", create_chapter_request, name="create chapter"),  # 新規作成
 
     # 各シーンのページ
-    url(r"^scenes/page$", views.scene_page, name="scene page"),
+    url(r"^scenes/page$", views.scene_page, name="scenes page"),
+    url(r"^scenes/mypage$", views.myScenes_page, name="my scenes page"),
     url(r"^scenes/get$", get_BookChaptersScenes_request, name="get scenes"),
 
     # アカウント
@@ -57,6 +59,7 @@ urlpatterns = [
 
     # セッション変数を保存してページ遷移
 
-    url(r"^transition/books-to-chapters$", books_to_chapters_request, name="books to chapters"),  # ブック一覧画面から、チャプター一覧画面へ
+    url(r"^transition/books-to-chapters$", books_to_chapters_request, name="books to chapters"),
+    url(r"^transition/chapters-to-scenes$", chapters_to_scenes_request, name="chapters to scenes"),
 
 ]

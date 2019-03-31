@@ -14,29 +14,29 @@ from ShareShogi.models.scene import Scene
 
 
 @csrf_exempt
-def books_to_chapters_request(request):
+def chapters_to_scenes_request(request):
 
     '''
-    ブック一覧画面から、チャプター一覧画面へ遷移
+    チャプター一覧画面から、シーン一覧画面へ遷移
     '''
 
-    # book_idを記録しておく
+    # chapter_idを記録しておく
 
     if request.method == "POST":
         payload = json.loads(request.body.decode("utf-8"))
-        book_id = int(payload["book_id"])
+        chapter_id = int(payload["chapter_id"])
         is_mine = payload["is_mine"]
 
     else:
         return JsonResponse({"code" : 400, "comment" : "POSTで送ってください"})
 
     if is_mine:
-        request.session["mybook_id"] = book_id
+        request.session["mychapter_id"] = chapter_id
     else:
-        request.session["book_id"] = book_id
+        request.session["chapter_id"] = chapter_id
 
 
-    dest_url = "/ShareShogi/chapters/mypage"
+    dest_url = "/ShareShogi/scenes/mypage"
 
     result = {
         "code" : 200,

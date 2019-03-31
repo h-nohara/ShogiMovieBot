@@ -30,3 +30,7 @@ def myChapters_page(request):
 @login_required(login_url="/account/login")
 def newChapter_page(request):
     return render(request, "ShareShogi/newChapter.html")
+
+@login_required(login_url="/account/login")
+def myScenes_page(request):
+    return render(request, "ShareShogi/scenes.html")
