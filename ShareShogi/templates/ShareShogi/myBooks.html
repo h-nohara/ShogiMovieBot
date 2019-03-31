@@ -96,13 +96,13 @@
         data : JSON.stringify({"book_id" : book_id})
       })
       .done(function(result){
-        // console.log(result);
-        // if (result["code"] != 200){
-        //   window.alert("失敗しました");
-        // }
-        // else {
-        //   window.location.href = result["result"];
-        // }
+        console.log(result);
+        if (result["code"] != 200){
+          window.alert("失敗しました");
+        }
+        else {
+          window.location.href = result["result"];
+        }
       })
       .fail(function(jqXHR, textStatus, errorThrown){
           window.alert("ページ遷移に失敗しました");
