@@ -78,9 +78,9 @@ def create_book_request(request):
     ext = get_normalized_ext(ext=ext_original, restriction="image")
     assert ext is not None
     thumb_basename = generate_basename(key=str(user_id)+"bookthumb", ext=ext)
-    thumb_path = fname_cloud(thumb_basename)
+    thumb_url = fname_cloud(thumb_basename)
 
-    print(thumb_path)
+    print(thumb_url)
 
 
     # 画像をアップロード
@@ -107,7 +107,7 @@ def create_book_request(request):
     record_Book = Book(
         user = record_User,
         title = title,
-        thumb_path = thumb_path,
+        thumb_url = thumb_url,
         is_public = False,
         opening_sente = opening_sente,
         opening_gote = opening_gote
