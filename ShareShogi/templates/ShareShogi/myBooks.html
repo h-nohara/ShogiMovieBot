@@ -95,8 +95,9 @@
         url : "/ShareShogi/transition/books-to-chapters"
       })
       .done(function(result){
+        console.log(result);
         if (result["code"] != 200){
-          window.alert("ページ遷移に失敗しました");
+          window.alert("失敗しました");
         }
         else {
           window.location.href = result["result"];
