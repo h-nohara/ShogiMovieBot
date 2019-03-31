@@ -60,8 +60,8 @@ def create_chapter_request(request):
     # print("user_id : {}".format(str(user_id)))
 
     # book_idを取得
-    if "book_id" in request.session:
-            book_id = int(request.session["book_id"])
+    if "mybook_id" in request.session:
+            book_id = int(request.session["mybook_id"])
     else:
         return JsonResponse({"code" : 400, "comment" : "book_idが見つかりません"})
 

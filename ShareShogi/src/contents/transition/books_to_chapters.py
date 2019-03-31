@@ -29,7 +29,7 @@ def books_to_chapters_request(request):
     else:
         return JsonResponse({"code" : 400, "comment" : "POSTで送ってください"})
 
-    request.session["book_id"] = book_id
+    request.session["mybook_id"] = book_id
 
 
     dest_url = "/ShareShogi/chapters/mypage"

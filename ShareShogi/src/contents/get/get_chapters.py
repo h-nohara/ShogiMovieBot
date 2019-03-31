@@ -19,8 +19,8 @@ def get_BookChapters_request(request):
     # book_idを取得する
 
     if request.method == "GET":
-        if "book_id" in request.session:
-            book_id = int(request.session["book_id"])
+        if "mybook_id" in request.session:
+            book_id = int(request.session["mybook_id"])
         else:
             return JsonResponse({"code" : 400})
 
