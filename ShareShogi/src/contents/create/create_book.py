@@ -44,9 +44,14 @@ def create_book_request(request):
     content_type = thumb.content_type
     print(content_type)
 
-    temporal_path = None
+    title = payload["title"]
+    opening_sente = payload["opening_sente"]
+    opening_gote = payload["opening_gote"]
+
 
     return JsonResponse({"code" : 200})
+
+    temporal_path = None
 
     try:
         temporal_path = thumb.temporary_file_path()
@@ -56,18 +61,19 @@ def create_book_request(request):
 
     # return JsonResponse({"code" : 200})
 
-    # if "user_id" in payload.keys():
-    #     user_id = int(payload["user_id"])
 
-    # else:
-    #     user_id = int(request.user.id)
+
+    if "user_id" in payload.keys():
+        user_id = int(payload["user_id"])
+
+    else:
+        user_id = int(request.user.id)
 
     # 画像のパスを生成
     ext_original = fname.split(".")[-1]
     ext = get_normalized_ext(ext=ext_original, restriction="image")
     assert ext is not None
-    # thumb_basename = generate_basename(key=str(user_id)+"bookthumb", ext=ext)
-    thumb_basename = fname  # 一時的
+    thumb_basename = generate_basename(key=str(user_id)+"bookthumb", ext=ext)
     thumb_path = fname_cloud(thumb_basename)
     print(thumb_path)
 
