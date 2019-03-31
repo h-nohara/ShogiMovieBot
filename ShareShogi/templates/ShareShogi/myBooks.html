@@ -87,12 +87,13 @@
 
     $(document).on("click", ".onePanel", function(){
 
-      let chapter_id = $(this).attr("id");
-      // window.alert(chapter_id);
+      let book_id = $(this).attr("id");
+      // window.alert(book_id);
 
       $.ajax({
-        type : "GET",
-        url : "/ShareShogi/transition/books-to-chapters"
+        type : "POST",
+        url : "/ShareShogi/transition/books-to-chapters",
+        data : JSON.stringify({"book_id" : book_id})
       })
       .done(function(result){
         console.log(result);

@@ -27,7 +27,7 @@ def books_to_chapters_request(request):
         book_id = int(payload["book_id"])
 
     else:
-        return JsonResponse({"code" : 400})
+        return JsonResponse({"code" : 400, "comment" : "POSTで送ってください"})
 
     request.session["book_id"] = book_id
 
