@@ -71,7 +71,8 @@
             window.alert("読み込みに失敗しました");
           }
           else{
-            let chapters = result["result"];
+            let BookChapters = result["result"];
+            let chapters = BookChapters["chapters"];
             draw_chapters(chapters);
           }
         })
