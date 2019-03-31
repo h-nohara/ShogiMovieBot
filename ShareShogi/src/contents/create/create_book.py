@@ -82,7 +82,6 @@ def create_book_request(request):
 
     print(thumb_path)
 
-    return JsonResponse({"code" : 200})
 
     # 画像をアップロード
 
@@ -100,21 +99,25 @@ def create_book_request(request):
         )
 
 
-    return JsonResponse({"code" : 200})
+    print("uploaded thumb image")
 
     # レコードを保存
     record_User = User.objects.get(id=user_id)
     
     record_Book = Book(
         user = record_User,
-        title = payload["title"],
+        title = title,
         thumb_path = thumb_path,
         is_public = False,
-        senkei_sente = payload["senkei_sente"],
-        senkei_gote = payload["senkei_gote"]
+        opening_sente = opening_sente,
+        opening_gote = opening_gote
     )
 
     record_Book.save()
 
+    print("saved book")
+
     
-    return JsonResponse({"code" : 200})
+    # return JsonResponse({"code" : 200})
+
+    return render(request, "ShareShogi/myBook.html")
