@@ -23,7 +23,7 @@ def create_book_request(request):
     新たなブックを作成する
     '''
 
-    print("create new bool request")
+    print("create new book request")
     print()
 
     payload = request.POST

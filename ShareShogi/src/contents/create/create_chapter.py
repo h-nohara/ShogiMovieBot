@@ -23,33 +23,88 @@ def create_chapter_request(request):
     新たなチャプターを作成する
     '''
 
-    print("=======")
+    print("create new chapter request")
     print()
-    print(request.POST)
 
-    return JsonResponse({"code" : 200})
+    payload = request.POST
 
-    payload = json.loads(request.body.decode("utf-8"))
+    title = payload["title"]
+    thumb = request.FILES["thumb"]
+    fname = thumb._name
+    content_type = thumb.content_type
 
-    book_id = payload["book_id"]
-    record_Book = Book.objects.get(id=book_id)
+    # print(thumb)
+    # print(thumb.__dict__)
+    print(fname)
+    print(content_type)
+
+
+    temporal_path = None
+
+    try:
+        temporal_path = thumb.temporary_file_path()
+        print("temporal path exists")
+        print(temporal_path)
+    except:
+        print("temporal path not exist")
+
+
+    # ユーザの情報を取得
+
+    if "user_id" in payload.keys():
+        user_id = int(payload["user_id"])
+
+    else:
+        user_id = int(request.user.id)
+
+    # print("user_id : {}".format(str(user_id)))
+
+    # book_idを取得
+    if "book_id" in request.session:
+            book_id = int(request.session["book_id"])
+    else:
+        return JsonResponse({"code" : 400, "comment" : "book_idが見つかりません"})
+
 
     # 画像のパスを生成
-    thumb_fname = "hoge"
-    ext = thumb_fname.split(".")[-1]
-    thumb_basename = generate_basename(key=str(book_id)+"chapthumb", ext=ext)
-    thumb_path = fname_cloud(thumb_basename)
+    ext_original = fname.split(".")[-1]
+    ext = get_normalized_ext(ext=ext_original, restriction="image")
+    assert ext is not None
+    thumb_basename = generate_basename(key=str(user_id)+"chapterthumb", ext=ext)
+    thumb_url = fname_cloud(thumb_basename)
 
-    # 画像をアップロードする
+    print(thumb_url)
 
+
+    # 画像をアップロード
+
+    if temporal_path is None:
+        obj = bucket.Object(thumb_basename)
+        response = obj.put(
+            Body = thumb.read(),
+            ContentType = content_type
+        )
+    else:
+        bucket.upload_file(
+            temporal_path,
+            thumb_basename,
+            ExtraArgs={"ContentType": content_type}
+        )
+
+    print("uploaded thumb image")
 
     # レコードを保存
+
+    record_Book = Book.objects.get(id=book_id)
+    
     record_Chapter = Chapter(
         book = record_Book,
-        title = payload["title"],
-        thumb_path = thumb_path
+        title = title,
+        thumb_url = thumb_url,
     )
 
     record_Chapter.save()
-    
-    return JsonResponse({"code" : 200})
+
+    print("saved chapter")
+
+    return redirect("/ShareShogi/chapters/mypage")
