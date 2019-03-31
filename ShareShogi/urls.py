@@ -34,7 +34,8 @@ urlpatterns = [
 
     # チャプター
 
-    url(r"^chapters/page$", views.chapters_page, name="chapter page"),  # チャプター一覧画面
+    url(r"^chapters/page$", views.chapters_page, name="chapters page"),  # チャプター一覧画面
+    url(r"^chapters/mypage$", views.myChapters_page, name="my chapters page"),  # マイチャプター一覧画面
     url(r"^chapters/get$", get_BookChapters_request, name="get chapters"),
     url(r"^chapters/create$", create_chapter_request, name="create chapters"),
 

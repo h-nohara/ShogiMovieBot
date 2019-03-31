@@ -18,35 +18,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <title>マイブック一覧</title>
+    <title>チャプター一覧</title>
   </head>
 
 
   <!-- html要素のテンプレート -->
 
-  <!-- ブック -->
-  <script type="text/html" id="book_template">
+  <!-- チャプター -->
+  <script type="text/html" id="panel_template">
 
-    <div class="col-6 border border-secondary" id=<%= book_id %> >
+    <div class="col-6 border border-secondary onePanel" id=<%= chapter_id %> >
       <img src=<%= image_url %> class="card-img-top " alt="..." >
       <div class="h-25" style="overflow:hidden"><%= title %></div>
     </div>
+
   </script>
 
 
   <script>
-    function draw_books(books){
+    function draw_chapters(chapters){
 
-      $("#books").html("");
+      $("#chapters").html("");
 
-      for (book of books){
-        var compiled_book = _.template($("#book_template").html());
-        var book_html = compiled_book({
-            "book_id" : book["book_id"],
-            "image_url" : book["thumb_url"],
-            "title" : book["title"],
+      for (chapter of chapters){
+        var compiled_panel = _.template($("#panel_template").html());
+        var panel_html = compiled_panel({
+            "chapter_id" : chapter["chapter_id"],
+            "image_url" : chapter["thumb_url"],
+            "title" : chapter["title"],
         });
-        $("#books").append(book_html);
+        $("#chapters").append(panel_html);
       }
     }
   </script>
@@ -62,7 +63,7 @@
 
       $.ajax({
           type : "GET",
-          url : "/ShareShogi/books/get-mine",
+          url : "/ShareShogi/chapters/get",
         })
         .done(function(result){
 
@@ -70,8 +71,8 @@
             window.alert("読み込みに失敗しました");
           }
           else{
-            let books = result["result"];
-            draw_books(books);
+            let chapters = result["result"];
+            draw_chapters(chapters);
           }
         })
         .fail(function(jqXHR, textStatus, errorThrown){
@@ -86,7 +87,7 @@
     <!--ヘッダー部分（上部固定） -->
     <header>
   		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
-  			<a class="navbar-brand" href="#">マイブック一覧</a>
+  			<a class="navbar-brand" href="#">チャプター一覧</a>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
   				<span class="navbar-toggler-icon"></span>
   			</button>
@@ -114,29 +115,19 @@
     <div class="container">
 
       <ul class="list-group pt-5 allmybook">
-        <a href="/ShareShogi/books/new"> <li class="list-group-item list-group-item-primary mb-5 mt-5">新規ブック作成</li></a>
+        <a href="/ShareShogi/chapters/new"> <li class="list-group-item list-group-item-primary mb-5 mt-5">新規チャプター作成</li></a>
 
-        <h5>マイブック一覧</h5>
+        <h5>チャプター一覧</h5>
 
 
-        <div class="row mt-5 pt-3 books" id="books">
+        <div class="row mt-5 pt-3 books" id="chapters">
 
-            <div class="col-6 border border-secondary">
-              <img src="./shogi-board.jpg" class="card-img-top " alt="...">
-              <div class="h-25" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります</div>
-            </div>
+            <!-- <div class="col-6 border border-secondary" id=100000 >
+              <img src="https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png" class="card-img-top " alt="..." >
+              <div class="h-25" style="overflow:hidden">これはサンプルです</div>
+            </div> -->
 
         </div>
-
-        <!-- <li class="list-group-item list-group-item-secondary allmybook">
-          <a href="chapter.html?id=100">
-            四間飛車定跡
-          </a>
-          <div class="float-right">
-            <a href="book_edit2.html"><button class="btn btn-primary">編集</button></a>
-            <button class="btn btn-danger">削除</button>
-          </div>
-        </li> -->
 
     </ul>
     

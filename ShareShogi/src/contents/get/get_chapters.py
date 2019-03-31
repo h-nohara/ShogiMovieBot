@@ -16,6 +16,66 @@ from ShareShogi.models.scene import Scene
 @csrf_exempt
 def get_BookChapters_request(request):
 
+    # book_idを取得する
+
+    if request.method == "POST":
+        payload = json.loads(request.body.decode("utf-8"))
+        book_id = int(payload["book_id"])
+
+    else:
+        return JsonResponse({"code" : 400})
+
+    # ブック情報を取得
+    record_Book = Book.objects.get(id=book_id)
+
+    # チャプター一覧を取得する
+    chapters = get_chapters(book_id=book_id)
+
+    BookChapters = {
+        "book_id" : book_id,
+        "book_title" : record_Book.title,
+        "publisher" : record_Book.user.nickname,
+        "chapters" : chapters
+    }
+
+    result = {
+        "code" : 200,
+        "result": BookChapters
+    }
+    
+    return JsonResponse(result)
+
+
+def get_chapters(book_id):
+    
+    '''
+    チャプター一覧を取得する
+    '''
+
+    chapters = []
+
+    queryset_Chapter = Chapter.objects.filter(book=book_id)
+
+    for record_Chapter in queryset_Chapter:
+
+        chapter_info = {
+            "chapter_id" : record_Chapter.id,
+            "thumb_url" : record_Chapter.thumb_url,
+            "title" : record_Chapter.title
+        }
+
+        chapters.append(chapter_info)
+
+    return chapters
+
+
+
+# 以下、サンプル
+
+
+@csrf_exempt
+def get_BookChapters_sample_request(request):
+
     '''
     ブックのチャプター一覧を取得する
     '''
@@ -25,7 +85,7 @@ def get_BookChapters_request(request):
     publisher = "匿名さん"
 
     # bookの情報を取得する
-    chapters = get_chapters(book_id=book_id)
+    chapters = get_chapters_sample(book_id=book_id)
 
     BookChapters = {
         "book_id" : book_id,
@@ -42,7 +102,7 @@ def get_BookChapters_request(request):
     return JsonResponse(result)
 
 
-def get_chapters(book_id):
+def get_chapters_sample(book_id):
 
     '''
     最新のブック一覧を取得する
