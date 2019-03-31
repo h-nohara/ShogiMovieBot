@@ -34,11 +34,13 @@ def books_to_chapters_request(request):
 
     dest_url = "/ShareShogi/chapters/mypage"
 
-    result = {
-        "code" : 200,
-        "result": dest_url
-    }
+    # result = {
+    #     "code" : 200,
+    #     "result": dest_url
+    # }
 
-    return JsonResponse(result)
+    # return JsonResponse(result)
+
+    return redirect(dest_url)
 
     
