@@ -69,6 +69,7 @@ def get_book_info(book_id):
     record_Book = Book.objects.get(id=book_id)
 
     book_info = {
+        "book_id" : book_id,
         "nickname" : record_Book.user.nickname,
         "title" : record_Book.title,
         "thumb_url" : record_Book.thumb_url,
