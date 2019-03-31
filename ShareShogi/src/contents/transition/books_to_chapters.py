@@ -31,6 +31,14 @@ def books_to_chapters_request(request):
 
     request.session["book_id"] = book_id
 
-    return redirect("/ShareShogi/chapters/mypage")
+
+    dest_url = "/ShareShogi/chapters/mypage"
+
+    result = {
+        "code" : 200,
+        "result": dest_url
+    }
+
+    return JsonResponse(result)
 
     
