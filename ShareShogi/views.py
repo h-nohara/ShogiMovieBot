@@ -26,3 +26,7 @@ def newBook_page(request):
 @login_required(login_url="/account/login")
 def myChapters_page(request):
     return render(request, "ShareShogi/myChapters.html")
+
+@login_required(login_url="/account/login")
+def newChapter_page(request):
+    return render(request, "ShareShogi/newChapter.html")

@@ -43,7 +43,8 @@ urlpatterns = [
     url(r"^chapters/page$", views.chapters_page, name="chapters page"),  # チャプター一覧画面
     url(r"^chapters/mypage$", views.myChapters_page, name="my chapters page"),  # マイチャプター一覧画面
     url(r"^chapters/get$", get_BookChapters_request, name="get chapters"),
-    url(r"^chapters/create$", create_chapter_request, name="create chapters"),
+    url(r"^chapters/new$", views.newChapter_page, name="new chapter page"),  # 新規作成画面
+    url(r"^chapters/create$", create_chapter_request, name="create chapter"),  # 新規作成
 
     # 各シーンのページ
     url(r"^scenes/page$", views.scene_page, name="scene page"),
