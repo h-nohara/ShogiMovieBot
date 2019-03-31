@@ -120,4 +120,6 @@ def create_book_request(request):
     
     # return JsonResponse({"code" : 200})
 
-    return render(request, "ShareShogi/myBook.html")
+    # return render(request, "ShareShogi/myBook.html")
+
+    return redirect("/ShareShogi/books/mypage")
