@@ -25,41 +25,42 @@ def create_book_request(request):
 
     print("create new bool request")
     print()
+
     payload = request.POST
-    print(payload)
-    print()
-    print("title : {}".format(payload["title"]))
-    # print("name : {}".format(payload["thumb"]))
-    # print(type(payload["thumb"]))
 
     # payload = json.loads(request.body.decode("utf-8"))
     # print(payload)
-
-    print(request.FILES)
-    thumb = request.FILES["thumb"]
-    print(thumb)
-    print(thumb.__dict__)
-    fname = thumb._name
-    print(fname)
-    content_type = thumb.content_type
-    print(content_type)
 
     title = payload["title"]
     opening_sente = payload["opening_sente"]
     opening_gote = payload["opening_gote"]
 
+    print(payload)
+    print("")
+    print("title : {}".format(title))
+    print("opening_sente : {}".format(opening_sente))
+    print("opening_gote : {}".format(opening_gote))
+    print("")
+    print(request.FILES)
 
-    return JsonResponse({"code" : 200})
+    thumb = request.FILES["thumb"]
+    fname = thumb._name
+    content_type = thumb.content_type
+
+    # print(thumb)
+    # print(thumb.__dict__)
+    print(fname)
+    print(content_type)
+
 
     temporal_path = None
 
     try:
         temporal_path = thumb.temporary_file_path()
+        print("temporal path exists")
         print(temporal_path)
     except:
-        print("hoge")
-
-    # return JsonResponse({"code" : 200})
+        print("temporal path not exist")
 
 
 
@@ -69,13 +70,19 @@ def create_book_request(request):
     else:
         user_id = int(request.user.id)
 
+    print("user_id : {}".format(str(user_id)))
+
+
     # 画像のパスを生成
     ext_original = fname.split(".")[-1]
     ext = get_normalized_ext(ext=ext_original, restriction="image")
     assert ext is not None
     thumb_basename = generate_basename(key=str(user_id)+"bookthumb", ext=ext)
     thumb_path = fname_cloud(thumb_basename)
+
     print(thumb_path)
+
+    return JsonResponse({"code" : 200})
 
     # 画像をアップロード
 
