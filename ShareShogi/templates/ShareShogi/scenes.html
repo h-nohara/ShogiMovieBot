@@ -39,6 +39,15 @@
 	<div class="section" id="chapter-<%= chapter_id %>" >
 	</div>
 
+</script>
+
+<!-- チャプター -->
+<script type="text/html" id="chapter_template">
+
+	<div class=" slide border" id="chapterPanel-<%= chapter_id %>" >
+		<img src=<%= thumb_url %> class="card-img-top " alt="..." style="width:100%; height:30%;">
+		<div class="h-25 comments mt-5" style="overflow:hidden; font-size:50px;"><%= title %></div>
+	</div>
 
 </script>
 
@@ -46,8 +55,6 @@
 <script type="text/html" id="scene_template">
 
 	<div class=" slide border" id=<%= scene_id %> >
-		<!-- <img src=<%= image_url %> class="card-img-top " alt="...">
-		<div class="h-25 comments" style="overflow:hidden"><%= text %></div> -->
 		<img src=<%= image_url %> class="card-img-top " alt="..." style="width:100%; height:30%;">
 		<div class="h-25 comments mt-5" style="overflow:hidden; font-size:50px;"><%= text %></div>
 	</div>
@@ -61,13 +68,28 @@
 		$("#fullpage").html("");
 
 		for (chapter of tree) {
+
+			let chapter_id = chapter["chapter_id"];
+			let chapter_thumb_url = chapter["thumb_url"];
+			let chapter_title =  chapter["title"];
+
+			// セクションを追加
 			var compiled_section = _.template($("#section_template").html());
-			var chapter_id = chapter["chapter_id"];
 			var section_html = compiled_section({
 				"chapter_id" : chapter_id,
 			});
 			$("#fullpage").append(section_html);
 
+			// チャプターパネルを追加
+			var compiled_chapter = _.template($("#chapter_template").html());
+			var chapter_html = compiled_chapter({
+				"chapter_id" : chapter_id,
+				"thumb_url" : chapter_thumb_url,
+				"text" : chapter_title
+			});
+			$("#chapter-"+String(chapter_id)).append(chapter_html);
+
+			// 各シーンパネルを追加
 			for (scene of chapter["scenes"]){
 				var compiled_scene = _.template($("#scene_template").html());
 				var scene_html = compiled_scene({
@@ -196,40 +218,32 @@
 
 
 <div class="container">
-	<a href="chapter.html">
-		<!-- <div class="row mb-3 fixed-bottom">
-			<button type="submit" class="btn btn-primary btn-bg col-12">チャプター一覧へ戻る</button>
-		</div> -->
-		<a href="chapter.html">
-			<div class="row  fixed-bottom">
-				<button type="submit" class="btn btn-primary btn-bg col-12" style="height:10vh; font-size:50px;">チャプター一覧へ戻る</button>
-			</div>
-		</a>
+	<a href="/ShareShogi/chapters/mypage">
+		<div class="row  fixed-bottom">
+			<button type="submit" class="btn btn-primary btn-bg col-12" style="height:10vh; font-size:50px;">チャプター一覧へ戻る</button>
+		</div>
 	</a>
 	<div id="fullpage" >
 
-		<div class="section">
-	  			<!-- <div class=" slide border border-secondary w-75 mx-auto">
-  					<img src="" class="card-img-top " alt="...">
-  					<div class="h-25 comments" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
-				</div> -->
+		<!-- <div class="section">
 				
 				<div class=" slide border">
-					<img src="./shogi-board.jpg" class="card-img-top " alt="...">
+					<img src="https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png" class="card-img-top " alt="...">
 					<div class="h-25 comments" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
 				</div>
 				<div class=" slide border">
-					<img src="./shogi-board.jpg" class="card-img-top " alt="...">
+					<img src="https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png" class="card-img-top " alt="...">
 					<div class="h-25 comments" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
 				</div>
 		</div>
 
 		<div class="section">
 			<div class=" border border-secondary w-75 mx-auto">
-				<img src="./shogi-board.jpg" class="card-img-top " alt="...">
+				<img src="https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png" class="card-img-top " alt="...">
 				<div class="h-25" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
 			</div>
-		</div>
+		</div> -->
+
 	</div>
 </div>
 
