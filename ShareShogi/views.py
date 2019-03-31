@@ -24,6 +24,10 @@ def newBook_page(request):
     return render(request, "ShareShogi/newBook.html")
 
 @login_required(login_url="/account/login")
+def bookEditor_page(request):
+    return render(request, "ShareShogi/bookEditor.html")
+
+@login_required(login_url="/account/login")
 def myChapters_page(request):
     return render(request, "ShareShogi/myChapters.html")
 
