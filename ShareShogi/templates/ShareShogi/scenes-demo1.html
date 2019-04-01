@@ -109,23 +109,30 @@
 		$(document).ready(function(){
 
 			let sample_image = "{% static 'image/demoboard001.jpg' %}"
-			let sample_text = "これはテストだよ"
+            let sample_text = "これはテストだよ"
+            let sample_title = "チャプタータイトルです"
 			let sample_tree = [
 				{
-					"chapter_id" : 10000,
+                    "chapter_id" : 10000,
+                    "thumb_url" : sample_image,
+                    "title" : sample_title,
 					"scenes" : [
 						{"scene_id" : 10000, "text" : sample_text, "image_url" : sample_image},
 					]
 				},
 				{
-					"chapter_id" : 11000,
+                    "chapter_id" : 11000,
+                    "thumb_url" : sample_image,
+                    "title" : sample_title,
 					"scenes" : [
 						{"scene_id" : 3000, "text" : sample_text, "image_url" : sample_image},
 						{"scene_id" : 4000, "text" : sample_text, "image_url" : sample_image},
 					]
 				},
 				{
-					"chapter_id" : 12000,
+                    "chapter_id" : 12000,
+                    "thumb_url" : sample_image,
+                    "title" : sample_title,
 					"scenes" : [
 						{"scene_id" : 5000, "text" : sample_text, "image_url" : sample_image},
 						{"scene_id" : 6000, "text" : sample_text, "image_url" : sample_image},
