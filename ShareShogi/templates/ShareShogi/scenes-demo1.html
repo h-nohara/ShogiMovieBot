@@ -117,7 +117,7 @@
             for (var i=0; i=3; i++){
 
                 let chapter_info = {
-                    "chapter_id" : 100000+i,
+                    "chapter_id" : 10+i,
                     "thumb_url" : sample_image,
                     "title" : String(i) + "個目のチャプターのタイトルは入ります",
                     "scenes" : []
@@ -125,7 +125,7 @@
 
                 for (var j=0; j=3; j++){
                     let scene_info = {
-                        "scene_id" : 200000+j,
+                        "scene_id" : 100*i+j,
                         "text" : String(i) + "個目のチャプターの" + String(j) + "個目のシーンの説明文",
                         "image_url" : sample_image
                     }
