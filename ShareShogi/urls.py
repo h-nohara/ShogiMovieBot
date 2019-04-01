@@ -10,6 +10,7 @@ from . import views
 from ShareShogi.src.contents.create.create_book import create_book_request
 from ShareShogi.src.contents.get.get_latest_books import get_latest_books_request
 from ShareShogi.src.contents.get.get_books import get_books_request
+from ShareShogi.src.contents.get.get_book_info import get_book_info_request
 
 ## chapter
 from ShareShogi.src.contents.get.get_chapters import get_BookChapters_request
@@ -36,6 +37,7 @@ urlpatterns = [
     url(r"^books/get-latests$", get_latest_books_request, name="search latests"),  # 最新のブックを取得
     url(r"^books/get-mine$", get_books_request, name="get my books"),  # 自分のブックを取得
     url(r"^books/create$", create_book_request, name="create book"),  # 新規ブック作成
+    url(r"^books/api/get-info$", get_book_info_request, name="get book info"),  # ブック情報を取得
 
     # url(r"^reader/search/exec$", views.search_page, name="exec search"),  # 検索結果を取得
     # url(r"^reader/book-info$", , name="get book info"),  # 本の内容を取得
@@ -48,15 +50,18 @@ urlpatterns = [
     url(r"^chapters/new$", views.newChapter_page, name="new chapter page"),  # 新規作成画面
     url(r"^chapters/create$", create_chapter_request, name="create chapter"),  # 新規作成
 
-    # 各シーンのページ
+    # シーン
+
     url(r"^scenes/page$", views.scene_page, name="scenes page"),
     url(r"^scenes/mypage$", views.myScenes_page, name="my scenes page"),
     url(r"^scenes/get$", get_BookChaptersScenes_request, name="get scenes"),
 
+    url(r"^scenes/demopage1$", views.scene_demopage1, name="scenes page demo1"),  # デモページ
+
     # アカウント
 
     url(r"^accounts/page$", views.account_page, name="account page"),  # アカウント設定画面
-    url(r"^accounts/get$", views.account_page, name="account page"),  # アカウント設定を取得
+    url(r"^accounts/api/get$", views.account_page, name="get account"),  # アカウント設定を取得
 
     # セッション変数を保存してページ遷移
 
