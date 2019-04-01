@@ -108,38 +108,63 @@
 	<script>
 		$(document).ready(function(){
 
-			let sample_image = "{% static 'image/demoboard001.jpg' %}"
-            let sample_text = "局面の説明その"
-            let sample_title = "個目のチャプターのタイトルです"
-			let sample_tree = [
-				{
-                    "chapter_id" : 10000,
+			let sample_image = "{% static 'image/demoboard001.jpg' %}";
+            let sample_text = "個目の局面の説明";
+            let sample_title = "個目のチャプターのタイトルです";
+
+            let sample_tree = [];
+
+            for (var i=0; i=3; i++){
+
+                let chapter_info = {
+                    "chapter_id" : 100000+i,
                     "thumb_url" : sample_image,
-                    "title" : "1"+sample_title,
-					"scenes" : [
-						{"scene_id" : 10000, "text" : sample_text+"1", "image_url" : sample_image},
-					]
-				},
-				{
-                    "chapter_id" : 11000,
-                    "thumb_url" : sample_image,
-                    "title" : "2"+sample_title,
-					"scenes" : [
-						{"scene_id" : 3000, "text" : sample_text+"1", "image_url" : sample_image},
-						{"scene_id" : 4000, "text" : sample_text+"2", "image_url" : sample_image},
-					]
-				},
-				{
-                    "chapter_id" : 12000,
-                    "thumb_url" : sample_image,
-                    "title" : "3"+sample_title,
-					"scenes" : [
-						{"scene_id" : 5000, "text" : sample_text+"1", "image_url" : sample_image},
-						{"scene_id" : 6000, "text" : sample_text+"2", "image_url" : sample_image},
-						{"scene_id" : 10000, "text" : sample_text+"3", "image_url" : sample_image}
-					]
-				}
-			]
+                    "title" : String(i) + "個目のチャプターのタイトルは入ります",
+                    "scenes" : []
+                }
+
+                for (var j=0; j=3; j++){
+                    let scene_info = {
+                        "scene_id" : 200000+j,
+                        "text" : String(i) + "個目のチャプターの" + String(j) + "個目のシーンの説明文",
+                        "image_url" : sample_image
+                    }
+                    chapter_info["scenes"].push(scene_info);
+                }
+
+                sample_tree.push(chapter_info);
+                
+            }
+            
+			// let sample_tree = [
+			// 	{
+            //         "chapter_id" : 10000,
+            //         "thumb_url" : sample_image,
+            //         "title" : "1"+sample_title,
+			// 		"scenes" : [
+			// 			{"scene_id" : 10000, "text" : sample_text+"1", "image_url" : sample_image},
+			// 		]
+			// 	},
+			// 	{
+            //         "chapter_id" : 11000,
+            //         "thumb_url" : sample_image,
+            //         "title" : "2"+sample_title,
+			// 		"scenes" : [
+			// 			{"scene_id" : 3000, "text" : sample_text+"1", "image_url" : sample_image},
+			// 			{"scene_id" : 4000, "text" : sample_text+"2", "image_url" : sample_image},
+			// 		]
+			// 	},
+			// 	{
+            //         "chapter_id" : 12000,
+            //         "thumb_url" : sample_image,
+            //         "title" : "3"+sample_title,
+			// 		"scenes" : [
+			// 			{"scene_id" : 5000, "text" : sample_text+"1", "image_url" : sample_image},
+			// 			{"scene_id" : 6000, "text" : sample_text+"2", "image_url" : sample_image},
+			// 			{"scene_id" : 10000, "text" : sample_text+"3", "image_url" : sample_image}
+			// 		]
+			// 	}
+			// ]
 
 			// $.ajax({
 			// 		type : "GET",
