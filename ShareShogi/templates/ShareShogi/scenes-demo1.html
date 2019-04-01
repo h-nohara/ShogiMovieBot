@@ -119,14 +119,14 @@
                 let chapter_info = {
                     "chapter_id" : 10+i,
                     "thumb_url" : sample_image,
-                    "title" : String(i) + "個目のチャプターのタイトルは入ります",
+                    "title" : "チャプター" + String(i) + "のタイトルが入ります",
                     "scenes" : []
                 }
 
                 for (var j=1; j<4; j++){
                     let scene_info = {
                         "scene_id" : 100*i+j,
-                        "text" : String(i) + "個目のチャプターの" + String(j) + "個目のシーンの説明文",
+                        "text" : "チャプター" + String(i) + "のシーン" + String(j) + "の説明文",
                         "image_url" : sample_image
                     }
                     chapter_info["scenes"].push(scene_info);
