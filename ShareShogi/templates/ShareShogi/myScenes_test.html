@@ -151,112 +151,81 @@
 	<script>
 		$(document).ready(function(){
 
-			let sample_image = "{% static 'image/demoboard001.jpg' %}";
-            let sample_text = "個目の局面の説明";
-            let sample_title = "個目のチャプターのタイトルです";
+            // let sample_image = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
+            // let sample_text = "これはテストだよ"
+            // let sample_tree = [
+            // 	{
+            // 		"chapter_id" : 100,
+            // 		"scenes" : [
+            // 			{"scene_id" : 1, "text" : sample_text, "thumb_url" : sample_image},
+            // 		]
+            // 	},
+            // 	{
+            // 		"chapter_id" : 110,
+            // 		"scenes" : [
+            // 			{"scene_id" : 3, "text" : sample_text, "thumb_url" : sample_image},
+            // 			{"scene_id" : 4, "text" : sample_text, "thumb_url" : sample_image},
+            // 		]
+            // 	},
+            // 	{
+            // 		"chapter_id" : 120,
+            // 		"scenes" : [
+            // 			{"scene_id" : 5, "text" : sample_text, "thumb_url" : sample_image},
+            // 			{"scene_id" : 6, "text" : sample_text, "thumb_url" : sample_image},
+            // 			{"scene_id" : 10, "text" : sample_text, "thumb_url" : sample_image}
+            // 		]
+            // 	}
+            // ]
 
-            let sample_tree = [];
+            $.ajax({
+                    type : "GET",
+                    url : "/ShareShogi/scenes/get",
+                    // data : JSON.stringify({"book_id" : 300})
+                })
+                .done(function(result){
 
-            for (var i=1; i<4; i++){
-
-                let chapter_info = {
-                    "chapter_id" : 10+i,
-                    "thumb_url" : sample_image,
-                    "title" : "チャプター" + String(i) + "のタイトルが入ります",
-                    "scenes" : []
-                }
-
-                for (var j=1; j<4; j++){
-                    let scene_info = {
-                        "scene_id" : 100*i+j,
-                        "text" : "チャプター" + String(i) + "のシーン" + String(j) + "の説明文",
-                        "image_url" : sample_image
+                    if (result["code"] != 200){
+                        window.alert("失敗しました");
                     }
-                    chapter_info["scenes"].push(scene_info);
-                }
 
-                sample_tree.push(chapter_info);
+                    else {
 
-            };
+                        BookChaptersScenes = result["result"];
+                        console.log("response");
+                        console.log(BookChaptersScenes);
 
-			// let sample_tree = [
-			// 	{
-            //         "chapter_id" : 10000,
-            //         "thumb_url" : sample_image,
-            //         "title" : "1"+sample_title,
-			// 		"scenes" : [
-			// 			{"scene_id" : 10000, "text" : sample_text+"1", "image_url" : sample_image},
-			// 		]
-			// 	},
-			// 	{
-            //         "chapter_id" : 11000,
-            //         "thumb_url" : sample_image,
-            //         "title" : "2"+sample_title,
-			// 		"scenes" : [
-			// 			{"scene_id" : 3000, "text" : sample_text+"1", "image_url" : sample_image},
-			// 			{"scene_id" : 4000, "text" : sample_text+"2", "image_url" : sample_image},
-			// 		]
-			// 	},
-			// 	{
-            //         "chapter_id" : 12000,
-            //         "thumb_url" : sample_image,
-            //         "title" : "3"+sample_title,
-			// 		"scenes" : [
-			// 			{"scene_id" : 5000, "text" : sample_text+"1", "image_url" : sample_image},
-			// 			{"scene_id" : 6000, "text" : sample_text+"2", "image_url" : sample_image},
-			// 			{"scene_id" : 10000, "text" : sample_text+"3", "image_url" : sample_image}
-			// 		]
-			// 	}
-			// ];
+                        let book_id = BookChaptersScenes["book_id"];
+                        let book_title = BookChaptersScenes["book_title"];
+                        let publisher = BookChaptersScenes["publisher"];
 
-			// $.ajax({
-			// 		type : "GET",
-			// 		url : "/ShareShogi/scenes/get",
-			// 		// data : JSON.stringify({"book_id" : 300})
-			// 	})
-			// 	.done(function(result){
+                        let ChaptersScenes = BookChaptersScenes["ChaptersScenes"];
+                        draw_ChaptersScenes(ChaptersScenes);
 
-			// 		if (result["code"] != 200){
-			// 			window.alert("失敗しました");
-			// 		}
+                    }
+                })
+                .fail(function(){
+                    window.alert("失敗しました");
+                })
+                .always(function(){
+                    // fullpage.jsを作用させる
+                    var myFullpage = new fullpage('#fullpage', {
+                        sectionsColor: ['#ffffff'],
+                        licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
 
-			// 		else {
+                    });
+                });
 
-			// 			BookChaptersScenes = result["result"];
-			// 			console.log("response");
-			// 			console.log(BookChaptersScenes);
+            // draw_scenes(sample_tree);
 
-			// 			let book_id = BookChaptersScenes["book_id"];
-			// 			let book_title = BookChaptersScenes["book_title"];
-			// 			let publisher = BookChaptersScenes["publisher"];
+            // $('#fullpage').fullpage();
+            // var myFullpage = new fullpage('#fullpage', {
+            // 	sectionsColor: ['#ffffff'],
+            // 	licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
 
-			// 			let ChaptersScenes = BookChaptersScenes["ChaptersScenes"];
-			// 			draw_ChaptersScenes(ChaptersScenes);
+            // });
 
-			// 		}
-			// 	})
-			// 	.fail(function(){
-			// 		window.alert("失敗しました");
-			// 	})
-			// 	.always(function(){
-			// 		// fullpage.jsを作用させる
-			// 		var myFullpage = new fullpage('#fullpage', {
-			// 			sectionsColor: ['#ffffff'],
-			// 			licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
-
-			// 		});
-			// 	});
-
-			draw_ChaptersScenes(sample_tree);
-
-			// $('#fullpage').fullpage();
-			var myFullpage = new fullpage('#fullpage', {
-				sectionsColor: ['#ffffff'],
-				licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
-			});
-
-			// $.fn.fullpage.destroy('all');
-			// $.fn.fullpage.reBuild();
+            // $.fn.fullpage.destroy('all');
+            // $.fn.fullpage.reBuild();
 
 
 		})
