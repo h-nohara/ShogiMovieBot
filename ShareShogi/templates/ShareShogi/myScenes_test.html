@@ -12,9 +12,6 @@
 	<meta name="keywords"  content="fullpage,jquery,demo,simple" />
 	<meta name="Resource-type" content="Document" />
 
-	<link rel="stylesheet" type="text/css" href="{% static 'dist/fullpage.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/examples.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
 	<!-- jquery -->
 	<script
@@ -22,18 +19,30 @@
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
         
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="../dist/fullpage.js"></script>
+    <script type="text/javascript" src="../dist/fullpage.extensions.min.js"></script>
+    <script type="text/javascript" src="../dist/jquery.fullpage.extensions.min.js"></script> -->
+
+    <!-- <link rel="stylesheet" type="text/css" href="../dist/fullpage.css">
+	<link rel="stylesheet" type="text/css" href="../css/examples.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css"> -->
     
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/fullpage.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/examples.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
     <script type="text/javascript" src="{% static 'dist/fullpage.js' %}"></script>
     <script type="text/javascript" src="{% static 'dist/fullpage.extensions.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'dist/jquery.fullpage.extensions.min.js' %}"></script>
-        
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.4/vendors/easings.min.js"></script>
 
   	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<!-- <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <!-- Optional JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.4/vendors/easings.min.js"></script>
 
 	<!-- lodash.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
@@ -45,7 +54,7 @@
 <!-- 各セクション（チャプターに相当） -->
 <script type="text/html" id="section_template">
 
-	<div class="section" id="chapter-<%= chapter_id %>" >
+	<div class="section " id="chapter-<%= chapter_id %>" style="height:100vh; width:100vw;">
 	</div>
 
 </script>
@@ -60,7 +69,7 @@
 
 		</div>
 		<div class=" h-75 alert-success mb-5 " style="border:5px solid; margin:0 3vw;">
-		<img src="<%= thumb_url %>" class="card-img-top mt-5 ml-5 mr-3" alt="..." style="width:90%; height:50%; ">
+		<img src="../Shogi-Board.jpg" class="card-img-top mt-5 ml-5 mr-3" alt="..." style="width:90%; height:50%; ">
 		<div class="h-25  comments mt-5 ml-5 mb-5 text-dark " style="overflow:scroll; font-size:50px; border:5px solid; width:83vw;"><%= title %></div>
 		<div class="row">
 			<button class="btn btn-primary btn-bg col-5 ml-5 mr-3" style="height:5vh; font-size:40px; z-index:10;">前にチャプター追加</button>
@@ -83,7 +92,7 @@
 		</div>
 
 		<div class="h-75 mb-5" style="border:5px solid; margin:0 3vw;">
-		<img src="<%= image_url %>" class="card-img-top  mt-5 ml-5 mr-3" alt="..." style="width:90%; height:50%;">
+		<img src="../Shogi-Board.jpg" class="card-img-top  mt-5 ml-5 mr-3" alt="..." style="width:90%; height:50%;">
 		<div class="h-25 comments mt-4 ml-5 mb-5 text-dark " style="overflow:scroll; border:5px solid;  font-size:50px; width:83vw;"><%= text %></div>
 		<div class="row">
 			<button class="btn btn-primary btn-bg col-5 ml-5 mr-3" style="height:5vh; font-size:40px; z-index:10;">前にシーン追加</button>
@@ -142,78 +151,109 @@
 	<script>
 		$(document).ready(function(){
 
-			// let sample_image = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
-			// let sample_text = "これはテストだよ"
+			let sample_image = "{% static 'image/demoboard001.jpg' %}";
+            let sample_text = "個目の局面の説明";
+            let sample_title = "個目のチャプターのタイトルです";
+
+            let sample_tree = [];
+
+            for (var i=1; i<4; i++){
+
+                let chapter_info = {
+                    "chapter_id" : 10+i,
+                    "thumb_url" : sample_image,
+                    "title" : "チャプター" + String(i) + "のタイトルが入ります",
+                    "scenes" : []
+                }
+
+                for (var j=1; j<4; j++){
+                    let scene_info = {
+                        "scene_id" : 100*i+j,
+                        "text" : "チャプター" + String(i) + "のシーン" + String(j) + "の説明文",
+                        "image_url" : sample_image
+                    }
+                    chapter_info["scenes"].push(scene_info);
+                }
+
+                sample_tree.push(chapter_info);
+
+            };
+
 			// let sample_tree = [
 			// 	{
-			// 		"chapter_id" : 100,
+            //         "chapter_id" : 10000,
+            //         "thumb_url" : sample_image,
+            //         "title" : "1"+sample_title,
 			// 		"scenes" : [
-			// 			{"scene_id" : 1, "text" : sample_text, "thumb_url" : sample_image},
+			// 			{"scene_id" : 10000, "text" : sample_text+"1", "image_url" : sample_image},
 			// 		]
 			// 	},
 			// 	{
-			// 		"chapter_id" : 110,
+            //         "chapter_id" : 11000,
+            //         "thumb_url" : sample_image,
+            //         "title" : "2"+sample_title,
 			// 		"scenes" : [
-			// 			{"scene_id" : 3, "text" : sample_text, "thumb_url" : sample_image},
-			// 			{"scene_id" : 4, "text" : sample_text, "thumb_url" : sample_image},
+			// 			{"scene_id" : 3000, "text" : sample_text+"1", "image_url" : sample_image},
+			// 			{"scene_id" : 4000, "text" : sample_text+"2", "image_url" : sample_image},
 			// 		]
 			// 	},
 			// 	{
-			// 		"chapter_id" : 120,
+            //         "chapter_id" : 12000,
+            //         "thumb_url" : sample_image,
+            //         "title" : "3"+sample_title,
 			// 		"scenes" : [
-			// 			{"scene_id" : 5, "text" : sample_text, "thumb_url" : sample_image},
-			// 			{"scene_id" : 6, "text" : sample_text, "thumb_url" : sample_image},
-			// 			{"scene_id" : 10, "text" : sample_text, "thumb_url" : sample_image}
+			// 			{"scene_id" : 5000, "text" : sample_text+"1", "image_url" : sample_image},
+			// 			{"scene_id" : 6000, "text" : sample_text+"2", "image_url" : sample_image},
+			// 			{"scene_id" : 10000, "text" : sample_text+"3", "image_url" : sample_image}
 			// 		]
 			// 	}
-			// ]
+			// ];
 
-			$.ajax({
-					type : "GET",
-					url : "/ShareShogi/scenes/get",
-					// data : JSON.stringify({"book_id" : 300})
-				})
-				.done(function(result){
+			// $.ajax({
+			// 		type : "GET",
+			// 		url : "/ShareShogi/scenes/get",
+			// 		// data : JSON.stringify({"book_id" : 300})
+			// 	})
+			// 	.done(function(result){
 
-					if (result["code"] != 200){
-						window.alert("失敗しました");
-					}
+			// 		if (result["code"] != 200){
+			// 			window.alert("失敗しました");
+			// 		}
 
-					else {
+			// 		else {
 
-						BookChaptersScenes = result["result"];
-						console.log("response");
-						console.log(BookChaptersScenes);
+			// 			BookChaptersScenes = result["result"];
+			// 			console.log("response");
+			// 			console.log(BookChaptersScenes);
 
-						let book_id = BookChaptersScenes["book_id"];
-						let book_title = BookChaptersScenes["book_title"];
-						let publisher = BookChaptersScenes["publisher"];
+			// 			let book_id = BookChaptersScenes["book_id"];
+			// 			let book_title = BookChaptersScenes["book_title"];
+			// 			let publisher = BookChaptersScenes["publisher"];
 
-						let ChaptersScenes = BookChaptersScenes["ChaptersScenes"];
-						draw_ChaptersScenes(ChaptersScenes);
+			// 			let ChaptersScenes = BookChaptersScenes["ChaptersScenes"];
+			// 			draw_ChaptersScenes(ChaptersScenes);
 
-					}
-				})
-				.fail(function(){
-					window.alert("失敗しました");
-				})
-				.always(function(){
-					// fullpage.jsを作用させる
-					var myFullpage = new fullpage('#fullpage', {
-						sectionsColor: ['#ffffff'],
-						licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
+			// 		}
+			// 	})
+			// 	.fail(function(){
+			// 		window.alert("失敗しました");
+			// 	})
+			// 	.always(function(){
+			// 		// fullpage.jsを作用させる
+			// 		var myFullpage = new fullpage('#fullpage', {
+			// 			sectionsColor: ['#ffffff'],
+			// 			licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
 
-					});
-				});
+			// 		});
+			// 	});
 
-			// draw_scenes(sample_tree);
+			draw_ChaptersScenes(sample_tree);
 
 			// $('#fullpage').fullpage();
-			// var myFullpage = new fullpage('#fullpage', {
-			// 	sectionsColor: ['#ffffff'],
-			// 	licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
-
-			// });
+			var myFullpage = new fullpage('#fullpage', {
+				sectionsColor: ['#ffffff'],
+				licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
+			});
 
 			// $.fn.fullpage.destroy('all');
 			// $.fn.fullpage.reBuild();
@@ -222,9 +262,8 @@
 		})
 
 
-	
-	</script>
 
+	</script>
 
 	<!--  ヘッダー部分（上部固定） -->
 	<header>
@@ -235,7 +274,7 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
+				<!-- <ul class="navbar-nav mr-auto">
 					<li class="nav-item"style="height:5vh; font-size:30px;" >
 						<a class="nav-link" href="search_book2.html">ホーム画面に戻る</a>
 					</li>
@@ -245,22 +284,32 @@
 					<li class="nav-item" style="height:5vh; font-size:30px;">
 						<a class="nav-link" href="account.html">アカウント設定</a>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 		</nav>
 	</header>
 
 
-<div class="container">
-	<a href="/ShareShogi/chapters/mypage">
-		<div class="row  fixed-bottom">
-			<button type="submit" class="btn btn-primary btn-bg col-12" style="height:10vh; font-size:50px;">チャプター一覧へ戻る</button>
+<div class="container-fluid" style="padding:0px;">
+	<!-- <a href="/ShareShogi/chapters/mypage"> -->
+	<a>
+<!---
+		<div class="row  fixed-bottom pb-5 mb-5">
+			<button class="btn btn-primary btn-bg col-5 ml-5 mr-3 " style="height:5vh; font-size:40px;">前にチャプター追加</button>
+				<button class="btn btn-primary btn-bg col-5 ml-5" style="height:5vh; font-size:40px;">次へチャプター追加</button>
+
+		</div>
+		<div class="row  fixed-top pt-5 pl-5" style="margin-top:6vh;">
+			<button class="btn btn-danger btn-bg col-5 ml-5 mr-5 " style="height:5vh; font-size:40px;">チャプターごと削除</button>
+				<button class="btn btn-primary btn-bg col-4 ml-5" style="height:5vh; font-size:40px;">編集</button>
+
 		</div>
 	</a>
+-->
 	<div id="fullpage" >
+<!--
+		<div class="section">
 
-		<!-- <div class="section">
-				
 				<div class=" slide border">
 					<img src="https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png" class="card-img-top " alt="...">
 					<div class="h-25 comments" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
@@ -276,11 +325,10 @@
 				<img src="https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png" class="card-img-top " alt="...">
 				<div class="h-25" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります文章が入ります</div>
 			</div>
-		</div> -->
-
+		</div>
+-->
 	</div>
 </div>
-
 
 </body>
 </html>
