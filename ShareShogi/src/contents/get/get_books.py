@@ -14,7 +14,7 @@ from ShareShogi.models.scene import Scene
 
 
 @csrf_exempt
-def get_books_request(request):
+def get_user_books_request(request):
 
     '''
     特定のユーザのブック一覧を取得する

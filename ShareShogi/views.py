@@ -40,4 +40,4 @@ def newChapter_page(request):
 
 @login_required(login_url="/account/login")
 def myScenes_page(request):
-    return render(request, "ShareShogi/scenes.html")
+    return render(request, "ShareShogi/myScenes_test.html")

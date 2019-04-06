@@ -9,7 +9,7 @@ from . import views
 ## book
 from ShareShogi.src.contents.create.create_book import create_book_request
 from ShareShogi.src.contents.get.get_latest_books import get_latest_books_request
-from ShareShogi.src.contents.get.get_books import get_books_request
+from ShareShogi.src.contents.get.get_books import get_user_books_request
 from ShareShogi.src.contents.get.get_book_info import get_book_info_request
 
 ## chapter
@@ -35,7 +35,7 @@ urlpatterns = [
     url(r"^books/new$", views.newBook_page, name="my books page"),  # マイブック一覧画面
     url(r"^books/infoEditor$", views.bookEditor_page, name="my book editor"),  # ブック情報編集
     url(r"^books/get-latests$", get_latest_books_request, name="search latests"),  # 最新のブックを取得
-    url(r"^books/get-mine$", get_books_request, name="get my books"),  # 自分のブックを取得
+    url(r"^books/get-mine$", get_user_books_request, name="get my books"),  # 自分のブックを取得
     url(r"^books/create$", create_book_request, name="create book"),  # 新規ブック作成
     url(r"^books/api/get-info$", get_book_info_request, name="get book info"),  # ブック情報を取得
 
