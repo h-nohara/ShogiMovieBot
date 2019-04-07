@@ -56,6 +56,7 @@ urlpatterns = [
     url(r"^scenes/page$", views.scene_page, name="scenes page"),
     url(r"^scenes/mypage$", views.myScenes_page, name="my scenes page"),
     url(r"^scenes/get$", get_BookChaptersScenes_request, name="get scenes"),
+    url(r"^scenes/new$", views.newScene_page, name="new scene page"),  # 新規作成画面
 
     url(r"^scenes/api/create_from_preview$", get_BookChaptersScenes_request, name="create scene"),  ########## プレビューから新規作成
 
