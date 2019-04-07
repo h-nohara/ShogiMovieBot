@@ -17,7 +17,7 @@ from accounts.src.utils.extentions import get_normalized_ext
 
 
 @csrf_exempt
-def create_newPage_from_preview_request(request):
+def create_scene_from_preview_request(request):
 
     '''
     新たなシーンを作成する
