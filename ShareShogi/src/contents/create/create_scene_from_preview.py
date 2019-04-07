@@ -32,6 +32,10 @@ def create_scene_from_preview_request(request):
     print(request.form)
     print()
 
+    payload = json.loads(request.body.decode("utf-8"))
+    print(payload)
+    print()
+
     text = payload["text"]
     image = request.FILES["image"]
     fname = image._name

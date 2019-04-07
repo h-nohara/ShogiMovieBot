@@ -163,6 +163,30 @@
       });
 
 
+      function post(){
+
+        let image_base64 = $("#avatar").attr("src");
+        let text = $("#text").val();
+
+        $.ajax({
+            //画像処理サーバーに返す場合
+            url: '/ShareShogi/scenes/api/create_from_preview',   
+            type: 'POST',
+            data: JSON.stringify({"image" : image_base64, "text" : text}) ,
+            success: function(data, dataType) {
+                //非同期で通信成功時に読み出される [200 OK 時]
+                console.log('Success', data);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                //非同期で通信失敗時に読み出される
+                console.log('Error : ' + errorThrown);
+            }
+        });
+      }
+
+      $(document).on("click", "#save", post);
+
+
   </script>
 
   <style>
@@ -213,11 +237,12 @@
     </header>
     <!--ヘッダーここまで -->
 
+    <!-- トリミング -->
+
     <div class="container pt-5">
       <h5 class="mt-5">シーンを追加</h5>
 
       <form action="/ShareShogi/scenes/api/create_from_preview" method="post" enctype="multipart/form-data">
-        <!-- <form method="post" enctype="multipart/form-data"></form> -->
         {% csrf_token %}
 
         <!-- <div class="form-group">
@@ -289,7 +314,7 @@
 
         <div class="form-group mb-3 row">
           <button id="back" type="button" class="col-9  ml-5 btn btn-primary" onclick="document.location.href='/ShareShogi/scenes/mypage';">変更せず戻る</button>
-          <button id="save" class=" col-9 btn mt-3 ml-5 btn-primary">作成する</button>
+          <button id="save" type="button" class=" col-9 btn mt-3 ml-5 btn-primary">作成する</button>
           <!-- <button id="delete_book" class="col-9 btn  mt-3 ml-5 btn-danger " >ブックを削除</button> -->
         </div>
 
