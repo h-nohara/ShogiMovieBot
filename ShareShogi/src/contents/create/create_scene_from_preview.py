@@ -25,10 +25,15 @@ def create_scene_from_preview_request(request):
 
     payload = request.POST
 
-    title = payload["title"]
-    thumb = request.FILES["image"]
-    fname = thumb._name
-    content_type = thumb.content_type
+    print(payload)
+    print()
+    print(request.FILES)
+    print()
+
+    text = payload["text"]
+    image = request.FILES["image"]
+    fname = image._name
+    content_type = image.content_type
 
     # print(thumb)
     # print(thumb.__dict__)
