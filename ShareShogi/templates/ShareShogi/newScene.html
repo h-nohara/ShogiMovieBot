@@ -162,6 +162,10 @@
         });
       });
 
+      $(document).on("click", "#back", function(){
+        document.location.href='/ShareShogi/scenes/mypage';
+      })
+
 
   </script>
 
@@ -216,8 +220,8 @@
     <div class="container pt-5">
       <h5 class="mt-5">シーンを追加</h5>
 
-      <!-- <form action="/ShareShogi/scenes/api/create_from_preview" method="post" enctype="multipart/form-data"> -->
-        <form method="post" enctype="multipart/form-data"></form>
+        <form action="/ShareShogi/scenes/api/create_from_preview" method="post" enctype="multipart/form-data">
+        <!-- <form method="post" enctype="multipart/form-data"></form> -->
         {% csrf_token %}
 
         <!-- <div class="form-group">
@@ -288,7 +292,7 @@
 
 
         <div class="form-group mb-3 row">
-          <button id="back" type="submit" class="col-9  ml-5 btn btn-primary" formaction="document.location.href='/ShareShogi/scenes/mypage';">変更せず戻る</button>
+          <button id="back" type="submit" class="col-9  ml-5 btn btn-primary">変更せず戻る</button>
           <button id="save" class=" col-9 btn mt-3 ml-5 btn-primary" formaction="/ShareShogi/scenes/api/create_from_preview">作成する</button>
           <!-- <button id="delete_book" class="col-9 btn  mt-3 ml-5 btn-danger " >ブックを削除</button> -->
         </div>
