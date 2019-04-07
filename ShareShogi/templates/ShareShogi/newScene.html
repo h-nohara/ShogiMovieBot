@@ -223,12 +223,6 @@
           <input class="form-control" type="text" placeholder="新規チャプター名">
         </div> -->
 
-
-        <div class="form-group">
-          <label for="chapterTitle">タイトル</label>
-          <textarea class="form-control" id="chapterTitle" rows="3" name="title" placeholder="タイトルを入力してください"></textarea>
-        </div>
-
         <!--  トリミングとアップロード-->
         <label class="label" data-toggle="tooltip" title="Change your avatar">
           <img class="rounded w-75 mx-auto" id="avatar" src="{% static 'image/upload.png' %}" alt="avatar"　style="width:70px;">
@@ -259,6 +253,13 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group">
+          <label for="text">テキスト</label>
+          <textarea class="form-control" id="text" rows="3" name="title" placeholder="テキストを入力してください"></textarea>
+        </div>
+
+        
         <!--ここまで-->
         <!-- <div class="form-group">
             <label for="sente">先手の戦型を選択</label>
