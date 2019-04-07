@@ -187,7 +187,7 @@
     <!--ヘッダー部分（上部固定） -->
     <header>
   		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
-  			<a class="navbar-brand" href="#">ブック情報を編集</a>
+  			<a class="navbar-brand" href="#">シーンを追加</a>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
   				<span class="navbar-toggler-icon"></span>
   			</button>
@@ -231,7 +231,7 @@
 
         <!--  トリミングとアップロード-->
         <label class="label" data-toggle="tooltip" title="Change your avatar">
-          <img class="rounded w-75 mx-auto" id="avatar" src="upload.png" alt="avatar"　style="width:70px;">
+          <img class="rounded w-75 mx-auto" id="avatar" src="{% static 'image/upload.png' %}" alt="avatar"　style="width:70px;">
           <input type="file" class="sr-only" id="input" name="image" accept="image/*">
         </label>
         <div class="progress">
