@@ -49,12 +49,15 @@ urlpatterns = [
     url(r"^chapters/get$", get_BookChapters_request, name="get chapters"),
     url(r"^chapters/new$", views.newChapter_page, name="new chapter page"),  # 新規作成画面
     url(r"^chapters/create$", create_chapter_request, name="create chapter"),  # 新規作成
+    url(r"^chapters/api/create_from_preview$", create_chapter_request, name="create from preview"),  ######## プレビューから新規作成
 
     # シーン
 
     url(r"^scenes/page$", views.scene_page, name="scenes page"),
     url(r"^scenes/mypage$", views.myScenes_page, name="my scenes page"),
     url(r"^scenes/get$", get_BookChaptersScenes_request, name="get scenes"),
+
+    url(r"^scenes/api/create_from_preview$", get_BookChaptersScenes_request, name="create scene"),  ########## プレビューから新規作成
 
     url(r"^scenes/demopage1$", views.scene_demopage1, name="scenes page demo1"),  # デモページ
 
