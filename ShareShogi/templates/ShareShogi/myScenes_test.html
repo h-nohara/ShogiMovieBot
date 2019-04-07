@@ -154,11 +154,14 @@
 		// スライド（ページ）のインデックス
 		let activeSlide = fullpage_api.getActiveSlide();
 		if (activeSlide != null){
-			var activeSlide_index = activeSlide.index
+			var activeSlide_index = activeSlide.index;
 		}
 		else {
 			var activeSlide_index = 0;
 		};
+
+		console.log(activeSection_index);
+		console.log(activeSlide_index);
 
 		return [activeSection_index, activeSlide_index]
 
