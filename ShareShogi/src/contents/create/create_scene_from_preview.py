@@ -29,6 +29,8 @@ def create_scene_from_preview_request(request):
     print()
     print(request.FILES)
     print()
+    print(request.form)
+    print()
 
     text = payload["text"]
     image = request.FILES["image"]
@@ -42,6 +44,12 @@ def create_scene_from_preview_request(request):
 
     return JsonResponse({"code" : 200})
 
+    activeSection_index = request.session["activeSection_index"]
+    activeSection_id = request.session["activeSection_id"]
+    activeSlide_index = request.session["activeSlide_index"]
+    activeSlide_id = request.session["activeSlide_id"]
+    is_create_next = request.session["is_create_next"]
+
 
     temporal_path = None
 
@@ -51,23 +59,6 @@ def create_scene_from_preview_request(request):
         print(temporal_path)
     except:
         print("temporal path not exist")
-
-
-    # ユーザの情報を取得
-
-    if "user_id" in payload.keys():
-        user_id = int(payload["user_id"])
-
-    else:
-        user_id = int(request.user.id)
-
-    # print("user_id : {}".format(str(user_id)))
-
-    # book_idを取得
-    if "mybook_id" in request.session:
-            book_id = int(request.session["mybook_id"])
-    else:
-        return JsonResponse({"code" : 400, "comment" : "book_idが見つかりません"})
 
 
     # 画像のパスを生成
