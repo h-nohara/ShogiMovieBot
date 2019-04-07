@@ -29,7 +29,10 @@ def create_scene_from_preview_request(request):
     print()
     print(request.FILES)
     print()
-    print(request.form)
+    # print(request.form)
+    print()
+
+    print("================")
     print()
 
     payload = json.loads(request.body.decode("utf-8"))
