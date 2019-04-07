@@ -162,10 +162,6 @@
         });
       });
 
-      $(document).on("click", "#back", function(){
-        document.location.href='/ShareShogi/scenes/mypage';
-      })
-
 
   </script>
 
@@ -292,7 +288,7 @@
 
 
         <div class="form-group mb-3 row">
-          <button id="back" type="button" class="col-9  ml-5 btn btn-primary">変更せず戻る</button>
+          <button id="back" type="button" class="col-9  ml-5 btn btn-primary" onclick="document.location.href='/ShareShogi/scenes/mypage';">変更せず戻る</button>
           <button id="save" class=" col-9 btn mt-3 ml-5 btn-primary">作成する</button>
           <!-- <button id="delete_book" class="col-9 btn  mt-3 ml-5 btn-danger " >ブックを削除</button> -->
         </div>
