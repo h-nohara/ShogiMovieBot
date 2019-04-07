@@ -165,7 +165,9 @@
 	}
 
 	$(document).on("click", ".addSceneNext", function(){
-		activeSection_index, activeSlide_index = get_watching_index();
+		let indexs = get_watching_index();
+		let activeSection_index = indexs[0];
+		let activeSlide_index = indexs[1];
 		window.alert(activeSection_index);
 		window.alert(activeSlide_index);
 	})
