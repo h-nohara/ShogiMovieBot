@@ -155,14 +155,16 @@
 		// スライド（ページ）のインデックス
 		let activeSlide = fullpage_api.getActiveSlide();
 		if (activeSlide != null){
+			// シーンだったら
 			var activeSlide_index = activeSlide.index;
 		}
 		else {
+			// チャプターだったら
 			var activeSlide_index = 0;
 		};
 		let activeSlide_id = activeSlide.item.id;
 
-		if (activeSlide_id == 0){
+		if (activeSlide_index == 0){
 			activeSection_id = activeSection_id.split("-")[-1];
 			activeSlide_id = activeSlide_id.split("-")[-1];
 		}
