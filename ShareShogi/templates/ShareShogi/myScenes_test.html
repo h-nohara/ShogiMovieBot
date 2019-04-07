@@ -145,11 +145,12 @@
 		}
 	}
 
-	function get_watching_index(){
+	function get_watching_card_info(){
 
 		// セクションのインデックス
 		let activeSection = fullpage_api.getActiveSection()
 		let activeSection_index = activeSection.index;
+		let activeSection_id = activeSection.item.id;
 
 		// スライド（ページ）のインデックス
 		let activeSlide = fullpage_api.getActiveSlide();
@@ -159,19 +160,56 @@
 		else {
 			var activeSlide_index = 0;
 		};
+		let activeSlide_id = activeSlide.item.id;
 
 		console.log(activeSection_index);
 		console.log(activeSlide_index);
 
-		return [activeSection_index, activeSlide_index]
+		return [[activeSection_index, activeSection_id], [activeSlide_index, activeSlide_id]]
+
+	}
+
+	function transit_to_createPage(type, is_create_next){
+
+		let indexs = get_watching_card_info();
+		let activeSection_index = indexs[0][0];
+		let activeSection_id = indexs[0][1];
+		let activeSlide_index = indexs[1][0];
+		let activeSlide_id = indexs[1][1];
+
+		$.ajax({
+			type : "POST",
+			url : "/ShareShogi/transition/new_from_preview",
+			data : JSON.stringify({
+				"activeSection_index" : activeSection_index,
+				"activeSection_id" : activeSection_id,
+				"activeSlide_index" : activeSlide_index,
+				"activeSlide_id" : activeSlide_id,
+				"is_create_next" : is_create_next
+			})
+		})
+		.done(function(result){
+			console.log(result);
+			if (result["code"] != 200){
+				window.alert("失敗しました");
+			}
+			else {
+				if (type == "chapter"){
+					window.location.href = "/ShareShogi/chapters/new";
+				}
+				else{
+					window.location.href = "/ShareShogi/scenes/new";
+				}
+			}
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			window.alert("ページ遷移に失敗しました");
+		});
 
 	}
 
 	$(document).on("click", ".addSceneNext", function(){
-		let indexs = get_watching_index();
-		let activeSection_index = indexs[0];
-		let activeSlide_index = indexs[1];
-		window.location.href = "/ShareShogi/scenes/new";
+		transit_to_createPage(type="scene", is_create_next=true);
 	})
 </script>
 
