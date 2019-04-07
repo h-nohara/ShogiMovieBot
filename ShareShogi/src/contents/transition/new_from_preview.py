@@ -27,7 +27,7 @@ def new_from_preview_request(request):
         payload = json.loads(request.body.decode("utf-8"))
 
         request.session["activeSection_index"] = int(payload["activeSection_index"])
-        request.session["activeSection_id"] = int(payload["activeSection_id"])
+        request.session["activeSection_id"] = int(payload["activeSection_id"].split("-")[-1])
         request.session["activeSlide_index"] = int(payload["activeSlide_index"])
         request.session["activeSlide_id"] = int(payload["activeSlide_id"])
         request.session["is_create_next"] = int(payload["is_create_next"])
