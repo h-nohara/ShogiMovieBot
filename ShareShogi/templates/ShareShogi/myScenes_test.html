@@ -170,7 +170,15 @@
 			console.log("one or more scene!");
 			// シーンが１つ以上あったら
 			var activeSlide_index = parseInt(activeSlide.index);
-			var activeSlide_id = activeSlide.item.id;
+
+			// チャプターだったら
+			if (activeSlide_index == 0){
+				var activeSlide_id = -1;
+			}
+			// シーンだったら
+			else{
+				var activeSlide_id = paraseInt(activeSlide.item.id);
+			}
 		};
 
 		console.log("slide index, id");
