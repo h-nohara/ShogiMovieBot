@@ -161,13 +161,16 @@
 		let activeSlide = fullpage_api.getActiveSlide();
 		
 		if (activeSlide != null){
+			console.log("scene!");
 			// シーンだったら
 			var activeSlide_index = parseInt(activeSlide.index);
 			var activeSlide_id = activeSlide.item.id;
 		}
 		else {
+			console.log("chapter");
 			// チャプターだったら
 			var activeSlide_index = -1;
+			console.log(activeSection_id);
 			activeSlide_id = activeSection_id;
 		};
 
