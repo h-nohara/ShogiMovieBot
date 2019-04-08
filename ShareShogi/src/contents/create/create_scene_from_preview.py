@@ -84,7 +84,7 @@ def insert_scene(chapter_id, index, is_create_next, new_scene_info):
 
     # チャプターにシーンを挿入
 
-    record_Chapter = Chapter.objects.filter(id=chapter_id)
+    record_Chapter = Chapter.objects.get(id=chapter_id)
     queryset_Scene = Scene.objects.filter(chapter=record_Chapter)
     n_scene = len(queryset_Scene)
 
