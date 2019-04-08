@@ -1,4 +1,5 @@
 import os, sys, json
+import base64
 from django.shortcuts import render, redirect
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -36,20 +37,40 @@ def create_scene_from_preview_request(request):
     print()
 
     payload = json.loads(request.body.decode("utf-8"))
-    print(payload)
-    print()
-    print(payload["image"])
-    print(payload["text"])
-
+    # print(payload)
+    # print()
+    image_enc = payload["image"]
     text = payload["text"]
-    image = request.FILES["image"]
-    fname = image._name
-    content_type = image.content_type
+
+    split_imageobj = image_enc.split(",")
+    print(len(split_imageobj))
+    print(split_imageobj[0])
+    print(split_imageobj[1][:100])
+
+    dec_file = base64.b64decode(image_enc)
+
+    basename = "hohohoho.jpg"
+    print(fname_cloud(basename))
+    obj = bucket.Object(basename)
+    response = obj.put(
+        Body = obj,
+        ContentType = "image/jpeg"
+    )
+
+    # def convert_b64_string_to_file(s, outfile_path):
+    #     """base64をデコードしてファイルに書き込む"""
+    #     with open(outfile_path, "wb") as f:
+    #         f.write(base64.b64decode(s))
+
+    # text = payload["text"]
+    # image = request.FILES["image"]
+    # fname = image._name
+    # content_type = image.content_type
 
     # print(thumb)
     # print(thumb.__dict__)
-    print(fname)
-    print(content_type)
+    # print(fname)
+    # print(content_type)
 
     return JsonResponse({"code" : 200})
 
