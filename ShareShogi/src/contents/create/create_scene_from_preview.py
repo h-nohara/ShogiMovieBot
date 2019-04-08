@@ -4,6 +4,11 @@ from django.shortcuts import render, redirect
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+import cv2
+import base64
+import numpy as np
+import io
+
 
 # db
 from accounts.models.user import User
@@ -55,8 +60,15 @@ def create_scene_from_preview_request(request):
     print(temporal_image_path)
 
     # 画像をデコードして保存
-    with open(temporal_image_path, "wb") as f:
-        f.write(base64.b64decode(image_base64))
+    # with open(temporal_image_path, "wb") as f:
+    #     f.write(base64.b64decode(image_base64))
+
+    img_binary = base64.b64decode(image_base64)
+    jpg = np.frombuffer(img_binary,dtype=np.uint8)
+    #raw image <- jpg
+    img = cv2.imdecode(jpg, cv2.IMREAD_COLOR)
+    #画像を保存する場合
+    cv2.imwrite(temporal_image_path, img)
 
     # 画像をアップロード
     upload_file(bucket, temporal_image_path, image_basename)
