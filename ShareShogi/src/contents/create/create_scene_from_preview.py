@@ -112,24 +112,24 @@ def insert_scene(chapter_id, index, is_create_next, new_scene_info):
 
     for record_Scene in queryset_Scene:
 
+        text_original = record_Scene.text
+        image_url_original = record_Scene.image_url
+
+        # 元あるレコードを更新
+
         if next_scene_text is None:
-            new_record_Scene = Scene(
-                chapter = record_Chapter,
-                text = new_scene_info["text"],
-                image_url = new_scene_info["image_url"]
-            )
+            record_Scene.text = new_scene_info["text"]
+            record_Scene.image_url = new_scene_info["image_url"]
 
         else:
-            new_record_Scene = Scene(
-                chapter = record_Chapter,
-                text = next_scene_text,
-                image_url = next_scene_image_url
-            )
+            record_Scene.text = next_scene_text,
+            record_Scene.image_url = next_scene_image_url
 
-        new_record_Scene.save()
+        record_Scene.save()
 
-        next_scene_text = record_Scene.text
-        next_scene_image_url = record_Scene.image_url
+        # 元のレコード情報を次に渡す
+        next_scene_text = text_original
+        next_scene_image_url = image_url_original
 
     assert next_scene_text is not None
 
