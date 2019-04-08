@@ -35,6 +35,8 @@ def create_scene_from_preview_request(request):
 
     dec_file = base64.b64decode(image_base64)
 
+    user_id = int(request.user.id)
+
 
     # 画像のパスを生成
     ext = "jpg"
@@ -55,7 +57,6 @@ def create_scene_from_preview_request(request):
     print("uploaded image")
 
     # セッション情報を取得
-    user_id = int(request.user.id)
     activeSection_index = request.session["activeSection_index"]
     activeSection_id = request.session["activeSection_id"]
     activeSlide_index = request.session["activeSlide_index"]
