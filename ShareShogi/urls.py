@@ -19,6 +19,7 @@ from ShareShogi.src.contents.create.create_chapter import create_chapter_request
 ## scene
 from ShareShogi.src.contents.get.get_scenes import get_BookChaptersScenes_request
 from ShareShogi.src.contents.create.create_scene_from_preview import create_scene_from_preview_request
+from ShareShogi.src.contents.delete.delete_scene import delete_scene_request
 
 ## transition
 from ShareShogi.src.contents.transition.books_to_chapters import books_to_chapters_request
@@ -60,6 +61,7 @@ urlpatterns = [
     url(r"^scenes/get$", get_BookChaptersScenes_request, name="get scenes"),
     url(r"^scenes/new$", views.newScene_page, name="new scene page"),  # 新規作成画面
     url(r"^scenes/api/create_from_preview$", create_scene_from_preview_request, name="create scene from preview"),
+    url(r"^scenes/api/delete$", delete_scene_request, name="delete scene"),
 
     url(r"^scenes/demopage1$", views.scene_demopage1, name="scenes page demo1"),  # デモページ
 

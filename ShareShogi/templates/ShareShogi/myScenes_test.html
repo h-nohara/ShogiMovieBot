@@ -149,25 +149,25 @@
 
 		// セクションのインデックス
 		let activeSection = fullpage_api.getActiveSection()
-		let activeSection_index = activeSection.index;
+		let activeSection_index = Math.parseInt(activeSection.index);
 		let activeSection_id = activeSection.item.id;
+		activeSection_id = Math.parseInt(activeSection_id.split("-")[1]);
 
 		// スライド（ページ）のインデックス
 		let activeSlide = fullpage_api.getActiveSlide();
+		let activeSlide_id = activeSlide.item.id;
+		
 		if (activeSlide != null){
 			// シーンだったら
-			var activeSlide_index = activeSlide.index;
+			var activeSlide_index = Math.parseInt(activeSlide.index);
 		}
 		else {
 			// チャプターだったら
 			var activeSlide_index = 0;
-		};
-		let activeSlide_id = activeSlide.item.id;
-
-		if (activeSlide_index == 0){
-			activeSection_id = activeSection_id.split("-")[1];
 			activeSlide_id = activeSlide_id.split("-")[1];
-		}
+		};
+
+		activeSlide_id =  Math.parseInt(activeSlide_id);
 
 		console.log(activeSection_index);
 		console.log(activeSection_id);
@@ -187,6 +187,8 @@
 		let activeSection_id = indexs[0][1];
 		let activeSlide_index = indexs[1][0];
 		let activeSlide_id = indexs[1][1];
+
+		
 
 		$.ajax({
 			type : "POST",
@@ -219,6 +221,7 @@
 
 	}
 
+	// 新規シーンの追加
 	$(document).on("click", ".addSceneNext", function(){
 		transit_to_createPage(type="scene", is_create_next=true);
 	})
