@@ -150,8 +150,12 @@
 		// セクションのインデックス
 		let activeSection = fullpage_api.getActiveSection()
 		let activeSection_index = parseInt(activeSection.index);
-		let activeSection_id = activeSection.item.id;
+		var activeSection_id = activeSection.item.id;
 		activeSection_id = parseInt(activeSection_id.split("-")[1]);
+
+		console.log("section index, id");
+		console.log(activeSection_index);
+		console.log(activeSection_id);
 
 		// スライド（ページ）のインデックス
 		let activeSlide = fullpage_api.getActiveSlide();
@@ -169,8 +173,7 @@
 
 		activeSlide_id =  parseInt(activeSlide_id);
 
-		console.log(activeSection_index);
-		console.log(activeSection_id);
+		console.log("slide index, id");
 		console.log(activeSlide_index);
 		console.log(activeSlide_id);
 
