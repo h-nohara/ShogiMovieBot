@@ -41,7 +41,12 @@ def delete_scene(scene_id):
 
     record_Scene = Scene.objects.get(id=scene_id)
 
+    # 画像を削除
     image_url = record_Scene.image_url
     basename = os.path.basename(image_url)
-
     delete_file(bucket=bucket, key=basename, exist_check=True)
+
+    print("deleted : {}".format(image_url))
+
+    # レコード削除
+    record_Scene.delete()
