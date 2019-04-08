@@ -89,7 +89,7 @@ def insert_scene(chapter_id, index, is_create_next, new_scene_info):
     n_scene = len(queryset_Scene)
 
     # 新規シーンが一番後ろなら
-    if (n_scene == 0) or (is_create_next and (n_scene==index-1)):
+    if (n_scene == 0) or (is_create_next and (n_scene==index+1)):
 
         new_record_Scene = Scene(
             chapter = record_Chapter,
