@@ -24,78 +24,31 @@ def create_scene_from_preview_request(request):
     新たなシーンを作成する
     '''
 
-    payload = request.POST
-
-    print(payload)
-    print()
-    print(request.FILES)
-    print()
-    # print(request.form)
-    print()
-
-    print("================")
-    print()
-
+    # POSTを受け取る
     payload = json.loads(request.body.decode("utf-8"))
-    # print(payload)
-    # print()
-    image_enc = payload["image"]
+    
+    image_payload = payload["image"]
     text = payload["text"]
 
-    split_imageobj = image_enc.split(",")
-    print(len(split_imageobj))
-    print(split_imageobj[0])
-    print(split_imageobj[1][:100])
+    image_prefix, image_base64 = image_payload.split(",")
+    print(image_prefix)
 
-    dec_file = base64.b64decode(split_imageobj[1])
+    dec_file = base64.b64decode(image_base64)
 
-    basename = "hohohoho.jpg"
-    print(fname_cloud(basename))
-    obj = bucket.Object(basename)
-    response = obj.put(
-        Body = dec_file,
-        ContentType = "image/jpeg"
-    )
-
-    # def convert_b64_string_to_file(s, outfile_path):
-    #     """base64をデコードしてファイルに書き込む"""
-    #     with open(outfile_path, "wb") as f:
-    #         f.write(base64.b64decode(s))
-
-    # text = payload["text"]
-    # image = request.FILES["image"]
-    # fname = image._name
-    # content_type = image.content_type
-
-    # print(thumb)
-    # print(thumb.__dict__)
-    # print(fname)
-    # print(content_type)
-
-    return JsonResponse({"code" : 200})
-
+    # セッション情報を取得
+    user_id = int(request.user.id)
     activeSection_index = request.session["activeSection_index"]
     activeSection_id = request.session["activeSection_id"]
     activeSlide_index = request.session["activeSlide_index"]
     activeSlide_id = request.session["activeSlide_id"]
     is_create_next = request.session["is_create_next"]
 
-
-    temporal_path = None
-
-    try:
-        temporal_path = thumb.temporary_file_path()
-        print("temporal path exists")
-        print(temporal_path)
-    except:
-        print("temporal path not exist")
-
+    print(activeSection_index, activeSection_id, activeSlide_index, activeSlide_id, is_create_next)
+    return JsonResponse({"code":200})
 
     # 画像のパスを生成
-    ext_original = fname.split(".")[-1]
-    ext = get_normalized_ext(ext=ext_original, restriction="image")
-    assert ext is not None
-    thumb_basename = generate_basename(key=str(user_id)+"chapterthumb", ext=ext)
+    ext = "jpg"
+    thumb_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
     thumb_url = fname_cloud(thumb_basename)
 
     print(thumb_url)
@@ -103,20 +56,13 @@ def create_scene_from_preview_request(request):
 
     # 画像をアップロード
 
-    if temporal_path is None:
-        obj = bucket.Object(thumb_basename)
-        response = obj.put(
-            Body = thumb.read(),
-            ContentType = content_type
-        )
-    else:
-        bucket.upload_file(
-            temporal_path,
-            thumb_basename,
-            ExtraArgs={"ContentType": content_type}
-        )
+    obj = bucket.Object(thumb_basename)
+    response = obj.put(
+        Body = dec_file,
+        ContentType = "image/jpeg"
+    )
 
-    print("uploaded thumb image")
+    print("uploaded image")
 
     # レコードを保存
 
