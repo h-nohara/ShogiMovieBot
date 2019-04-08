@@ -53,7 +53,7 @@ def create_scene_from_preview_request(request):
     print(fname_cloud(basename))
     obj = bucket.Object(basename)
     response = obj.put(
-        Body = obj,
+        Body = dec_file,
         ContentType = "image/jpeg"
     )
 
