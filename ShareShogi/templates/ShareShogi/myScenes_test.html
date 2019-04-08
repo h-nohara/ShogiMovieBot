@@ -236,6 +236,39 @@
 	$(document).on("click", ".addSceneNext", function(){
 		transit_to_createPage(type="scene", is_create_next=true);
 	})
+
+	// シーンの削除
+	$(document).on("click", "#deleteScene", function(){
+
+		let indexs = get_watching_card_info();
+		let activeSlide_id = indexs[1][1];
+		console.log("delete scene id : "+String(activeSlide_id));
+
+		if(window.confirm('シーンを削除します（元に戻せません）')){
+
+			$.ajax({
+				type : "POST",
+				url : "/ShareShogi/scenes/api/delete",
+				data : JSON.stringify({
+					"scene_id" : activeSlide_id
+				})
+			})
+			.done(function(result){
+				console.log(result);
+				if (result["code"] == 200){
+					window.location.href = "/ShareShogi/scenes/mypage";
+				}
+				else {
+					window.alert("失敗しました");
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown){
+				window.alert("ページ遷移に失敗しました");
+			});
+
+		}
+	})
+
 </script>
 
 
