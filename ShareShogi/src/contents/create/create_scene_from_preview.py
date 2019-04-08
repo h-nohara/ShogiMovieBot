@@ -48,7 +48,7 @@ def create_scene_from_preview_request(request):
 
     # 画像をアップロード
 
-    obj = bucket.Object(thumb_basename)
+    obj = bucket.Object(image_basename)
     response = obj.put(
         Body = dec_file,
         ContentType = "image/jpeg"
