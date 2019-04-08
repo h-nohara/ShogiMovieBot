@@ -13,22 +13,15 @@ from ShareShogi.models.scene import Scene
 
 # src
 from accounts.src.utils.generate_fname import generate_basename
-from accounts.src.utils.aws_bucket import fname_cloud, bucket, upload_file
+from accounts.src.utils.aws_bucket import fname_cloud, bucket
 from accounts.src.utils.extentions import get_normalized_ext
-
-from ShogiMovieBot.settings import BASE_DIR  # プロジェクトディレクトリ
-# 一時ファイルの保存場所
-TEMPORAL_DIR = os.path.abspath(os.path.join(BASE_DIR, "ShareShogi", "temporal"))
-
-def temporal_path(basename):
-    return os.path.abspath(os.path.join(TEMPORAL_DIR, basename))
 
 
 @csrf_exempt
 def create_scene_from_preview_request(request):
 
     '''
-    新たなシーンを作成する
+    新たなチャプターを作成する
     '''
 
     # POSTを受け取る
@@ -49,25 +42,17 @@ def create_scene_from_preview_request(request):
     ext = "jpg"
     image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
     image_url = fname_cloud(image_basename)
-    temporal_image_path = temporal_path(image_basename)
 
     print(image_url)
-    print(temporal_image_path)
 
-    # 画像をデコードして保存
-    with open(temporal_image_path, "wb") as f:
-        f.write(base64.b64decode(image_base64))
 
     # 画像をアップロード
-    upload_file(bucket, temporal_image_path, image_basename)
-    # 画像を削除
-    os.remove(temporal_image_path)
 
-    # obj = bucket.Object(image_basename)
-    # response = obj.put(
-    #     Body = dec_file,
-    #     ContentType = "image/jpeg"
-    # )
+    obj = bucket.Object(image_basename)
+    response = obj.put(
+        Body = dec_file,
+        ContentType = "image/jpeg"
+    )
 
     print("uploaded image")
 

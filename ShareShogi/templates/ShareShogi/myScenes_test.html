@@ -72,7 +72,7 @@
 		<img src="<%= thumb_url %>" class="card-img-top mt-5 ml-5 mr-3" alt="..." style="width:90%; height:50%; ">
 		<div class="h-25  comments mt-5 ml-5 mb-5 text-dark " style="overflow:scroll; font-size:50px; border:5px solid; width:83vw;"><%= title %></div>
 		<div class="row">
-			<button class="btn btn-primary btn-bg col-5 ml-5 mr-3 addChapterPrev" style="height:5vh; font-size:40px; z-index:10;">前にチャプター追加</button>
+			<button class="btn btn-primary btn-bg col-5 ml-5 mr-3 addChapterPrev" style="height:5vh; font-size:40px; z-index:10;">未実装：前チャプ</button>
 			<button class="btn btn-primary btn-bg col-5 ml-5 addSceneNext" style="height:5vh; font-size:40px; z-index:10;">次へシーン追加</button>
 
 		</div>
@@ -283,9 +283,9 @@
 
 	// 新規チャプターの追加
 
-	$(document).on("click", ".addChapterPrev", function(){
-		transit_to_createPage(type="chapter", is_create_next=false);
-	})
+	// $(document).on("click", ".addChapterPrev", function(){
+	// 	transit_to_createPage(type="chapter", is_create_next=false);
+	// })
 
 	// チャプターの削除
 	$(document).on("click", ".deleteChapter", function(){
