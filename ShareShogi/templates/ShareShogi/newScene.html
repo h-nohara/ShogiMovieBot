@@ -108,12 +108,12 @@
 
           if (cropper) {
             canvas = cropper.getCroppedCanvas({
-              width: 200,
-              height: 200,
+              width: 800, // 200
+              height: 800,
               imageSmoothingEnabled: false
             });
             initialAvatarURL = avatar.src;
-            window.alert("smooth not");
+            window.alert("800");
             avatar.src = canvas.toDataURL("image/jpeg", 1.0);
             $progress.show();
             $alert.removeClass('alert-success alert-warning');
