@@ -163,7 +163,7 @@
 		}
 		else {
 			// チャプターだったら
-			var activeSlide_index = 0;
+			var activeSlide_index = -1;
 			activeSlide_id = activeSection_id;
 		};
 
@@ -173,6 +173,8 @@
 		console.log(activeSection_id);
 		console.log(activeSlide_index);
 		console.log(activeSlide_id);
+
+		exit();
 
 		return [[activeSection_index, activeSection_id], [activeSlide_index, activeSlide_id]]
 

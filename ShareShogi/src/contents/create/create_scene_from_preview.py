@@ -64,9 +64,9 @@ def create_scene_from_preview_request(request):
     is_create_next = request.session["is_create_next"]
 
     insert_scene(
-        chapter_id=int(activeSection_id),
-        index=int(activeSlide_index),
-        is_create_next=is_create_next,
+        chapter_id = activeSection_id,
+        index = activeSlide_index,
+        is_create_next = is_create_next,
         new_scene_info = {
             "text" : text,
             "image_url" : image_url
