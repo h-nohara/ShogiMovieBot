@@ -112,7 +112,7 @@
               height: 200,
             });
             initialAvatarURL = avatar.src;
-            avatar.src = canvas.toDataURL();
+            avatar.src = canvas.toDataURL(1.0);
             $progress.show();
             $alert.removeClass('alert-success alert-warning');
             canvas.toBlob(function (blob) {
