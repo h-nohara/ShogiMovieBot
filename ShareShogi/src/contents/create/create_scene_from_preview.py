@@ -47,7 +47,7 @@ def create_scene_from_preview_request(request):
     print(split_imageobj[0])
     print(split_imageobj[1][:100])
 
-    dec_file = base64.b64decode(image_enc)
+    dec_file = base64.b64decode(split_imageobj[1])
 
     basename = "hohohoho.jpg"
     print(fname_cloud(basename))
