@@ -104,12 +104,13 @@
           var initialAvatarURL;
           var canvas;
 
-          $modal.modal('hide');
+          $modal.modal('smooth not');
 
           if (cropper) {
             canvas = cropper.getCroppedCanvas({
               width: 200,
               height: 200,
+              imageSmoothingEnabled: false
             });
             initialAvatarURL = avatar.src;
             window.alert("1");
