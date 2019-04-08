@@ -159,22 +159,19 @@
 
 		// スライド（ページ）のインデックス
 		let activeSlide = fullpage_api.getActiveSlide();
-		
-		if (activeSlide != null){
-			console.log("scene!");
-			// シーンだったら
-			var activeSlide_index = parseInt(activeSlide.index);
-			var activeSlide_id = activeSlide.item.id;
+
+		if (activeSlide == null){
+			console.log("no scene");
+			// シーンが１つもなかったら
+			var activeSlide_index = -1;
+			var activeSlide_id = -1;
 		}
 		else {
-			console.log("chapter");
-			// チャプターだったら
-			var activeSlide_index = -1;
-			console.log(activeSection_id);
-			activeSlide_id = activeSection_id;
+			console.log("one or more scene!");
+			// シーンが１つ以上あったら
+			var activeSlide_index = parseInt(activeSlide.index);
+			var activeSlide_id = activeSlide.item.id;
 		};
-
-		activeSlide_id =  parseInt(activeSlide_id);
 
 		console.log("slide index, id");
 		console.log(activeSlide_index);
