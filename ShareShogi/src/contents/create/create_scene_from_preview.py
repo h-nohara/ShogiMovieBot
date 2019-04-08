@@ -35,23 +35,13 @@ def create_scene_from_preview_request(request):
 
     dec_file = base64.b64decode(image_base64)
 
-    # セッション情報を取得
-    user_id = int(request.user.id)
-    activeSection_index = request.session["activeSection_index"]
-    activeSection_id = request.session["activeSection_id"]
-    activeSlide_index = request.session["activeSlide_index"]
-    activeSlide_id = request.session["activeSlide_id"]
-    is_create_next = request.session["is_create_next"]
-
-    print(activeSection_index, activeSection_id, activeSlide_index, activeSlide_id, is_create_next)
-    return JsonResponse({"code":200})
 
     # 画像のパスを生成
     ext = "jpg"
-    thumb_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
-    thumb_url = fname_cloud(thumb_basename)
+    image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
+    image_url = fname_cloud(image_basename)
 
-    print(thumb_url)
+    print(image_url)
 
 
     # 画像をアップロード
@@ -64,18 +54,89 @@ def create_scene_from_preview_request(request):
 
     print("uploaded image")
 
-    # レコードを保存
+    # セッション情報を取得
+    user_id = int(request.user.id)
+    activeSection_index = request.session["activeSection_index"]
+    activeSection_id = request.session["activeSection_id"]
+    activeSlide_index = request.session["activeSlide_index"]
+    activeSlide_id = request.session["activeSlide_id"]
+    is_create_next = request.session["is_create_next"]
 
-    record_Book = Book.objects.get(id=book_id)
-    
-    record_Chapter = Chapter(
-        book = record_Book,
-        title = title,
-        thumb_url = thumb_url,
+    insert_scene(
+        chapter_id=int(activeSection_id),
+        index=int(activeSlide_index),
+        is_create_next=is_create_next,
+        new_scene_info = {
+            "text" : text,
+            "image_url" : image_url
+        }
     )
 
-    record_Chapter.save()
+    return JsonResponse({"code" : 200})
 
-    print("saved chapter")
 
-    return redirect("/ShareShogi/chapters/mypage")
+def insert_scene(chapter_id, index, is_create_next, new_scene_info):
+
+    '''
+    index : 挿入する
+    '''
+
+    # チャプターにシーンを挿入
+
+    record_Chapter = Chapter.objects.filter(id=chapter_id)
+    queryset_Scene = Scene.objects.filter(chapter=record_Chapter)
+    n_scene = len(queryset_Scene)
+
+    # 新規シーンが一番後ろなら
+    if (n_scene == 0) or (is_create_next and (n_scene==index-1)):
+
+        new_record_Scene = Scene(
+            chapter = record_Chapter,
+            text=new_scene_info["text"],
+            image_url=new_scene_info["image_url"]
+        )
+        new_record_Scene.save()
+
+        return
+
+    # そうでなかったら
+
+    if is_create_next:
+        queryset_Scene = Scene.objects.filter(chapter=record_Chapter)[index+1:]
+    else:
+        queryset_Scene = Scene.objects.filter(chapter=record_Chapter)[index:]
+
+    next_scene_text = None
+    next_scene_image_url = None
+
+    for record_Scene in queryset_Scene:
+
+        if next_scene_text is None:
+            new_record_Scene = Scene(
+                chapter = record_Chapter,
+                text = new_scene_info["text"],
+                image_url = new_scene_info["image_url"]
+            )
+
+        else:
+            new_record_Scene = Scene(
+                chapter = record_Chapter,
+                text = next_scene_text,
+                image_url = next_scene_image_url
+            )
+
+        new_record_Scene.save()
+
+        next_scene_text = record_Scene.text
+        next_scene_image_url = record_Scene.image_url
+
+    assert next_scene_text is not None
+
+    new_record_Scene = Scene(
+        chapter = record_Chapter,
+        text = next_scene_text,
+        image_url = next_scene_image_url
+    )
+    new_record_Scene.save()
+
+    return

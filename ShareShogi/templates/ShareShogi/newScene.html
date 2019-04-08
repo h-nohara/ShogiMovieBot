@@ -176,6 +176,7 @@
             success: function(data, dataType) {
                 //非同期で通信成功時に読み出される [200 OK 時]
                 console.log('Success', data);
+                window.location.href = "/ShareShogi/scenes/mypage";
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 //非同期で通信失敗時に読み出される
