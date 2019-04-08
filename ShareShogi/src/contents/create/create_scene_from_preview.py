@@ -65,7 +65,7 @@ def create_scene_from_preview_request(request):
 
     insert_scene(
         chapter_id = activeSection_id,
-        index = activeSlide_index,
+        index = activeSlide_index-1,
         is_create_next = is_create_next,
         new_scene_info = {
             "text" : text,
