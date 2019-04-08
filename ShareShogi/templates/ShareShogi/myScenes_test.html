@@ -199,8 +199,6 @@
 		let activeSlide_index = indexs[1][0];
 		let activeSlide_id = indexs[1][1];
 
-		
-
 		$.ajax({
 			type : "POST",
 			url : "/ShareShogi/transition/new_from_preview",
@@ -232,26 +230,30 @@
 
 	}
 
-	// 新規シーンの追加
-	$(document).on("click", ".addSceneNext", function(){
-		transit_to_createPage(type="scene", is_create_next=true);
-	})
-
-	// シーンの削除
-	$(document).on("click", ".deleteScene", function(){
+	function delete_contents(type){
 
 		let indexs = get_watching_card_info();
-		let activeSlide_id = indexs[1][1];
-		console.log("delete scene id : "+String(activeSlide_id));
 
-		if(window.confirm('シーンを削除します（元に戻せません）')){
+		if (type=="chapter"){
+			var api_url = "/ShareShogi/chapters/api/delete";
+			var post_data = {"chapter_id" : indexs[0][1]};
+			var alert_prefix = "チャプターを";
+		}
+		else if (type=="scene"){
+			var api_url = "/ShareShogi/scenes/api/delete";
+			var post_data = {"scene_id" : indexs[1][1]};
+			var alert_prefix = "シーンを";
+		}
+		else {
+			exit();
+		}
+
+		if (window.confirm(alert_prefix + '削除します（元に戻せません）')){
 
 			$.ajax({
 				type : "POST",
-				url : "/ShareShogi/scenes/api/delete",
-				data : JSON.stringify({
-					"scene_id" : activeSlide_id
-				})
+				url : api_url,
+				data : JSON.stringify(post_data)
 			})
 			.done(function(result){
 				console.log(result);
@@ -267,6 +269,32 @@
 			});
 
 		}
+	}
+
+	// 新規シーンの追加
+
+	$(document).on("click", ".addScenePrev", function(){
+		transit_to_createPage(type="scene", is_create_next=false);
+	})
+
+	$(document).on("click", ".addSceneNext", function(){
+		transit_to_createPage(type="scene", is_create_next=true);
+	})
+
+	// 新規チャプターの追加
+
+	$(document).on("click", ".addChapterPrev", function(){
+		transit_to_createPage(type="chapter", is_create_next=false);
+	})
+
+	// チャプターの削除
+	$(document).on("click", ".deleteChapter", function(){
+		delete_contents(type="chapter");
+	})
+
+	// シーンの削除
+	$(document).on("click", ".deleteScene", function(){
+		delete_contents(type="scene");
 	})
 
 </script>
