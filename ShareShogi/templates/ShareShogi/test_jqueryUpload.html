@@ -34,7 +34,13 @@ crossorigin="anonymous"></script>
 <span class="btn btn-default fileinput-button">
     <span>画像選択</span>
     <!-- The file input field used as target for the file upload widget -->
+    <div class="frame_img"><img src="https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png" id="select_target" /></div>
     <input id="fileupload" type="file" name="files[]" multiple >
+
+    <input type="text" id="scalex" value="150" style="width:50px;"></input>
+    <input type="text" id="scaley" value="140" style="width:50px;"></input>
+    <button id="target">Resize Image</button>
+
 </span>
 
 
@@ -50,34 +56,62 @@ crossorigin="anonymous"></script>
 
 <script>
 
-    $(function () {
-        var url = '/xxx/post';
-        $('#fileupload').fileupload({
-            url: url,
-            dataType: 'json',
-            maxFileSize: 5000000,
-            done: function (e, data)
-            {
-                $.each(data.result.files, function (index, file) {
+    $(document).ready(function(){
 
-                    /*画像のUPが成功したら呼ばれる*/
-                    /*以下は適当に*/
-                    var span = document.createElement('span');
-                    span.innerHTML = ['<div class="frame_img"><img src="', file, '" id="select_target" /></div>'].join('');
-                    //前回の追加エレメント削除
-                    var element = document.getElementById("files");
-                    while (element.firstChild) {
-                        element.removeChild(element.firstChild);
-                    }
-                    document.getElementById('files').insertBefore(span, null);
-                    $('#file_name').val(file);
-                });
-                //選択枠をロード
-                loadjcrop();
-            }
-        }).prop('disabled', !$.support.fileInput)
-            .parent().addClass($.support.fileInput ? undefined : 'disabled');
-    });
+        loadjcrop();
+
+        $('#target').click(function() {
+            myJcrop.destroy();
+            scalex = $('#scalex').val();
+            scaley = $('#scaley').val();
+            myJcrop = $.Jcrop('#cropbox', {
+                aspectRatio: 1,
+                // onSelect: updateCoords,
+                boxWidth: scalex, 
+                boxHeight: scaley
+            });
+        });
+
+        // let sample_url = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png";
+        // var span = document.createElement('span');
+        // span.innerHTML = ['<div class="frame_img"><img src="', sample_url, '" id="select_target" /></div>'].join('');
+        //前回の追加エレメント削除
+        // var element = document.getElementById("files");
+        // while (element.firstChild) {
+        //     element.removeChild(element.firstChild);
+        // }
+        // document.getElementById('files').insertBefore(span, null);
+        // $('#file_name').val(file);
+    })
+
+    // $(function () {
+    //     var url = '/xxx/post';
+    //     $('#fileupload').fileupload({
+    //         url: url,
+    //         dataType: 'json',
+    //         maxFileSize: 5000000,
+    //         done: function (e, data)
+    //         {
+    //             $.each(data.result.files, function (index, file) {
+
+    //                 /*画像のUPが成功したら呼ばれる*/
+    //                 /*以下は適当に*/
+    //                 var span = document.createElement('span');
+    //                 span.innerHTML = ['<div class="frame_img"><img src="', file, '" id="select_target" /></div>'].join('');
+    //                 //前回の追加エレメント削除
+    //                 var element = document.getElementById("files");
+    //                 while (element.firstChild) {
+    //                     element.removeChild(element.firstChild);
+    //                 }
+    //                 document.getElementById('files').insertBefore(span, null);
+    //                 $('#file_name').val(file);
+    //             });
+    //             //選択枠をロード
+    //             loadjcrop();
+    //         }
+    //     }).prop('disabled', !$.support.fileInput)
+    //         .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    // });
 
 	/*
 	トリミング jcropの初期設定
@@ -86,9 +120,9 @@ crossorigin="anonymous"></script>
     function loadjcrop(){
 		var img = $('#select_target');
 
-		$(img).Jcrop({
+		myJcrop = (img).Jcrop({
 		  aspectRatio: 1,
-		  onSelect: updateCoords,		/*コールバック*/
+		//   onSelect: updateCoords,		/*コールバック*/
 		  setSelect: [0, 0, 200, 200],		/*初期設定のトリミング枠*/
 		  minSize: [200, 200],			/*トリミング枠の最小サイズ*/
 		  allowResize: true,
