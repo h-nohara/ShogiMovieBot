@@ -39,7 +39,7 @@ urlpatterns = [
     url(r"^books/infoEditor$", views.bookEditor_page, name="my book editor"),  # ブック情報編集
     url(r"^books/get-latests$", get_latest_books_request, name="search latests"),  # 最新のブックを取得
     url(r"^books/get-mine$", get_user_books_request, name="get my books"),  # 自分のブックを取得
-    url(r"^books/create$", create_book_request, name="create book"),  # 新規ブック作成
+    url(r"^books/api/create$", create_book_request, name="create book"),  # 新規ブック作成
     url(r"^books/api/get-info$", get_book_info_request, name="get book info"),  # ブック情報を取得
 
     # url(r"^reader/search/exec$", views.search_page, name="exec search"),  # 検索結果を取得
@@ -51,8 +51,8 @@ urlpatterns = [
     url(r"^chapters/mypage$", views.myChapters_page, name="my chapters page"),  # マイチャプター一覧画面
     url(r"^chapters/get$", get_BookChapters_request, name="get chapters"),
     url(r"^chapters/new$", views.newChapter_page, name="new chapter page"),  # 新規作成画面
-    url(r"^chapters/create$", create_chapter_request, name="create chapter"),  # 新規作成
-    url(r"^chapters/api/create_from_preview$", create_chapter_request, name="create from preview"),  ######## プレビューから新規作成
+    url(r"^chapters/api/create$", create_chapter_request, name="create chapter"),  # 新規作成
+    # url(r"^chapters/api/create_from_preview$", create_chapter_request, name="create from preview"),  ######## プレビューから新規作成
 
     # シーン
 

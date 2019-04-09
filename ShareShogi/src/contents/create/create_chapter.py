@@ -35,7 +35,7 @@ def generate_temporal_path(basename):
 def create_chapter_request(request):
 
     '''
-    新たなシーンを作成する
+    新たなチャプターを作成する
     '''
 
     # POSTを受け取る

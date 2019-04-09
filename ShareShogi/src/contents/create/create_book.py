@@ -1,7 +1,14 @@
 import os, sys, json
+import base64
 from django.shortcuts import render, redirect
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
+import cv2
+import base64
+import numpy as np
+import io
+from PIL import Image
 
 
 # db
@@ -12,8 +19,16 @@ from ShareShogi.models.scene import Scene
 
 # src
 from accounts.src.utils.generate_fname import generate_basename
-from accounts.src.utils.aws_bucket import fname_cloud, bucket
+from accounts.src.utils.aws_bucket import fname_cloud, bucket, upload_file
 from accounts.src.utils.extentions import get_normalized_ext
+from ShareShogi.src.FileEditor.exif_orientation import modify_by_EXIF
+
+from ShogiMovieBot.settings import BASE_DIR  # プロジェクトディレクトリ
+# 一時ファイルの保存場所
+TEMPORAL_DIR = os.path.abspath(os.path.join(BASE_DIR, "ShareShogi", "temporal"))
+
+def generate_temporal_path(basename):
+    return os.path.abspath(os.path.join(TEMPORAL_DIR, basename))
 
 
 @csrf_exempt
@@ -23,91 +38,96 @@ def create_book_request(request):
     新たなブックを作成する
     '''
 
-    print("create new book request")
-    print()
+    # POSTを受け取る
 
     payload = request.POST
-
-    # payload = json.loads(request.body.decode("utf-8"))
-    # print(payload)
-
-    title = payload["title"]
-    opening_sente = payload["opening_sente"]
-    opening_gote = payload["opening_gote"]
+    text = payload["text"]
+    opening_sente = str(payload["opening_sente"])
+    opening_gote = str(payload["opening_gote"])
+    cropping_x = float(payload["cropping_x"])
+    cropping_y = float(payload["cropping_y"])
+    cropping_w = float(payload["cropping_w"])
+    cropping_h = float(payload["cropping_h"])
 
     print(payload)
-    print("")
-    print("title : {}".format(title))
-    print("opening_sente : {}".format(opening_sente))
-    print("opening_gote : {}".format(opening_gote))
-    print("")
-    print(request.FILES)
 
-    thumb = request.FILES["thumb"]
-    fname = thumb._name
-    content_type = thumb.content_type
+    image = request.FILES["original_image"]
+    content_type = image.content_type
 
-    # print(thumb)
-    # print(thumb.__dict__)
-    print(fname)
-    print(content_type)
-
-
-    temporal_path = None
-
-    try:
-        temporal_path = thumb.temporary_file_path()
-        print("temporal path exists")
-        print(temporal_path)
-    except:
-        print("temporal path not exist")
-
-
-
+    # セッション情報の取得
     if "user_id" in payload.keys():
         user_id = int(payload["user_id"])
-
     else:
         user_id = int(request.user.id)
 
-    print("user_id : {}".format(str(user_id)))
 
+    # 画像の保存先を決める
 
-    # 画像のパスを生成
-    ext_original = fname.split(".")[-1]
-    ext = get_normalized_ext(ext=ext_original, restriction="image")
-    assert ext is not None
-    thumb_basename = generate_basename(key=str(user_id)+"bookthumb", ext=ext)
-    thumb_url = fname_cloud(thumb_basename)
+    if content_type not in ["image/jpeg", "image/png"]:
+        content_type = "image/jpeg"
 
-    print(thumb_url)
-
-
-    # 画像をアップロード
-
-    if temporal_path is None:
-        obj = bucket.Object(thumb_basename)
-        response = obj.put(
-            Body = thumb.read(),
-            ContentType = content_type
-        )
+    if content_type == "image/png":
+        ext = "jpg"
     else:
-        bucket.upload_file(
-            temporal_path,
-            thumb_basename,
-            ExtraArgs={"ContentType": content_type}
-        )
+        ext = "png"
 
+    temporal_image_path = None
 
-    print("uploaded thumb image")
+    try:
+        temporal_image_path = image.temporary_file_path()
+        print("temporal path exists")
+        print(temporal_image_path)
+    except:
+        print("temporal path not exist")
+
+    image_basename = generate_basename(key=str(user_id)+"newchapter", ext=ext)
+    image_url = fname_cloud(image_basename)
+
+    # 画像を読み込み
+
+    if temporal_image_path is None:
+        # もしオンメモリデータだったら、画像にして保存
+        temporal_image_path = generate_temporal_path(image_basename)
+        with open(temporal_image_path, 'wb') as f:
+            f.write(image.read())
+    
+    im = Image.open(temporal_image_path)
+
+    # exifに基づいて修正
+    im_modify = modify_by_EXIF(im)
+    if im_modify is not None:
+        im = im_modify
+
+    im_crop = im.crop((cropping_x, cropping_y, cropping_x+cropping_w, cropping_y+cropping_h))
+
+    # スマホから送信すると"**.upload"という拡張子になることがあるので対策
+    if get_normalized_ext(temporal_image_path.split(".")[-1], restriction="image") is None:
+        temporal_image_path = ".".join(temporal_image_path.split(".")[:-1] + [ext])
+
+    # 画像をトリミング
+    im_crop.save(temporal_image_path, quality=100)
+
+    # アップロード
+    bucket.upload_file(
+        temporal_image_path,
+        image_basename,
+        ExtraArgs={"ContentType": content_type}
+    )
+
+    if os.path.exists(temporal_image_path):
+        os.remove(temporal_image_path)
+
+    print("uploaded image")
+
 
     # レコードを保存
+
     record_User = User.objects.get(id=user_id)
     
     record_Book = Book(
         user = record_User,
-        title = title,
-        thumb_url = thumb_url,
+        title = text,
+        thumb_url = image_url,
         is_public = False,
         opening_sente = opening_sente,
         opening_gote = opening_gote
@@ -117,7 +137,4 @@ def create_book_request(request):
 
     print("saved book")
 
-    
-    # return JsonResponse({"code" : 200})
-
-    return redirect("/ShareShogi/books/mypage")
+    return JsonResponse({"code" : 200})
