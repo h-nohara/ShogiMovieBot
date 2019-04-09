@@ -62,6 +62,8 @@ def create_scene_from_preview_request(request):
     cropping_w = float(payload["cropping_w"])
     cropping_h = float(payload["cropping_h"])
 
+    print(payload)
+
     image = request.FILES["original_image"]
 
     temporal_image_path = None
