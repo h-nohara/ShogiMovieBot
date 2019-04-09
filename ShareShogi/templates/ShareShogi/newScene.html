@@ -81,7 +81,13 @@
           var url;
 
           if (files && files.length > 0) {
+
             file = files[0];
+
+            ////////////////////
+            formData_saver = new FormData();
+            formData_saver.append('avatar', file, 'avatar.jpg');
+            ////////////////////
 
             if (URL) {
               done(URL.createObjectURL(file));
@@ -138,7 +144,7 @@
 
               formData.append('avatar', blob, 'avatar.jpg');
 
-              formData_saver = formData; //////////////////////////////////////////////////////
+              // formData_saver = formData; //////////////////////////////////////////////////////
 
               $.ajax('https://jsonplaceholder.typicode.com/posts', {
 
