@@ -32,7 +32,7 @@ def generate_temporal_path(basename):
 
 
 @csrf_exempt
-def create_scene_from_preview_request(request):
+def create_chapter_request(request):
 
     '''
     新たなシーンを作成する
