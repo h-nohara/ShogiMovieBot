@@ -43,6 +43,8 @@
   </style>
 
   <script>
+  
+      formData_saver = null;
 
       window.addEventListener('DOMContentLoaded', function () {
 
@@ -103,6 +105,9 @@
           cropper = null;
         });
 
+
+        // 「トリミング」ボタンを押したら
+
         document.getElementById('crop').addEventListener('click', function () {
 
           
@@ -133,11 +138,13 @@
 
               formData.append('avatar', blob, 'avatar.jpg');
 
+              formData_saver = formData; //////////////////////////////////////////////////////
+
               $.ajax('https://jsonplaceholder.typicode.com/posts', {
+
                 method: 'POST',
                 data: formData,
                 processData: false,
-
 
                 xhr: function () {
                   var xhr = new XMLHttpRequest();
@@ -177,6 +184,8 @@
       });
 
 
+      // データをサーバに送る
+
       function post(){
 
         let image_base64 = $("#avatar").attr("src");
@@ -199,7 +208,28 @@
         });
       }
 
-      $(document).on("click", "#save", post);
+      $(document).on("click", "#save", test_upload);
+
+
+      // 画像送信テスト
+
+      function test_upload(){
+
+        formData_saver.append("text", $("#text").val());
+
+        $.ajax({
+          url: '/api',
+          method: 'post',
+          dataType: 'json',
+          data: formData_saver,
+          processData: false,
+          contentType: false
+        }).done(function( res ) {
+          console.log( 'SUCCESS', res );
+        }).fail(function( jqXHR, textStatus, errorThrown ) {
+          console.log( 'ERROR', jqXHR, textStatus, errorThrown );
+        });
+      }
 
 
   </script>

@@ -36,6 +36,13 @@ def create_scene_from_preview_request(request):
     新たなシーンを作成する
     '''
 
+    print()
+    print(request.POST)
+    print()
+    print(request.FILES)
+
+    return JsonResponse({"code" : 200})
+
     # POSTを受け取る
     payload = json.loads(request.body.decode("utf-8"))
     
