@@ -80,6 +80,22 @@
           return false;
         });
       }
+
+      $(document).on("click", "#delete_book", function(){
+
+        $.ajax({
+          url: '/ShareShogi/books/api/delete',
+          method: 'GET',
+        }).done(function( res ) {
+          console.log( 'SUCCESS', res );
+          window.location.href = "/ShareShogi/books/mypage";
+        }).fail(function( jqXHR, textStatus, errorThrown ) {
+          console.log( 'ERROR', jqXHR, textStatus, errorThrown );
+        });
+
+      })
+
+
       
     });
 
@@ -112,8 +128,8 @@
     <!--ヘッダーここまで -->
 
     <div style="margin-top:20vh;">
-        <button id="delete_book" class="btn btn-danger" >このブックを削除</button>
-        <button id="delete_book" class="btn btn-primary" onclick="window.location.href='/ShareShogi/chapters/mypage'" >戻る</button>
+        <button id="delete_book" class="btn btn-danger ml-5" >このブックを削除</button>
+        <button id="back" class="btn btn-primary ml-5" onclick="window.location.href='/ShareShogi/chapters/mypage'" >戻る</button>
     </div>
 
     <div class="container">

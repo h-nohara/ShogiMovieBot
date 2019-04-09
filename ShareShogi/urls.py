@@ -11,6 +11,7 @@ from ShareShogi.src.contents.create.create_book import create_book_request
 from ShareShogi.src.contents.get.get_latest_books import get_latest_books_request
 from ShareShogi.src.contents.get.get_books import get_user_books_request
 from ShareShogi.src.contents.get.get_book_info import get_book_info_request
+from ShareShogi.src.contents.delete.delete_book import delete_book_request
 
 ## chapter
 from ShareShogi.src.contents.get.get_chapters import get_BookChapters_request
@@ -42,6 +43,7 @@ urlpatterns = [
     url(r"^books/get-mine$", get_user_books_request, name="get my books"),  # 自分のブックを取得
     url(r"^books/api/create$", create_book_request, name="create book"),  # 新規ブック作成
     url(r"^books/api/get-info$", get_book_info_request, name="get book info"),  # ブック情報を取得
+    url(r"^books/api/delete$", delete_book_request, name="delete book"),  # ブックを削除
 
     # url(r"^reader/search/exec$", views.search_page, name="exec search"),  # 検索結果を取得
     # url(r"^reader/book-info$", , name="get book info"),  # 本の内容を取得
