@@ -212,6 +212,8 @@ def insert_scene(chapter_id, index, is_create_next, new_scene_info):
         text_original = record_Scene.text
         image_url_original = record_Scene.image_url
 
+        print(text_original)
+
         # 元あるレコードを更新
 
         if next_scene_text is None:
