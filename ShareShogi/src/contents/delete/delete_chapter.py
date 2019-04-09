@@ -12,7 +12,7 @@ from ShareShogi.models.scene import Scene
 
 # src
 from accounts.src.utils.aws_bucket import bucket, delete_file
-from ShareShogi.src.contents.delete.delete.scene import delete_scene
+from ShareShogi.src.contents.delete.delete_scene import delete_scene
 
 
 @csrf_exempt
