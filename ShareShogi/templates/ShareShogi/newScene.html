@@ -45,6 +45,10 @@
   <script>
   
       formData_saver = null;
+      croppingX = null;
+      croppingY = null;
+      croppingW = null;
+      croppingH = null;
 
       window.addEventListener('DOMContentLoaded', function () {
 
@@ -86,7 +90,7 @@
 
             ////////////////////
             formData_saver = new FormData();
-            formData_saver.append('avatar', file, 'avatar.jpg');
+            formData_saver.append('original_image', file, file.name);
             ////////////////////
 
             if (URL) {
@@ -117,7 +121,11 @@
         document.getElementById('crop').addEventListener('click', function () {
 
           
-          console.log(cropper.getData());
+          let cropping_info = cropper.getData();
+          croppingX = cropping_info.x;
+          croppingY = cropping_info.y;
+          croppingW = cropping_info.width;
+          croppingH = cropping_info.height;
 
           var initialAvatarURL;
           var canvas;
@@ -222,6 +230,10 @@
       function test_upload(){
 
         formData_saver.append("text", $("#text").val());
+        formData_saver.append("cropping_x", croppingX);
+        formData_saver.append("cropping_y", croppingY);
+        formData_saver.append("cropping_w", croppingW);
+        formData_saver.append("cropping_h", croppingH);
 
         $.ajax({
           url: '/ShareShogi/scenes/api/create_from_preview',
@@ -232,6 +244,7 @@
           contentType: false
         }).done(function( res ) {
           console.log( 'SUCCESS', res );
+          window.location.href = "/ShareShogi/scenes/mypage";
         }).fail(function( jqXHR, textStatus, errorThrown ) {
           console.log( 'ERROR', jqXHR, textStatus, errorThrown );
         });

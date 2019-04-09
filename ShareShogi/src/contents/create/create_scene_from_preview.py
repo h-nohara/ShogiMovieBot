@@ -8,6 +8,7 @@ import cv2
 import base64
 import numpy as np
 import io
+from PIL import Image
 
 
 # db
@@ -54,8 +55,14 @@ def create_scene_from_preview_request(request):
 
     ####################### 2
 
-    text = request.POST["text"]
-    image = request.FILES["avatar"]
+    payload = request.POST
+    text = payload["text"]
+    cropping_x = payload["cropping_x"]
+    cropping_y = payload["cropping_y"]
+    cropping_w = payload["cropping_w"]
+    cropping_h = payload["cropping_h"]
+
+    image = request.FILES["original_image"]
 
     temporal_image_path = None
 
@@ -104,18 +111,41 @@ def create_scene_from_preview_request(request):
     image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
     image_url = fname_cloud(image_basename)
 
+    # if temporal_image_path is None:
+    #     obj = bucket.Object(image_basename)
+    #     response = obj.put(
+    #         Body = image.read(),
+    #         ContentType = content_type
+    #     )
+    # else:
+    #     bucket.upload_file(
+    #         temporal_image_path,
+    #         image_basename,
+    #         ExtraArgs={"ContentType": content_type}
+    #     )
+
+
+
+    # 画像をクロッピング
+
     if temporal_image_path is None:
-        obj = bucket.Object(image_basename)
-        response = obj.put(
-            Body = image.read(),
-            ContentType = content_type
-        )
-    else:
-        bucket.upload_file(
-            temporal_image_path,
-            image_basename,
-            ExtraArgs={"ContentType": content_type}
-        )
+        # 画像にして保存
+        temporal_image_path = generate_temporal_path(image_basename)
+        with open(temporal_image_path, 'wb') as f:
+            f.write(image.read())
+    
+    im = Image.open(temporal_image_path)
+    im_crop = im.crop((cropping_x, cropping_y, cropping_x+cropping_w, cropping_y+cropping_h))
+    im_crop.save(temporal_image_path, quality=100)
+
+    bucket.upload_file(
+        temporal_image_path,
+        image_basename,
+        ExtraArgs={"ContentType": content_type}
+    )
+
+    if os.path.exists(temporal_image_path):
+        os.remove(temporal_image_path)
 
     print("uploaded image")
 
