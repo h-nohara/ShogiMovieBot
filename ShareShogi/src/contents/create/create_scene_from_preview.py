@@ -57,10 +57,10 @@ def create_scene_from_preview_request(request):
 
     payload = request.POST
     text = payload["text"]
-    cropping_x = payload["cropping_x"]
-    cropping_y = payload["cropping_y"]
-    cropping_w = payload["cropping_w"]
-    cropping_h = payload["cropping_h"]
+    cropping_x = float(payload["cropping_x"])
+    cropping_y = float(payload["cropping_y"])
+    cropping_w = float(payload["cropping_w"])
+    cropping_h = float(payload["cropping_h"])
 
     image = request.FILES["original_image"]
 
