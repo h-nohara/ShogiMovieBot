@@ -45,3 +45,8 @@ def newScene_page(request):
 @login_required(login_url="/account/login")
 def myScenes_page(request):
     return render(request, "ShareShogi/myScenes_test.html")
+
+@login_required(login_url="/account/login")
+def testUpload_page(request):
+    return render(request, "ShareShogi/test_jqueryUpload.html")
+
