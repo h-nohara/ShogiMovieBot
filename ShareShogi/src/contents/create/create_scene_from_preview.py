@@ -40,6 +40,8 @@ def create_scene_from_preview_request(request):
     print(request.POST["text"])
     print()
     print(request.FILES["avatar"])
+    print(type(request.FILES["avatar"]))
+    print(request.FILES)
 
     return JsonResponse({"code" : 200})
 
