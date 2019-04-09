@@ -65,6 +65,7 @@ def create_scene_from_preview_request(request):
     print(payload)
 
     image = request.FILES["original_image"]
+    _content_type = image.content_type
 
     print(image)
     print(image.__dict__)
@@ -227,7 +228,7 @@ def insert_scene(chapter_id, index, is_create_next, new_scene_info):
             record_Scene.image_url = new_scene_info["image_url"]
 
         else:
-            record_Scene.text = next_scene_text,
+            record_Scene.text = next_scene_text
             record_Scene.image_url = next_scene_image_url
 
         record_Scene.save()
