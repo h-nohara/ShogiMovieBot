@@ -23,6 +23,19 @@
     <script src="{% static 'dist/cropperjs-master/dist/cropper.js' %}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.bundle.min.js"></script>
 
+
+    <!-- 一時的 -->
+    <!-- jQuery UI -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <!-- jcrop -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/js/Jcrop.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/css/Jcrop.min.css">
+
+    <!-- The basic File Upload plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.28.0/js/jquery.fileupload.js"></script>
+
   <link rel="stylesheet" href="{% static 'dist/cropperjs-master/dist/cropper.css' %}">
   </body>
 
@@ -110,11 +123,13 @@
             canvas = cropper.getCroppedCanvas({
               width: 200, // 200
               height: 200,
-              imageSmoothingEnabled: false
+              // imageSmoothingEnabled: false
             });
+            
             initialAvatarURL = avatar.src;
-            window.alert("0.2");
-            avatar.src = canvas.toDataURL("image/jpeg", 0.2);
+            // window.alert("0.2");
+            // avatar.src = canvas.toDataURL("image/jpeg", 0.2);
+            avatar.src = canvas.toDataURL();
             $progress.show();
             $alert.removeClass('alert-success alert-warning');
             canvas.toBlob(function (blob) {
@@ -146,7 +161,6 @@
 
                 success: function () {
                   $alert.show().addClass('alert-success').text('アップロード成功');
-                  window.alert(cropper.x);
                   // let changeimg = '<br /><button class="btn btn-success changeimg">画像を変更</button>';
                   // $(changeimg).insertBefore('.alert');
                 },
