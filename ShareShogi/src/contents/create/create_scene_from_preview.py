@@ -74,13 +74,13 @@ def create_scene_from_preview_request(request):
 
 
     # 画像のパスを生成
-    ext = "jpg"
-    image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
-    image_url = fname_cloud(image_basename)
-    temporal_image_path = generate_temporal_path(image_basename)
+    # ext = "jpg"
+    # image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
+    # image_url = fname_cloud(image_basename)
+    # temporal_image_path = generate_temporal_path(image_basename)
 
-    print(image_url)
-    print(temporal_image_path)
+    # print(image_url)
+    # print(temporal_image_path)
 
     ####################### 1
 
@@ -100,10 +100,13 @@ def create_scene_from_preview_request(request):
 
     content_type = {"image/jpeg"}
 
+    image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
+    image_url = fname_cloud(image_basename)
+
     if temporal_image_path is None:
         obj = bucket.Object(image_basename)
         response = obj.put(
-            Body = thumb.read(),
+            Body = image.read(),
             ContentType = content_type
         )
     else:
