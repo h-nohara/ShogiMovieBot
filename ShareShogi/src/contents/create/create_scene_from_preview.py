@@ -67,7 +67,8 @@ def create_scene_from_preview_request(request):
     image = request.FILES["original_image"]
 
     print(image)
-    
+    print(image.__dict__)
+
     temporal_image_path = None
 
     try:
@@ -140,6 +141,9 @@ def create_scene_from_preview_request(request):
     
     im = Image.open(temporal_image_path)
     im_crop = im.crop((cropping_x, cropping_y, cropping_x+cropping_w, cropping_y+cropping_h))
+
+    if get_normalized_ext(temporal_image_path.split(".")[-1], restriction="image") is None:
+        temporal_image_path = ".".join(temporal_image_path.split(".")[:-1] + ["jpg"])
     im_crop.save(temporal_image_path, quality=100)
 
     bucket.upload_file(
