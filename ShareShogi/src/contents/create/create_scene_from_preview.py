@@ -67,9 +67,7 @@ def create_scene_from_preview_request(request):
     image = request.FILES["original_image"]
 
     print(image)
-
-    return JsonResponse({"code" : 200})
-
+    
     temporal_image_path = None
 
     try:
