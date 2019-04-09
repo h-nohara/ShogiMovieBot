@@ -112,15 +112,13 @@
     <!--ヘッダーここまで -->
 
     <div class="container">
+
       <h5 class="mt-3">ブック情報編集</h5>
 
-      <form action="http://54.248.29.6:8000/ShareShogi/books/hoge" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+      <button id="delete_book" class="btn btn-danger ml-5" >このブックを削除</button>
 
-        <!-- <div class="form-group">
-          <label for="exampleFormControlSelect1">タイトル名</label>
-          <input class="form-control" type="text" placeholder="新規チャプター名">
-        </div> -->
+      <!-- <form action="/ShareShogi/books/update-info" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
         <div class="form-group">
           <div class="view_box">
@@ -163,7 +161,7 @@
           <button id="delete_book" class="btn btn-danger ml-5" >このブックを削除</button>
         </div>
 
-      </form>
+      </form> -->
     </div>
 
   </body>
