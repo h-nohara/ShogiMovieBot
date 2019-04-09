@@ -21,6 +21,7 @@ from ShareShogi.models.scene import Scene
 from accounts.src.utils.generate_fname import generate_basename
 from accounts.src.utils.aws_bucket import fname_cloud, bucket, upload_file
 from accounts.src.utils.extentions import get_normalized_ext
+from ShareShogi.src.FileEditor.exif_orientation import modify_by_EXIF
 
 from ShogiMovieBot.settings import BASE_DIR  # プロジェクトディレクトリ
 # 一時ファイルの保存場所
@@ -141,6 +142,12 @@ def create_scene_from_preview_request(request):
             f.write(image.read())
     
     im = Image.open(temporal_image_path)
+
+    # exifに基づいて修正
+    im_modify = modify_by_EXIF(im)
+    if im_modify is not None:
+        im = im_modify
+
     im_crop = im.crop((cropping_x, cropping_y, cropping_x+cropping_w, cropping_y+cropping_h))
 
     if get_normalized_ext(temporal_image_path.split(".")[-1], restriction="image") is None:
