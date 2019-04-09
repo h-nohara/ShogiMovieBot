@@ -99,6 +99,7 @@ def create_scene_from_preview_request(request):
     # 画像をアップロード
 
     content_type = {"image/jpeg"}
+    ext = "jpg"
 
     image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
     image_url = fname_cloud(image_basename)
