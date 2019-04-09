@@ -65,7 +65,7 @@ urlpatterns = [
 
     url(r"^scenes/demopage1$", views.scene_demopage1, name="scenes page demo1"),  # デモページ
 
-    url(r"^scenes/demopage1$", views.testUpload_page, name="test upload"),
+    url(r"^scenes/testUpload$", views.testUpload_page, name="test upload"),
 
     # アカウント
 
