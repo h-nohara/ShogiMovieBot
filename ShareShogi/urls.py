@@ -6,6 +6,9 @@ from . import views
 
 # api
 
+## account
+from ShareShogi.src.account.login_ShareShogi import login_ShareShogi_request
+
 ## book
 from ShareShogi.src.contents.create.create_book import create_book_request
 from ShareShogi.src.contents.get.get_latest_books import get_latest_books_request
@@ -75,6 +78,8 @@ urlpatterns = [
 
     url(r"^accounts/page$", views.account_page, name="account page"),  # アカウント設定画面
     url(r"^accounts/api/get$", views.account_page, name="get account"),  # アカウント設定を取得
+    url(r"^accounts/loginpage$", views.login_page, name="login page"),  # ログインページ
+    url(r"^accounts/api/login$", login_ShareShogi_request, name="get account"),  # ログイン
 
     # セッション変数を保存してページ遷移
 
