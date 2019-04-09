@@ -218,7 +218,7 @@
         formData_saver.append("text", $("#text").val());
 
         $.ajax({
-          url: '/api',
+          url: '/ShareShogi/scenes/api/create_from_preview',
           method: 'post',
           dataType: 'json',
           data: formData_saver,
