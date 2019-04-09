@@ -25,7 +25,7 @@ from ShogiMovieBot.settings import BASE_DIR  # プロジェクトディレクト
 # 一時ファイルの保存場所
 TEMPORAL_DIR = os.path.abspath(os.path.join(BASE_DIR, "ShareShogi", "temporal"))
 
-def temporal_path(basename):
+def generate_temporal_path(basename):
     return os.path.abspath(os.path.join(TEMPORAL_DIR, basename))
 
 
@@ -36,25 +36,39 @@ def create_scene_from_preview_request(request):
     新たなシーンを作成する
     '''
 
-    print()
-    print(request.POST["text"])
-    print()
-    print(request.FILES["avatar"])
-    print(type(request.FILES["avatar"]))
-    print(request.FILES)
-
-    return JsonResponse({"code" : 200})
-
     # POSTを受け取る
-    payload = json.loads(request.body.decode("utf-8"))
+
+
+
+    ######################### 1
+
+    # payload = json.loads(request.body.decode("utf-8"))
     
-    image_payload = payload["image"]
-    text = payload["text"]
+    # image_payload = payload["image"]
+    # text = payload["text"]
 
-    image_prefix, image_base64 = image_payload.split(",")
-    print(image_prefix)
+    # image_prefix, image_base64 = image_payload.split(",")
+    # print(image_prefix)
 
-    dec_file = base64.b64decode(image_base64)
+    # dec_file = base64.b64decode(image_base64)
+
+    ####################### 2
+
+    text = request.POST["text"]
+    image = request.FILES["avatar"]
+
+    temporal_image_path = None
+
+    try:
+        temporal_image_path = image.temporary_file_path()
+        print("temporal path exists")
+        print(temporal_image_path)
+    except:
+        print("temporal path not exist")
+
+    #######################
+
+    
 
     user_id = int(request.user.id)
 
@@ -63,34 +77,45 @@ def create_scene_from_preview_request(request):
     ext = "jpg"
     image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
     image_url = fname_cloud(image_basename)
-    temporal_image_path = temporal_path(image_basename)
+    temporal_image_path = generate_temporal_path(image_basename)
 
     print(image_url)
     print(temporal_image_path)
 
-    # 画像をデコードして保存
+    ####################### 1
+
+    # # 画像をデコードして保存
     # with open(temporal_image_path, "wb") as f:
     #     f.write(base64.b64decode(image_base64))
 
-    img_binary = base64.b64decode(image_base64)
-    jpg = np.frombuffer(img_binary,dtype=np.uint8)
-    #raw image <- jpg
-    img = cv2.imdecode(jpg, cv2.IMREAD_COLOR)
-    #画像を保存する場合
-    cv2.imwrite(temporal_image_path, img)
+    # # 画像をアップロード
+    # upload_file(bucket, temporal_image_path, image_basename)
+
+    # # 画像を削除
+    # os.remove(temporal_image_path)
+
+    ######################### 2
 
     # 画像をアップロード
-    upload_file(bucket, temporal_image_path, image_basename)
-    # 画像を削除
-    os.remove(temporal_image_path)
 
-    # obj = bucket.Object(image_basename)
-    # response = obj.put(
-    #     Body = dec_file,
-    #     ContentType = "image/jpeg"
-    # )
+    content_type = {"image/jpeg"}
+
+    if temporal_image_path is None:
+        obj = bucket.Object(image_basename)
+        response = obj.put(
+            Body = thumb.read(),
+            ContentType = content_type
+        )
+    else:
+        bucket.upload_file(
+            temporal_image_path,
+            image_basename,
+            ExtraArgs={"ContentType": content_type}
+        )
 
     print("uploaded image")
+
+    ###########################
 
     # セッション情報を取得
     activeSection_index = request.session["activeSection_index"]
