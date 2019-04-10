@@ -53,3 +53,7 @@ def myScenes_page(request):
 def testUpload_page(request):
     return render(request, "ShareShogi/test_jqueryUpload.html")
 
+@login_required(login_url="/ShareShogi/accounts/loginpage")
+def newAccountForAdmin_page(request):
+    return render(request, "ShareShogi/newAccountForAdmin.html")
+
