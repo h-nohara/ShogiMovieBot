@@ -91,7 +91,8 @@
 
           else{
             //初期状態は最新のブック情報
-            let books = result["result"]
+            let books = result["result"];
+            console.log(books);
             draw_books(books);
           }
       })
