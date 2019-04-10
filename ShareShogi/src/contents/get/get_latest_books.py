@@ -39,6 +39,8 @@ def get_latest_books():
     '''
 
     sample_thumb = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
+    sample_thumb2 = "https://hashibaminone.com/wp-content/uploads/2018/08/LINE%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E6%9C%80%E9%81%A9%E3%81%AA%E7%94%BB%E5%83%8F%E3%82%B5%E3%82%A4%E3%82%B9%E3%82%99.jpg"
+    sample_thumb3 = "https://d3jks39y9qw246.cloudfront.net/medium/12036/5019cbd57e1d7b01e823a19e8ac39e8bed8a469d.jpg"
 
     books = [
         {
@@ -58,6 +60,20 @@ def get_latest_books():
         {
             "book_id" : 102,
             "thumb_url" : sample_thumb,
+            "title" : "穴熊退治の方法",
+            "publisher" : "匿名さん",
+            "opening" : {"sente" : "SikenBisha", "gote" : "SankenBisha"}
+        },
+        {
+            "book_id" : 103,
+            "thumb_url" : sample_thumb2,
+            "title" : "三間飛車石田流の始め方",
+            "publisher" : "匿名さん",
+            "opening" : {"sente" : "SikenBisha", "gote" : "SankenBisha"}
+        },
+        {
+            "book_id" : 104,
+            "thumb_url" : sample_thumb3,
             "title" : "穴熊退治の方法",
             "publisher" : "匿名さん",
             "opening" : {"sente" : "SikenBisha", "gote" : "SankenBisha"}

@@ -29,14 +29,7 @@
 <!-- html要素のテンプレート -->
 
 <!-- ブック -->
-<!-- <script type="text/html" id="book_template">
 
-  <div class="col-6 border border-secondary" id=<%= book_id %> >
-    <img src=<%= image_url %> class="card-img-top " alt="..." >
-    <h6>投稿者：<%= publisher %></h6>
-    <div class="h-25" style="overflow:hidden"><%= title %></div>
-  </div>
-</script> -->
 <script type="text/html" id="book_template">
 
   <div class="col-6 border border-secondary" id=<%= book_id %> >
@@ -89,7 +82,7 @@
 
       $.ajax({
           type : "GET",
-          url : "http://54.248.29.6:8000/ShareShogi/books/get-latests",
+          url : "/ShareShogi/books/get-latests",
       })
       .done(function(result){
           if (result["code"] != 200){
@@ -197,10 +190,13 @@
 
     <div class="container">
 
+      <button class="btn-primary">（ブック情報を編集）</button>
+      <button class="btn-primary">（チャプターを新規作成）</button>
+
       <div class="col-12 border-bottom border-secondary mt-3 mb-5 p-2 mx-auto">
         <!-- <p class="text-center h6 search_word">四間飛車＊三間飛車</p> -->
 
-        <div class="row mt-5 pt-3 allbook">
+        <!-- <div class="row mt-5 pt-3 allbook">
 
             <div class="col-6 border border-secondary">
               <img src="./shogi-board.jpg" class="card-img-top mt-3" alt="...">
@@ -208,7 +204,7 @@
               <div class="h-25" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります</div>
             </div>
 
-        </div>
+        </div> -->
 
       </div>
 
