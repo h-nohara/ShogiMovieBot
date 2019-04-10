@@ -28,7 +28,7 @@
   <script type="text/html" id="book_template">
 
     <div class="col-6 border border-secondary onePanel" id=<%= book_id %> >
-      <img src=<%= image_url %> class="card-img-top mt-3" alt="..." >
+      <img src=<%= image_url %> class="card-img-top mt-3" alt="..." style="object-fit:contain" >
       <div class="h-25" style="overflow:hidden"><%= title %></div>
     </div>
   </script>
@@ -145,7 +145,7 @@
     <div class="container">
 
       <ul class="list-group pt-5 allmybook">
-        <a href="/ShareShogi/books/new"> <li class="list-group-item list-group-item-primary mb-5 mt-5">新規ブック作成</li></a>
+        <a href="/ShareShogi/books/new" class="list-group-item list-group-item-primary mb-5 mt-5">新規ブック作成</a>
 
         <h5>マイブック一覧</h5>
 

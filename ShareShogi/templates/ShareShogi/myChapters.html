@@ -28,7 +28,7 @@
   <script type="text/html" id="panel_template">
 
     <div class="col-6 border border-secondary onePanel" id=<%= chapter_id %> >
-      <img src=<%= image_url %> class="card-img-top mt-3" alt="..." >
+      <img src=<%= image_url %> class="card-img-top mt-3" alt="..." style="object-fit:contain">
       <div class="h-25" style="overflow:hidden"><%= title %></div>
     </div>
 
@@ -146,12 +146,9 @@
     <div class="container">
 
       <ul class="list-group pt-5 allmybook">
-        <a href="/ShareShogi/books/infoEditor">
-          <li class="list-group-item list-group-item-primary mb-5 mt-5">ブック情報を編集</li>
-        </a>
-        <a href="/ShareShogi/chapters/new">
-          <li class="list-group-item list-group-item-primary mb-5 mt-5">新規チャプター作成</li>
-        </a>
+      <a href="/ShareShogi/books/infoEditor" class="list-group-item list-group-item-primary mb-5 mt-5">ブック情報を編集</a>
+
+        <a href="/ShareShogi/chapters/new" class="list-group-item list-group-item-primary mb-5 mt-5">新規チャプター作成</a>
 
         <h5>チャプター一覧</h5>
 
