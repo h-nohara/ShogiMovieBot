@@ -1,7 +1,6 @@
 import os, sys
 
 from django.conf.urls import include, url
-from django.urls import path
 from django.shortcuts import render
 from . import views
 
@@ -94,6 +93,6 @@ urlpatterns = [
 
 
     # リンクから閲覧
-    # url(r"^link/bookScenes<int>$", views.scene_page, name="scenes page"),
+    # url(r"^link/bookScenes[0-9]+$", views.scene_page, name="scenes page"),
 
 ]
