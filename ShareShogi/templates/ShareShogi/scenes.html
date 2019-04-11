@@ -115,8 +115,16 @@
 		$("#fullpage").html("");
 
         if (tree.length == 0){
-            // チャプターパネルを追加
+
+            // セクションを追加
             let chapter_id = "hoge";
+			var compiled_section = _.template($("#section_template").html());
+			var section_html = compiled_section({
+				"chapter_id" : chapter_id,
+			});
+			$("#fullpage").append(section_html);
+
+            // チャプターパネルを追加
 			var compiled_chapter = _.template($("#chapter_template").html());
 			var chapter_html = compiled_chapter({
 				"chapter_id" : chapter_id,
