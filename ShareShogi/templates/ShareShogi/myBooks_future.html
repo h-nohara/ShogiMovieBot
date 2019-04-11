@@ -32,7 +32,7 @@
 
 <script type="text/html" id="book_template">
 
-  <div class="col-6 border border-secondary" id=<%= book_id %> >
+  <div class="col-6 border border-secondary onePanel" id=<%= book_id %> >
     <img src=<%= image_url %> class="card-img-top mt-3" alt="..." >
     
     <div class="h-25 mb-2" style="overflow:hidden"><%= title %></div>
@@ -59,6 +59,34 @@
       $("#allbook").append(book_html);
     }
   }
+
+
+  // チャプターへ移動
+
+  $(document).on("click", ".onePanel", function(){
+
+        let book_id = $(this).attr("id");
+        // window.alert(book_id);
+
+        $.ajax({
+        type : "POST",
+        url : "/ShareShogi/transition/books-to-chapters",
+        data : JSON.stringify({"book_id" : book_id, "is_mine" : true})
+        })
+        .done(function(result){
+        console.log(result);
+        if (result["code"] != 200){
+            window.alert("失敗しました");
+        }
+        else {
+            window.location.href = result["result"];
+        }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            window.alert("ページ遷移に失敗しました");
+        });
+
+    })
 </script>
 
   
