@@ -35,7 +35,7 @@ def bookEditor_page(request):
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def myChapters_page(request):
-    return render(request, "ShareShogi/myChapters.html")
+    return render(request, "ShareShogi/myChapters_future.html")
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def newChapter_page(request):
