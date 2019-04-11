@@ -114,6 +114,18 @@
 		// 元ある描画を更新
 		$("#fullpage").html("");
 
+        if (tree.length == 0){
+            // チャプターパネルを追加
+			var compiled_chapter = _.template($("#chapter_template").html());
+			var chapter_html = compiled_chapter({
+				"chapter_id" : "hoge",
+				"thumb_url" : "",
+				"title" : "チャプターが１つもありません"
+			});
+			$("#chapter-"+String(chapter_id)).append(chapter_html);
+            return
+        };
+
 		for (chapter of tree) {
 
 			let chapter_id = chapter["chapter_id"];
