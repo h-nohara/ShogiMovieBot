@@ -1,6 +1,7 @@
 import os, sys
 
 from django.conf.urls import include, url
+from django.urls import path
 from django.shortcuts import render
 from . import views
 
@@ -89,5 +90,10 @@ urlpatterns = [
     url(r"^transition/books-to-chapters$", books_to_chapters_request, name="books to chapters"),
     url(r"^transition/chapters-to-scenes$", chapters_to_scenes_request, name="chapters to scenes"),
     url(r"^transition/new_from_preview$", new_from_preview_request, name="preview to new page"),
+    # url(r"^transition/link-to-scenes$", new_from_preview_request, name="link to scene"),
+
+
+    # リンクから閲覧
+    # url(r"^link/bookScenes<int>$", views.scene_page, name="scenes page"),
 
 ]

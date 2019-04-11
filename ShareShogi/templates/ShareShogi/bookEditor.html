@@ -79,7 +79,7 @@
           }
           return false;
         });
-      }
+      };
 
       $(document).on("click", "#delete_book", function(){
 
@@ -94,9 +94,9 @@
           }).fail(function( jqXHR, textStatus, errorThrown ) {
             console.log( 'ERROR', jqXHR, textStatus, errorThrown );
           });
-        }
+        };
 
-      })
+      });
 
 
       
