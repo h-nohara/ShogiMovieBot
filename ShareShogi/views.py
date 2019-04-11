@@ -23,7 +23,7 @@ def account_page(request):
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def myBook_page(request):
-    return render(request, "ShareShogi/myBooks.html")
+    return render(request, "ShareShogi/myBooks_future.html")
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def newBook_page(request):

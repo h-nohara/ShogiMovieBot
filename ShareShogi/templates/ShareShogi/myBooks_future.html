@@ -30,9 +30,9 @@
 
 <!-- ブック -->
 
-<script type="text/html" id="panel_template">
+<script type="text/html" id="book_template">
 
-  <div class="col-6 border border-secondary" id=<%= id %> >
+  <div class="col-6 border border-secondary" id=<%= book_id %> >
     <img src=<%= image_url %> class="card-img-top mt-3" alt="..." >
     
     <div class="h-25 mb-2" style="overflow:hidden"><%= title %></div>
@@ -43,28 +43,22 @@
 
 
 <script>
+  function draw_books(books){
 
-    function draw_chapters(chapters){
-      
-      console.log(chapters);
-      
-      $("#allpanel").html("");
-      
-      for (chapter of chapters){
-          
-        var compiled_panel = _.template($("#panel_template").html());
-        var panel_html = compiled_panel({
-            "id" : chapter["chapter_id"],
-            "image_url" : chapter["thumb_url"],
-            "title" : chapter["title"]
-            //   "publisher" : book["publisher"]
-        });
+    $("#allbook").html("");
 
-        $("#allpanel").append(panel_html);
-        }
-    };
+    for (book of books){
+      var compiled_book = _.template($("#book_template").html());
+      var book_html = compiled_book({
+          "book_id" : book["book_id"],
+          "image_url" : book["thumb_url"],
+          "title" : book["title"],
+        //   "publisher" : book["publisher"]
+      });
 
-
+      $("#allbook").append(book_html);
+    }
+  }
 </script>
 
   
@@ -86,35 +80,24 @@
     //   }
 
     //   draw_books(sample_books);
-    
 
-      $.ajax({
-            type : "POST",
-            url : "/ShareShogi/chapters/get",
-            data : JSON.stringify({"book_id" : 100})
+
+        $.ajax({
+          type : "GET",
+          url : "/ShareShogi/books/get-mine",
         })
         .done(function(result){
 
-            if (result["code"] != 200){
-                window.alert("失敗しました");
-            }
-
-            else{
-
-                let BookChapters = result["result"];
-
-                let book_id = BookChapters["book_id"];
-                let book_title = BookChapters["book_title"];
-                let publisher = BookChapters["publisher"];
-                $("#bookTitle").text(book_title);
-
-                let chapters = BookChapters["chapters"];
-                draw_chapters(chapters);
-            }
-
+          if (result["code"] != 200){
+            window.alert("読み込みに失敗しました");
+          }
+          else{
+            let books = result["result"];
+            draw_books(books);
+          }
         })
         .fail(function(jqXHR, textStatus, errorThrown){
-            window.alert("エラー");
+            window.alert("failed load");
         });
 
     
@@ -140,6 +123,7 @@
             <li class="nav-item">
               <a class="nav-link" href="account.html">アカウント設定</a>
             </li>
+                  
           </ul>
         </div>
       </nav>
@@ -149,13 +133,12 @@
 
     <div class="container">
 
-      <!-- <button class="btn-primary mx-auto" style="margin-top: 15vh; margin-bottom: 2vh;">（ブック情報を編集）</button>
-      <button class="btn-primary mx-auto">（チャプターを新規作成）</button> -->
+      <button class="btn-primary mx-auto" style="margin-top: 15vh; margin-bottom: 2vh;">（新規ブック作成）</button>
 
       <div class="col-12 border-bottom border-secondary mt-3 mb-5 p-2 mx-auto">
         <!-- <p class="text-center h6 search_word">四間飛車＊三間飛車</p> -->
 
-        <div class="row mt-5 pt-3" id="allpanel">
+        <div class="row mt-5 pt-3" id="allbook">
 
             <!-- <div class="col-6 border border-secondary">
               <img src="./shogi-board.jpg" class="card-img-top mt-3" alt="...">
