@@ -35,9 +35,11 @@ def get_BookChaptersScenes_request(request):
             return JsonResponse({"code" : 400})
 
     elif request.method == "POST":
+        print("post")
         payload = json.loads(request.body.decode("utf-8"))
         book_id = int(payload["book_id"])
         chapter_id = int(payload["chapter_id"])
+        print(book_id)
 
     # book情報を取得
 
