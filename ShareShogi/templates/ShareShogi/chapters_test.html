@@ -41,40 +41,41 @@
 
 
 <script>
-  function draw_books(books){
 
-    $("#allbook").html("");
+//   function draw_books(books){
 
-    for (book of books){
-      var compiled_book = _.template($("#book_template").html());
-      var book_html = compiled_book({
-          "book_id" : book["book_id"],
-          "image_url" : book["thumb_url"],
-          "title" : book["title"],
-        //   "publisher" : book["publisher"]
-      });
+//     $("#allbook").html("");
 
-      $("#allbook").append(book_html);
-    }
-  }
+//     for (book of books){
+//       var compiled_book = _.template($("#book_template").html());
+//       var book_html = compiled_book({
+//           "book_id" : book["book_id"],
+//           "image_url" : book["thumb_url"],
+//           "title" : book["title"],
+//         //   "publisher" : book["publisher"]
+//       });
+
+//       $("#allbook").append(book_html);
+//     }
+//   }
 
   function draw_chapters(chapters){
+      
+      console.log(chapters);
+      
+      $(".allbook").html("");
+      
+      for (chapter of chapters){
+          
+        var compiled_book = _.template($("#book_template").html());
+        var book_html = compiled_book({
+            "book_id" : chapter["chapter_id"],
+            "image_url" : chapter["thumb_url"],
+            "title" : chapter["title"]
+            //   "publisher" : book["publisher"]
+        });
 
-        $(".allbook").html("");
-
-        for (chapter of chapters){
-            
-            var compiled_book = _.template($("#book_template").html());
-
-            var book_html = compiled_book({
-                "book_id" : chapter["chapter_id"],
-                "image_url" : chapter["thumb_url"],
-                "title" : chapter["title"],
-                //   "publisher" : book["publisher"]
-            });
-
-            $("#allbook").append(book_html);
-            
+        $("#allbook").append(book_html);
         }
     }
 
