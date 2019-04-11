@@ -51,12 +51,18 @@
       $("#allpanel").html("");
       
       for (chapter of chapters){
+
+        let title = chapter["title"];
+        if (title.length >= 13){
+            title = title.slice(0, 13) + "...";
+        }
+
           
         var compiled_panel = _.template($("#panel_template").html());
         var panel_html = compiled_panel({
             "id" : chapter["chapter_id"],
             "image_url" : chapter["thumb_url"],
-            "title" : chapter["title"]
+            "title" : title
             //   "publisher" : book["publisher"]
         });
 
@@ -114,36 +120,6 @@
     //   }
 
     //   draw_books(sample_books);
-    
-    
-        // $.ajax({
-        //     type : "POST",
-        //     url : "/ShareShogi/chapters/get",
-        //     data : JSON.stringify({"book_id" : 100})
-        // })
-        // .done(function(result){
-
-        //     if (result["code"] != 200){
-        //         window.alert("失敗しました");
-        //     }
-
-        //     else{
-
-        //         let BookChapters = result["result"];
-
-        //         let book_id = BookChapters["book_id"];
-        //         let book_title = BookChapters["book_title"];
-        //         let publisher = BookChapters["publisher"];
-        //         $("#bookTitle").text(book_title);
-
-        //         let chapters = BookChapters["chapters"];
-        //         draw_chapters(chapters);
-        //     }
-
-        // })
-        // .fail(function(jqXHR, textStatus, errorThrown){
-        //     window.alert("エラー");
-        // });
 
         $.ajax({
           type : "GET",
