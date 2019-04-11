@@ -56,7 +56,7 @@ urlpatterns = [
 
     url(r"^chapters/page$", views.chapters_page, name="chapters page"),  # チャプター一覧画面
     url(r"^chapters/mypage$", views.myChapters_page, name="my chapters page"),  # マイチャプター一覧画面
-    url(r"^chapters/get$", get_BookChapters_sample_request, name="get chapters"),
+    url(r"^chapters/get$", get_BookChapters_request, name="get chapters"),
     url(r"^chapters/new$", views.newChapter_page, name="new chapter page"),  # 新規作成画面
     url(r"^chapters/api/create$", create_chapter_request, name="create chapter"),  # 新規作成
     # url(r"^chapters/api/create_from_preview$", create_chapter_request, name="create from preview"),  ######## プレビューから新規作成
