@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ja">
+
+  <head>
+    {% load static %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jQuery -->
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+
+    <title>ストーリー一覧</title>
+  </head>
+  <body>
+
+  
+<!-- html要素のテンプレート -->
+
+<!-- ブック -->
+
+<script type="text/html" id="book_template">
+
+  <div class="col-6 border border-secondary" id=<%= book_id %> >
+    <img src=<%= image_url %> class="card-img-top mt-3" alt="..." >
+    <!-- <h6 style="font-size:12px;" class="mt-3">投稿者：<%= publisher %></h6> -->
+    <div class="h-25 mb-2" style="overflow:hidden"><%= title %></div>
+  </div>
+</script>
+
+
+<script>
+  function draw_books(books){
+
+    $("#allbook").html("");
+
+    for (book of books){
+      var compiled_book = _.template($("#book_template").html());
+      var book_html = compiled_book({
+          "book_id" : book["book_id"],
+          "image_url" : book["thumb_url"],
+          "title" : book["title"],
+        //   "publisher" : book["publisher"]
+      });
+
+      $("#allbook").append(book_html);
+    }
+  }
+
+  function draw_chapters(chapters){
+
+        $(".allbook").html("");
+
+        for (chapter of chapters){
+            
+            var compiled_book = _.template($("#book_template").html());
+
+            var book_html = compiled_book({
+                "book_id" : chapter["chapter_id"],
+                "image_url" : chapter["thumb_url"],
+                "title" : chapter["title"],
+                //   "publisher" : book["publisher"]
+            });
+
+            $("#allbook").append(book_html);
+            
+        }
+    }
+
+
+</script>
+
+  
+  <script>
+
+  
+    $(function(){
+
+    //   let sample_thumb = "https://www.jma-net.go.jp/sat/data/web89/parts89/image/ir_201706201100-00.png"
+    //   let sample_book_info = {
+    //     "book_id" : 100,
+    //     "thumb_url" : sample_thumb,
+    //     "nickname" : "ニックネーム",
+    //     "title" : "初心者向けの四間飛車定跡です"
+    //   };
+    //   let sample_books = [];
+    //   for (i=0; i<6; i++){
+    //     sample_books.push(sample_book_info);
+    //   }
+
+    //   draw_books(sample_books);
+    
+
+      $.ajax({
+            type : "POST",
+            url : "/ShareShogi/chapters/get",
+            data : JSON.stringify({"book_id" : 100})
+        })
+        .done(function(result){
+
+            if (result["code"] != 200){
+                window.alert("失敗しました");
+            }
+
+            else{
+
+                let BookChapters = result["result"];
+
+                let book_id = BookChapters["book_id"];
+                let book_title = BookChapters["book_title"];
+                let publisher = BookChapters["publisher"];
+                $("#bookTitle").text(book_title);
+
+                let chapters = BookChapters["chapters"];
+                draw_chapters(chapters);
+            }
+
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            window.alert("エラー");
+        });
+
+    
+    });
+
+  </script>
+    <!--ヘッダー部分（上部固定） -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
+        <a class="navbar-brand" href="#">検索画面</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="search_book2.html">ホーム画面に戻る</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/ShareShogi/books/mypage">マイブックを編集</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="account.html">アカウント設定</a>
+            </li>
+              <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ブック検索
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <form class="form-inline d-flex flex-column row">
+                      <div class="form-group col-11">
+                      <label for="exampleFormControlSelect1">先手の戦型を選択</label>
+                      <select class="form-control" id="senteSelect">
+                        <option>居飛車穴熊</option>
+                        <option>三間飛車角</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-11">
+                      <label for="exampleFormControlSelect1">後手の戦型を選択</label>
+                      <select class="form-control" id="goteSelect">
+                        <option>居飛車穴熊</option>
+                        <option>三間飛車角</option>
+                      </select>
+                    </div>
+                  <button class="btn btn-outline-success search_book my-2 my-sm-0 ml-3" type="submit">検索</button>
+                </form>
+                  </div>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!--ヘッダーここまで -->
+
+
+    <div class="container">
+
+      <button class="btn-primary mx-auto" style="margin-top: 15vh; margin-bottom: 2vh;">（ブック情報を編集）</button>
+      <button class="btn-primary mx-auto">（チャプターを新規作成）</button>
+
+      <div class="col-12 border-bottom border-secondary mt-3 mb-5 p-2 mx-auto">
+        <!-- <p class="text-center h6 search_word">四間飛車＊三間飛車</p> -->
+
+        <div class="row mt-5 pt-3" id="allbook">
+
+            <!-- <div class="col-6 border border-secondary">
+              <img src="./shogi-board.jpg" class="card-img-top mt-3" alt="...">
+              <h6 style="font-size:12px;">投稿者：ニックネーム</h6>
+              <div class="h-25" style="overflow:hidden">文章が入ります。文章が入ります。文章が入ります文章が入ります</div>
+            </div> -->
+
+        </div>
+
+      </div>
+
+
+    </div>
+  </body>
+</html>
