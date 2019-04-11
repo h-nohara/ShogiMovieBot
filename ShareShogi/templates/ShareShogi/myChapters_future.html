@@ -115,34 +115,60 @@
 
     //   draw_books(sample_books);
     
+    
+        // $.ajax({
+        //     type : "POST",
+        //     url : "/ShareShogi/chapters/get",
+        //     data : JSON.stringify({"book_id" : 100})
+        // })
+        // .done(function(result){
 
-      $.ajax({
-            type : "POST",
-            url : "/ShareShogi/chapters/get",
-            data : JSON.stringify({"book_id" : 100})
+        //     if (result["code"] != 200){
+        //         window.alert("失敗しました");
+        //     }
+
+        //     else{
+
+        //         let BookChapters = result["result"];
+
+        //         let book_id = BookChapters["book_id"];
+        //         let book_title = BookChapters["book_title"];
+        //         let publisher = BookChapters["publisher"];
+        //         $("#bookTitle").text(book_title);
+
+        //         let chapters = BookChapters["chapters"];
+        //         draw_chapters(chapters);
+        //     }
+
+        // })
+        // .fail(function(jqXHR, textStatus, errorThrown){
+        //     window.alert("エラー");
+        // });
+
+        $.ajax({
+          type : "GET",
+          url : "/ShareShogi/chapters/get",
         })
         .done(function(result){
 
-            if (result["code"] != 200){
-                window.alert("失敗しました");
-            }
+          if (result["code"] != 200){
+            window.alert("読み込みに失敗しました");
+          }
+          else{
 
-            else{
+            let BookChapters = result["result"];
 
-                let BookChapters = result["result"];
+            let book_id = BookChapters["book_id"];
+            let book_title = BookChapters["book_title"];
+            let publisher = BookChapters["publisher"];
+            // $("#bookTitle").text(book_title);
 
-                let book_id = BookChapters["book_id"];
-                let book_title = BookChapters["book_title"];
-                let publisher = BookChapters["publisher"];
-                $("#bookTitle").text(book_title);
-
-                let chapters = BookChapters["chapters"];
-                draw_chapters(chapters);
-            }
-
+            let chapters = BookChapters["chapters"];
+            draw_chapters(chapters);
+          }
         })
         .fail(function(jqXHR, textStatus, errorThrown){
-            window.alert("エラー");
+            window.alert("failed load");
         });
 
     
