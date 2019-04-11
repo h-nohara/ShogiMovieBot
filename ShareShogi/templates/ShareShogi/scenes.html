@@ -116,9 +116,10 @@
 
         if (tree.length == 0){
             // チャプターパネルを追加
+            let chapter_id = "hoge";
 			var compiled_chapter = _.template($("#chapter_template").html());
 			var chapter_html = compiled_chapter({
-				"chapter_id" : "hoge",
+				"chapter_id" : chapter_id,
 				"thumb_url" : "",
 				"title" : "チャプターが１つもありません"
 			});
