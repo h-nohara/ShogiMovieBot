@@ -10,7 +10,7 @@ def search_page(request):
     return render(request, "ShareShogi/search_book.html")
 
 def chapters_page(request):
-    return render(request, "ShareShogi/chapters.html")
+    return render(request, "ShareShogi/chapters_test.html")
 
 def scene_page(request):
     return render(request, "ShareShogi/scenes.html")
