@@ -93,6 +93,9 @@ urlpatterns = [
 
 
     # リンクから閲覧
-    # url(r"^link/bookScenes[0-9]+$", views.scene_page, name="scenes page"),
+
+    url(r"^link/bookScenes[0-9]+$", views.scene_page, name="scenes page"),
+    # url(r"^link/api/get$", views.scene_page, name="scenes page"),
+    # url(r"^link/api/get-mine$", views.scene_page, name="scenes page"),
 
 ]
