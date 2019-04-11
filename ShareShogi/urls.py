@@ -18,7 +18,7 @@ from ShareShogi.src.contents.get.get_book_info import get_book_info_request
 from ShareShogi.src.contents.delete.delete_book import delete_book_request
 
 ## chapter
-from ShareShogi.src.contents.get.get_chapters import get_BookChapters_request
+from ShareShogi.src.contents.get.get_chapters import get_BookChapters_request, get_BookChapters_sample_request
 from ShareShogi.src.contents.create.create_chapter import create_chapter_request
 from ShareShogi.src.contents.delete.delete_chapter import delete_chapter_request
 
