@@ -32,6 +32,9 @@ from ShareShogi.src.contents.transition.books_to_chapters import books_to_chapte
 from ShareShogi.src.contents.transition.chapters_to_scenes import chapters_to_scenes_request
 from ShareShogi.src.contents.transition.new_from_preview import new_from_preview_request
 
+# link
+from ShareShogi.src.contents.get.get_link import get_link_request
+
 
 urlpatterns = [
 
@@ -96,6 +99,6 @@ urlpatterns = [
 
     url(r"^link/bookScenes[0-9]+$", views.scene_page, name="scenes page"),
     # url(r"^link/api/get$", views.scene_page, name="scenes page"),
-    # url(r"^link/api/get-mine$", views.scene_page, name="scenes page"),
+    url(r"^link/api/get-mine$", get_link_request, name="get mybook link"),
 
 ]
