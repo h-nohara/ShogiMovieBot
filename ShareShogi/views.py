@@ -47,7 +47,7 @@ def newScene_page(request):
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def myScenes_page(request):
-    return render(request, "ShareShogi/myScenes_test.html")
+    return render(request, "ShareShogi/myScenes_morutu.html")
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def testUpload_page(request):
