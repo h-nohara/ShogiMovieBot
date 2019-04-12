@@ -42,7 +42,7 @@ urlpatterns = [
 
     # ブック
 
-    url(r"^books/page$", views.search_page, name="search page"),  # 検索画面
+    url(r"^books/search$", views.search_page, name="search page"),  # 検索画面
     url(r"^books/mypage$", views.myBook_page, name="my books page"),  # マイブック一覧画面
     url(r"^books/new$", views.newBook_page, name="my books page"),  # マイブック一覧画面
     url(r"^books/infoEditor$", views.bookEditor_page, name="my book editor"),  # ブック情報編集
@@ -80,7 +80,7 @@ urlpatterns = [
 
     # アカウント
 
-    url(r"^accounts/page$", views.account_page, name="account page"),  # アカウント設定画面
+    url(r"^accounts/mypage$", views.account_page, name="account page"),  # アカウント設定画面
     url(r"^accounts/api/get$", views.account_page, name="get account"),  # アカウント設定を取得
     url(r"^accounts/loginpage$", views.login_page, name="login page"),  # ログインページ
     url(r"^accounts/newForAdmin$", views.newAccountForAdmin_page, name="new account for admin page"),  # 新規アカウント作成ページ（管理者向け）
