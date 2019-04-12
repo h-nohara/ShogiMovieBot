@@ -19,14 +19,6 @@
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 
-    <!-- <script type="text/javascript" src="../dist/fullpage.js"></script>
-    <script type="text/javascript" src="../dist/fullpage.extensions.min.js"></script>
-    <script type="text/javascript" src="../dist/jquery.fullpage.extensions.min.js"></script> -->
-
-    <!-- <link rel="stylesheet" type="text/css" href="../dist/fullpage.css">
-	<link rel="stylesheet" type="text/css" href="../css/examples.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css"> -->
-
     <link rel="stylesheet" type="text/css" href="{% static 'dist/fullpage.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/examples.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
@@ -109,6 +101,7 @@
 </script>
 
 <script>
+
 	function draw_ChaptersScenes(tree){
 
 		// 元ある描画を更新
@@ -214,6 +207,8 @@
 
 	}
 
+	
+
 </script>
 
 
@@ -236,61 +231,51 @@
             // 			{"scene_id" : 3, "text" : sample_text, "thumb_url" : sample_image},
             // 			{"scene_id" : 4, "text" : sample_text, "thumb_url" : sample_image},
             // 		]
-            // 	},
-            // 	{
-            // 		"chapter_id" : 120,
-            // 		"scenes" : [
-            // 			{"scene_id" : 5, "text" : sample_text, "thumb_url" : sample_image},
-            // 			{"scene_id" : 6, "text" : sample_text, "thumb_url" : sample_image},
-            // 			{"scene_id" : 10, "text" : sample_text, "thumb_url" : sample_image}
-            // 		]
             // 	}
             // ]
-
-            // /ShareShogi/link/bookScenes[0-9]+
 
             let book_id = parseInt(location.href.split("bookScenes").slice(-1)[0]);
 
             $.ajax({
-                    type : "POST",
-                    url : "/ShareShogi/scenes/get",
-                    data : JSON.stringify({
-                        "book_id" : book_id,
-                        "chapter_id" : 0
-                    })
+                type : "POST",
+                url : "/ShareShogi/scenes/get",
+                data : JSON.stringify({
+                    "book_id" : book_id,
+                    "chapter_id" : 0
                 })
-                .done(function(result){
+            })
+            .done(function(result){
 
-                    if (result["code"] != 200){
-                        window.alert("失敗しました");
-                    }
-
-                    else {
-
-                        BookChaptersScenes = result["result"];
-                        console.log("response");
-                        console.log(BookChaptersScenes);
-
-                        let book_id = BookChaptersScenes["book_id"];
-                        let book_title = BookChaptersScenes["book_title"];
-                        let publisher = BookChaptersScenes["publisher"];
-
-                        let ChaptersScenes = BookChaptersScenes["ChaptersScenes"];
-                        draw_ChaptersScenes(ChaptersScenes);
-
-                    }
-                })
-                .fail(function(){
+                if (result["code"] != 200){
                     window.alert("失敗しました");
-                })
-                .always(function(){
-                    // fullpage.jsを作用させる
-                    var myFullpage = new fullpage('#fullpage', {
-                        sectionsColor: ['#ffffff'],
-                        licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
+                }
 
-                    });
+                else {
+
+                    BookChaptersScenes = result["result"];
+                    console.log("response");
+                    console.log(BookChaptersScenes);
+
+                    let book_id = BookChaptersScenes["book_id"];
+                    let book_title = BookChaptersScenes["book_title"];
+                    let publisher = BookChaptersScenes["publisher"];
+
+                    let ChaptersScenes = BookChaptersScenes["ChaptersScenes"];
+                    draw_ChaptersScenes(ChaptersScenes);
+
+                }
+            })
+            .fail(function(){
+                window.alert("失敗しました");
+            })
+            .always(function(){
+                // fullpage.jsを作用させる
+                var myFullpage = new fullpage('#fullpage', {
+                    sectionsColor: ['#ffffff'],
+                    licenseKey: '8AE83121-BE894D4D-BB42231E-34341677'
+
                 });
+            });
 
             // draw_scenes(sample_tree);
 
@@ -301,10 +286,6 @@
 
             // });
 
-            // $.fn.fullpage.destroy('all');
-            // $.fn.fullpage.reBuild();
-
-
 		})
 
 
@@ -314,7 +295,7 @@
 	<!--  ヘッダー部分（上部固定） -->
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
-			<a class="navbar-brand h1" href="#" style="font-size:70px;">ビュー</a>
+			<a class="navbar-brand h1" href="#" style="font-size:70px;">プレビュー</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
 				<span class="navbar-toggler-icon" style="font-size:50px;"></span>
 			</button>
@@ -338,12 +319,13 @@
 
 <div class="container-fluid" style="padding:0px;">
 
-    <!-- <a href="/ShareShogi/chapters/mypage">
+    <a href="/ShareShogi/chapters/mypage">
 		<div class="row  fixed-bottom">
 			<button type="submit" class="btn btn-primary btn-bg col-12" style="height:6vh; font-size:45px;">チャプター一覧へ戻る</button>
 		</div>
-    </a> -->
+    </a>
 
+    
 	<div id="fullpage" >
 <!--
 		<div class="section">

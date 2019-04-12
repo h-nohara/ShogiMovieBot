@@ -23,7 +23,7 @@ def account_page(request):
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def myBook_page(request):
-    return render(request, "ShareShogi/myBooks_future.html")
+    return render(request, "ShareShogi/myBooks.html")
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def newBook_page(request):
@@ -35,7 +35,7 @@ def bookEditor_page(request):
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def myChapters_page(request):
-    return render(request, "ShareShogi/myChapters_future.html")
+    return render(request, "ShareShogi/myChapters.html")
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def newChapter_page(request):
@@ -47,7 +47,7 @@ def newScene_page(request):
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def myScenes_page(request):
-    return render(request, "ShareShogi/myScenes_morutu.html")
+    return render(request, "ShareShogi/myScenes.html")
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def testUpload_page(request):

@@ -63,19 +63,19 @@
 <script type="text/html" id="chapter_template">
 
 	<div class=" slide border" id="chapterPanel-<%= chapter_id %>" style="background-color:#ffffff;">
-		<div class="row mb-5 mt-5">
+		<!-- <div class="row mb-5 mt-5">
 			<button class="btn btn-danger btn-bg col-5 ml-5 mr-3 mt-5 deleteChapter" style="height:5vh; font-size:40px;">チャプターごと削除</button>
 			<button class="btn btn-primary btn-bg col-5 ml-5 mt-5 editChapter" style="height:5vh; font-size:40px;">未実装：編集</button>
 
-		</div>
+		</div> -->
 		<div class=" h-75 alert-success mb-5 " style="border:5px solid; margin:0 3vw;">
-				<div class="w-100 h-50 mx-auto mt-5 mb-5">
-		<img src="<%= thumb_url %>" class="card-img-top h-100 w-100" alt="..." style="object-fit:contain;">
+				<div class="w-75 h-50 mx-auto mt-5 mb-5">
+		<img src="<%= thumb_url %>" class="card-img-top" alt="..." style="object-fit:contain;">
 	</div>
-		<div class="h-25  comments mt-5 ml-5 mb-3 text-dark " style="overflow:scroll; font-size:50px; border:5px solid; width:83vw;"><%= title %></div>
+		<div class="h-25  comments mt-5 ml-5 mb-5 text-dark " style="overflow:scroll; font-size:50px; border:5px solid; width:83vw;"><%= title %></div>
 		<div class="row">
-			<button class="btn btn-primary btn-bg col-5 ml-5 mr-3 addChapterPrev" style="height:5vh; font-size:40px; z-index:10;">未実装：前チャプ</button>
-			<button class="btn btn-primary btn-bg col-5 ml-5 addSceneNext" style="height:5vh; font-size:40px; z-index:10;">次へシーン追加</button>
+			<!-- <button class="btn btn-primary btn-bg col-5 ml-5 mr-3 addChapterPrev" style="height:5vh; font-size:40px; z-index:10;">未実装：前チャプ</button> -->
+			<button class="btn btn-primary btn-bg col-5 ml-5 addSceneNext" style="height:5vh; font-size:40px; z-index:10;">いいね</button>
 
 		</div>
 		</div>
@@ -88,19 +88,19 @@
 
 	<div class=" slide border" id=<%= scene_id %> >
 		<div class="row mb-5 mt-5">
-			<button class="btn btn-danger btn-bg col-5 ml-5 mr-3 mt-5 deleteScene" style="height:5vh; font-size:40px;">シーン削除</button>
-			<button class="btn btn-primary btn-bg col-5 ml-5 mt-5 editScene" style="height:5vh; font-size:40px;">未実装：編集</button>
+			<!-- <button class="btn btn-danger btn-bg col-5 ml-5 mr-3 mt-5 deleteScene" style="height:5vh; font-size:40px;">シーン削除</button>
+			<button class="btn btn-primary btn-bg col-5 ml-5 mt-5 editScene" style="height:5vh; font-size:40px;">未実装：編集</button> -->
 
 		</div>
 
 		<div class="h-75 mb-5" style="border:5px solid; margin:0 3vw;">
-		<div class="w-100 h-50 mx-auto mt-5 mb-5">
-		<img src="<%= image_url %>" class="card-img-top h-100 w-100" alt="..." style="object-fit:contain;">
+		<div class="w-75 h-50 mx-auto mt-5 mb-5">
+		<img src="<%= image_url %>" class="card-img-top  mt-5 ml-5 mr-3" alt="..." style="object-fit:contain;">
 		</div>
-		<div class="h-25 comments mt-5 ml-5 mb-3 text-dark " style="overflow:scroll; border:5px solid;  font-size:50px; width:83vw;"><%= text %></div>
+		<div class="h-25 comments mt-4 ml-5 mb-5 text-dark " style="overflow:scroll; border:5px solid;  font-size:50px; width:83vw;"><%= text %></div>
 		<div class="row">
-			<button class="btn btn-primary btn-bg col-5 ml-5 mr-3 addScenePrev" style="height:5vh; font-size:40px; z-index:10;">前にシーン追加</button>
-			<button class="btn btn-primary btn-bg col-5 ml-5 addSceneNext" style="height:5vh; font-size:40px; z-index:10;">次へシーン追加</button>
+			<!-- <button class="btn btn-primary btn-bg col-5 ml-5 mr-3 addScenePrev" style="height:5vh; font-size:40px; z-index:10;">前にシーン追加</button> -->
+			<button class="btn btn-primary btn-bg col-5 ml-5 addSceneNext" style="height:5vh; font-size:40px; z-index:10;">いいね</button>
 
 		</div>
 		</div>
@@ -113,6 +113,27 @@
 
 		// 元ある描画を更新
 		$("#fullpage").html("");
+
+        if (tree.length == 0){
+
+            // セクションを追加
+            let chapter_id = "hoge";
+			var compiled_section = _.template($("#section_template").html());
+			var section_html = compiled_section({
+				"chapter_id" : chapter_id,
+			});
+			$("#fullpage").append(section_html);
+
+            // チャプターパネルを追加
+			var compiled_chapter = _.template($("#chapter_template").html());
+			var chapter_html = compiled_chapter({
+				"chapter_id" : chapter_id,
+				"thumb_url" : "",
+				"title" : "チャプターが１つもありません"
+			});
+			$("#chapter-"+String(chapter_id)).append(chapter_html);
+            return
+        };
 
 		for (chapter of tree) {
 
@@ -193,114 +214,6 @@
 
 	}
 
-	// 新規作成の際に、セッションに現在見ているカードの情報を保存
-
-	function transit_to_createPage(type, is_create_next){
-
-		let indexs = get_watching_card_info();
-		let activeSection_index = indexs[0][0];
-		let activeSection_id = indexs[0][1];
-		let activeSlide_index = indexs[1][0];
-		let activeSlide_id = indexs[1][1];
-
-		$.ajax({
-			type : "POST",
-			url : "/ShareShogi/transition/new_from_preview",
-			data : JSON.stringify({
-				"activeSection_index" : activeSection_index,
-				"activeSection_id" : activeSection_id,
-				"activeSlide_index" : activeSlide_index,
-				"activeSlide_id" : activeSlide_id,
-				"is_create_next" : is_create_next
-			})
-		})
-		.done(function(result){
-			console.log(result);
-			if (result["code"] != 200){
-				window.alert("失敗しました");
-			}
-			else {
-				if (type == "chapter"){
-					window.location.href = "/ShareShogi/chapters/new";
-				}
-				else{
-					window.location.href = "/ShareShogi/scenes/new";
-				}
-			}
-		})
-		.fail(function(jqXHR, textStatus, errorThrown){
-			window.alert("ページ遷移に失敗しました");
-		});
-
-	}
-
-	function delete_contents(type){
-
-		let indexs = get_watching_card_info();
-
-		if (type=="chapter"){
-			var api_url = "/ShareShogi/chapters/api/delete";
-			var post_data = {"chapter_id" : indexs[0][1]};
-			var alert_prefix = "チャプターを";
-		}
-		else if (type=="scene"){
-			var api_url = "/ShareShogi/scenes/api/delete";
-			var post_data = {"scene_id" : indexs[1][1]};
-			var alert_prefix = "シーンを";
-		}
-		else {
-			exit();
-		}
-
-		if (window.confirm(alert_prefix + '削除します（元に戻せません）')){
-
-			$.ajax({
-				type : "POST",
-				url : api_url,
-				data : JSON.stringify(post_data)
-			})
-			.done(function(result){
-				console.log(result);
-				if (result["code"] == 200){
-					window.location.href = "/ShareShogi/scenes/mypage";
-				}
-				else {
-					window.alert("失敗しました");
-				}
-			})
-			.fail(function(jqXHR, textStatus, errorThrown){
-				window.alert("ページ遷移に失敗しました");
-			});
-
-		}
-	}
-
-	// 新規シーンの追加
-
-	$(document).on("click", ".addScenePrev", function(){
-		transit_to_createPage(type="scene", is_create_next=false);
-	})
-
-	$(document).on("click", ".addSceneNext", function(){
-		transit_to_createPage(type="scene", is_create_next=true);
-	})
-
-	// 新規チャプターの追加
-
-	// $(document).on("click", ".addChapterPrev", function(){
-	// 	transit_to_createPage(type="chapter", is_create_next=false);
-	// })
-
-	// チャプターの削除
-	$(document).on("click", ".deleteChapter", function(){
-		delete_contents(type="chapter");
-	})
-
-	// シーンの削除
-	$(document).on("click", ".deleteScene", function(){
-		delete_contents(type="scene");
-	})
-
 </script>
 
 
@@ -334,10 +247,17 @@
             // 	}
             // ]
 
+            // /ShareShogi/link/bookScenes[0-9]+
+
+            let book_id = parseInt(location.href.split("bookScenes").slice(-1)[0]);
+
             $.ajax({
-                    type : "GET",
+                    type : "POST",
                     url : "/ShareShogi/scenes/get",
-                    // data : JSON.stringify({"book_id" : 300})
+                    data : JSON.stringify({
+                        "book_id" : book_id,
+                        "chapter_id" : 0
+                    })
                 })
                 .done(function(result){
 
@@ -394,7 +314,7 @@
 	<!--  ヘッダー部分（上部固定） -->
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
-			<a class="navbar-brand h1" href="#" style="font-size:70px;">プレビュー</a>
+			<a class="navbar-brand h1" href="#" style="font-size:70px;">ビュー</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
 				<span class="navbar-toggler-icon" style="font-size:50px;"></span>
 			</button>
@@ -418,27 +338,12 @@
 
 <div class="container-fluid" style="padding:0px;">
 
-    <a href="/ShareShogi/chapters/mypage">
+    <!-- <a href="/ShareShogi/chapters/mypage">
 		<div class="row  fixed-bottom">
 			<button type="submit" class="btn btn-primary btn-bg col-12" style="height:6vh; font-size:45px;">チャプター一覧へ戻る</button>
 		</div>
-    </a>
+    </a> -->
 
-	<!-- <a href="/ShareShogi/chapters/mypage"> -->
-	<!-- <a> -->
-<!---
-		<div class="row  fixed-bottom pb-5 mb-5">
-			<button class="btn btn-primary btn-bg col-5 ml-5 mr-3 " style="height:5vh; font-size:40px;">前にチャプター追加</button>
-				<button class="btn btn-primary btn-bg col-5 ml-5" style="height:5vh; font-size:40px;">次へチャプター追加</button>
-
-		</div>
-		<div class="row  fixed-top pt-5 pl-5" style="margin-top:6vh;">
-			<button class="btn btn-danger btn-bg col-5 ml-5 mr-5 " style="height:5vh; font-size:40px;">チャプターごと削除</button>
-				<button class="btn btn-primary btn-bg col-4 ml-5" style="height:5vh; font-size:40px;">編集</button>
-
-		</div>
-	</a>
--->
 	<div id="fullpage" >
 <!--
 		<div class="section">
