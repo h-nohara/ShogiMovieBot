@@ -52,24 +52,31 @@
 </script>
 
 <!-- チャプター -->
-<script type="text/html" id="chapter_template">
+<!-- <script type="text/html" id="chapter_template">
 
 	<div class=" slide border" id="chapterPanel-<%= chapter_id %>" style="background-color:#ffffff;">
-		<!-- <div class="row mb-5 mt-5">
-			<button class="btn btn-danger btn-bg col-5 ml-5 mr-3 mt-5 deleteChapter" style="height:5vh; font-size:40px;">チャプターごと削除</button>
-			<button class="btn btn-primary btn-bg col-5 ml-5 mt-5 editChapter" style="height:5vh; font-size:40px;">未実装：編集</button>
-
-		</div> -->
 		<div class=" h-75 alert-success mb-5 " style="border:1px solid; margin:0 3vw;">
 				<div class="w-75 h-50 mx-auto mt-5 mb-5">
 		<img src="<%= thumb_url %>" class="card-img-top" alt="..." style="object-fit:contain;">
 	</div>
 		<div class="h-25  comments mt-5 ml-5 mb-5 text-dark " style="overflow:scroll; font-size:50px; border:1px solid; width:83vw;"><%= title %></div>
 		<div class="row">
-			<!-- <button class="btn btn-primary btn-bg col-5 ml-5 mr-3 addChapterPrev" style="height:5vh; font-size:40px; z-index:10;">未実装：前チャプ</button> -->
-			<!-- <button class="btn btn-primary btn-bg col-5 ml-5 addSceneNext" style="height:5vh; font-size:40px; z-index:10;">いいね</button> -->
-
 		</div>
+		</div>
+	</div>
+
+</script> -->
+
+<!-- チャプター -->
+<script type="text/html" id="chapter_template">
+
+	<div class=" slide border" id="chapterPanel-<%= chapter_id %>" style="background-color:#ffffff;">
+		<div class=" alert-success mb-5 " style="border:1px solid; margin:0 3vw; height:80vh;">
+			<div class="mx-auto" style="height:70%; width:97%; margin:3% 0;">
+                <img src="<%= thumb_url %>" alt="..." style="object-fit:contain; width:95%; height:95%">
+            </div>
+            <div class="comments mx-auto text-dark " style="overflow:scroll; font-size:50px; border:1px solid; width:83vw; height:20%"><%= title %></div>
+            <!-- <div class="row"></div> -->
 		</div>
 	</div>
 
