@@ -28,14 +28,14 @@
   
 <!-- html要素のテンプレート -->
 
-<!-- ブック -->
+<!-- チャプター -->
 
 <script type="text/html" id="panel_template">
 
   <div class="col-6 border border-secondary onePanel" id=<%= id %> >
-    <img src=<%= image_url %> class="card-img-top mt-3" alt="..." >
+    <img src=<%= image_url %> class="card-img-top mt-3" alt="..." style="max-height:35vh; max-width:95%; object-fit:contain;" >
     
-    <div class="h-25 mb-2" style="overflow:hidden"><%= title %></div>
+    <div class="h-25 mb-2" style="overflow:hidden"><b><%= title %></b></div>
   </div>
 </script>
 
