@@ -34,8 +34,8 @@
 
   <div class="col-6 border border-secondary onePanel" id=<%= id %> >
     <img src=<%= image_url %> class="card-img-top mt-3" alt="..." style="max-height:35vh; max-width:95%; object-fit:contain;" >
-    
-    <div class="h-25 mb-2" style="overflow:hidden"><b><%= title %></b></div>
+    <!-- <div class="h-25 mb-2" style="overflow:hidden"><b><%= title %></b></div> -->
+    <div class="mt-2 mb-2" style="overflow:hidden"><b><%= title %></b></div>
   </div>
 </script>
 
@@ -53,11 +53,10 @@
       for (chapter of chapters){
 
         let title = chapter["title"];
-        if (title.length >= 13){
-            title = title.slice(0, 13) + "...";
+        if (title.length >= 200){
+            title = title.slice(0, 200) + "...";
         }
-
-          
+ 
         var compiled_panel = _.template($("#panel_template").html());
         var panel_html = compiled_panel({
             "id" : chapter["chapter_id"],

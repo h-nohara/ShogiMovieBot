@@ -49,11 +49,17 @@
     $("#allbook").html("");
 
     for (book of books){
+
+      let title = book["title"];
+      if (title.length >= 200){
+          title = title.slice(0, 200) + "...";
+      }
+
       var compiled_book = _.template($("#book_template").html());
       var book_html = compiled_book({
           "book_id" : book["book_id"],
           "image_url" : book["thumb_url"],
-          "title" : book["title"],
+          "title" : title,
           "publisher" : book["publisher"]
       });
 
