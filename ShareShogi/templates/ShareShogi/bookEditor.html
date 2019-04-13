@@ -81,6 +81,9 @@
         });
       };
 
+
+      // ブック削除
+
       $(document).on("click", "#delete_book", function(){
 
         if(window.confirm('ブックを削除します（元に戻せません）')){
@@ -97,6 +100,39 @@
         };
 
       });
+
+      // 変更を保存
+
+      $(document).on("click", "#save", function(){
+
+        let public_flag = $("#public_flag").val();
+        let title = $("#title").val();
+
+        let is_public = false;
+        if (public_flag == "positive"){
+          is_public = true;
+        }
+        result = {"title" : title, "is_public" : is_public};
+
+        $.ajax({
+          url: '/ShareShogi/books/api/save',
+          method: 'POST',
+          data: JSON.stringify(result)
+        })
+        .done(function( res ) {
+          if (res["code"] == 200){
+            window.alert("変更を反映しました");
+          }
+          else{
+            window.alert("失敗しました");
+          }
+        })
+        .fail(function( jqXHR, textStatus, errorThrown ) {
+          window.alert("失敗しました");
+          console.log( 'ERROR', jqXHR, textStatus, errorThrown );
+        });
+
+      })
 
 
 
@@ -197,7 +233,7 @@
       <button id="back" class="btn btn-warning" onclick="window.location.href='/ShareShogi/chapters/mypage'" >変更せずに戻る</button>
     </div>
     <div style="margin: 5vh 10vw;">
-      <button id="back" class="btn btn-primary" onclick="window.location.href='/ShareShogi/chapters/mypage'" >変更を反映する</button>
+      <button id="save" class="btn btn-primary" >変更を反映する</button>
     </div>
 
     <div class="container">

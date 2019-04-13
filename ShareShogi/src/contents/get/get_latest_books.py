@@ -34,6 +34,30 @@ def get_latest_books_request(request):
 
 def get_latest_books():
 
+    queryset_Book = Book.objects.filter(is_public=True)
+    books = []
+
+    for record_Book in queryset_Book:
+
+        info = {
+            "book_id" : int(record_Book.id),
+            "thumb_url" : record_Book.thumb_url,
+            "title" : record_Book.title,
+            "publisher" : record_Book.user.nickname,
+            "opening" : {
+                "sente" : record_Book.opening_sente,
+                "gote" : record_Book.opening_gote
+            }
+        }
+        books.append(info)
+
+    books = books[::-1]
+
+    return books
+
+
+def get_latest_books_sample():
+
     '''
     最新のブック一覧を取得する
     '''
