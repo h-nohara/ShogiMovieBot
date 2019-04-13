@@ -105,7 +105,10 @@ def create_book_request(request):
         temporal_image_path = ".".join(temporal_image_path.split(".")[:-1] + [ext])
 
     # 画像をトリミング
-    im_crop.save(temporal_image_path, quality=100)
+    if ext == "jpg":
+        im_crop.save(temporal_image_path, quality=100)
+    else:
+        im_crop.save(temporal_image_path)
 
     # アップロード
     bucket.upload_file(

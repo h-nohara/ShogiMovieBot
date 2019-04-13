@@ -66,7 +66,6 @@ def create_scene_from_preview_request(request):
     print(payload)
 
     image = request.FILES["original_image"]
-    _content_type = image.content_type
 
     print(image)
     print(image.__dict__)
@@ -112,8 +111,15 @@ def create_scene_from_preview_request(request):
 
     # 画像をアップロード
 
-    content_type = "image/jpeg"
-    ext = "jpg"
+    content_type = image.content_type
+    print(content_type)
+
+    if content_type is None:
+        content_type = "image/jpeg"
+
+    ext = get_normalized_ext(content_type.split("/")[-1], restriction="image")
+    if ext is None:
+        ext = "jpg"
 
     image_basename = generate_basename(key=str(user_id)+"newscene", ext=ext)
     image_url = fname_cloud(image_basename)
@@ -150,9 +156,14 @@ def create_scene_from_preview_request(request):
 
     im_crop = im.crop((cropping_x, cropping_y, cropping_x+cropping_w, cropping_y+cropping_h))
 
+    # スマホからアップロードすると、".upload"になることがあるので対策
     if get_normalized_ext(temporal_image_path.split(".")[-1], restriction="image") is None:
-        temporal_image_path = ".".join(temporal_image_path.split(".")[:-1] + ["jpg"])
-    im_crop.save(temporal_image_path, quality=100)
+        temporal_image_path = ".".join(temporal_image_path.split(".")[:-1] + [ext])
+    
+    if ext == "jpg":
+        im_crop.save(temporal_image_path, quality=100)
+    else:
+        im_crop.save(temporal_image_path)
 
     bucket.upload_file(
         temporal_image_path,
