@@ -67,9 +67,9 @@ def create_book_request(request):
         content_type = "image/jpeg"
 
     if content_type == "image/png":
-        ext = "jpg"
-    else:
         ext = "png"
+    else:
+        ext = "jpg"
 
     temporal_image_path = None
 
