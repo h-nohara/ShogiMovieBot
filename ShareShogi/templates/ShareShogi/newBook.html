@@ -313,9 +313,15 @@
                 </button>
               </div>
               <div class="modal-body">
-                <div class="img-container">
+
+                <!-- <div class="img-container">
                   <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+                </div> -->
+
+                <div class="cropper-container">
+                  <img src="" alt="トリミング画像" id="image" style="display: none;" />
                 </div>
+
                 <style>
                   /* .img-container {max-height: 75vh;} */
                   /* #image {object-fit:contain;} */
@@ -328,6 +334,7 @@
                   .cropper-container{
                       width: 100%;
                   }
+                  #image {height: 50vh;}
                 </style>
               </div>
               <div class="modal-footer">
