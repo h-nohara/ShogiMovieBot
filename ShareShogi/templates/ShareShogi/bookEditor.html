@@ -99,8 +99,54 @@
       });
 
 
+
+      // ブック情報を取得
+      $.ajax({
+        url: '/ShareShogi/books/api/get-info',
+        method: 'GET',
+      }).done(function( res ) {
+        if (res["code"] != 200){
+          window.alert("失敗しました");
+        }
+        else{
+          let book_info = res["book_info"];
+
+          let nickname = book_info["nickname"];
+          let title = book_info["title"];
+          let thumb_url = book_info["thumb_url"];
+          let is_public = book_info["is_public"];
+          let opening_sente = book_info["opening_sente"];
+          let opening_gote = book_info["opening_gote"];
+
+          $("#title").val(title);
+
+          if (is_public){
+            $("#public_flag").val("positive");
+            $("#public_flag").text("公開設定変更（公開中）");
+          }
+          else{
+            $("#public_flag").val("negative");
+            $("#public_flag").text("公開設定変更（非公開中）");
+          }
+
+        }
+      }).fail(function( jqXHR, textStatus, errorThrown ) {
+        console.log( 'ERROR', jqXHR, textStatus, errorThrown );
+      });
       
     });
+
+    $(document).on("click", "#public_flag", function(){
+      let flag = $("#public_flag").val();
+      if (flag == "negative"){
+            $("#public_flag").val("positive");
+            $("#public_flag").text("公開設定変更（公開中）");
+          }
+      else{
+        $("#public_flag").val("negative");
+        $("#public_flag").text("公開設定変更（非公開中）");
+      }
+    })
 
 
   </script>
@@ -108,7 +154,7 @@
     <!--ヘッダー部分（上部固定） -->
     <header>
   		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
-  			<a class="navbar-brand">ブック情報を編集</a>
+  			<a class="navbar-brand mx-auto" href="#">ブック情報を編集</a>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" stye="z-index:10">
   				<span class="navbar-toggler-icon"></span>
   			</button>
@@ -130,20 +176,28 @@
     </header>
     <!--ヘッダーここまで -->
 
-    <div style="margin-top:20vh;">
+    <div style="margin-top:20vh; margin-left: 10vw;">
+      <button id="delete_book" class="btn btn-danger" >このブックを削除</button>
+    </div>
+
+    <div style="margin: 5vh 10vw;">
       <h5 class="mt-3">ブック情報編集</h5>
       <!-- <button id="delete_book" class="btn btn-danger ml-5" >このブックを削除</button> -->
       <!-- <button id="back" class="btn btn-primary ml-5" onclick="window.location.href='/ShareShogi/chapters/mypage'" >戻る</button> -->
     </div>
 
     <div style="margin: 5vh 10vw;">
-      <button id="public_flag" class="btn btn-info" >非公開中</button>
+      <button id="public_flag" class="btn btn-info" value="negative" >公開設定変更（非公開中）</button>
     </div>
     <div style="margin: 5vh 10vw;">
-      <button id="delete_book" class="btn btn-danger" >このブックを削除</button>
+      <h3>タイトル</h3>
+      <textarea id="title"></textarea>
     </div>
     <div style="margin: 5vh 10vw;">
-      <button id="back" class="btn btn-primary" onclick="window.location.href='/ShareShogi/chapters/mypage'" >戻る</button>
+      <button id="back" class="btn btn-danger" onclick="window.location.href='/ShareShogi/chapters/mypage'" >変更せずに戻る</button>
+    </div>
+    <div style="margin: 5vh 10vw;">
+      <button id="back" class="btn btn-primary" onclick="window.location.href='/ShareShogi/chapters/mypage'" >変更を反映する</button>
     </div>
 
     <div class="container">
