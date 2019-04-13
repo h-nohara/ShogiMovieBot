@@ -307,7 +307,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">画像の大きさを編集</h5>
+                <h5 class="modal-title" id="modalLabel">トリミング</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -316,6 +316,9 @@
                 <div class="img-container">
                   <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
                 </div>
+                <style>
+                  #image {max-height: 50vh;}
+                </style>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
