@@ -55,6 +55,8 @@ def get_books(user_id):
         book_info = get_book_info(book_id=int(record_Book.id))
         books.append(book_info)
 
+    books = books[::-1]
+
     return books
 
 
