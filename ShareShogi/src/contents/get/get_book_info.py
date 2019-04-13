@@ -40,6 +40,9 @@ def get_book_info_request(request):
                 if "book_id" in request.session:
                     book_id = int(request.session["book_id"])
 
+    elif request.method == "GET":
+        book_id = int(request.session["mybook_id"])
+
     if book_id is None:
         return JsonResponse({"code" : 400})
 
