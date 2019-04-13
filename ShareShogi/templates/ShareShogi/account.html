@@ -21,33 +21,91 @@
     <title>アカウント設定</title>
   </head>
   <body>
+
+
+
 <script>
 
+  $(document).ready(function(){
 
-$(function(){
+    get_draw_account();
 
-    function get_draw_scenarios(){
-           $.ajax({
-               type : "GET",
-               url : "/ShareShogi/account/get",
-           })
-           .done(function(result){
+  })
+</script>
 
-               if (response["code"] == 200){
-              let userName  = result['result']['userName'];
-              let nickName  = result['result']['nickName'];
-              $("#Input1").attr("value",userName);
-              $("#Input2").attr("value",nickName);
 
-               }
-               else {
-                   window.alert("failed");
-                   // window.alert(response["error_message"]);
-               };
-           })
-       }
-     });
-       </script>
+<script>
+
+  // アカウント情報を取得して描画
+
+  function get_draw_account(){
+
+    $.ajax({
+        type : "GET",
+        url : "/ShareShogi/accounts/api/get",
+    })
+    .done(function(result){
+      
+      if (response["code"] == 200){
+        let username  = result['result']['username'];
+        let nickname  = result['result']['nickname'];
+        $("#username").val(username);
+        $("#nickname").val(nickname);
+      }
+      else {
+          window.alert("失敗しました");
+          console.log(response);
+      };
+    })
+    .fail(function(){
+      window.alert("失敗しました");
+    })
+
+  }
+
+  // アカウント情報を更新
+
+  $(document).on("click", "#save", function(){
+
+    let username = $("#username").val();
+    let nickname = $("#nickname").val();
+
+    if ((username == null) || (username.length <= 5)){
+      window.alert("username は５文字以上である必要があります");
+      return
+    }
+
+    if ((nickname == null) || (nickname.length == 0)){
+      window.alert("username は１文字以上である必要があります");
+      return
+    }
+
+    let data = {"username" : username, "nickname" : nickname};
+
+    $.ajax({
+        type : "POST",
+        url : "/ShareShogi/accounts/api/save",
+        data : JSON.stringify(data)
+    })
+    .done(function(result){
+      
+      if (response["code"] == 200){
+        window.alert("変更を保存しました");
+        get_draw_account();
+      }
+      else {
+          window.alert("失敗しました");
+          console.log(response);
+      };
+    })
+    .fail(function(){
+      window.alert("失敗しました");
+    })
+
+  })
+</script>
+
+
        <!--ヘッダー部分（上部固定） -->
        <header>
      		<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top fixed-top">
@@ -59,44 +117,45 @@ $(function(){
      			<div class="collapse navbar-collapse" id="navbarSupportedContent">
      				<ul class="navbar-nav mr-auto">
      					<li class="nav-item">
-     						<a class="nav-link" href="search_book2.html">ホーム画面に戻る</a>
+     						<a class="nav-link" href="/ShareShogi/books/search">ホーム画面に戻る</a>
      					</li>
      					<li class="nav-item">
                 <a class="nav-link" href="/ShareShogi/books/mypage">マイブックを編集</a>
      					</li>
      					<li class="nav-item">
-     						<a class="nav-link" href="account.html">アカウント設定</a>
+     						<a class="nav-link" href="/ShareShogi/accounts/mypage">アカウント設定</a>
      					</li>
      				</ul>
      			</div>
      		</nav>
        </header>
        <!--ヘッダーここまで -->
+
+
   <!--編集メニュー-->
 
     <div class="container">
       <div class="container">
         <h5 class="mt-5 pt-5">アカウント設定</h5>
 
-        <form action="" method="post">
+        <form action="" method="post" id="accountForm">
           {% csrf_token %}
 
           <div class="form-group mt-5">
-            <label for="Input1">ユーザネーム</label>
-            <input type="text" class="form-control" id="Input1" value="" placeholder="username" name="username" pattern="^[a-zA-Z0-9]+$">
+            <label for="username">ユーザネーム</label>
+            <input type="text" class="form-control" id="username" value="" placeholder="username" name="username" pattern="^[a-zA-Z0-9]+$">
           </div>
           <div class="form-group">
-            <label for="Input2">ニックネーム</label>
-            <input type="text" class="form-control" id="Input2" value="" placeholder="nickname" name="nickname" pattern="^[a-zA-Z0-9]+$">
+            <label for="nickname">ニックネーム</label>
+            <input type="text" class="form-control" id="nickname" value="" placeholder="nickname" name="nickname" pattern="^[a-zA-Z0-9]+$">
           </div>
-          <div class="form-group">
-            <label for="InputPassword1">パスワード</label>
-            <input type="password" class="form-control"  id="Password1" value="" placeholder="password" name="password" pattern="(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{6,}">
-          </div>
+          <!-- <div class="form-group">
+            <label for="password">パスワード</label>
+            <input type="password" class="form-control"  id="password" value="" placeholder="password" name="password" pattern="(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{6,}">
+          </div> -->
 
-          <button type="submit" class="btn btn-primary mt-4">変更する</button>
+          <button type="button" name="submitButton" id="save" class="btn btn-primary mt-4">変更する</button>
         </form>
-        <!-- <a href="account.html"><button type="button" class="btn btn-primary mt-3">アカウント設定画面に戻る</button></a> -->
       </div>
     </div>
 

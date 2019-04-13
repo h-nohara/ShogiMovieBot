@@ -18,6 +18,7 @@ def scene_page(request):
 def scene_demopage1(request):
     return render(request, "ShareShogi/scenes-demo1.html")
 
+@login_required(login_url="/ShareShogi/accounts/loginpage")
 def account_page(request):
     return render(request, "ShareShogi/account.html")
 
@@ -55,5 +56,7 @@ def testUpload_page(request):
 
 @login_required(login_url="/ShareShogi/accounts/loginpage")
 def newAccountForAdmin_page(request):
+    if not request.user.is_superuser:
+        return JsonResponse({"code" : 400})
     return render(request, "ShareShogi/newAccountForAdmin.html")
 

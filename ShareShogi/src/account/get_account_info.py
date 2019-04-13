@@ -18,3 +18,10 @@ def get_account_info_request(request):
 
     username = record_User.username
     nickname = record_User.nickname
+
+    result = {
+        "username" : username,
+        "nickname" : nickname
+    }
+
+    return JsonResponse({"code" : 200, "result" : result})
