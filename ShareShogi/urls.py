@@ -9,6 +9,7 @@ from . import views
 ## account
 from ShareShogi.src.account.login_ShareShogi import login_ShareShogi_request
 from ShareShogi.src.account.get_account_info import get_account_info_request
+from ShareShogi.src.account.save_account_info import save_account_info_request
 from ShareShogi.src.account.create_new_account_ForAdmin import create_new_account_ForAdmin_request
 
 ## book
@@ -85,7 +86,7 @@ urlpatterns = [
 
     url(r"^accounts/mypage$", views.account_page, name="account page"),  # アカウント設定画面
     url(r"^accounts/api/get$", get_account_info_request, name="get account"),  # アカウント設定を取得
-    # url(r"^accounts/api/save$", get_account_info_request, name="get account"),  # アカウント設定を更新
+    url(r"^accounts/api/save$", save_account_info_request, name="save account"),  # アカウント設定を更新
     url(r"^accounts/loginpage$", views.login_page, name="login page"),  # ログインページ
     url(r"^accounts/newForAdmin$", views.newAccountForAdmin_page, name="new account for admin page"),  # 新規アカウント作成ページ（管理者向け）
     url(r"^accounts/api/login$", login_ShareShogi_request, name="get account"),  # ログイン
