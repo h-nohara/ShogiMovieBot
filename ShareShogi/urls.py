@@ -35,6 +35,9 @@ from ShareShogi.src.contents.transition.books_to_chapters import books_to_chapte
 from ShareShogi.src.contents.transition.chapters_to_scenes import chapters_to_scenes_request
 from ShareShogi.src.contents.transition.new_from_preview import new_from_preview_request
 
+# 次の一手
+from ShareShogi.src.contents.create.create_NextItte import create_nextItte_request
+
 # link
 from ShareShogi.src.contents.get.get_link import get_link_request
 
@@ -98,6 +101,10 @@ urlpatterns = [
     url(r"^transition/chapters-to-scenes$", chapters_to_scenes_request, name="chapters to scenes"),
     url(r"^transition/new_from_preview$", new_from_preview_request, name="preview to new page"),
     # url(r"^transition/link-to-scenes$", new_from_preview_request, name="link to scene"),
+
+
+    # 次の一手
+    url(r"^nextItte/api/create$", create_nextItte_request, name="create nextItte"),
 
 
     # リンクから閲覧
