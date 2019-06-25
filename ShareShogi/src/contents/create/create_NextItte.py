@@ -61,6 +61,7 @@ def create_nextItte_request(request):
     # レコードを作成
 
     record_User = User.objects.get(id=user_id)
+    # 画像のurlはここでセット
     record_NextItte = NextItte(
         user = record_User,
         image_url_question = image_url_list[0],

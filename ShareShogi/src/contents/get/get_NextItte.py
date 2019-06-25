@@ -10,9 +10,12 @@ from ShareShogi.models.nextItte import NextItte
 
 
 parameters = [
+    "id",
     "title",
     "is_public",
     "favo",
+    "image_url_question",
+    "image_url_answer",
     "opening_sente",
     "opening_gote",
     "choice_right",
@@ -22,7 +25,7 @@ parameters = [
     "message_answer"
 ]
 
-# id, nickname, hashtag
+# nickname, hashtag
 
 
 
@@ -109,8 +112,7 @@ def get_NextItte(is_public=True, opening_sente=None, opening_gote=None):
     for record_NextItte in queryset_NextItte:
         info = {}
         for param in parameters:
-            info[param] = record_NextItte[param]
-        info["id"] = record_NextItte.id
+            info[param] = getattr(record_NextItte, param)
         info["nickname"] = record_NextItte.user.nickname
         info["hashtags"] = ["三間飛車", "居飛車穴熊"]
         items.append(info)
