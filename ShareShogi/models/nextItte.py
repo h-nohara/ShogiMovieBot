@@ -21,6 +21,18 @@ class NextItte(models.Model):
         null = True
     )
 
+    image_url_question = models.CharField(
+        verbose_name = "image question",
+        max_length = 1000,
+        null = True
+    )
+
+    image_url_answer = models.CharField(
+        verbose_name = "image answer",
+        max_length = 1000,
+        null = True
+    )
+
     opening_sente = models.CharField(
         verbose_name = "opening_sente",
         max_length = 1000,
