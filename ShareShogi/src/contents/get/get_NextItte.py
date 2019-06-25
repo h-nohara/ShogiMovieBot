@@ -76,7 +76,8 @@ def get_NextItte_request(request):
     print("")
     print("====")
 
-    payload = request.POST
+    # payload = request.POST
+    payload = json.loads(request.body.decode("utf-8"))
     print(payload)
     params = payload["params"]
 
