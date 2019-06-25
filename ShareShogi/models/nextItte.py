@@ -69,6 +69,11 @@ class NextItte(models.Model):
         default = False
     )
 
+    favo = models.IntegerField(
+        verbose_name = "favo",
+        default = 0
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

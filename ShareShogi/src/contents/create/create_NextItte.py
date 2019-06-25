@@ -42,7 +42,7 @@ def create_nextItte_request(request):
     print(request.FILES)
     sys.exit()
 
-    user_id = payload["user_id"]
+    user_id = int(payload["user_id"])
     image_question = request.FILES["image_question"]
     image_answer = request.FILES["image_answer"]
 
@@ -61,7 +61,7 @@ def create_nextItte_request(request):
 
     # レコードを作成
 
-    record_User = User.objects.get(id=int(user_id))
+    record_User = User.objects.get(id=user_id)
     record_NextItte = NextItte(
         user = record_User,
         image_url_question = image_url_list[0],
@@ -80,7 +80,13 @@ def create_nextItte_request(request):
         "message_answer"]
 
     for param in parameters:
-        record_NextItte[param] = payload[param]
+        if param == "is_public":
+            if payload[param] == "true":
+                record_NextItte[param] = True
+            else:
+                record_NextItte[param] = False
+        else:
+            record_NextItte[param] = payload[param]
 
     record_NextItte.save()    
     print("saved new nextItte")

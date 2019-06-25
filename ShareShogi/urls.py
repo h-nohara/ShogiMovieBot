@@ -37,6 +37,7 @@ from ShareShogi.src.contents.transition.new_from_preview import new_from_preview
 
 # 次の一手
 from ShareShogi.src.contents.create.create_NextItte import create_nextItte_request
+from ShareShogi.src.contents.get.get_NextItte import get_user_NextItte_request, get_NextItte_request
 
 # link
 from ShareShogi.src.contents.get.get_link import get_link_request
@@ -105,6 +106,8 @@ urlpatterns = [
 
     # 次の一手
     url(r"^nextItte/api/create$", create_nextItte_request, name="create nextItte"),
+    url(r"^nextItte/api/get/oneuser$", get_user_NextItte_request, name="get user's nextItte"),
+    url(r"^nextItte/api/get/filter$", get_NextItte_request, name="filter nextItte"),
 
 
     # リンクから閲覧
