@@ -94,15 +94,15 @@ def get_NextItte_request(request):
 def get_NextItte(is_public=True, opening_sente=None, opening_gote=None):
 
     items = []
-
-    if (opening_sente is None) and (opening_gote is None):
-        queryset_NextItte = NextItte.objects.filter(is_public=is_public)[::-1]
     
     # あとで実装
-    elif (opening_sente is not None) and (opening_gote is None):
+    if (opening_sente is not None) and (opening_gote is None):
         queryset_NextItte = NextItte.objects.filter(is_public=is_public)[::-1]
     # あとで実装
     elif (opening_sente is None) and (opening_gote is not None):
+        queryset_NextItte = NextItte.objects.filter(is_public=is_public)[::-1]
+
+    else:
         queryset_NextItte = NextItte.objects.filter(is_public=is_public)[::-1]
 
 
