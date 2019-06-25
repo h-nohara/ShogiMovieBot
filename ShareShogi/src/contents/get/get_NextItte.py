@@ -65,6 +65,7 @@ def get_user_NextItte_request(request):
     return JsonResponse(resp)
 
 
+@csrf_exempt
 def get_NextItte_request(request):
 
     '''
@@ -74,6 +75,8 @@ def get_NextItte_request(request):
 
     payload = request.POST
     params = payload["params"]
+
+    print(payload)
 
     items = get_NextItte(**params)
 
