@@ -40,7 +40,6 @@ def create_nextItte_request(request):
     payload = request.POST
     print(payload)
     print(request.FILES)
-    sys.exit()
 
     user_id = int(payload["user_id"])
     image_question = request.FILES["image_question"]
@@ -90,6 +89,9 @@ def create_nextItte_request(request):
 
     record_NextItte.save()    
     print("saved new nextItte")
+
+    print()
+    print(image_url_list)
 
     return JsonResponse({"code" : 200})
 
