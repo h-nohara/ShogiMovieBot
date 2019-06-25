@@ -85,7 +85,8 @@ def create_nextItte_request(request):
             else:
                 record_NextItte[param] = False
         else:
-            record_NextItte[param] = payload[param]
+            setattr(record_NextItte, param, payload[param])
+            # record_NextItte[param] = payload[param]
 
     record_NextItte.save()    
     print("saved new nextItte")
