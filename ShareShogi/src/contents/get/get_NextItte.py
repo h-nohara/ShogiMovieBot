@@ -75,9 +75,9 @@ def get_NextItte_request(request):
 
     print("")
     print("====")
-    print(payload)
 
     payload = request.POST
+    print(payload)
     params = payload["params"]
 
     items = get_NextItte(**params)
