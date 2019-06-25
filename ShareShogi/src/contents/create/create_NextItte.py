@@ -107,7 +107,9 @@ def upload_image_from_post(image, key, bucket):
     key : unique name
     '''
 
-    if image.content_type not in ["image/jpeg", "image/png"]:
+    content_type = image.content_type
+
+    if content_type not in ["image/jpeg", "image/png"]:
         content_type = "image/jpeg"
 
     if content_type == "image/png":
