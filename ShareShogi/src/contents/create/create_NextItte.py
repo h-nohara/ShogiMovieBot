@@ -81,9 +81,9 @@ def create_nextItte_request(request):
     for param in parameters:
         if param == "is_public":
             if payload[param] == "true":
-                record_NextItte[param] = True
+                record_NextItte.is_public = True
             else:
-                record_NextItte[param] = False
+                record_NextItte.is_public = False
         else:
             setattr(record_NextItte, param, payload[param])
             # record_NextItte[param] = payload[param]
