@@ -106,7 +106,7 @@ urlpatterns = [
 
     # 次の一手
     url(r"^nextItte/api/create$", create_nextItte_request, name="create nextItte"),
-    url(r"^nextItte/api/get/oneuser$", get_user_NextItte_request, name="get user's nextItte"),
+    url(r"^nextItte/api/get/user$", get_user_NextItte_request, name="get user's nextItte"),
     url(r"^nextItte/api/get/filter$", get_NextItte_request, name="filter nextItte"),
 
 

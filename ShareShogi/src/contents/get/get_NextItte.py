@@ -35,7 +35,8 @@ def get_one_NextItte(NextItte_id):
     info = {}
 
     for param in parameters:
-        info[param] = record_NextItte[param]
+        info[param] = getattr(record_NextItte, param)
+        info["hashtags"] = ["三間飛車", "居飛車穴熊"]
 
     return info
 
@@ -48,7 +49,8 @@ def get_user_NextItte(user_id):
     for record_NextItte in NextItte.objects.filter(user=record_User):
         info = {}
         for param in parameters:
-            info[param] = record_NextItte[param]
+            info[param] = getattr(record_NextItte, param)
+            info["hashtags"] = ["三間飛車", "居飛車穴熊"]
         items.append(info)
 
     return items
@@ -56,9 +58,14 @@ def get_user_NextItte(user_id):
 
 def get_user_NextItte_request(request):
 
-    payload = request.POST
+    # payload = request.POST
+    payload = json.loads(request.body.decode("utf-8"))
     user_id = int(payload["user_id"])
     items = get_user_NextItte(user_id)
+
+    # 「全てのコンテンツ」表示用
+    for info in items:
+        info["type"] = "NextItte"
 
     resp = {
         "code" : 200,
