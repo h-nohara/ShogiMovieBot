@@ -56,6 +56,7 @@ def get_user_NextItte(user_id):
     return items
 
 
+@csrf_exempt
 def get_user_NextItte_request(request):
 
     # payload = request.POST
