@@ -70,7 +70,7 @@ def get_user_NextItte_request(request):
 
     resp = {
         "code" : 200,
-        "result" : items
+        "result" : items[::-1]
     }
 
     return JsonResponse(resp)
