@@ -38,7 +38,7 @@ def get_NoteInfo(note_id):
     }
 
 
-    for record_NotePage in record_NotePage.objects.filter(note=record_Note):
+    for record_NotePage in NotePage.objects.filter(note=record_Note):
         info["pages"].append(
             {
                 "image_url" : record_NotePage.image_url,
