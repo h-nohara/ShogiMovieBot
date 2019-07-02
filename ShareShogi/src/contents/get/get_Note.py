@@ -136,6 +136,7 @@ def get_Note(is_public=True, opening_sente=None, opening_gote=None):
             "opening_sente" : record_Note.opening_sente,
             "opening_gote" : record_Note.opening_gote,
             "is_public" : record_Note.is_public,
+            "favo" : record_Note.favo,
 
             "nickname" : record_Note.user.nickname,
             "hashtags" : ["三間飛車", "居飛車穴熊"]
