@@ -40,6 +40,9 @@ from ShareShogi.src.contents.create.create_NextItte import create_nextItte_reque
 from ShareShogi.src.contents.get.get_NextItte import get_user_NextItte_request, get_NextItte_request
 from ShareShogi.src.contents.save.save_NextItte import save_nextItte_request
 
+# ノート
+from ShareShogi.src.contents.get.get_Note import get_Note_request
+
 # link
 from ShareShogi.src.contents.get.get_link import get_link_request
 
@@ -110,6 +113,9 @@ urlpatterns = [
     url(r"^nextItte/api/save$", save_nextItte_request, name="save nextItte"),
     url(r"^nextItte/api/get/user$", get_user_NextItte_request, name="get user's nextItte"),
     url(r"^nextItte/api/get/filter$", get_NextItte_request, name="filter nextItte"),
+
+    # ノート
+    url(r"^note/api/get/filter$", get_Note_request, name="filter note"),
 
 
     # リンクから閲覧
