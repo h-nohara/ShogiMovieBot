@@ -44,6 +44,7 @@ def create_Note_request(request):
 
     user_id = int(payload["user_id"])
     image = request.FILES["image"]
+    title = payload["title"]
 
     # 画像をアップロード
     key = str(user_id) + "image"
@@ -61,7 +62,7 @@ def create_Note_request(request):
     record_Note = Note(
         user = record_User,
         thumb_url = image_url,
-        title = payload["title"],
+        title = title,
         opening_sente = payload["opening_sente"],
         opening_gote = payload["opening_gote"],
         is_public = is_public
@@ -75,7 +76,7 @@ def create_Note_request(request):
     record_NotePage = NotePage(
         note = record_Note,
         image_url = image_url,
-        message = payload["title"],
+        message = title,
         order_in_parent = 0
     )
     record_NotePage.save()
