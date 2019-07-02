@@ -16,7 +16,8 @@ from ShareShogi.models.note_page import NotePage
 @csrf_exempt
 def get_NoteInfo_request(request):
 
-    payload = json.loads(request.body.decode("utf-8"))
+    # payload = json.loads(request.body.decode("utf-8"))
+    payload = request.POST
     note_id = int(payload["note_id"])
     info = get_NoteInfo(note_id)
 
