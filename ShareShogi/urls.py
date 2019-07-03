@@ -43,6 +43,7 @@ from ShareShogi.src.contents.save.save_NextItte import save_nextItte_request
 # ノート
 from ShareShogi.src.contents.get.get_Note import get_Note_request, get_NoteInfo_request, get_user_Note_request
 from ShareShogi.src.contents.create.create_Note import create_Note_request
+from ShareShogi.src.contents.save.save_NotePage import save_NotePage_request
 
 # link
 from ShareShogi.src.contents.get.get_link import get_link_request
@@ -120,6 +121,7 @@ urlpatterns = [
     url(r"^note/api/get/filter$", get_Note_request, name="filter note"),
     url(r"^note/api/get/user$", get_user_Note_request, name="get user's note"),
     url(r"^note/api/get/NoteInfo$", get_NoteInfo_request, name="get note info"),
+    url(r"^note-page/api/save$", save_NotePage_request, name="save NotePage"),
 
 
     # リンクから閲覧
