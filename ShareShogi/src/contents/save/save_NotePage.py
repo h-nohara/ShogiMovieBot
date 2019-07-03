@@ -48,7 +48,14 @@ def save_NotePage_request(request):
         image_url = change_image_from_post(image=image, image_url=image_url, bucket=bucket)
 
     record_NotePage.save()    
-    print("saved new nextItte")
+    print("saved new NotePage")
+
+    # 最初のページだったら
+    if record_NotePage.order_in_parent == 0:
+        record_Note = record_NotePage.note
+        record_Note.title = payload["message"]
+        record_Note.thumb_url = image_url
+        record_Note.save()
 
     return JsonResponse({"code" : 200})
 
