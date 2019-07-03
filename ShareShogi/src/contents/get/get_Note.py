@@ -38,8 +38,10 @@ def get_NoteInfo(note_id):
         "hashtags" : ["三間飛車", "居飛車穴熊"]
     }
 
+    n_page = len(NotePage.objects.filter(note=record_Note))
 
-    for record_NotePage in NotePage.objects.filter(note=record_Note):
+    for i in range(n_page):
+        record_NotePage = NotePage.objects.get(note=record_Note, order_in_parent=i)
         info["pages"].append(
             {
                 "NotePage_id" : record_NotePage.id,
