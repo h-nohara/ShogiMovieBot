@@ -34,6 +34,7 @@ def get_NoteInfo(note_id):
         "opening_gote" : record_Note.opening_gote,
         "is_public" : record_Note.is_public,
         "pages" : [],
+        "favo" : record_Note.favo,
         "hashtags" : ["三間飛車", "居飛車穴熊"]
     }
 
@@ -75,6 +76,7 @@ def get_user_Note(user_id):
             "opening_sente" : record_Note.opening_sente,
             "opening_gote" : record_Note.opening_gote,
             "is_public" : record_Note.is_public,
+            "favo" : record_Note.favo,
 
             "hashtags" : ["三間飛車", "居飛車穴熊"]
         }
