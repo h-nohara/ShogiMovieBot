@@ -54,7 +54,8 @@ def save_NotePage_request(request):
     if record_NotePage.order_in_parent == 0:
         record_Note = record_NotePage.note
         record_Note.title = payload["message"]
-        record_Note.thumb_url = image_url
+        if payload["is_image_changed"] == "true":
+            record_Note.thumb_url = image_url
         record_Note.save()
 
     return JsonResponse({"code" : 200})
