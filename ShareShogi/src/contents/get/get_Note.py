@@ -38,10 +38,10 @@ def get_NoteInfo(note_id):
         "hashtags" : ["三間飛車", "居飛車穴熊"]
     }
 
-    n_page = len(NotePage.objects.filter(note=record_Note))
+    queryset_NotePage = NotePage.objects.filter(note=record_Note)
+    ordered_NotePage = sorted(list(queryset_NotePage), key=lambda x: x.order_in_parent)
 
-    for i in range(n_page):
-        record_NotePage = NotePage.objects.get(note=record_Note, order_in_parent=i)
+    for record_NotePage in ordered_NotePage:
         info["pages"].append(
             {
                 "NotePage_id" : record_NotePage.id,

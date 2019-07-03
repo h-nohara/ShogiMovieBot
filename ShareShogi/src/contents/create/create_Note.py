@@ -110,9 +110,10 @@ def add_NotePage_request(request):
         record_Note.save()
 
     queryset_NotePage = NotePage.objects.filter(note=record_Note)
+    ordered_NotePage = sorted(list(queryset_NotePage), key=lambda x: x.order_in_parent)
 
     # インデックスを更新
-    for record_NotePage in queryset_NotePage[order:]:
+    for record_NotePage in ordered_NotePage[order:]:
         record_NotePage.order_in_parent = record_NotePage.order_in_parent + 1
         record_NotePage.save()
 
