@@ -53,6 +53,7 @@ def get_NoteInfo(note_id):
 
 # ユーザーのノート一覧を取得
 
+@csrf_exempt
 def get_user_Note_request(request):
 
     payload = json.loads(request.body.decode("utf-8"))
