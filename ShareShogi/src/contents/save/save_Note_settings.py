@@ -31,6 +31,9 @@ def save_Note_settings_request(request):
 
     # POSTを受け取る
 
+    print("aaaa")
+    print(request.POST)
+    print(json.loads(request.body.decode("utf-8")))
     payload = json.loads(request.body.decode("utf-8"))
     print(payload)
 
