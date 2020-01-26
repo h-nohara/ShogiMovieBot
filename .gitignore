@@ -1,5 +1,6 @@
 board/static/movie/user
 board/static/pickle/user
+*.pem
 */migrations/0*.py
 *.pyc
 *.mp4
