@@ -35,7 +35,7 @@ def draw_boad(board, save_name, light_up_locs=False, mark_locs=False):
     >>> self.draw_board(light_up_locs=["55", "34"], mark_locs=[])
     '''
 
-    drawer = Drawer(size=(1920, 1080), all_pieces=board.all_pieces)
+    drawer = Drawer(size=(1920, 1080), all_pieces=board["all_pieces"])
     light_up_locs = [str(loc[0])+str(loc[1]) for loc in light_up_locs] # [(1,2), ] -> ["12", ]
     img = drawer.draw_all(effect_locs=light_up_locs)
     img.save(save_name)
