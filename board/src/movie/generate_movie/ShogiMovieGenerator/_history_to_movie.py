@@ -9,8 +9,6 @@ from PIL import Image
 from .plot_board import Plot
 from .util import get_abspath
 
-from .new_image_generator.whole_drawer import Drawer
-
 # api
 from board.src.movie.generate_movie.font import font_dict
 from board.src.movie.generate_movie.ShogiMovieGenerator.image_editor.make_WordImage import make_WordImage
@@ -34,35 +32,28 @@ def draw_boad(board, save_name, light_up_locs=False, mark_locs=False):
 
     >>> self.draw_board(light_up_locs=["55", "34"], mark_locs=[])
     '''
-
-    drawer = Drawer(size=(1920, 1080), all_pieces=board.all_pieces)
-    light_up_locs = [str(loc[0])+str(loc[1]) for loc in light_up_locs] # [(1,2), ] -> ["12", ]
-    img = drawer.draw_all(effect_locs=light_up_locs)
-    img.save(save_name)
-
-    ##################
     
-    # board_plot = Plot(board)
+    board_plot = Plot(board)
 
-    # # 盤面
-    # board_plot.plot_board()
+    # 盤面
+    board_plot.plot_board()
 
 
-    # # マーキング
-    # if light_up_locs:
-    #     light_up_locs = [(int(loc_str[0]), int(loc_str[1])) for loc_str in light_up_locs]  # ["11", ...] -> [(1, 1), ...]
-    #     board_plot.plot_marking(locs=light_up_locs, shape="square")
-    # if mark_locs:
-    #     mark_locs = [(int(loc_str[0]), int(loc_str[1])) for loc_str in mark_locs]  # ["11", ...] -> [(1, 1), ...]
-    #     board_plot.plot_marking(locs=mark_locs, shape="circle")
+    # マーキング
+    if light_up_locs:
+        light_up_locs = [(int(loc_str[0]), int(loc_str[1])) for loc_str in light_up_locs]  # ["11", ...] -> [(1, 1), ...]
+        board_plot.plot_marking(locs=light_up_locs, shape="square")
+    if mark_locs:
+        mark_locs = [(int(loc_str[0]), int(loc_str[1])) for loc_str in mark_locs]  # ["11", ...] -> [(1, 1), ...]
+        board_plot.plot_marking(locs=mark_locs, shape="circle")
     
-    # # 駒
-    # board_plot.plot_pieces()
-    # board_plot.plot_komadai()
-    # board_plot.plot_mochigoma()
+    # 駒
+    board_plot.plot_pieces()
+    board_plot.plot_komadai()
+    board_plot.plot_mochigoma()
 
-    # board_plot.save_pic(save_name)  # 保存
-    # plt.close()
+    board_plot.save_pic(save_name)  # 保存
+    plt.close()
 
 
 # todo : 複数の文字画像を扱えるようにする
