@@ -1,6 +1,8 @@
 import os, sys
 from PIL import Image, ImageDraw, ImageFont
 
+from board.src.movie.generate_movie.font import font_dict
+
 from .img_size_info import *
 
 def get_piece_image_path(piece_name):
@@ -82,7 +84,8 @@ class HandBoardDrawer:
         '''
     
         piece_img = Image.open(get_piece_image_path(piece_name)).resize(size=self.piece_size, resample=Image.ANTIALIAS)
-        font_path = "/System/Library/Fonts/SFCompactRounded-Black.otf"
+        # font_path = "/System/Library/Fonts/SFCompactRounded-Black.otf"
+        font_path = font_dict["hiragino_KakuGoW6"]
 
         if self.is_sente:
             piece_top = self.size[1] - (self.bottom_padding + (index+1) * self.piece_size[1] + index * self.piece_space )
