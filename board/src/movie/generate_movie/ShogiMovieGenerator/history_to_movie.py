@@ -73,7 +73,8 @@ def draw_text(message, base_image_path, word_image_path):
     
     # 最初に文字画像を生成
 
-    font_size = 50
+    # font_size = 50
+    font_size = 100
     len_one_row = 10
 
     text = message["text"]
