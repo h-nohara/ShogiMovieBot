@@ -113,10 +113,10 @@ def draw_text(message, base_image_path, word_image_path):
         word = text_with_br,
         fontsize = font_size,
         fontfile = font_dict["hiragino_KakuGoW8"],
-        num_color = 2,
+        num_color = 3,
         # colors = ["white", "'#6699ff'"],
-        colors = ["white", "'#FF1493'"],
-        stroke_ws = [3.5],
+        colors = ["white","white", "'#FF1493'"],
+        stroke_ws = [3, 3.5],
         result_image = word_image_path,
         W = font_size * (1 + len_one_row),
         H = font_size * 1.3 * n_row
