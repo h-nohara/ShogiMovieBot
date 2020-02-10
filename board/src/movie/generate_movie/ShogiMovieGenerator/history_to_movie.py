@@ -112,7 +112,7 @@ def draw_text(message, base_image_path, word_image_path):
     make_WordImage(
         word = text_with_br,
         fontsize = font_size,
-        fontfile = font_dict["hiragino_KakuGoW8"],
+        fontfile = font_dict["hiragino_KakuGoW6"],
         num_color = 3,
         # colors = ["white", "'#6699ff'"],
         colors = ["white", "'#FF1493'", "white"],
