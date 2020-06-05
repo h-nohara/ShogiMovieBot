@@ -3,7 +3,7 @@ pandas
 matplotlib
 ipython
 boto3
-Django==1.11
+Django==1.11.29
 glob2
 httplib2
 opencv-python
